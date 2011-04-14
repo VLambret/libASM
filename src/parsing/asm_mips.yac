@@ -1,0 +1,1798 @@
+
+// ###--------------------------------------------------------------### 
+// file		: asm_mips.yac						
+// date		: Jun 21 2010						
+// version	: v200							
+// author	: Pirouz Bazargan Sabet					
+// description	: assembler						
+// ###--------------------------------------------------------------### 
+
+%{
+#include <stdlib.h>
+#include <stdio.h>
+#include "utl200.h"
+#include "asm200.h"
+//#include UTL_H
+//#include ASM_H
+
+#undef  yylex
+#define yylex         asm_mipslex
+#define yyrestart     asm_mipsrestart
+#define yyin          asm_mipsin
+
+extern int            yylex     ();
+extern void           yyrestart ();
+extern int            yyparse   ();
+extern FILE          *yyin        ;
+/*
+static int            PAS_NBR     = ASM_ASP__SIZEOF   ;	// pass number	
+static char          *FIL_NAM     = NULL              ;	// file name	
+
+static char          *PRG_NAM     = NULL              ;	// prg name	
+
+static struct asfig  *PT_FIG      = NULL              ;
+static struct asobj  *PT_OBJ      = NULL              ;
+
+static struct utdic  *GLB_DIC     = NULL              ;	// global dict	
+static struct uttyp  *GLB_SYM     = NULL              ;	// global symb	
+
+static unsigned int   MCR_WRDS [8]                    ;	// macro words	
+static int            MCR_WNBR    = 0                 ;	// macro word #	
+static unsigned int   SET_FLAGS   = 0                 ;	// set direc	
+
+static struct uttyp  *SEC_SYM     = NULL              ;	// current symb	
+static unsigned int   CUR_ADR     = 0                 ;	// current adr	
+static unsigned int   CUR_SIZ     = 0                 ;	// current size	
+static struct asiss  *PT_ISS      = NULL              ;	// current a-sz	
+
+static struct uttyp  *MEM_TAB     = NULL              ;	// memory table	
+*/
+// ###--------------------------------------------------------------### 
+// function	: yyerror						
+// description	: print yacc error messages				
+// called func.	: none							
+// ###--------------------------------------------------------------### 
+
+//*
+
+static unsigned int   ERR_FLG     = 0                 ;	// error flag	
+
+static void yyerror (str)
+
+char *str;
+{
+	printf("yyerror ligne=%d, flag=%d\n, str=%s",ASM_LINENO,ERR_FLG,str) ;
+	ERR_FLG     = 0                 ;	// error flag	
+}
+/*
+  {
+  ERR_FLG += asm_error (16, FIL_NAM, ASM_LINENO, str, 0);
+
+  if (ERR_FLG > ASM_MAXERR)
+    ERR_FLG += asm_error (17, FIL_NAM, ASM_LINENO, NULL, 0);
+  }
+ */
+//*/
+
+// ###--------------------------------------------------------------### 
+// function	: lcl_error						
+// description	: print an error message				
+// called func.	: asm_error						
+// ###--------------------------------------------------------------### 
+/*
+static void lcl_error (code, str, nbr)
+
+unsigned int  code;
+char         *str ;
+int           nbr ;
+
+  {
+  ERR_FLG += asm_error (code, FIL_NAM, ASM_LINENO, str, nbr);
+
+  if (ERR_FLG > ASM_MAXERR)
+    ERR_FLG += asm_error (17, FIL_NAM, ASM_LINENO, NULL, 0);
+  }
+*/
+// ###--------------------------------------------------------------### 
+// function	: lcl_isbch						
+// description	: return non zero value if an instruction is a branch	
+// ###--------------------------------------------------------------### 
+
+static unsigned int lcl_isbch (ins_wrd)
+
+unsigned int ins_wrd;
+
+  {
+  unsigned int flag = 0;
+
+  if ((ins_wrd & ASM_MPS__I_MSK ) == ASM_MPS__BEQ   ) flag = 1 ;
+  if ((ins_wrd & ASM_MPS__IB_MSK) == ASM_MPS__BGEZ  ) flag = 1 ;
+  if ((ins_wrd & ASM_MPS__IB_MSK) == ASM_MPS__BGEZAL) flag = 1 ;
+  if ((ins_wrd & ASM_MPS__I_MSK ) == ASM_MPS__BGTZ  ) flag = 1 ;
+  if ((ins_wrd & ASM_MPS__I_MSK ) == ASM_MPS__BLEZ  ) flag = 1 ;
+  if ((ins_wrd & ASM_MPS__IB_MSK) == ASM_MPS__BLTZ  ) flag = 1 ;
+  if ((ins_wrd & ASM_MPS__IB_MSK) == ASM_MPS__BLTZAL) flag = 1 ;
+  if ((ins_wrd & ASM_MPS__I_MSK ) == ASM_MPS__BNE   ) flag = 1 ;
+
+  return (flag);
+  }
+
+// ###--------------------------------------------------------------### 
+// function	: lcl_isjmp						
+// description	: return non zero value if an instruction is a jump	
+// ###--------------------------------------------------------------### 
+
+static unsigned int lcl_isjmp (ins_wrd)
+
+unsigned int ins_wrd;
+
+  {
+  unsigned int flag = 0;
+
+  if ((ins_wrd & ASM_MPS__J_MSK ) == ASM_MPS__J     ) flag = 1;
+  if ((ins_wrd & ASM_MPS__J_MSK ) == ASM_MPS__JAL   ) flag = 1;
+  if ((ins_wrd & ASM_MPS__R_MSK ) == ASM_MPS__JR    ) flag = 1;
+  if ((ins_wrd & ASM_MPS__R_MSK ) == ASM_MPS__JALR  ) flag = 1;
+
+  return (flag);
+  }
+
+int main() {
+	ASM_LINENO = 0 ;
+  	yyparse ();
+	return 0 ;
+}
+
+// ###--------------------------------------------------------------### 
+// function	: asm_ldmipsasm						
+// description	: parse a Mips assembly program. Return the description	
+//		  if the file has been successfully read. Return	
+//		  NULL or a description with an error flag set in case	
+//		  of error						
+// called func.	: yyparse						
+// ###--------------------------------------------------------------### 
+
+struct asfig *asm_ldmipsasm (fp, fil_name, pt_fig, pas_nbr)
+
+FILE          *fp      ;
+char          *fil_name;
+struct asfig  *pt_fig  ;
+unsigned int   pas_nbr ;
+
+  {
+	// ###------------------------------------------------------### 
+	//    initialize global and static variables			
+	// ###------------------------------------------------------### 
+/*
+  PT_FIG        = pt_fig          ;
+  PT_FIG->FLAG |= ASM_FIG__ERROR  ;
+
+  PAS_NBR       = pas_nbr         ;
+  ERR_FLG       = 0               ;
+  ASM_LINENO    = 1               ;
+  FIL_NAM       = fil_name        ;
+
+  PRG_NAM       = NULL            ;
+
+  MCR_WNBR      = 0               ;
+  SET_FLAGS     = ASM_SET_FLAGS   ;
+  SEC_SYM       = NULL            ;
+  CUR_ADR       = 0               ;
+  CUR_SIZ       = 0               ;
+  PT_ISS        = NULL            ;
+
+  PT_FIG        = pt_fig          ;
+  GLB_DIC       = pt_fig->GLB_DIC ;
+  GLB_SYM       = pt_fig->GLB_SYM ;
+  MEM_TAB       = pt_fig->MEM_TAB ;
+  PT_OBJ        = asm_GetObject   (pt_fig, fil_name);
+*/
+  yyin          = fp              ;
+
+  yyrestart (yyin);
+
+	// ###------------------------------------------------------### 
+	//   parse the input file					
+	// ###------------------------------------------------------### 
+
+  yyparse ();
+
+	// ###------------------------------------------------------### 
+	//   release the dictionary					
+	// ###------------------------------------------------------### 
+/*
+  if (ERR_FLG == 0)
+    {
+    if (PT_ISS != NULL)
+      PT_ISS->SIZE = CUR_SIZ;
+
+    pt_fig->GLB_SYM  =  GLB_SYM       ;
+    pt_fig->MEM_TAB  =  MEM_TAB       ;
+    pt_fig->FLAG    &= ~ASM_FIG__ERROR;
+    }
+
+  return (pt_fig);
+*/
+	return NULL ;
+  }
+
+%}
+
+%union
+  {
+  struct utchn  *pchn    ;
+  unsigned int   uval    ;
+  char          *text    ;
+  }
+
+%token <uval>   _ALIGN_
+%token <uval>   _ASCII_
+%token <uval>   _ASCIIZ_
+%token <uval>   _BYTE_
+%token <uval>   _COMM_
+%token <uval>   _END_
+%token <uval>   _ENT_
+%token <uval>   _EQU_
+%token <uval>   _EXTERN_
+%token <uval>   _GLOBAL_
+%token <uval>   _LCOMM_
+%token <uval>   _NOREORDER_
+%token <uval>   _REORDER_
+%token <uval>   _SECTION_
+%token <uval>   _SET_
+%token <uval>   _SKIP_
+%token <uval>   _SPACE_
+%token <uval>   _WORD_
+%token <uval>    ARegister
+%token           Ampersand
+%token           Bar
+%token           CarriageReturn
+%token           Circomflex
+%token <uval>    Codop_hint_mem
+%token <uval>    Codop_label
+%token <uval>    Codop_n
+%token <uval>    Codop_od_rs
+%token <uval>    Codop_rd
+%token <uval>    Codop_rd_si16
+%token <uval>    Codop_rd_rs
+%token <uval>    Codop_rd_rs_rt
+%token <uval>    Codop_rd_rt_sham
+%token <uval>    Codop_rd_rt_rs
+%token <uval>    Codop_rd_rs_si16
+%token <uval>    Codop_rd_rs_ui16
+%token <uval>    Codop_rd_mem
+%token <uval>    Codop_rs
+%token <uval>    Codop_rs_label
+%token <uval>    Codop_rs_rt
+%token <uval>    Codop_rs_rt_label
+%token <uval>    Codop_rs_si16
+%token <uval>    Codop_rt_cop0r
+%token <uval>    Codop_rt_cop2r
+%token <uval>    Codop_rt_mem
+%token <uval>    Codop_ui20
+%token           Colon
+%token           Comma
+%token <uval>    Cop0Register
+%token           DoubleGreat
+%token           DoubleLess
+%token <text>    Identifier
+%token <uval>    IntegerRegister
+%token           LeftParen
+%token <uval>    Litteral
+%token <uval>    Macro_label
+%token <uval>    Macro_n
+%token <uval>    Macro_rd_i32
+%token <uval>    Macro_rd_rs
+%token <uval>    Macro_rd_rt
+%token <uval>    Macro_rd_label
+%token <uval>    Macro_rs_label
+%token           Minus
+%token           Plus
+%token <uval>    Register
+%token           RightParen
+%token           Slash
+%token           Star
+%token <pchn>    String
+%token           Tilda
+
+%type  <uval>    cop0_reg
+%type  <uval>    cop2_reg
+%type  <uval>    integer_register
+
+%type  <uval>    adding_operator
+%type  <uval>    logic_operator
+%type  <uval>    mul_div_operator
+%type  <uval>    shift_operator
+
+%type  <pchn>    byte_immediate_list
+%type  <pchn> ...byte_immediate..
+%type  <uval>    expression
+%type  <uval>    expr..addop__expr..
+%type  <uval>    expr__mulop__expr..mulop__expr..
+%type  <uval>    expr__logop__expr..logop__expr..
+%type  <uval>    expr__shfop__expr
+%type  <uval>    immediate
+%type  <text>    label
+%type  <uval>    primary
+%type  <uval>    signed_16_bit_immediate
+%type  <uval>    term
+%type  <uval>    unsigned_16_bit_immediate
+%type  <pchn>    word_immediate_list
+%type  <pchn> ...word_immediate..
+%type  <text>   .Identifier.
+
+%pure_parser
+%start assembly_file
+
+%%
+
+adding_operator
+	: Plus
+		{ printf("adding_operator plus\n") ;}
+		//{ $$ = ASM_OPR__PLUS ; }
+	| Minus
+		{ printf("adding_operator minus\n") ;}
+		//{ $$ = ASM_OPR__MINUS; }
+	;
+
+.a_label.
+	: //empty
+	| label
+	  Colon
+		{
+		/*
+		struct utdic *dic     = NULL;
+		struct uttyp *sym_lst = NULL;
+		unsigned int  status  ;
+
+		// ###----------------------------------------------### 
+		//   check that the label is unique. Save its address	
+		// in the dictionary.					
+		// ###----------------------------------------------### 
+
+		if (PAS_NBR == ASM_ASP__LABELS)
+		  {
+		  dic    = PT_OBJ->SYM_DIC;
+		  status = utl_GetDicItemStatus (dic, $1);
+
+		  if (status == UTL_DIC__FAILED)
+		    {
+		    if (SEC_SYM != NULL)
+		      {
+		      utl_AddDicItem (dic, $1, CUR_ADR);
+
+		// ###----------------------------------------------### 
+		//   if the label is declared as global, save it in the	
+		// global symbols dictionary				
+		// ###----------------------------------------------### 
+
+		      status = utl_GetDicItemStatus (GLB_DIC, $1);
+
+		      if (status == UTL_DIC__SUCCEED)
+		        utl_AddDicItem (GLB_DIC, $1, CUR_ADR);
+
+		// ###----------------------------------------------### 
+		//   save the label's address in the symbol's list	
+		// ###----------------------------------------------### 
+
+		      sym_lst            = (struct uttyp *) SEC_SYM->DAT2.VPNT;
+		      SEC_SYM->DAT2.VPNT = utl_adduttyp (sym_lst, $1, CUR_ADR);
+		      }
+		    else
+		      lcl_error (13, NULL, 0);
+		    }
+		  else
+		    lcl_error (2, $1, 0);
+		  }
+		  */
+		  printf("label\n");
+		}
+	;
+
+align_directive
+	: _ALIGN_
+	  Litteral
+		{
+		/*
+		unsigned int msk = 0x00000001;
+		unsigned int adr ;
+
+		// ###----------------------------------------------### 
+		//   align the current address				
+		// ###----------------------------------------------### 
+
+		if ($2 > 31)
+		  lcl_error (18, NULL, $2);
+
+		msk      = msk << $2 ;
+		adr      = (CUR_ADR + (msk - 1)) & (~ (msk - 1));
+		CUR_SIZ += (adr     -  CUR_ADR )                ;
+		CUR_ADR  =  adr                                 ;
+		*/
+		printf("align\n") ;
+		}
+	;
+
+..an_instruction..
+	: //empty
+	| ..an_instruction..
+	  an_instruction
+	;
+
+an_instruction
+	: .a_label.
+	  .unlabeled_instruction.
+	  CarriageReturn_ERR
+	| unlabeled_directive
+	  CarriageReturn_ERR
+	| error
+	  CarriageReturn_ERR
+	;
+
+assembly_file
+	: assembly_instructions
+		{
+		/*
+		if  (PRG_NAM != NULL)
+		  lcl_error (19, NULL, 0);
+
+		if  (PAS_NBR == ASM_ASP__SIZEOF )
+		  PT_FIG->OBJECTS = asm_addasobj (PT_FIG->OBJECTS, FIL_NAM);
+		 */
+		 printf("programme assembleur\n") ;
+		}
+        ;
+
+assembly_instructions
+	: ..an_instruction..
+        ;
+
+byte_immediate_list
+	: immediate
+	  ...byte_immediate..
+		{
+		/*
+		struct utchn *pt_chn;
+
+		pt_chn = utl_revutchn ($2                     );
+		$$     = utl_addutchn (pt_chn, $1 & 0x000000ff);
+		*/
+		printf("byte_immediate_list\n") ;
+		}
+	;
+
+...byte_immediate..
+	: //empty
+		//{ $$ = NULL; }
+		{ printf("byte_immediate NULL\n") ; }
+	| ...byte_immediate..
+	  Comma
+	  immediate
+		{
+		//$$ = utl_addutchn ($1, $3 & 0x000000ff);
+		printf("byte_immediate\n") ;
+		}
+	;
+
+// TODO : mecanisme ?
+CarriageReturn_ERR
+	: CarriageReturn
+	//	{ yyerrok; }
+		{ printf("CariageReturn_ERR\n") ; }
+	;
+
+cop0_reg
+	: Cop0Register
+		//{ $$ = $1; }
+		{ printf("cop0_reg\n") ; }
+	;
+
+cop2_reg
+	: ARegister
+		{ printf("cop2_reg\n") ; }
+		/*{
+		if (($1 & 0xffffc000) != 0)
+		  lcl_error (15, NULL, $1);
+
+		$$ = $1 & 0x00003fff;
+		}*/
+	;
+
+effective_instruction
+	: mips_instruction
+	| macro_instruction
+	;
+
+end_directive
+	: _END_
+	  .Identifier.
+		{ printf("end_directive\n") ; }
+		/*{
+		if ($2 != PRG_NAM)
+		  lcl_error (19, NULL, 0);
+
+		PRG_NAM = NULL;
+		}*/
+	;
+
+ent_directive
+	: _ENT_
+	  Identifier
+		{ printf("ent_directive\n") ; }
+		/*{
+		if (PRG_NAM != NULL)
+		  lcl_error (18, NULL, 0);
+
+		PRG_NAM = $2;
+		}*/
+	;
+
+.Identifier.
+	: // empty
+		//{ $$ = NULL; }
+		{ printf("Identifier NULL\n") ; }
+	| Identifier
+		//{ $$ = $1  ; }
+		{ printf("Identifier\n") ; }
+	;
+
+equ_directive
+	: Identifier
+	  _EQU_
+	  immediate
+		{ printf("equ_directive\n") ; }
+		/*{
+		struct utdic *dic     = NULL;
+		struct uttyp *sym_lst = NULL;
+
+		// ###----------------------------------------------### 
+		//   check that the identifier is unique. Save its	
+		// value in the dictionary.				
+		// ###----------------------------------------------### 
+
+		if (PAS_NBR == ASM_ASP__SYMBOLS)
+		  {
+		  dic = PT_OBJ->SYM_DIC;
+		  if (utl_GetDicItemStatus (dic, $1) == UTL_DIC__FAILED)
+		    {
+		    if (SEC_SYM != NULL)
+		      {
+		      utl_AddDicItem (dic, $1, $3);
+
+		      sym_lst            = (struct uttyp *) SEC_SYM->DAT2.VPNT;
+		      SEC_SYM->DAT2.VPNT = utl_adduttyp (sym_lst, $1, $3);
+		      }
+		    else
+		      lcl_error (13, NULL, 0);
+		    }
+		  else
+		    lcl_error (3, $1, 0);
+		  }
+		}*/
+	;
+
+expr..addop__expr..
+	: expression
+		{ printf("expr..addop__expr.. expression\n") ; }
+		//{ $$ = $1; }
+	| expr..addop__expr..
+	  adding_operator
+	  expression
+		{ printf("expr..addop__expr.. add\n") ; }
+		/*{
+		if   ($2 == ASM_OPR__PLUS) $$ = $1 + $3;
+		else                       $$ = $1 - $3;
+		}*/
+	;
+
+expression
+	: LeftParen
+	  immediate
+	  RightParen
+		{ printf("expression\n") ; }
+		//{ $$ =   $2; }
+	| Tilda
+	  LeftParen
+	  immediate
+	  RightParen
+		{ printf("expression ~\n") ; }
+		//{ $$ = ~ $3; }
+	| Minus
+	  LeftParen
+	  immediate
+	  RightParen
+		{ printf("expression minus\n") ; }
+		//{ $$ = - $3; }
+	| term
+		{ printf("expression term\n") ; }
+		//{ $$ =   $1; }
+	;
+
+expr__logop__expr..logop__expr..
+	: expression
+	  logic_operator
+	  expression
+		{ printf("expr__logop__expr..logop__expr..\n") ; }
+		/*{
+		if   ($2 == ASM_OPR__OR  ) $$ = $1 | $3;
+		if   ($2 == ASM_OPR__AND ) $$ = $1 & $3;
+		if   ($2 == ASM_OPR__XOR ) $$ = $1 ^ $3;
+		}*/
+	| expr__logop__expr..logop__expr..
+	  logic_operator
+	  expression
+		{ printf("expr__logop__expr..logop__expr..\n") ; }
+		/*{
+		if   ($2 == ASM_OPR__OR  ) $$ = $1 | $3;
+		if   ($2 == ASM_OPR__AND ) $$ = $1 & $3;
+		if   ($2 == ASM_OPR__XOR ) $$ = $1 ^ $3;
+		}*/
+	;
+
+expr__mulop__expr..mulop__expr..
+	: expression
+	  mul_div_operator
+	  expression
+		{ printf("expr__mulop__expr..mulop__expr..\n") ; }
+		/*{
+		if   ($2 == ASM_OPR__MUL ) $$ = $1 * $3;
+		else                       $$ = $1 / $3;
+		}*/
+	| expr__mulop__expr..mulop__expr..
+	  Star
+	  expression
+		{ printf("expr__mulop__expr..mulop__expr..\n") ; }
+		/*{
+		$$ = $1 * $3;
+		}*/
+	;
+
+expr__shfop__expr
+	: expression
+	  shift_operator
+	  expression
+		{ printf("expr__shfop__expr\n") ; }
+		/*{
+		if   ($2 == ASM_OPR__SHL ) $$ = $1 << $3;
+		else                       $$ = $1 >> $3;
+		}*/
+	;
+
+extern_directive
+	: _EXTERN_
+	  label
+	;
+
+format_hint_mem
+	: Codop_hint_mem
+	  immediate
+	  Comma
+	  signed_16_bit_immediate
+	  LeftParen
+	  integer_register
+	  RightParen
+		{ printf("format_hint_mem\n") ; }
+		/*{
+		if (PAS_NBR == ASM_ASP__CODE)
+		  {
+		  if (($2 & 0xffffffe0) != 0)
+		    lcl_error (6, NULL, $2);
+		  }
+
+		MCR_WRDS [0] = $1 | ($6 << 21) | ($2 << 16) | $4;
+		MCR_WNBR     =  1 ;
+		}*/
+	;
+
+format_label
+	: Codop_label
+	  immediate
+		{ printf("format_label\n") ; } /*{
+		if (PAS_NBR == ASM_ASP__CODE)
+		  {
+		  if (($2 & 0xf0000000) != (CUR_ADR & 0xf0000000))
+		    lcl_error (7, NULL, 0);
+		  }
+
+		MCR_WRDS [0] = $1 | (($2 >> 2) & 0x03ffffff);
+		MCR_WNBR     =  1 ;
+		}*/
+	;
+
+format_n
+	: Codop_n
+		{ printf("format_n\n") ; } /*{
+		MCR_WRDS [0] = $1 ;
+		MCR_WNBR     =  1 ;
+		}*/
+	;
+
+format_od_rs
+	: Codop_od_rs
+	  integer_register
+		{ printf("format_od_rs\n") ; } /*{
+		MCR_WRDS [0] = $1 | ($2 << 21) | 0x0000f800;
+		MCR_WNBR     =  1 ;
+		}*/
+	| Codop_od_rs
+	  integer_register
+	  Comma
+	  integer_register
+		{ printf("format_od_rs negation\n") ; } /*{
+		MCR_WRDS [0] = $1 | ($4 << 21) | ($2 << 11);
+		MCR_WNBR     =  1 ;
+		}*/
+	;
+
+format_rd
+	: Codop_rd
+	  integer_register
+		{ printf("format_rd\n") ; } /*{
+		MCR_WRDS [0] = $1 | ($2 << 11) ;
+		MCR_WNBR     =  1 ;
+		}*/
+	;
+
+format_rd_mem
+	: Codop_rd_mem
+	  integer_register
+	  Comma
+	  signed_16_bit_immediate
+	  LeftParen
+	  integer_register
+	  RightParen
+		{ printf("format_rd_mem\n") ; } /*{
+		MCR_WRDS [0] = $1 | ($6 << 21) | ($2 << 16) | $4 ;
+		MCR_WNBR     =  1 ;
+		}*/
+	| Codop_rd_mem
+	  integer_register
+	  Comma
+	  LeftParen
+	  integer_register
+	  RightParen
+		{ printf("format_rd_mem\n") ; } /*{
+		MCR_WRDS [0] = $1 | ($5 << 21) | ($2 << 16)       ;
+		MCR_WNBR     =  1 ;
+		}*/
+	| Codop_rd_mem
+	  integer_register
+	  Comma
+	  immediate
+		{ printf("format_rd_mem\n") ; } /*{
+		unsigned int  i_h  = 0;
+		unsigned int  i_l  = 0;
+
+		i_h          = ($4 >> 16) & 0x0000ffff   ;
+		i_l          = ($4      ) & 0x0000ffff   ;
+
+		MCR_WRDS [0] = ASM_MPS__LUI |              ( 1 << 16) | i_h;
+		MCR_WRDS [1] = ASM_MPS__ORI | ( 1 << 21) | ( 1 << 16) | i_l;
+		MCR_WRDS [2] = $1           | ( 1 << 21) | ($2 << 16)      ;
+		MCR_WNBR     = 3            ;
+		}*/
+	;
+
+format_rd_si16
+	: Codop_rd_si16
+	  integer_register
+	  Comma
+	  signed_16_bit_immediate
+		{ printf("format_rd_si6\n") ; } /*{
+		MCR_WRDS [0] = $1 | ($2 << 16) | $4;
+		MCR_WNBR     =  1 ;
+		}*/
+	;
+
+format_rd_rs
+	: Codop_rd_rs
+	  integer_register
+	  Comma
+	  integer_register
+		{ printf("format_rd_rs\n") ; } /*{
+		MCR_WRDS [0] = $1 | ($4 << 21) | ($2 << 16) | ($2 << 11);
+		MCR_WNBR     =  1 ;
+		}*/
+	;
+
+format_rd_rs_rt
+	: Codop_rd_rs_rt
+	  integer_register
+	  Comma
+	  integer_register
+	  Comma
+	  integer_register
+		{ printf("format_rd_rs_rt\n") ; } /*{
+		MCR_WRDS [0] = $1 | ($4 << 21) | ($6 << 16) | ($2 << 11);
+		MCR_WNBR     =  1 ;
+		}*/
+	;
+
+format_rd_rs_si16
+	: Codop_rd_rs_si16
+	  integer_register
+	  Comma
+	  integer_register
+	  Comma
+	  signed_16_bit_immediate
+		{ printf("format_rd_rs_si16\n") ; } /*{
+		MCR_WRDS [0] = $1 | ($4 << 21) | ($2 << 16) | $6;
+		MCR_WNBR     =  1 ;
+		}*/
+	;
+
+format_rd_rs_ui16
+	: Codop_rd_rs_ui16
+	  integer_register
+	  Comma
+	  integer_register
+	  Comma
+	  unsigned_16_bit_immediate
+		{ printf("format_rd_rs_ui16\n") ; } /*{
+		unsigned int  imd  = 0;
+
+		if (PAS_NBR == ASM_ASP__CODE)
+		  {
+		  if  (($6 & 0xffff0000) != 0x00000000)
+		    lcl_error (5, NULL, $6);
+		  }
+
+		imd          = $6 & 0x0000ffff;
+		MCR_WRDS [0] = $1 | ($4 << 21) | ($2 << 16) | imd;
+		MCR_WNBR     =  1 ;
+		}*/
+	;
+
+format_rd_rt_rs
+	: Codop_rd_rt_rs
+	  integer_register
+	  Comma
+	  integer_register
+	  Comma
+	  integer_register
+		{ printf("format_rd_rt_rs\n") ; } /*{
+		MCR_WRDS [0] = $1 | ($6 << 21) | ($4 << 16) | ($2 << 11);
+		MCR_WNBR     =  1 ;
+		}*/
+	;
+
+format_rd_rt_sham
+	: Codop_rd_rt_sham
+	  integer_register
+	  Comma
+	  integer_register
+	  Comma
+	  immediate
+		{ printf("format_rd_rt_sham\n") ; } /*{
+		unsigned int  imd  = 0;
+
+		if (PAS_NBR == ASM_ASP__CODE)
+		  {
+		  if (($6 & 0xffffffe0) != 0)
+		    lcl_error (6, NULL, $6);
+		  }
+
+		imd          = $6 & 0x0000001f;
+		MCR_WRDS [0] = $1 | ($4 << 16) | ($2 << 11) | (imd << 6);
+		MCR_WNBR     =  1 ;
+		}*/
+	;
+
+format_rs
+	: Codop_rs
+	  integer_register
+		{ printf("format_rs\n") ; } /*{
+		MCR_WRDS [0] = $1 | ($2 << 21) ;
+		MCR_WNBR     =  1 ;
+		}*/
+	;
+
+format_rs_label
+	: Codop_rs_label
+	  integer_register
+	  Comma
+	  immediate
+		{ printf("format_rs_label\n") ; } /*{
+		unsigned int  imd  = 0;
+
+		imd = $4 - CUR_ADR - 4;
+
+		if (PAS_NBR == ASM_ASP__CODE)
+		  {
+		  if (((imd & 0xfffe0000) != 0x00000000) &&
+		      ((imd & 0xfffe0000) != 0xfffe0000)   )
+		    lcl_error (7, NULL, 0);
+		  }
+
+		imd          = (imd >> 2) & 0x0000ffff;
+		MCR_WRDS [0] = $1 | ($2 << 21) | imd;
+		MCR_WNBR     =  1 ;
+		}*/
+	;
+
+format_rs_rt
+	: Codop_rs_rt
+	  integer_register
+	  Comma
+	  integer_register
+		{ printf("format_rs_rt\n") ; } /*{
+		MCR_WRDS [0] = $1 | ($2 << 21) | ($4 << 16);
+		MCR_WNBR     =  1 ;
+		}*/
+	;
+
+format_rs_rt_label
+	: Codop_rs_rt_label
+	  integer_register
+	  Comma
+	  integer_register
+	  Comma
+	  immediate
+		{ printf("format_rs_rt_label\n") ; } /*{
+		unsigned int  imd  = 0;
+
+		imd = $6 - CUR_ADR - 4;
+
+		if (PAS_NBR == ASM_ASP__CODE)
+		  {
+		  if (((imd & 0xfffe0000) != 0x00000000) &&
+		      ((imd & 0xfffe0000) != 0xfffe0000)   )
+		    lcl_error (7, NULL, 0);
+		  }
+
+		imd          = (imd >> 2) & 0x0000ffff;
+		MCR_WRDS [0] = $1 | ($2 << 21) | ($4 << 16) | imd;
+		MCR_WNBR     =  1 ;
+		}*/
+	;
+
+format_rs_si16
+	: Codop_rs_si16
+	  integer_register
+	  Comma
+	  signed_16_bit_immediate
+		{ printf("format_rs_si16\n") ; } /*{
+		MCR_WRDS [0] = $1 | ($2 << 21) | $4;
+		MCR_WNBR     =  1 ;
+		}*/
+	;
+
+format_rt_cop0r
+	: Codop_rt_cop0r
+	  integer_register
+	  Comma
+	  cop0_reg
+		{ printf("format_rt_cop0r\n") ; } /*{
+		MCR_WRDS [0] = $1 | ($2 << 16) | ($4      );
+		MCR_WNBR     =  1 ;
+		}*/
+	;
+
+format_rt_cop2r
+	: Codop_rt_cop2r
+	  integer_register
+	  Comma
+	  cop2_reg
+		{ printf("format_rt_cop2r\n") ; } /*{
+		MCR_WRDS [0] = $1 | ($2 << 16) | ($4 << 2 );
+		MCR_WNBR     =  1 ;
+		}*/
+	;
+
+format_rt_mem
+	: Codop_rt_mem
+	  integer_register
+	  Comma
+	  signed_16_bit_immediate
+	  LeftParen
+	  integer_register
+	  RightParen
+		{ printf("format_rt_mem\n") ; } /*{
+		MCR_WRDS [0] = $1 | ($6 << 21) | ($2 << 16) | $4 ;
+		MCR_WNBR     =  1 ;
+		}*/
+	| Codop_rt_mem
+	  integer_register
+	  Comma
+	  LeftParen
+	  integer_register
+	  RightParen
+		{ printf("format_rt_mem\n") ; } /*{
+		MCR_WRDS [0] = $1 | ($5 << 21) | ($2 << 16)      ;
+		MCR_WNBR     =  1 ;
+		}*/
+	| Codop_rt_mem
+	  integer_register
+	  Comma
+	  immediate
+		{ printf("format_rt_mem\n") ; } /*{
+		unsigned int  i_h  = 0;
+		unsigned int  i_l  = 0;
+
+		i_h          = ($4 >> 16) & 0x0000ffff   ;
+		i_l          = ($4      ) & 0x0000ffff   ;
+
+		MCR_WRDS [0] = ASM_MPS__LUI |              ( 1 << 16) | i_h;
+		MCR_WRDS [1] = $1           | ( 1 << 21) | ($2 << 16) | i_l;
+		MCR_WNBR     = 2            ;
+		}*/
+	;
+
+format_ui20
+	: Codop_ui20
+	  immediate
+		{ printf("format_ui20\n") ; } /*{
+		if (PAS_NBR == ASM_ASP__CODE)
+		  {
+		  if (($2 & 0xfff00000) != 0)
+		    lcl_error (8, NULL, $2);
+		  }
+
+		MCR_WRDS [0] = $1 | (($2 & 0x000fffff) << 6);
+		MCR_WNBR     =  1 ;
+		}*/
+	;
+
+global_directive
+	: _GLOBAL_
+	  label
+		{ printf("global_directive\n") ; } /*{
+		struct utdic *dic ;
+		unsigned int  addr;
+
+		if (PAS_NBR == ASM_ASP__LABELS)
+		  {
+		  dic  = PT_OBJ->SYM_DIC;
+		  addr = (unsigned int) utl_GetDicItem (dic, $2);
+
+		  if (utl_GetDicStatus (dic) == UTL_DIC__FAILED)
+		    addr = 0;
+
+		  utl_AddDicItem (GLB_DIC, $2, addr);
+		  }
+		}*/
+	;
+
+signed_16_bit_immediate
+	: immediate
+		{ printf("signed_16_bit_immediate\n") ; } /*{
+		if (PAS_NBR == ASM_ASP__CODE)
+		  {
+		  if ((($1 & 0xffff8000) != 0x00000000) &&
+		      (($1 & 0xffff8000) != 0xffff8000)   )
+		    lcl_error (5, NULL, $1);
+		  }
+
+		$$ = $1 & 0x0000ffff;
+		}*/
+	;
+
+immediate
+	: expr..addop__expr..
+		{ printf("immediate\n") ; } /*{ $$ = $1; }*/
+	| expr__mulop__expr..mulop__expr..
+		{ printf("immediate\n") ; } /*{ $$ = $1; }*/
+	| expr__logop__expr..logop__expr..
+		{ printf("immediate\n") ; } /*{ $$ = $1; }*/
+	| expr__shfop__expr
+		{ printf("immediate\n") ; } /*{ $$ = $1; }*/
+	;
+
+integer_register
+	: IntegerRegister
+		{ printf("integer_register\n") ; } /*{ $$ = $1; }*/
+	| ARegister
+		{ printf("integer_register\n") ; } /*{
+		if ($1 > 31)
+		  lcl_error (14, NULL, $1);
+
+		$$ = $1 & 0x0000001f;
+		}*/
+	;
+
+label
+	: Identifier
+		{ printf("label\n") ; } /*{ $$ = $1; }*/
+	;
+
+labelable_directive
+	: memory_alloc_directive
+	;
+
+logic_operator
+	: Bar
+		{ printf("logic_operator bar\n") ; } /*{ $$ = ASM_OPR__OR   ; }*/
+	| Ampersand
+		{ printf("logic operator Ampersand\n") ; } /*{ $$ = ASM_OPR__AND  ; }*/
+	| Circomflex
+		{ printf("logic_operator Circomflex\n") ; } /*{ $$ = ASM_OPR__XOR  ; }*/
+	;
+
+macro_instruction
+	: macro_rd_i32
+	| macro_rd_label
+	| macro_rd_rs
+	| macro_rd_rt
+	| macro_rs_label
+	| macro_label
+	| macro_n
+	;
+
+macro_label
+	: Macro_label
+	  immediate
+		{ printf("macro_label\n") ; } /*{
+		unsigned int  imd  = 0;
+
+		imd = $2 - CUR_ADR - 4;
+
+		if (PAS_NBR == ASM_ASP__CODE)
+		  {
+		  if (((imd & 0xfffe0000) != 0x00000000) &&
+		      ((imd & 0xfffe0000) != 0xfffe0000)   )
+		    lcl_error (7, NULL, 0);
+		  }
+
+		imd          = (imd >> 2) & 0x0000ffff;
+		MCR_WRDS [0] = $1 | imd;
+		MCR_WNBR     =  1      ;
+		}*/
+	;
+
+macro_n
+	: Macro_n
+		{ printf("macro_n\n") ; } /*{
+		MCR_WRDS [0] = $1 ;
+		MCR_WNBR     =  1 ;
+		}*/
+	;
+
+macro_rd_i32
+	: Macro_rd_i32
+	  integer_register
+	  Comma
+	  immediate
+		{ printf("macro_rd_i32\n") ; } /*{
+		unsigned int  i_h  = 0;
+		unsigned int  i_l  = 0;
+
+		i_h          = ($4 >> 16) & 0x0000ffff   ;
+		i_l          = ($4      ) & 0x0000ffff   ;
+
+		MCR_WRDS [0] = ASM_MPS__LUI |              ($2 << 16) | i_h;
+		MCR_WRDS [1] = ASM_MPS__ORI | ($2 << 21) | ($2 << 16) | i_l;
+		MCR_WNBR     = 2 ;
+		}*/
+	;
+
+macro_rd_label
+	: Macro_rd_label
+	  integer_register
+	  Comma
+	  immediate
+		{ printf("macro_rd_label\n") ; } /*{
+		unsigned int  i_h  = 0;
+		unsigned int  i_l  = 0;
+
+		i_h          = ($4 >> 16) & 0x0000ffff   ;
+		i_l          = ($4      ) & 0x0000ffff   ;
+
+		MCR_WRDS [0] = ASM_MPS__LUI |              ($2 << 16) | i_h;
+		MCR_WRDS [1] = ASM_MPS__ORI | ($2 << 21) | ($2 << 16) | i_l;
+		MCR_WNBR     = 2 ;
+		}*/
+	;
+
+macro_rd_rs
+	: Macro_rd_rs
+	  integer_register
+	  Comma
+	  integer_register
+		{ printf("macro_rd_rs\n") ; } /*{
+		MCR_WRDS [0] = $1 | ($4 << 21) | ($2 << 11);
+		MCR_WNBR     =  1 ;
+		}*/
+	;
+
+macro_rd_rt
+	: Macro_rd_rt
+	  integer_register
+	  Comma
+	  integer_register
+		{ printf("macro_rd_rt\n") ; } /*{
+		MCR_WRDS [0] = $1 | ($4 << 16) | ($2 << 11);
+		MCR_WNBR     =  1 ;
+		}*/
+	;
+
+macro_rs_label
+	: Macro_rs_label
+	  integer_register
+	  Comma
+	  immediate
+		{ printf("macro_rs_label\n") ; } /*{
+		unsigned int  imd  = 0;
+
+		imd = $4 - CUR_ADR - 4;
+
+		if (PAS_NBR == ASM_ASP__CODE)
+		  {
+		  if (((imd & 0xfffe0000) != 0x00000000) &&
+		      ((imd & 0xfffe0000) != 0xfffe0000)   )
+		    lcl_error (7, NULL, 0);
+		  }
+
+		imd          = (imd >> 2) & 0x0000ffff;
+		MCR_WRDS [0] = $1 | ($2 << 21) | imd;
+		MCR_WNBR     =  1 ;
+		}*/
+	;
+
+memory_alloc_directive
+	: memory_word_alloc
+	| memory_byte_alloc
+	| memory_ascii_alloc
+	| memory_asciiz_alloc
+	| memory_skip_alloc
+	| memory_space_alloc
+	| memory_comm_alloc
+	| memory_lcomm_alloc
+	;
+
+memory_ascii_alloc
+	: _ASCII_
+	  String
+		{ printf("memory_ascii_alloc\n") ; } /*{
+		unsigned int  chn_len;
+		struct utchn *pt_chn ;
+
+		pt_chn = $2 ;
+
+		if (PAS_NBR == ASM_ASP__CODE)
+		  MEM_TAB = asm_SetMemory (MEM_TAB, CUR_ADR, pt_chn);
+
+		chn_len  = utl_lenutchn (pt_chn);
+		pt_chn   = utl_frlutchn (pt_chn);
+
+		CUR_ADR += chn_len              ;
+		CUR_SIZ += chn_len              ;
+		}*/
+	;
+
+memory_asciiz_alloc
+	: _ASCIIZ_
+	  String
+		{ printf("memory_asciiz_alloc\n") ; } /*{
+		unsigned int  chn_len;
+		struct utchn *pt_chn ;
+
+		pt_chn = $2 ;
+		pt_chn = utl_adqutchn (pt_chn, '\0');
+
+		if (PAS_NBR == ASM_ASP__CODE)
+		  MEM_TAB = asm_SetMemory (MEM_TAB, CUR_ADR, pt_chn);
+
+		chn_len  = utl_lenutchn (pt_chn);
+		pt_chn   = utl_frlutchn (pt_chn);
+
+		CUR_ADR += chn_len              ;
+		CUR_SIZ += chn_len              ;
+		}*/
+	;
+
+memory_byte_alloc
+	: _BYTE_
+	  byte_immediate_list
+		{ printf("memory_byte_alloc\n") ; } /*{
+		unsigned int  chn_len;
+		struct utchn *pt_chn ;
+
+		pt_chn = $2 ;
+
+		if (PAS_NBR == ASM_ASP__CODE)
+		  MEM_TAB = asm_SetMemory (MEM_TAB, CUR_ADR, pt_chn);
+
+		chn_len  = utl_lenutchn (pt_chn);
+		pt_chn   = utl_frlutchn (pt_chn);
+
+		CUR_ADR += chn_len              ;
+		CUR_SIZ += chn_len              ;
+		}*/
+	;
+
+memory_lcomm_alloc
+	: _LCOMM_
+	  Identifier
+	  Comma
+	  Litteral
+		{ printf("memory_lcomm_alloc\n") ; } /*{
+		char          *isc_name ;
+		struct asisc  *pt_isc   ;
+		struct asosc  *pt_osc   ;
+		unsigned int   pos      ;
+		unsigned int   cur_adr  = 0   ;
+		struct asiss  *pt_iss   = NULL;
+		struct uttyp  *sec_sym  = NULL;
+		struct utdic  *dic      = NULL;
+		struct uttyp  *sym_lst  = NULL;
+		unsigned int   status   ;
+
+		// ###----------------------------------------------### 
+		//    the space is allocated in the "bss" input section	
+		// ###----------------------------------------------### 
+
+		isc_name = utl_SaveString      (".bss");
+		pt_isc   = asm_GetInputSection (PT_FIG, isc_name);
+
+		if (pt_isc == NULL)
+		  lcl_error (12, isc_name, 0);
+
+		if (ERR_FLG == 0)
+		  {
+		  pos    = pt_isc->POSITION      ;
+		  pt_osc = pt_isc->OUT_SEC       ;
+
+		  if (PAS_NBR == ASM_ASP__SIZEOF)
+		    {
+		    pt_iss                = pt_osc->SUB_SEC [pos];
+		    pt_iss                = asm_addasiss (pt_iss);
+		    pt_osc->SUB_SEC [pos] = pt_iss               ;
+		    pt_iss->SIZE          = $4                   ;
+		    }
+		  else
+		    {
+		    if (pt_osc->CUR_ISS [pos] == NULL)
+		      pt_osc->CUR_ISS [pos] = pt_osc->SUB_SEC [pos]      ;
+		    else
+		      pt_osc->CUR_ISS [pos] = pt_osc->CUR_ISS [pos]->NEXT;
+
+		    pt_iss  = pt_osc->CUR_ISS [pos];
+		    cur_adr = pt_iss->ADDR         ;
+
+		    sec_sym = asm_GetObjectSymbolList (PT_OBJ, pt_osc->IDENT);
+		    }
+		  }
+
+		// ###----------------------------------------------### 
+		//   the Identifier defines the label of the current	
+		// space.						
+		//							
+		//   check that the label is unique. Save its address	
+		// in the dictionary.					
+		// ###----------------------------------------------### 
+
+		if (PAS_NBR == ASM_ASP__LABELS)
+		  {
+		  dic    = PT_OBJ->SYM_DIC;
+		  status = utl_GetDicItemStatus (dic, $2);
+
+		  if (status == UTL_DIC__SUCCEED)
+		    lcl_error (2, $2, 0);
+
+		  if (sec_sym == NULL)
+		    lcl_error (13, NULL, 0);
+
+		  if (ERR_FLG == 0)
+		    {
+		    utl_AddDicItem (dic, $2, cur_adr);
+
+		// ###----------------------------------------------### 
+		//   save the label's address in the symbol's list	
+		// ###----------------------------------------------### 
+
+		    sym_lst            = (struct uttyp *) sec_sym->DAT2.VPNT;
+		    sec_sym->DAT2.VPNT = utl_adduttyp (sym_lst, $2, cur_adr);
+		    }
+		  }
+		}*/
+	;
+
+memory_comm_alloc
+	: _COMM_
+	  Identifier
+	  Comma
+	  Litteral
+	  Comma
+	  Litteral
+		{ printf("memory_comm_alloc\n") ; } /*{
+		char          *isc_name ;
+		struct asisc  *pt_isc   ;
+		struct asosc  *pt_osc   ;
+		unsigned int   pos      ;
+		unsigned int   cur_adr  = 0   ;
+		struct asiss  *pt_iss   = NULL;
+		struct uttyp  *sec_sym  = NULL;
+		struct utdic  *dic      = NULL;
+		struct uttyp  *sym_lst  = NULL;
+		unsigned int   status   ;
+
+		// ###----------------------------------------------### 
+		//    the space is allocated in the "bss" input section	
+		// ###----------------------------------------------### 
+
+		isc_name = utl_SaveString      (".bss");
+		pt_isc   = asm_GetInputSection (PT_FIG, isc_name);
+
+		if (pt_isc == NULL)
+		  lcl_error (12, isc_name, 0);
+
+		if (ERR_FLG == 0)
+		  {
+		  pos    = pt_isc->POSITION      ;
+		  pt_osc = pt_isc->OUT_SEC       ;
+
+		  if (PAS_NBR == ASM_ASP__SIZEOF)
+		    {
+		    pt_iss                = pt_osc->SUB_SEC [pos];
+		    pt_iss                = asm_addasiss (pt_iss);
+		    pt_osc->SUB_SEC [pos] = pt_iss               ;
+		    pt_iss->SIZE          = $4                   ;
+		    }
+		  else
+		    {
+		    if (pt_osc->CUR_ISS [pos] == NULL)
+		      pt_osc->CUR_ISS [pos] = pt_osc->SUB_SEC [pos]      ;
+		    else
+		      pt_osc->CUR_ISS [pos] = pt_osc->CUR_ISS [pos]->NEXT;
+
+		    pt_iss  = pt_osc->CUR_ISS [pos];
+		    cur_adr = pt_iss->ADDR         ;
+
+		    sec_sym = asm_GetObjectSymbolList (PT_OBJ, pt_osc->IDENT);
+		    }
+		  }
+
+		// ###----------------------------------------------### 
+		//   the Identifier defines the label of the current	
+		// space.						
+		//							
+		//   the label is global				
+		//							
+		//   check that the label is unique. Save its address	
+		// in the dictionary.					
+		// ###----------------------------------------------### 
+
+		if (PAS_NBR == ASM_ASP__LABELS)
+		  {
+		  dic    = PT_OBJ->SYM_DIC;
+		  status = utl_GetDicItemStatus (dic, $2);
+
+		  if (status == UTL_DIC__SUCCEED)
+		    lcl_error (2, $2, 0);
+
+		  status = utl_GetDicItemStatus (GLB_DIC, $2);
+
+		  if (status == UTL_DIC__SUCCEED)
+		    lcl_error (2, $2, 0);
+
+		  if (sec_sym == NULL)
+		    lcl_error (13, NULL, 0);
+
+		  if (ERR_FLG == 0)
+		    {
+		    utl_AddDicItem (dic    , $2, cur_adr);
+		    utl_AddDicItem (GLB_DIC, $2, cur_adr);
+
+		// ###----------------------------------------------### 
+		//   save the label's address in the symbol's list	
+		// ###----------------------------------------------### 
+
+		    sym_lst            = (struct uttyp *) sec_sym->DAT2.VPNT;
+		    sec_sym->DAT2.VPNT = utl_adduttyp (sym_lst, $2, cur_adr);
+		    }
+		  }
+		}*/
+	;
+
+memory_space_alloc
+	: _SPACE_
+	  Litteral
+		{ printf("memory_space_alloc\n") ; } /*{
+		CUR_ADR += $2;
+		CUR_SIZ += $2;
+		}*/
+	;
+
+memory_skip_alloc
+	: _SKIP_
+	  Litteral
+		{ printf("memory_skip_alloc\n") ; } /*{
+		CUR_ADR += $2;
+		CUR_SIZ += $2;
+		}*/
+	;
+
+memory_word_alloc
+	: _WORD_
+	  word_immediate_list
+		{ printf("memory_word_alloc\n") ; } /*{
+		unsigned int  chn_len;
+		struct utchn *pt_chn ;
+
+		pt_chn = $2 ;
+
+		if (PAS_NBR == ASM_ASP__CODE)
+		  MEM_TAB = asm_SetMemory (MEM_TAB, CUR_ADR, pt_chn);
+
+		chn_len  = utl_lenutchn (pt_chn);
+		pt_chn   = utl_frlutchn (pt_chn);
+
+		CUR_ADR += chn_len              ;
+		CUR_SIZ += chn_len              ;
+		}*/
+	;
+
+mips_instruction
+	: format_hint_mem
+	| format_label
+	| format_n
+	| format_od_rs
+	| format_rd
+	| format_rd_mem
+	| format_rd_rs
+	| format_rd_rs_rt
+	| format_rd_rs_si16
+	| format_rd_rs_ui16
+	| format_rd_rt_rs
+	| format_rd_rt_sham
+	| format_rd_si16
+	| format_rs
+	| format_rs_label
+	| format_rs_rt
+	| format_rs_rt_label
+	| format_rs_si16
+	| format_rt_mem
+	| format_rt_cop0r
+	| format_rt_cop2r
+	| format_ui20
+	;
+
+mul_div_operator
+	: Star
+		{ printf("mul_div_operator *\n") ; } /*{ $$ = ASM_OPR__MUL  ; }*/
+	| Slash
+		{ printf("mul_div_operator /\n") ; } /*{ $$ = ASM_OPR__DIV  ; }*/
+	;
+
+primary
+	: Litteral
+		{ printf("primary Litteral\n") ; } /*{ $$ = $1; }*/
+	| Identifier
+		{ printf("primary Identifier\n") ; } /*{
+		unsigned int   valu = 0   ;
+		struct utdic  *dic  = NULL;
+
+		if ((PAS_NBR == ASM_ASP__SYMBOLS) ||
+		    (PAS_NBR == ASM_ASP__CODE   )   )
+		  {
+		  dic  = PT_OBJ->SYM_DIC;
+		  valu = (unsigned int) utl_GetDicItem (dic, $1);
+
+		  if (utl_GetDicStatus (dic) == UTL_DIC__FAILED)
+		    {
+		    valu = (unsigned int) utl_GetDicItem (GLB_DIC, $1);
+		    if (utl_GetDicStatus (GLB_DIC) == UTL_DIC__FAILED)
+		      {
+		      if (PAS_NBR == ASM_ASP__CODE)
+		        lcl_error (9, $1, 0);
+		      }
+		    }
+		  }
+
+		$$ = valu;
+		}*/
+	;
+
+section_specification_directive
+	: _SECTION_
+	  Identifier
+		{ printf("section_specification_directive SECTION\n") ; } /*{
+		struct asisc *pt_isc;
+		struct asosc *pt_osc;
+		unsigned int  pos   ;
+
+		pt_isc = asm_GetInputSection (PT_FIG, $2);
+
+		if (pt_isc == NULL)
+		  lcl_error (12, $2, 0);
+		else
+		  {
+		  pos    = pt_isc->POSITION      ;
+		  pt_osc = pt_isc->OUT_SEC       ;
+
+		  if (PAS_NBR == ASM_ASP__SIZEOF)
+		    {
+		    if (PT_ISS != NULL)
+		      PT_ISS->SIZE = CUR_SIZ;
+
+		    PT_ISS                = pt_osc->SUB_SEC [pos];
+		    PT_ISS                = asm_addasiss (PT_ISS);
+		    pt_osc->SUB_SEC [pos] = PT_ISS               ;
+		    CUR_SIZ = 0           ;
+		    }
+		  else
+		    {
+		    if (pt_osc->CUR_ISS [pos] == NULL)
+		      pt_osc->CUR_ISS [pos] = pt_osc->SUB_SEC [pos]      ;
+		    else
+		      pt_osc->CUR_ISS [pos] = pt_osc->CUR_ISS [pos]->NEXT;
+
+		    PT_ISS  = pt_osc->CUR_ISS [pos];
+		    CUR_ADR = PT_ISS->ADDR         ;
+		    CUR_SIZ = 0                    ;
+
+		    SEC_SYM = asm_GetObjectSymbolList (PT_OBJ, pt_osc->IDENT);
+		    }
+		  }
+		}*/
+	| Identifier
+		{ printf("section_specification_direction Identifier\n") ; } /*{
+		struct asisc *pt_isc;
+		struct asosc *pt_osc;
+		unsigned int  pos   ;
+
+		pt_isc = asm_GetInputSection (PT_FIG, $1);
+
+		if (pt_isc == NULL)
+		  lcl_error (12, $1, 0);
+		else
+		  {
+		  pos    = pt_isc->POSITION      ;
+		  pt_osc = pt_isc->OUT_SEC       ;
+
+		  if (PAS_NBR == ASM_ASP__SIZEOF)
+		    {
+		    if (PT_ISS != NULL)
+		      PT_ISS->SIZE = CUR_SIZ;
+
+		    PT_ISS                = pt_osc->SUB_SEC [pos];
+		    PT_ISS                = asm_addasiss (PT_ISS);
+		    pt_osc->SUB_SEC [pos] = PT_ISS               ;
+		    CUR_SIZ = 0           ;
+		    }
+		  else
+		    {
+		    if (pt_osc->CUR_ISS [pos] == NULL)
+		      pt_osc->CUR_ISS [pos] = pt_osc->SUB_SEC [pos]      ;
+		    else
+		      pt_osc->CUR_ISS [pos] = pt_osc->CUR_ISS [pos]->NEXT;
+
+		    PT_ISS  = pt_osc->CUR_ISS [pos];
+		    CUR_ADR = PT_ISS->ADDR         ;
+		    CUR_SIZ = 0                    ;
+
+		    SEC_SYM = asm_GetObjectSymbolList (PT_OBJ, pt_osc->IDENT);
+		    }
+		  }
+		}*/
+	;
+
+set_directive
+	: _SET_
+	  _REORDER_
+		{ printf("set_directive reorder\n") ; } /*{
+		SET_FLAGS &= ~ASM_SET__NOREORDER;
+		SET_FLAGS |=  ASM_SET__REORDER  ;
+		}*/
+	| _SET_
+	  _NOREORDER_
+		{ printf("set directive noreorder\n") ; } /*{
+		SET_FLAGS &= ~ASM_SET__REORDER  ;
+		SET_FLAGS |=  ASM_SET__NOREORDER;
+		}*/
+	;
+
+shift_operator
+	: DoubleLess
+		{ printf("shift_operator <<\n") ; } /*{ $$ = ASM_OPR__SHL  ; }*/
+	| DoubleGreat
+		{ printf("shift_operator >>\n") ; } /*{ $$ = ASM_OPR__SHR  ; }*/
+	;
+
+term
+	: primary
+		{ printf("term primary\n") ; } /*{ $$ =   $1; }*/
+	| Minus
+	  primary
+		{ printf("term minus primary\n") ; } /*{ $$ = - $2; }*/
+	| Tilda
+	  primary
+		{ printf("term ~\n") ; } /*{ $$ = ~ $2; }*/
+	;
+
+unlabeled_directive
+	: align_directive
+	| section_specification_directive
+	| equ_directive
+	| global_directive
+	| extern_directive
+	| set_directive
+	| ent_directive
+	| end_directive
+	;
+
+.unlabeled_instruction.
+	: //empty
+	| labelable_directive
+	| effective_instruction
+		{ printf("unlabeled instruction\n") ; } /*{
+		unsigned int nop_i   = ASM_MPS__NOP;
+		unsigned int inst    ;
+		unsigned int flag    ;
+		int          i       ;
+
+		for (i=0 ; i<MCR_WNBR ; i++)
+		  {
+		  inst = MCR_WRDS [i];
+		  flag = 0 ;
+
+		  if ((SET_FLAGS & ASM_SET__REORDER) != 0)
+		    flag = lcl_isbch (inst) | lcl_isjmp (inst) ;
+
+		  if (PAS_NBR == ASM_ASP__CODE)
+		    {
+		    MEM_TAB = asm_SetWordMemory (MEM_TAB, CUR_ADR, inst);
+
+		    if (flag != 0)
+		      MEM_TAB = asm_SetWordMemory (MEM_TAB, CUR_ADR+4, nop_i);
+		    }
+
+		  CUR_ADR += 4;
+		  CUR_SIZ += 4;
+
+		  if (flag != 0)
+		    {
+		    CUR_ADR += 4;
+		    CUR_SIZ += 4;
+		    }
+		  }
+		}*/
+	;
+
+unsigned_16_bit_immediate
+	: immediate
+		{ printf("unsigned_16_bit_immediate\n") ; } /*{
+		if (PAS_NBR == ASM_ASP__CODE)
+		  {
+		  if  (($1 & 0xffff0000) != 0x00000000)
+		    lcl_error (5, NULL, $1);
+		  }
+
+		$$ = $1 & 0x0000ffff;
+		}*/
+	;
+
+word_immediate_list
+	: immediate
+	  ...word_immediate..
+		{ printf("word_immediate_list\n") ; } /*{
+		struct utchn *pt_chn;
+
+		pt_chn = utl_revutchn ($2                             );
+
+		pt_chn = utl_addutchn (pt_chn, ($1 >> 24) & 0x000000ff);
+		pt_chn = utl_addutchn (pt_chn, ($1 >> 16) & 0x000000ff);
+		pt_chn = utl_addutchn (pt_chn, ($1 >>  8) & 0x000000ff);
+		pt_chn = utl_addutchn (pt_chn, ($1      ) & 0x000000ff);
+		$$     =               pt_chn;
+		}*/
+	;
+
+...word_immediate..
+	: //empty
+		{ printf("...word_immediate.. empty\n") ; } /*{ $$ = NULL; }*/
+	| ...word_immediate..
+	  Comma
+	  immediate
+		{ printf("...word_immediate..\n") ; } /*{
+		struct utchn *pt_chn;
+
+		pt_chn = utl_addutchn ($1    , ($3      ) & 0x000000ff);
+		pt_chn = utl_addutchn (pt_chn, ($3 >>  8) & 0x000000ff);
+		pt_chn = utl_addutchn (pt_chn, ($3 >> 16) & 0x000000ff);
+		pt_chn = utl_addutchn (pt_chn, ($3 >> 24) & 0x000000ff);
+		$$     =               pt_chn;
+		}*/
+	;
+
+%%
