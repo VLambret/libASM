@@ -1,0 +1,87 @@
+
+# Main directories
+
+BIN=bin
+OBJ=obj
+INCLUDE=include
+SRC=src
+
+# Sources directories
+
+UTL=utl
+ASM=asm
+BASE=base
+PARSE=parsing
+
+SRC_BASE=$(SRC)/$(BASE)
+SRC_PARSE=$(SRC)/$(PARSE)
+SRC_UTL=$(SRC_PARSE)/$(UTL)
+SRC_ASM=$(SRC_PARSE)/$(ASM)
+
+# Commands and Options
+
+UTL_H=utl200.h
+ASM_H=asm200.h
+
+CC=gcc
+CPP=g++
+YACC=yacc
+
+CFLAGS=	-Wall \
+		-I$(INCLUDE) \
+		-DUTL_H='<$(UTL_H)>' \
+		-DASM_H='<$(ASM_H)>'
+
+# Object et source files lists
+
+LOCAL_OBJECTS   = asm_mipslex.o                \
+                  asm_mipsyac.o                \
+                  asm_ReadMipsAsmFiles.o       \
+
+UTL_CFILES		= $(foreach d,$(SRC_UTL),$(wildcard $(d)/*.c))
+UTL_OBJECTS		= $(addprefix $(OBJ)/$(UTL)/,$(notdir $(UTL_CFILES:%.c=%.o)))
+
+ASM_CFILES		= $(foreach d,$(SRC_ASM),$(wildcard $(d)/*.c))
+ASM_OBJECTS		= $(addprefix $(OBJ)/$(ASM)/,$(notdir $(ASM_CFILES:%.c=%.o)))
+
+BASE_CFILES		= $(foreach d,$(SRC_BASE),$(wildcard $(d)/*.cpp))
+BASE_OBJECTS	= $(addprefix $(OBJ)/$(BASE)/,$(notdir $(BASE_CFILES:%.cpp=%.o)))
+
+PARSE_CFILES	= asm_mipsyac.c asm_mipslex.c
+PARSE_OBJECTS	= $(addprefix $(OBJ)/$(PARSE)/,$(notdir $(PARSE_CFILES:%.c=%.o)))
+
+# Rules to make the world 
+
+.PHONY : all lib clean
+
+all: lib
+
+lib : $(UTL_OBJECTS) $(ASM_OBJECTS) $(BASE_OBJECTS) $(PARSE_OBJECTS)
+	$(CPP) $(CFLAGS) -o $@ $^
+
+$(OBJ)/$(BASE)/%.o : $(SRC_BASE)/%.cpp
+	$(CPP) $(CFLAGS) -c -o $@ $<
+
+## All this stuff is useful for parsing asm mips source, it comes from an existing project
+
+$(OBJ)/$(UTL)/%.o : $(SRC_UTL)/%.c
+	$(CC) $(CFLAGS) -c -o $@ $<
+
+$(OBJ)/$(ASM)/%.o : $(SRC_ASM)/%.c
+	$(CC) $(CFLAGS) -c -o $@ $<
+
+$(OBJ)/$(PARSE)/%.o : $(SRC_PARSE)/%.c
+	$(CC) $(CFLAGS) -c -o $@ $<
+
+$(SRC_PARSE)/asm_mipsyac.c $(INCLUDE)/asm_mipsyac.h : $(SRC_PARSE)/asm_mips.yac
+	cd $(SRC_PARSE) && $(YACC) -d -p asm_mips asm_mips.yac
+	mv $(SRC_PARSE)/y.tab.c $(SRC_PARSE)/asm_mipsyac.c
+	mv $(SRC_PARSE)/y.tab.h $(INCLUDE)/asm_mipsyac.h
+
+$(SRC_PARSE)/asm_mipslex.c : $(INCLUDE)/asm_mipsyac.h $(SRC_PARSE)/asm_mips.lex
+	$(LEX) -Pasm_mips $(SRC_PARSE)/asm_mips.lex > $(SRC_PARSE)/asm_mipslex.c
+
+clean :
+	rm -f $(OBJ)/*.o $(OBJ)/$(ASM)/*.o $(OBJ)/$(UTL)/*.o $(BIN)/*
+	rm -f $(SRC_PARSE)/asm_mipsyac.c $(INCLUDE)/asm_mipsyac.h $(SRC_PARSE)/asm_mipslex.c
+
