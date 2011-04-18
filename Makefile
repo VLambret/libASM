@@ -1,3 +1,20 @@
+# GIT stuff
+
+.PHONY : git-commit git-push git-pull
+
+UPSTREAM="git://github.com/VLambret/libASM.git"
+
+git-commit :
+	git commit -a
+
+# Get changes on upstream
+git-pull : 
+	git pull
+
+# Push changes to upstream
+git-push : clean
+	git add *
+	git push $(UPSTREAM) master
 
 # Main directories
 
