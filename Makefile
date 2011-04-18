@@ -2,7 +2,8 @@
 
 .PHONY : git-commit git-push git-pull
 
-UPSTREAM="git://github.com/VLambret/libASM.git"
+HOST="github.com"
+PROJECT="VLambret/libASM.git"
 
 git-commit :
 	git commit -a
@@ -14,7 +15,7 @@ git-pull :
 # Push changes to upstream
 git-push : clean
 	git add *
-	git push $(UPSTREAM) master
+	git push git@$(HOST):$(PROJECT) master
 
 # Main directories
 
