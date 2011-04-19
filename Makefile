@@ -56,20 +56,22 @@ PARSE_OBJECTS	= $(addprefix $(OBJ)/$(PARSE)/,$(notdir $(PARSE_CFILES:%.c=%.o)))
 all: lib
 
 lib : $(UTL_OBJECTS) $(ASM_OBJECTS) $(BASE_OBJECTS) $(PARSE_OBJECTS)
-	$(CPP) $(CFLAGS) -o $@ $^
 
-$(OBJ)/$(BASE)/%.o : $(SRC_BASE)/%.cpp
+
+#		$(CPP) $(CFLAGS) -o $(BIN)/$@ $^
+
+$(OBJ)/$(BASE)/%.o : $(SRC_BASE)/%.cpp $(OBJ)/$(BASE)
 	$(CPP) $(CFLAGS) -c -o $@ $<
 
 ## All this stuff is useful for parsing asm mips source, it comes from an existing project
 
-$(OBJ)/$(UTL)/%.o : $(SRC_UTL)/%.c
+$(OBJ)/$(UTL)/%.o : $(SRC_UTL)/%.c $(OBJ)/$(UTL)
 	$(CC) $(CFLAGS) -c -o $@ $<
 
-$(OBJ)/$(ASM)/%.o : $(SRC_ASM)/%.c
+$(OBJ)/$(ASM)/%.o : $(SRC_ASM)/%.c $(OBJ)/$(ASM)
 	$(CC) $(CFLAGS) -c -o $@ $<
 
-$(OBJ)/$(PARSE)/%.o : $(SRC_PARSE)/%.c
+$(OBJ)/$(PARSE)/%.o : $(SRC_PARSE)/%.c $(OBJ)/$(PARSE)
 	$(CC) $(CFLAGS) -c -o $@ $<
 
 $(SRC_PARSE)/asm_mipsyac.c $(INCLUDE)/asm_mipsyac.h : $(SRC_PARSE)/asm_mips.yac
@@ -81,10 +83,15 @@ $(SRC_PARSE)/asm_mipslex.c : $(INCLUDE)/asm_mipsyac.h $(SRC_PARSE)/asm_mips.lex
 	$(LEX) -Pasm_mips $(SRC_PARSE)/asm_mips.lex > $(SRC_PARSE)/asm_mipslex.c
 
 clean :
+	rm -rf $(OBJ) $(BIN)
 	rm -f $(OBJ)/*.o $(OBJ)/$(ASM)/*.o $(OBJ)/$(UTL)/*.o $(BIN)/* $(OBJ)/$(PARSE)/*.o $(OBJ)/$(BASE)/*.o 
 	rm -f $(SRC_PARSE)/asm_mipsyac.c $(INCLUDE)/asm_mipsyac.h $(SRC_PARSE)/asm_mipslex.c
 	rm -f lex.asm_mips.c
 
+# Directories : git cant deal with empty directories, so we have to create them just in time
+
+$(BIN) $(OBJ) $(OBJ)/$(UTL) $(OBJ)/$(ASM) $(OBJ)/$(PARSE) $(OBJ)/$(BASE):
+	mkdir -p $@
 
 # GIT stuff
 
