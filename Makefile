@@ -1,22 +1,3 @@
-# GIT stuff
-
-.PHONY : git-commit git-push git-pull
-
-HOST="github.com"
-PROJECT="VLambret/libASM.git"
-
-git-commit :
-	git commit -a
-
-# Get changes on upstream
-git-pull : 
-	git pull
-
-# Push changes to upstream
-git-push : clean
-	git add *
-	git push git@$(HOST):$(PROJECT) master
-
 # Main directories
 
 BIN=bin
@@ -100,6 +81,27 @@ $(SRC_PARSE)/asm_mipslex.c : $(INCLUDE)/asm_mipsyac.h $(SRC_PARSE)/asm_mips.lex
 	$(LEX) -Pasm_mips $(SRC_PARSE)/asm_mips.lex > $(SRC_PARSE)/asm_mipslex.c
 
 clean :
-	rm -f $(OBJ)/*.o $(OBJ)/$(ASM)/*.o $(OBJ)/$(UTL)/*.o $(BIN)/*
+	rm -f $(OBJ)/*.o $(OBJ)/$(ASM)/*.o $(OBJ)/$(UTL)/*.o $(BIN)/* $(OBJ)/$(PARSE)/*.o $(OBJ)/$(BASE)/*.o 
 	rm -f $(SRC_PARSE)/asm_mipsyac.c $(INCLUDE)/asm_mipsyac.h $(SRC_PARSE)/asm_mipslex.c
+	rm -f lex.asm_mips.c
+
+
+# GIT stuff
+
+.PHONY : git-commit git-push git-pull
+
+HOST="github.com"
+PROJECT="VLambret/libASM.git"
+
+git-commit :
+	git commit -a
+
+# Get changes on upstream
+git-pull : 
+	git pull
+
+# Push changes to upstream
+git-push : clean
+	git add *
+	git push git@$(HOST):$(PROJECT) master
 
