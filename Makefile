@@ -111,6 +111,7 @@ HOST="github.com"
 PROJECT="VLambret/libASM.git"
 
 git-commit :
+	git add *
 	git commit -a
 
 # Get changes on upstream
