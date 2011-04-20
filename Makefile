@@ -69,26 +69,32 @@ lib : $(LIB)
 
 # Build all mains
 
-$(BIN)/$(C)/% : $(SRC)/$(MAIN)/%.c $(BIN)/$(C)/ $(LIB)
-	$(CPP) $(CFLAGS) -o $@ $< $(LIB) 
+$(BIN)/$(C)/% : $(SRC)/$(MAIN)/%.c $(LIB)
+	@mkdir -p $(BIN)/$(C)/
+	$(CPP) $(CFLAGS) -o $@ $^ 
 
-$(BIN)/$(CP)/% : $(SRC)/$(MAIN)/%.cpp $(BIN)/$(CP)/ $(LIB)
-	$(CPP) $(CFLAGS) -o $@ $< $(LIB)
+$(BIN)/$(CP)/% : $(SRC)/$(MAIN)/%.cpp $(LIB)
+	@mkdir -p $(BIN)/$(CP)/ 
+	$(CPP) $(CFLAGS) -o $@ $^
 
 #	$(CPP) $(CFLAGS) -o $(BIN)/$@ $^
 
-$(OBJ)/$(BASE)/%.o : $(SRC_BASE)/%.cpp $(OBJ)/$(BASE)
+$(OBJ)/$(BASE)/%.o : $(SRC_BASE)/%.cpp
+	@mkdir -p  $(OBJ)/$(BASE)
 	$(CPP) $(CFLAGS) -c -o $@ $<
 
 ## All this stuff is useful for parsing asm mips source, it comes from an existing project
 
-$(OBJ)/$(UTL)/%.o : $(SRC_UTL)/%.c $(OBJ)/$(UTL)
+$(OBJ)/$(UTL)/%.o : $(SRC_UTL)/%.c 
+	@mkdir -p $(OBJ)/$(UTL)
 	$(CC) $(CFLAGS) -c -o $@ $<
 
-$(OBJ)/$(ASM)/%.o : $(SRC_ASM)/%.c $(OBJ)/$(ASM)
+$(OBJ)/$(ASM)/%.o : $(SRC_ASM)/%.c
+	@mkdir -p  $(OBJ)/$(ASM)
 	$(CC) $(CFLAGS) -c -o $@ $<
 
-$(OBJ)/$(PARSE)/%.o : $(SRC_PARSE)/%.c $(OBJ)/$(PARSE)
+$(OBJ)/$(PARSE)/%.o : $(SRC_PARSE)/%.c
+	@mkdir -p $(OBJ)/$(PARSE)
 	$(CC) $(CFLAGS) -c -o $@ $<
 
 $(SRC_PARSE)/asm_mipsyac.c $(INCLUDE)/asm_mipsyac.h : $(SRC_PARSE)/asm_mips.yac
@@ -106,9 +112,9 @@ clean :
 	rm -f lex.asm_mips.c
 
 # Directories : git cant deal with empty directories, so we have to create them just in time
-
-$(BIN) $(BIN)/$(C) $(BIN)/$(CP) $(OBJ) $(OBJ)/$(UTL) $(OBJ)/$(ASM) $(OBJ)/$(PARSE) $(OBJ)/$(BASE):
-	mkdir -p $@
+# Should work without this fix
+#$(BIN) $(BIN)/$(C) $(BIN)/$(CP) $(OBJ) $(OBJ)/$(UTL) $(OBJ)/$(ASM) $(OBJ)/$(PARSE) $(OBJ)/$(BASE):
+#	@mkdir -p $@
 
 # GIT stuff
 
