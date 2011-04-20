@@ -137,11 +137,11 @@ unsigned int ins_wrd;
   return (flag);
   }
 
-int main() {
+/*int main() {
 	ASM_LINENO = 0 ;
   	yyparse ();
 	return 0 ;
-}
+}*/
 
 // ###--------------------------------------------------------------### 
 // function	: asm_ldmipsasm						

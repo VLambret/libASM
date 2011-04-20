@@ -11,6 +11,7 @@ UTL=utl
 ASM=asm
 BASE=base
 PARSE=parsing
+MAIN=mains
 
 SRC_BASE=$(SRC)/$(BASE)
 SRC_PARSE=$(SRC)/$(PARSE)
@@ -37,6 +38,11 @@ LOCAL_OBJECTS   = asm_mipslex.o                \
                   asm_mipsyac.o                \
                   asm_ReadMipsAsmFiles.o       \
 
+MAIN_CFILES		= $(foreach d,$(SRC)/$(MAIN)/,$(wildcard $(d)/*.c))
+MAIN_CPPFILES	= $(foreach d,$(SRC)/$(MAIN)/,$(wildcard $(d)/*.cpp))
+MAIN_CBIN		= $(addprefix $(BIN)/,$(notdir $(MAIN_CFILES:%.c=%)))
+MAIN_CPPBIN		= $(addprefix $(BIN)/,$(notdir $(MAIN_CPPFILES:%.cpp=%)))
+
 UTL_CFILES		= $(foreach d,$(SRC_UTL),$(wildcard $(d)/*.c))
 UTL_OBJECTS		= $(addprefix $(OBJ)/$(UTL)/,$(notdir $(UTL_CFILES:%.c=%.o)))
 
@@ -53,12 +59,16 @@ PARSE_OBJECTS	= $(addprefix $(OBJ)/$(PARSE)/,$(notdir $(PARSE_CFILES:%.c=%.o)))
 
 .PHONY : all lib clean
 
-all: lib
+all: $(MAIN_CBIN) $(MAIN_CPPBIN)
 
-lib : $(UTL_OBJECTS) $(ASM_OBJECTS) $(BASE_OBJECTS) $(PARSE_OBJECTS)
+LIB=$(UTL_OBJECTS) $(ASM_OBJECTS) $(BASE_OBJECTS) $(PARSE_OBJECTS)
 
+# Build all mains
 
-#		$(CPP) $(CFLAGS) -o $(BIN)/$@ $^
+$(BIN)/% : $(SRC)/$(MAIN)/%.c $(BIN) $(LIB)
+	$(CPP) $(CFLAGS) -o $@ $< $(LIB) 
+
+#	$(CPP) $(CFLAGS) -o $(BIN)/$@ $^
 
 $(OBJ)/$(BASE)/%.o : $(SRC_BASE)/%.cpp $(OBJ)/$(BASE)
 	$(CPP) $(CFLAGS) -c -o $@ $<
