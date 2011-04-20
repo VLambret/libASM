@@ -10,8 +10,10 @@
 %{
 #include <stdlib.h>
 #include <stdio.h>
-#include <utl200.h>
-#include <asm200.h>
+#include "utl200.h"
+#include "asm200.h"
+//#include UTL_H
+//#include ASM_H
 
 #undef  yylex
 #define yylex         asm_mipslex
@@ -22,23 +24,46 @@ extern int            yylex     ();
 extern void           yyrestart ();
 extern int            yyparse   ();
 extern FILE          *yyin        ;
+/*
+static int            PAS_NBR     = ASM_ASP__SIZEOF   ;	// pass number	
+static char          *FIL_NAM     = NULL              ;	// file name	
 
+static char          *PRG_NAM     = NULL              ;	// prg name	
+
+static struct asfig  *PT_FIG      = NULL              ;
+static struct asobj  *PT_OBJ      = NULL              ;
+
+static struct utdic  *GLB_DIC     = NULL              ;	// global dict	
+static struct uttyp  *GLB_SYM     = NULL              ;	// global symb	
+
+static unsigned int   MCR_WRDS [8]                    ;	// macro words	
+static int            MCR_WNBR    = 0                 ;	// macro word #	
+static unsigned int   SET_FLAGS   = 0                 ;	// set direc	
+
+static struct uttyp  *SEC_SYM     = NULL              ;	// current symb	
+static unsigned int   CUR_ADR     = 0                 ;	// current adr	
+static unsigned int   CUR_SIZ     = 0                 ;	// current size	
+static struct asiss  *PT_ISS      = NULL              ;	// current a-sz	
+
+static struct uttyp  *MEM_TAB     = NULL              ;	// memory table	
+*/
 // ###--------------------------------------------------------------### 
 // function	: yyerror						
 // description	: print yacc error messages				
 // called func.	: none							
 // ###--------------------------------------------------------------### 
 
-//
+//*
 
 static unsigned int   ERR_FLG     = 0                 ;	// error flag	
 
-static void yyerror (char * str)
+static void yyerror (str)
+
+char *str;
 {
 	printf("yyerror ligne=%d, flag=%d\n, str=%s",ASM_LINENO,ERR_FLG,str) ;
 	ERR_FLG     = 0                 ;	// error flag	
 }
-
 /*
   {
   ERR_FLG += asm_error (16, FIL_NAM, ASM_LINENO, str, 0);
@@ -72,7 +97,7 @@ int           nbr ;
 // function	: lcl_isbch						
 // description	: return non zero value if an instruction is a branch	
 // ###--------------------------------------------------------------### 
-/*
+
 static unsigned int lcl_isbch (ins_wrd)
 
 unsigned int ins_wrd;
@@ -91,12 +116,12 @@ unsigned int ins_wrd;
 
   return (flag);
   }
-*/
+
 // ###--------------------------------------------------------------### 
 // function	: lcl_isjmp						
 // description	: return non zero value if an instruction is a jump	
 // ###--------------------------------------------------------------### 
-/*
+
 static unsigned int lcl_isjmp (ins_wrd)
 
 unsigned int ins_wrd;
@@ -111,11 +136,6 @@ unsigned int ins_wrd;
 
   return (flag);
   }
-*/
-void libasm_parse() {
-	printf("libasm_parse() called\n") ;
-	printf("libasm_parse() exiting\n") ;
-}
 
 /*int main() {
 	ASM_LINENO = 0 ;
@@ -131,7 +151,7 @@ void libasm_parse() {
 //		  of error						
 // called func.	: yyparse						
 // ###--------------------------------------------------------------### 
-/*
+
 struct asfig *asm_ldmipsasm (fp, fil_name, pt_fig, pas_nbr)
 
 FILE          *fp      ;
@@ -143,7 +163,7 @@ unsigned int   pas_nbr ;
 	// ###------------------------------------------------------### 
 	//    initialize global and static variables			
 	// ###------------------------------------------------------### 
-
+/*
   PT_FIG        = pt_fig          ;
   PT_FIG->FLAG |= ASM_FIG__ERROR  ;
 
@@ -167,7 +187,7 @@ unsigned int   pas_nbr ;
   MEM_TAB       = pt_fig->MEM_TAB ;
   PT_OBJ        = asm_GetObject   (pt_fig, fil_name);
 */
-/*  yyin          = fp              ;
+  yyin          = fp              ;
 
   yyrestart (yyin);
 
@@ -180,7 +200,6 @@ unsigned int   pas_nbr ;
 	// ###------------------------------------------------------### 
 	//   release the dictionary					
 	// ###------------------------------------------------------### 
-*/
 /*
   if (ERR_FLG == 0)
     {
@@ -193,10 +212,10 @@ unsigned int   pas_nbr ;
     }
 
   return (pt_fig);
-
+*/
 	return NULL ;
   }
-*/
+
 %}
 
 %union

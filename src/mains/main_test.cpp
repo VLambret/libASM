@@ -5,7 +5,7 @@
 #include "OPImmediate.h"
 
 int main(){
-
+/*
 	OPLabel label("Loop");
 	OPRegister registr("$5",5);
 	OPImmediate imm("10");
@@ -35,4 +35,7 @@ int main(){
 	imm.setOp("12");
 	cout<<imm.getOp()<<endl;
 	cout<<imm.toString()<<endl;
+
+*/
+
 }

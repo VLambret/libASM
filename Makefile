@@ -95,24 +95,20 @@ $(OBJ)/$(ASM)/%.o : $(SRC_ASM)/%.c
 
 $(OBJ)/$(PARSE)/%.o : $(SRC_PARSE)/%.c
 	@mkdir -p $(OBJ)/$(PARSE)
-	$(CPP) $(CFLAGS) -c -o $@ $<
+	$(CC) $(CFLAGS) -c -o $@ $<
 
-$(OBJ)/$(PARSE)/asm_mipsyac.o : $(SRC_PARSE)/asm_mipsyac.cpp
-	@mkdir -p $(OBJ)/$(PARSE)
-	$(CPP) $(CFLAGS) -c -o $@ $<
-
-$(SRC_PARSE)/asm_mipsyac.cpp $(INCLUDE)/asm_mipsyac.h : $(SRC_PARSE)/asm_mips.yac $(SRC_PARSE)/asm_mips.lex
+$(SRC_PARSE)/asm_mipsyac.c $(INCLUDE)/asm_mipsyac.h : $(SRC_PARSE)/asm_mips.yac
 	cd $(SRC_PARSE) && $(YACC) -d -p asm_mips asm_mips.yac
-	mv $(SRC_PARSE)/y.tab.c $@
+	mv $(SRC_PARSE)/y.tab.c $(SRC_PARSE)/asm_mipsyac.c
 	mv $(SRC_PARSE)/y.tab.h $(INCLUDE)/asm_mipsyac.h
 
 $(SRC_PARSE)/asm_mipslex.c : $(INCLUDE)/asm_mipsyac.h $(SRC_PARSE)/asm_mips.lex
-	$(LEX) -Pasm_mips $(SRC_PARSE)/asm_mips.lex > $@
+	$(LEX) -Pasm_mips -o $@ $(SRC_PARSE)/asm_mips.lex
 
 clean :
 	rm -rf $(OBJ) $(BIN)
 	rm -f $(OBJ)/*.o $(OBJ)/$(ASM)/*.o $(OBJ)/$(UTL)/*.o $(BIN)/* $(OBJ)/$(PARSE)/*.o $(OBJ)/$(BASE)/*.o 
-	rm -f $(SRC_PARSE)/asm_mipsyac.c* $(INCLUDE)/asm_mipsyac.h $(SRC_PARSE)/asm_mipslex.c
+	rm -f $(SRC_PARSE)/asm_mipsyac.c $(INCLUDE)/asm_mipsyac.h $(SRC_PARSE)/asm_mipslex.c
 	rm -f lex.asm_mips.c
 
 # Directories : git cant deal with empty directories, so we have to create them just in time
@@ -127,7 +123,7 @@ clean :
 HOST="github.com"
 PROJECT="VLambret/libASM.git"
 
-git-commit : clean
+git-commit :
 	git add *
 	git commit -a
 
