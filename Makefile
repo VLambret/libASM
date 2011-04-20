@@ -4,6 +4,8 @@ BIN=bin
 OBJ=obj
 INCLUDE=include
 SRC=src
+C=c
+CP=cpp
 
 # Sources directories
 
@@ -40,8 +42,8 @@ LOCAL_OBJECTS   = asm_mipslex.o                \
 
 MAIN_CFILES		= $(foreach d,$(SRC)/$(MAIN)/,$(wildcard $(d)/*.c))
 MAIN_CPPFILES	= $(foreach d,$(SRC)/$(MAIN)/,$(wildcard $(d)/*.cpp))
-MAIN_CBIN		= $(addprefix $(BIN)/,$(notdir $(MAIN_CFILES:%.c=%)))
-MAIN_CPPBIN		= $(addprefix $(BIN)/,$(notdir $(MAIN_CPPFILES:%.cpp=%)))
+MAIN_CBIN		= $(addprefix $(BIN)/$(C)/,$(notdir $(MAIN_CFILES:%.c=%)))
+MAIN_CPPBIN		= $(addprefix $(BIN)/$(CP)/,$(notdir $(MAIN_CPPFILES:%.cpp=%)))
 
 UTL_CFILES		= $(foreach d,$(SRC_UTL),$(wildcard $(d)/*.c))
 UTL_OBJECTS		= $(addprefix $(OBJ)/$(UTL)/,$(notdir $(UTL_CFILES:%.c=%.o)))
@@ -63,10 +65,15 @@ all: $(MAIN_CBIN) $(MAIN_CPPBIN)
 
 LIB=$(UTL_OBJECTS) $(ASM_OBJECTS) $(BASE_OBJECTS) $(PARSE_OBJECTS)
 
+lib : $(LIB)
+
 # Build all mains
 
-$(BIN)/% : $(SRC)/$(MAIN)/%.c $(BIN) $(LIB)
+$(BIN)/$(C)/% : $(SRC)/$(MAIN)/%.c $(BIN)/$(C)/ $(LIB)
 	$(CPP) $(CFLAGS) -o $@ $< $(LIB) 
+
+$(BIN)/$(CP)/% : $(SRC)/$(MAIN)/%.cpp $(BIN)/$(CP)/ $(LIB)
+	$(CPP) $(CFLAGS) -o $@ $< $(LIB)
 
 #	$(CPP) $(CFLAGS) -o $(BIN)/$@ $^
 
@@ -90,7 +97,7 @@ $(SRC_PARSE)/asm_mipsyac.c $(INCLUDE)/asm_mipsyac.h : $(SRC_PARSE)/asm_mips.yac
 	mv $(SRC_PARSE)/y.tab.h $(INCLUDE)/asm_mipsyac.h
 
 $(SRC_PARSE)/asm_mipslex.c : $(INCLUDE)/asm_mipsyac.h $(SRC_PARSE)/asm_mips.lex
-	$(LEX) -Pasm_mips $(SRC_PARSE)/asm_mips.lex > $(SRC_PARSE)/asm_mipslex.c
+	$(LEX) -Pasm_mips $(SRC_PARSE)/asm_mips.lex > $@
 
 clean :
 	rm -rf $(OBJ) $(BIN)
@@ -100,7 +107,7 @@ clean :
 
 # Directories : git cant deal with empty directories, so we have to create them just in time
 
-$(BIN) $(OBJ) $(OBJ)/$(UTL) $(OBJ)/$(ASM) $(OBJ)/$(PARSE) $(OBJ)/$(BASE):
+$(BIN) $(BIN)/$(C) $(BIN)/$(CP) $(OBJ) $(OBJ)/$(UTL) $(OBJ)/$(ASM) $(OBJ)/$(PARSE) $(OBJ)/$(BASE):
 	mkdir -p $@
 
 # GIT stuff
