@@ -10,11 +10,11 @@
 %{
 #include <stdlib.h>
 #include <stdio.h>
-#include "utl200.h"
-#include "asm200.h"
+#include <utl200.h>
+#include <asm200.h>
 //#include UTL_H
 //#include ASM_H
-#include "asm_mipsyac.h"
+#include <asm_mipsyac.h>
 
 static int          search_token ();
 static unsigned int search_valu  ();
@@ -25,8 +25,11 @@ static unsigned int search_valu  ();
 
 #define YY_NO_UNPUT
 
-#define YY_DECL int asm_mipslex (lval_pnt) YYSTYPE *lval_pnt;
-#define yylval  (*lval_pnt)
+//#define YY_DECL int asm_mipslex (lval_pnt) YYSTYPE *lval_pnt;
+#define YY_DECL int asm_mipslex (void);
+//#define yylval  (*lval_pnt)
+#define yylval  ()
+
 
 %}
 
