@@ -57,9 +57,7 @@ static struct uttyp  *MEM_TAB     = NULL              ;	// memory table
 
 static unsigned int   ERR_FLG     = 0                 ;	// error flag	
 
-static void yyerror (str)
-
-char *str;
+static void yyerror (char * str)
 {
 	printf("yyerror ligne=%d, flag=%d\n, str=%s",ASM_LINENO,ERR_FLG,str) ;
 	ERR_FLG     = 0                 ;	// error flag	
@@ -97,12 +95,9 @@ int           nbr ;
 // function	: lcl_isbch						
 // description	: return non zero value if an instruction is a branch	
 // ###--------------------------------------------------------------### 
-
-static unsigned int lcl_isbch (ins_wrd)
-
-unsigned int ins_wrd;
-
-  {
+/*
+static unsigned int lcl_isbch (unsigned int ins_wrd)
+{
   unsigned int flag = 0;
 
   if ((ins_wrd & ASM_MPS__I_MSK ) == ASM_MPS__BEQ   ) flag = 1 ;
@@ -116,17 +111,14 @@ unsigned int ins_wrd;
 
   return (flag);
   }
-
+*/
 // ###--------------------------------------------------------------### 
 // function	: lcl_isjmp						
 // description	: return non zero value if an instruction is a jump	
 // ###--------------------------------------------------------------### 
-
-static unsigned int lcl_isjmp (ins_wrd)
-
-unsigned int ins_wrd;
-
-  {
+/*
+static unsigned int lcl_isjmp (unsigned int ins_wrd)
+{
   unsigned int flag = 0;
 
   if ((ins_wrd & ASM_MPS__J_MSK ) == ASM_MPS__J     ) flag = 1;
@@ -136,7 +128,7 @@ unsigned int ins_wrd;
 
   return (flag);
   }
-
+*/
 /*int main() {
 	ASM_LINENO = 0 ;
   	yyparse ();
@@ -151,19 +143,13 @@ unsigned int ins_wrd;
 //		  of error						
 // called func.	: yyparse						
 // ###--------------------------------------------------------------### 
-
-struct asfig *asm_ldmipsasm (fp, fil_name, pt_fig, pas_nbr)
-
-FILE          *fp      ;
-char          *fil_name;
-struct asfig  *pt_fig  ;
-unsigned int   pas_nbr ;
-
-  {
+/*
+struct asfig *asm_ldmipsasm (FILE *fp, char *fil_name, struct asfig *pt_fig, unsigned int pas_nbr)
+{
 	// ###------------------------------------------------------### 
 	//    initialize global and static variables			
 	// ###------------------------------------------------------### 
-/*
+
   PT_FIG        = pt_fig          ;
   PT_FIG->FLAG |= ASM_FIG__ERROR  ;
 
@@ -186,7 +172,7 @@ unsigned int   pas_nbr ;
   GLB_SYM       = pt_fig->GLB_SYM ;
   MEM_TAB       = pt_fig->MEM_TAB ;
   PT_OBJ        = asm_GetObject   (pt_fig, fil_name);
-*/
+
   yyin          = fp              ;
 
   yyrestart (yyin);
@@ -200,7 +186,7 @@ unsigned int   pas_nbr ;
 	// ###------------------------------------------------------### 
 	//   release the dictionary					
 	// ###------------------------------------------------------### 
-/*
+
   if (ERR_FLG == 0)
     {
     if (PT_ISS != NULL)
@@ -212,10 +198,10 @@ unsigned int   pas_nbr ;
     }
 
   return (pt_fig);
-*/
+
 	return NULL ;
   }
-
+*/
 %}
 
 %union

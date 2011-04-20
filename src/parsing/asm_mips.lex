@@ -25,9 +25,12 @@ static unsigned int search_valu  ();
 
 #define YY_NO_UNPUT
 
-#define YY_DECL int asm_mipslex (lval_pnt) YYSTYPE *lval_pnt;
-#define yylval  (*lval_pnt)
+// Try to fixes arguments asm_mipslex problem
+//#define YY_DECL int asm_mipslex (lval_pnt) YYSTYPE *lval_pnt;
+//#define yylval  (*lval_pnt)
 
+#define YY_DECL int asm_mipslex ();
+//#define yylval  ()
 %}
 
 binary_digit      [0-1]
