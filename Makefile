@@ -28,7 +28,7 @@ ASM_H=asm200.h
 CC=gcc
 CPP=g++
 YACC=yacc
-YACC=bison
+#YACC=bison
 
 CFLAGS=	-Wall \
 		-I$(INCLUDE) \
@@ -113,7 +113,7 @@ $(SRC_PARSE)/asm_mipslex.c : $(INCLUDE)/asm_mipsyac.h $(SRC_PARSE)/asm_mips.lex
 clean :
 	rm -rf $(OBJ) $(BIN)
 	rm -f $(OBJ)/*.o $(OBJ)/$(ASM)/*.o $(OBJ)/$(UTL)/*.o $(BIN)/* $(OBJ)/$(PARSE)/*.o $(OBJ)/$(BASE)/*.o 
-	rm -f $(SRC_PARSE)/asm_mipsyac.c* $(INCLUDE)/asm_mipsyac.h $(SRC_PARSE)/asm_mipslex.c
+	rm -f $(SRC_PARSE)/asm_mipsyac.c* $(INCLUDE)/asm_mipsyac.h $(SRC_PARSE)/asm_mipslex.c $(SRC_PARSE)/asm_mips.tab.*ac 
 	rm -f lex.asm_mips.c
 
 # Directories : git cant deal with empty directories, so we have to create them just in time

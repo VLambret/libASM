@@ -23,13 +23,17 @@ static unsigned int search_valu  ();
 #undef YY_DECL
 #endif
 
-#define YY_NO_UNPUT
+
+#define YY_DECL int asm_mipslex (YYSTYPE *lval_pnt)
+#define yylval (*lval_pnt)
+
+//#define YY_NO_INPUT
 
 // Try to fixes arguments asm_mipslex problem
 //#define YY_DECL int asm_mipslex (lval_pnt) YYSTYPE *lval_pnt;
 //#define yylval  (*lval_pnt)
 
-#define YY_DECL int asm_mipslex ();
+//#define YY_DECL int asm_mipslex ();
 //#define yylval  ()
 %}
 

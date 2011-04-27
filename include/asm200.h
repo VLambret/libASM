@@ -334,12 +334,12 @@ extern unsigned int   ASM_STATUS     ;		/* status		*/
 
 extern unsigned int   ASM_SET_FLAGS  ;		/* set directive	*/
 
-//extern unsigned int   ASM_LINENO     ;
-unsigned int   ASM_LINENO     ;
+extern unsigned int   ASM_LINENO     ;
+//unsigned int   ASM_LINENO     ;
 extern unsigned int   ASM_MAXERR     ;
 
-//extern unsigned int   ASM_ARCHI      ;
-unsigned int   ASM_ARCHI      ;
+extern unsigned int   ASM_ARCHI      ;
+//unsigned int   ASM_ARCHI      ;
 
 extern struct asosc  *ASM_FREOSC     ;
 extern struct asisc  *ASM_FREISC     ;
