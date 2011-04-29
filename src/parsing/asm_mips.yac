@@ -8,6 +8,9 @@
 // ###--------------------------------------------------------------### 
 
 %{
+#include <iostream>
+#include <Program.h>
+#include <Label.h>
 #include <stdlib.h>
 #include <stdio.h>
 #include "utl200.h"
@@ -27,6 +30,17 @@ extern "C" {extern int            yylex     (YYSTYPE *);}
 extern void           yyrestart ();
 extern int            yyparse   ();
 extern FILE          *yyin        ;
+
+Program prog ;
+
+void programparse() {
+	std::cout << "Starting parsing" << std::endl;
+	prog.display() ;	
+	yyparse() ;
+	std::cout << "Parsing done" << std::endl;
+	prog.display() ;
+}
+
 /*
 static int            PAS_NBR     = ASM_ASP__SIZEOF   ;	// pass number	
 static char          *FIL_NAM     = NULL              ;	// file name	
@@ -63,6 +77,7 @@ static unsigned int   ERR_FLG     = 0                 ;	// error flag
 static void yyerror (char * str)
 {
 	printf("yyerror ERRTAG ligne=%d, flag=%d, str=%s",ASM_LINENO,ERR_FLG,str) ;
+	//std::cout << "this is a test" << std::endl ;
 	ERR_FLG     = 0                 ;	// error flag	
 }
 /*
@@ -329,6 +344,12 @@ adding_operator
 	| label
 	  Colon
 		{
+			Label lab($1) ;
+			//prog.addLine(&lab) ;
+			prog.addLine(new Label($1)) ;
+			//std::cout << "label TAGLABEL :" << lab.toString() << std::endl ;
+			std::cout << "label TAGLABEL :" << $1 << std::endl ;
+
 		/*
 		struct utdic *dic     = NULL;
 		struct uttyp *sym_lst = NULL;
@@ -374,7 +395,6 @@ adding_operator
 		    lcl_error (2, $1, 0);
 		  }
 		  */
-		  printf("label\n");
 		}
 	;
 
@@ -1086,6 +1106,9 @@ label
 
 labelable_directive
 	: memory_alloc_directive
+		{
+			std::cout << "memory_alloc_directive TAGDIR" << std::endl ;
+		}
 	;
 
 logic_operator
@@ -1218,7 +1241,7 @@ macro_rs_label
 	;
 
 memory_alloc_directive
-	: memory_word_alloc
+	: memory_word_alloc 
 	| memory_byte_alloc
 	| memory_ascii_alloc
 	| memory_asciiz_alloc
@@ -1494,7 +1517,8 @@ memory_skip_alloc
 memory_word_alloc
 	: _WORD_
 	  word_immediate_list
-		{ printf("memory_word_alloc\n") ; } /*{
+		{ printf("memory_word_alloc\n") ;}
+		/*{
 		unsigned int  chn_len;
 		struct utchn *pt_chn ;
 
