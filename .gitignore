@@ -1,0 +1,12 @@
+# Repositories
+
+bin
+obj
+tmp
+
+# Files
+
+src/parsing/asm_mipslex.c
+src/parsing/asm_mipsyac.c
+include/asm_mipsyac.h
+src/parsing/asm_mipsyac.cpp
