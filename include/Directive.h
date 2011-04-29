@@ -12,32 +12,40 @@
 using namespace std;
 
 /**	\class	Directive
-	\brief	Virtual class representing an Directive
+	\brief	class representing an Directive herited by Line
 */
 
-class Directive : Line{
+class Directive : public Line{
 
 
 public	:
+
+		/**	\brief	Constructor of the Directive
+*/	
+	Directive(string);
+
+		/**	\brief	Destructor of the Directive
+*/
+	virtual ~Directive();
+
 	 
 		/**	\brief	get the type of the line
 */
 	virtual t_Line typeLine();
 
-	/**	\brief	get the string Directive
+	/**	\brief	get the string name of the Directive
 */	
 	virtual string toString();
 
 	/**	\brief	get the string  of the Directive
-*/	
-
+*/
 	virtual string getContent();
 
 	/**	\brief	set the string of the Directive
 */	
-
 	virtual void setContent(string);
 
+	
 
 
 };

@@ -1,5 +1,12 @@
 #include "Label.h"
 
+Label::Label( string lab){
+	_line= lab;
+}
+
+Label::~Label(){
+}
+
 string Label::toString(){
 	return "Label";
 

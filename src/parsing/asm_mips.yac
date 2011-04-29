@@ -62,7 +62,7 @@ static unsigned int   ERR_FLG     = 0                 ;	// error flag
 
 static void yyerror (char * str)
 {
-	printf("yyerror ligne=%d, flag=%d\n, str=%s",ASM_LINENO,ERR_FLG,str) ;
+	printf("yyerror ERRTAG ligne=%d, flag=%d, str=%s",ASM_LINENO,ERR_FLG,str) ;
 	ERR_FLG     = 0                 ;	// error flag	
 }
 /*

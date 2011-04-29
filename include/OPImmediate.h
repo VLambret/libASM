@@ -14,7 +14,7 @@ using namespace std;
 
 
 /**	\class	OPImmediate
-	\brief	class representing an Immediate
+	\brief	class representing an Immediate herited by Operand
 */
 class OPImmediate: public Operand{
 
@@ -26,10 +26,10 @@ public	:
 
 /**	\brief	Destructor of the Immediate Class
 */
-	~OPImmediate();
+	virtual ~OPImmediate();
 
-/**	\brief	Get the operand value
-	accessor of the operand
+/**	\brief	Get the string of the operand 
+	\return return the string of the Immediate
 */
 	virtual string getOp();
 
@@ -40,11 +40,11 @@ public	:
 
 
 /**	\brief	tostring
-	\return	return the Object as string
+	\return	return the name of the Object as string
 */
 	virtual string toString();
 
-/**	\brief	set the operand value
+/**	\brief	set the string of the operand 
 	setter of the operand
 */
 	virtual void setOp( string);

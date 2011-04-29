@@ -12,7 +12,7 @@
 using namespace std;
 
 /**	\class	OPLabel
-	\brief	class representing a Label
+	\brief	class representing a Label herited by Operand
 */
 
 class OPLabel: public Operand{
@@ -25,9 +25,9 @@ public	:
 
 /**	\brief	Destructor of the Label Class
 */
-	~OPLabel();
+	virtual ~OPLabel();
 
-/**	\brief	Get the operand value
+/**	\brief	Get the string of the operand
 	accessor of the operand
 */
 	virtual string getOp();
@@ -39,7 +39,7 @@ public	:
 
 
 /**	\brief	tostring
-	\return	return the Object as string
+	\return	return the name of the Object as string
 */
 	virtual string toString();
 

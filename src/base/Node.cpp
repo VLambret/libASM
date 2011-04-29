@@ -6,7 +6,6 @@ Node::Node(Line * content){
 }
 
 Node::~Node(){
-	if(_next)	delete _next;	
 }
 
 Node* Node::getnext()

@@ -13,7 +13,7 @@
 using namespace std;
 
 /**	\class	OPRegister
-	\brief	class representing a Register
+	\brief	class representing a Register herited by Operand
 */
 
 class OPRegister: public Operand{
@@ -26,10 +26,18 @@ public	:
 /**	\brief	Constructor of the Register class
 */
 	OPRegister(string);
+
+/**	\brief	Constructor of the Register class
+*/
 	OPRegister(string, int);
 
+/**	\brief	Destructor of the Register class
+*/
+	virtual ~OPRegister();
+
+
 /**	\brief	Get the Register value
-	accessor of the Register
+	\return return the number of the Register
 */
 	int getReg();
 
@@ -39,7 +47,7 @@ public	:
 	void setReg( int);
 
 /**	\brief	Get the operand value
-	accessor of the operand
+	\return return the string of the register
 */
 	virtual string getOp();
 
@@ -58,10 +66,6 @@ public	:
 	setter of the operand
 */
 	virtual void setOp( string);
-
-/**	\brief	Destructor of the Register class
-*/
-	~OPRegister();
 
 
 };

@@ -4,6 +4,8 @@ BIN=bin
 OBJ=obj
 INCLUDE=include
 SRC=src
+TMP=tmp
+EX=examples
 C=c
 CP=cpp
 
@@ -26,6 +28,7 @@ UTL_H=utl200.h
 ASM_H=asm200.h
 
 CC=gcc
+CCMIPS=mips-gcc
 CPP=g++
 YACC=yacc
 #YACC=bison
@@ -58,6 +61,9 @@ BASE_OBJECTS	= $(addprefix $(OBJ)/$(BASE)/,$(notdir $(BASE_CFILES:%.cpp=%.o)))
 PARSE_CFILES	= asm_mipsyac.c asm_mipslex.c
 PARSE_OBJECTS	= $(addprefix $(OBJ)/$(PARSE)/,$(notdir $(PARSE_CFILES:%.c=%.o)))
 
+EX_CFILES		= $(foreach d,$(SRC)/$(EX)/,$(wildcard $(d)/*.c))
+EX_SFILES		= $(addprefix $(TMP)/$(EX)/,$(notdir $(EX_CFILES:%.c=%.s)))
+
 # Rules to make the world 
 
 .PHONY : all lib clean
@@ -72,10 +78,12 @@ lib : $(LIB)
 
 $(BIN)/$(C)/% : $(SRC)/$(MAIN)/%.c $(LIB)
 	@mkdir -p $(BIN)/$(C)/
+	@mkdir -p $(TMP)
 	$(CPP) $(CFLAGS) -o $@ $^ 
 
 $(BIN)/$(CP)/% : $(SRC)/$(MAIN)/%.cpp $(LIB)
-	@mkdir -p $(BIN)/$(CP)/ 
+	@mkdir -p $(BIN)/$(CP)/
+	@mkdir -p $(TMP)
 	$(CPP) $(CFLAGS) -o $@ $^
 
 #	$(CPP) $(CFLAGS) -o $(BIN)/$@ $^
@@ -110,8 +118,20 @@ $(SRC_PARSE)/asm_mipsyac.cpp $(INCLUDE)/asm_mipsyac.h : $(SRC_PARSE)/asm_mips.ya
 $(SRC_PARSE)/asm_mipslex.c : $(INCLUDE)/asm_mipsyac.h $(SRC_PARSE)/asm_mips.lex
 	$(LEX) -Pasm_mips -o $@ $(SRC_PARSE)/asm_mips.lex
 
+# produce ASM Tests files
+
+.PHONY : examples
+
+examples : $(EX_SFILES)
+
+$(TMP)/$(EX)/%.s : $(SRC)/$(EX)/%.c
+	mkdir -p $(TMP)/$(EX)/
+	$(CCMIPS) -S -o $@ $<
+
+# Project managment rules
+
 clean :
-	rm -rf $(OBJ) $(BIN)
+	rm -rf $(OBJ) $(BIN) $(TMP)
 	rm -f $(OBJ)/*.o $(OBJ)/$(ASM)/*.o $(OBJ)/$(UTL)/*.o $(BIN)/* $(OBJ)/$(PARSE)/*.o $(OBJ)/$(BASE)/*.o 
 	rm -f $(SRC_PARSE)/asm_mipsyac.c* $(INCLUDE)/asm_mipsyac.h $(SRC_PARSE)/asm_mipslex.c $(SRC_PARSE)/asm_mips.tab.*ac 
 	rm -f lex.asm_mips.c
@@ -128,16 +148,14 @@ clean :
 HOST="github.com"
 PROJECT="VLambret/libASM.git"
 
-git-commit : clean
-	git add *
-	git commit -a
+git-commit :
+	git add * ;	git commit -a
 
 # Get changes on upstream
 git-pull : 
 	git pull
 
 # Push changes to upstream
-git-push : clean
-	git add *
-	git push git@$(HOST):$(PROJECT) master
+git-push :
+	git add * ; git push git@$(HOST):$(PROJECT) master
 

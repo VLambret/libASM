@@ -12,7 +12,7 @@
 using namespace std;
 
 /**	\class	OPExpression
-	\brief	class representing an expression
+	\brief	class representing an expression herited by Operand
 */
 
 class OPExpression: public Operand{
@@ -25,10 +25,10 @@ public	:
 
 /**	\brief	Destructor of the Expression class
 */
-	~OPExpression();
+	virtual ~OPExpression();
 
 /**	\brief	Get the operand value
-	accessor of the operand
+	\return return the string of the Expression
 */
 	virtual string getOp();
 

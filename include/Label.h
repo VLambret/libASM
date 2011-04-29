@@ -12,19 +12,28 @@
 using namespace std;
 
 /**	\class	Label
-	\brief	Virtual class representing an Label
+	\brief	class representing an Label herited by Line
 */
 
-class Label : Line{
+class Label : public Line{
 
 
 public	:
+
+		/**	\brief	Constructor of the Label
+*/
+	Label(string);
+
+		/**	\brief	Destructor of the Label
+*/
+	virtual ~Label();
+
 	 
 		/**	\brief	get the type of the line
 */
 	virtual t_Line typeLine();
 
-	/**	\brief	get the string Label
+	/**	\brief	get the string name of Label
 */	
 	virtual string toString();
 
@@ -37,6 +46,7 @@ public	:
 */	
 
 	virtual void setContent(string);
+
 
 
 

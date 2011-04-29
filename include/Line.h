@@ -11,17 +11,37 @@
 using namespace std;
 
 /**	\class	Line
-	\brief	Virtual class representing an Line
+	\brief	Abstract class representing an Line
 */
 
 class Line{
 
 
 public	:
-	 
+	
+	/**	\brief	Virtual destructor
+*/
+	virtual ~Line(){}; 
+
+	/**	\brief	get the string  of the line
+		virtual getter
+*/
 	virtual string getContent()=0;
+
+	/**	\brief	set the string of the line
+		virtual setter
+*/
 	virtual void setContent(string)=0;
+
+	/**	\brief	get the type of the line
+		virtual accessor of the type
+*/
 	virtual t_Line typeLine()=0;
+
+/**	\brief	get the name string 
+		accessor of the type line
+		
+*/
 	virtual string toString()=0;
 
 protected:

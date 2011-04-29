@@ -1,5 +1,13 @@
 #include "Directive.h"
 
+Directive::Directive( string direct)
+{
+	_line= direct;
+}
+
+Directive::~Directive(){}
+
+
 string Directive::toString(){
 	return "Directive";
 

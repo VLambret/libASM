@@ -12,7 +12,7 @@
 using namespace std;
 
 /**	\class	Operand
-	\brief	Virtual class representing an operand
+	\brief	Abstract class representing an operand
 */
 
 class Operand{
@@ -20,25 +20,28 @@ class Operand{
 
 public	:
 
+/**	\brief	Virtual destructor
+*/
+	virtual ~Operand(){};
 
 /**	\brief	Get the operand value
-	accessor of the operand
+	virtual accessor of the operand
 */
 	virtual string getOp()=0;
 
 /**	\brief	set the operand value
-	setter of the operand
+	virtual setter of the operand
 */
 	virtual void setOp(string)=0;
 
 /**	\brief	get the operator type
-	\return	return the Operand type as enum	
+	virtual accessor of accessor
+	\return return the Operand type as enum	
 */
-
 	virtual  t_OpType getOptype()=0;
 
 
-/**	\brief	tostring
+/**	\brief	virtual tostring
 	\return	return the Object as string
 */
 	virtual string toString()=0;
