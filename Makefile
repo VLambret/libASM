@@ -118,6 +118,16 @@ $(SRC_PARSE)/asm_mipsyac.cpp $(INCLUDE)/asm_mipsyac.h : $(SRC_PARSE)/asm_mips.ya
 $(SRC_PARSE)/asm_mipslex.c : $(INCLUDE)/asm_mipsyac.h $(SRC_PARSE)/asm_mips.lex
 	$(LEX) -Pasm_mips -o $@ $(SRC_PARSE)/asm_mips.lex
 
+# Show tokens
+
+.PHONY : tokens
+
+tokens : $(SRC_PARSE)/asm_mips.yac
+	@cat $< | tail -n+$$((`grep -n %% $< | head -n 1 | cut -d: -f1`+1)) | grep -ve '^[[:space:]]' | grep -ve '^$$' | head -n-1
+	@#cat $< | tail -n+332 | grep -ve '^[[:space:]]' | grep -ve '^$$' | head -n-1
+	@#grep -n %% $< | head -n 1 | cut -d: -f1
+	@#echo toto $$((`grep -n %% $< | head -n 1 | cut -d: -f1`+1))
+
 # produce ASM Tests files
 
 .PHONY : examples
