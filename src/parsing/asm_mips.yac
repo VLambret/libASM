@@ -13,8 +13,10 @@
 #include <Label.h>
 #include <stdlib.h>
 #include <stdio.h>
+extern "C" {
 #include "utl200.h"
 #include "asm200.h"
+}
 //#include UTL_H
 //#include ASM_H
 #include <asm_mipsyac.h>
@@ -33,15 +35,8 @@ extern FILE          *yyin        ;
 
 Program prog ;
 
-void programparse() {
-	std::cout << "Starting parsing" << std::endl;
-	prog.display() ;	
-	yyparse() ;
-	std::cout << "Parsing done" << std::endl;
-	prog.display() ;
-}
 
-/*
+
 static int            PAS_NBR     = ASM_ASP__SIZEOF   ;	// pass number	
 static char          *FIL_NAM     = NULL              ;	// file name	
 
@@ -63,7 +58,45 @@ static unsigned int   CUR_SIZ     = 0                 ;	// current size
 static struct asiss  *PT_ISS      = NULL              ;	// current a-sz	
 
 static struct uttyp  *MEM_TAB     = NULL              ;	// memory table	
-*/
+
+static unsigned int   ERR_FLG     = 0                 ;	// error flag	
+
+void programparse() {
+	std::cout << "Starting parsing" << std::endl;
+	prog.display() ;	
+	std::cout << "Initialize starting" << std::endl;
+	// ###------------------------------------------------------### 
+	//    initialize global and static variables			
+	// ###------------------------------------------------------### 
+
+  //PT_FIG        = pt_fig          ;
+  //PT_FIG->FLAG |= ASM_FIG__ERROR  ;
+
+  //PAS_NBR       = pas_nbr         ;
+  ERR_FLG       = 0               ;
+  ASM_LINENO    = 1               ;
+  //FIL_NAM       = fil_name        ;
+
+  PRG_NAM       = NULL            ;
+
+  MCR_WNBR      = 0               ;
+  SET_FLAGS     = ASM_SET_FLAGS   ;
+  SEC_SYM       = NULL            ;
+  CUR_ADR       = 0               ;
+  CUR_SIZ       = 0               ;
+  PT_ISS        = NULL            ;
+
+  //PT_FIG        = pt_fig          ;
+  //GLB_DIC       = pt_fig->GLB_DIC ;
+  //GLB_SYM       = pt_fig->GLB_SYM ;
+  //MEM_TAB       = pt_fig->MEM_TAB ;
+  //PT_OBJ        = asm_GetObject   (pt_fig, fil_name);
+	std::cout << "Initialize done" << std::endl;
+	yyparse() ;
+	std::cout << "Parsing done" << std::endl;
+	prog.display() ;
+}
+
 // ###--------------------------------------------------------------### 
 // function	: yyerror						
 // description	: print yacc error messages				
@@ -72,7 +105,6 @@ static struct uttyp  *MEM_TAB     = NULL              ;	// memory table
 
 //*
 
-static unsigned int   ERR_FLG     = 0                 ;	// error flag	
 
 static void yyerror (char * str)
 {
@@ -87,33 +119,29 @@ static void yyerror (char * str)
   if (ERR_FLG > ASM_MAXERR)
     ERR_FLG += asm_error (17, FIL_NAM, ASM_LINENO, NULL, 0);
   }
- */
-//*/
+*/
+
 
 // ###--------------------------------------------------------------### 
 // function	: lcl_error						
 // description	: print an error message				
 // called func.	: asm_error						
 // ###--------------------------------------------------------------### 
-/*
-static void lcl_error (code, str, nbr)
 
-unsigned int  code;
-char         *str ;
-int           nbr ;
-
-  {
+static void lcl_error (unsigned int code,char *str,int nbr)
+{
   ERR_FLG += asm_error (code, FIL_NAM, ASM_LINENO, str, nbr);
 
   if (ERR_FLG > ASM_MAXERR)
     ERR_FLG += asm_error (17, FIL_NAM, ASM_LINENO, NULL, 0);
   }
-*/
+//*/
+
 // ###--------------------------------------------------------------### 
 // function	: lcl_isbch						
 // description	: return non zero value if an instruction is a branch	
 // ###--------------------------------------------------------------### 
-/*
+
 static unsigned int lcl_isbch (unsigned int ins_wrd)
 {
   unsigned int flag = 0;
@@ -129,12 +157,12 @@ static unsigned int lcl_isbch (unsigned int ins_wrd)
 
   return (flag);
   }
-*/
+
 // ###--------------------------------------------------------------### 
 // function	: lcl_isjmp						
 // description	: return non zero value if an instruction is a jump	
 // ###--------------------------------------------------------------### 
-/*
+
 static unsigned int lcl_isjmp (unsigned int ins_wrd)
 {
   unsigned int flag = 0;
@@ -146,12 +174,6 @@ static unsigned int lcl_isjmp (unsigned int ins_wrd)
 
   return (flag);
   }
-*/
-/*int main() {
-	ASM_LINENO = 0 ;
-  	yyparse ();
-	return 0 ;
-}*/
 
 // ###--------------------------------------------------------------### 
 // function	: asm_ldmipsasm						
@@ -696,7 +718,12 @@ format_hint_mem
 format_label
 	: Codop_label
 	  immediate
-		{ printf("format_label\n") ; } /*{
+		{
+			union utdat  *pt_type ;
+			int toto = 0 ;
+			pt_type = (utdat *) $1 ;
+			//toto = (int ) pt_type->VPNT ;
+			printf("format_label line= %d Codop_label=%d, immediate=%d, content=%d, expected=%d\n",ASM_LINENO,$1, $2, toto,ASM_MPS__J) ; } /*{
 		if (PAS_NBR == ASM_ASP__CODE)
 		  {
 		  if (($2 & 0xf0000000) != (CUR_ADR & 0xf0000000))
@@ -1569,15 +1596,17 @@ mul_div_operator
 
 primary
 	: Litteral
-		{ printf("primary Litteral\n") ; } /*{ $$ = $1; }*/
+		{ printf("primary Litteral\n") ;
+		$$ = $1; }
 	| Identifier
-		{ printf("primary Identifier\n") ; } /*{
+		{
 		unsigned int   valu = 0   ;
 		struct utdic  *dic  = NULL;
-
-		if ((PAS_NBR == ASM_ASP__SYMBOLS) ||
-		    (PAS_NBR == ASM_ASP__CODE   )   )
+		printf("primary Identifier %s\n",$1) ; 
+		
+		if ((PAS_NBR == ASM_ASP__SYMBOLS) || (PAS_NBR == ASM_ASP__CODE   ))
 		  {
+
 		  dic  = PT_OBJ->SYM_DIC;
 		  valu = (unsigned int) utl_GetDicItem (dic, $1);
 
@@ -1593,7 +1622,8 @@ primary
 		  }
 
 		$$ = valu;
-		}*/
+
+		}
 	;
 
 section_specification_directive

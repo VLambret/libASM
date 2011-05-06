@@ -319,13 +319,15 @@ extern unsigned int   utl_GetMemSize             ();
 extern struct utdic  *utl_CreateSimpleDic        ();
 extern struct utdic  *utl_CreateDictionary       ();
 extern void           utl_AddDicItem             ();
-extern void          *utl_GetDicItem             ();
+//extern void          *utl_GetDicItem             ();
+extern void          *utl_GetDicItem             (struct utdic *pt_dic,void         *key);
 extern void          *utl_DelDicItem             ();
 extern void           utl_DelAllDicItems         ();
 extern struct utdic  *utl_DelDictionary          ();
 extern struct utdic  *utl_SetDicMode             ();
 extern unsigned int   utl_GetDicItemStatus       ();
-extern unsigned int   utl_GetDicStatus           ();
+//extern unsigned int   utl_GetDicStatus           ();
+extern unsigned int   utl_GetDicStatus           (struct utdic *pt_dic );
 
 extern unsigned int   utl_GetIntegerSize         ();
 extern int            utl_IsFloatInteger         ();

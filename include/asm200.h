@@ -350,7 +350,8 @@ extern struct asiss  *ASM_FREISS     ;
 	/*    functions							*/
 	/* ###------------------------------------------------------### */
 
-extern unsigned int   asm_error                  ();
+//extern unsigned int   asm_error                  ();
+extern unsigned int   asm_error                  (int           code, char         *func, int           line, char         *s1, int           n1);
 
 extern struct asfig  *asm_addasfig               ();
 extern struct asosc  *asm_addasosc               ();

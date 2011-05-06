@@ -448,13 +448,15 @@ char *str;
 /*		  utl_SaveString					*/
 /* ###--------------------------------------------------------------### */
 
+static struct utdic *v_ht = NULL;
+
 static unsigned int search_valu (str)
 
 char *str;
 
   {
   unsigned int         val  = 0   ;
-  static struct utdic *v_ht = NULL;
+  //static struct utdic *v_ht = NULL;
 
   if (v_ht == NULL)
     {
