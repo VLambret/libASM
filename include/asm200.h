@@ -375,7 +375,8 @@ extern void           asm_Initialize             ();
 extern struct asisc  *asm_GetInputSection        ();
 extern struct asosc  *asm_GetOutputSection       ();
 extern struct asosc  *asm_GetInputOutSection     ();
-extern struct asobj  *asm_GetObject              ();
+//extern struct asobj  *asm_GetObject              ();
+extern struct asobj  *asm_GetObject              (struct asfig *pt_fig,char         *ident);
 extern struct uttyp  *asm_GetObjectSymbolList    ();
 
 extern struct asfig  *asm_ReadMipsAsmFiles       ();

@@ -207,7 +207,8 @@ extern unsigned int   utl_hshutchn               ();	/* hash func	*/
 extern int            utl_cmpsint                ();	/* compare	*/
 extern int            utl_cmpuint                ();	/* compare	*/
 
-extern struct utchn  *utl_addutchn               ();	/* add elm	*/
+//extern struct utchn  *utl_addutchn               ();	/* add elm	*/
+extern struct utchn  *utl_addutchn               (struct utchn *list,union  utdat  data);	/* add elm	*/
 extern struct utchn  *utl_adqutchn               ();	/* add elm	*/
 extern struct utchn  *utl_catutchn               ();	/* catenate	*/
 extern struct utchn  *utl_ccputchn               ();	/* cond  copy	*/
@@ -218,7 +219,8 @@ extern struct utchn  *utl_frlutchn               ();	/* free list	*/
 extern unsigned int   utl_fprutchn               ();	/* file print	*/
 extern unsigned int   utl_lenutchn               ();	/* list length	*/
 extern struct utchn  *utl_mvqutchn               ();	/* move queue	*/
-extern struct utchn  *utl_revutchn               ();	/* reverse list	*/
+//extern struct utchn  *utl_revutchn               ();	/* reverse list	*/
+extern struct utchn  *utl_revutchn               (struct utchn *pt_chn);	/* reverse list	*/
 extern struct utchn  *utl_rmvutchn               ();	/* remove  elm	*/
 extern struct utchn  *utl_splutchn               ();	/* split   list	*/
 extern struct utchn  *utl_insutchn               ();	/* insert  elm	*/

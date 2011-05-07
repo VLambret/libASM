@@ -114,7 +114,8 @@ identifier        ({special_char}|{letter})({special_char}|{letter_or_digit})*
 		while ((*str != '\"') && (*str != '\0'))
 		  {
 		  c_val  = utl_CharToAscii (str   , &str );
-                  pt_chn = utl_addutchn    (pt_chn, c_val);
+		  			// FIXME : sad cast
+                  pt_chn = utl_addutchn    (pt_chn,(union utdat) c_val);
 		  }
 
 		yylval.pchn = utl_revutchn (pt_chn);
