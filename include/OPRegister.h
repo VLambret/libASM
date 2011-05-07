@@ -20,16 +20,17 @@ class OPRegister: public Operand{
 
 private :
 	int _reg;
+	t_Src_Dst _type;
 
 public	:
 
 /**	\brief	Constructor of the Register class
 */
-	OPRegister(string);
+	OPRegister(string, t_Src_Dst);
 
 /**	\brief	Constructor of the Register class
 */
-	OPRegister(string, int);
+	OPRegister(string, int, t_Src_Dst);
 
 /**	\brief	Destructor of the Register class
 */
@@ -66,6 +67,16 @@ public	:
 	setter of the operand
 */
 	virtual void setOp( string);
+
+/**	\brief	set the type of the register
+	setter of the register type
+*/
+	void setType(t_Src_Dst );
+
+/**	\brief	get the type of the register
+	getter of the register type
+*/
+	 virtual t_Src_Dst getType( );
 
 
 };

@@ -20,10 +20,12 @@ t_OpType OPImmediate::getOptype(){
 
 
 string OPImmediate::toString(){
-    return "Immediate";
+    return _oper;
 }
 
 void OPImmediate::setOp( string op){
     _oper=op;
    }
-
+t_Src_Dst OPImmediate::getType( ){
+	return Src;
+}

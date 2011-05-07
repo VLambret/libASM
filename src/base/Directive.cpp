@@ -9,7 +9,7 @@ Directive::~Directive(){}
 
 
 string Directive::toString(){
-	return "Directive";
+	return _line;
 
 }
 
@@ -26,4 +26,17 @@ string Directive::getContent(){
 
 void Directive::setContent(string line){
 	_line =line;
+}
+
+
+bool Directive::isFunction(){
+	if(!_line.compare(".ent")){
+		return true;
+	}
+	else return false;
+
+}
+
+t_Inst  Directive::getType(){
+	return OTHER;
 }

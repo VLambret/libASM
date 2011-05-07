@@ -31,6 +31,10 @@
 */
 	enum t_Line {line_Instru,line_Lab,line_Direct};
 
+/**	\brief	Type enum which take the type of the register			
+*/
+	enum t_Src_Dst {Src,Dst};
+
 
 #endif
 

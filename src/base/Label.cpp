@@ -8,7 +8,7 @@ Label::~Label(){
 }
 
 string Label::toString(){
-	return "Label";
+	return _line;
 
 }
 
@@ -25,4 +25,12 @@ string Label::getContent(){
 
 void Label::setContent(string line){
 	_line =line;
+}
+
+bool Label::isFunction(){
+	return false;
+}
+
+t_Inst  Label::getType(){
+	return OTHER;
 }

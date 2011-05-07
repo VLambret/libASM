@@ -18,9 +18,12 @@ t_OpType OPExpression::getOptype(){
     }
 
 string OPExpression::toString(){
-    return "Expression";
+    return _oper;
     }
 
 void OPExpression::setOp( string op){
     _oper=op;
     }
+t_Src_Dst OPExpression::getType( ){
+	return Src;
+}

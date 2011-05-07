@@ -1,15 +1,17 @@
 #include "OPRegister.h"
 
 
-OPRegister::OPRegister(string op){
+OPRegister::OPRegister(string op, t_Src_Dst ty){
 
     _oper = op;
+    _type = ty;
 }
 
-OPRegister::OPRegister(string op, int reg){
+OPRegister::OPRegister(string op, int reg, t_Src_Dst ty){
 
     _oper = op;
     _reg = reg;
+    _type = ty;
 
     }
 
@@ -34,9 +36,18 @@ t_OpType OPRegister::getOptype(){
 }
 
 string OPRegister::toString(){
-   return "Register";
+   return _oper;
 }
 
 void OPRegister::setOp( string op){
     _oper=op;
 }
+
+t_Src_Dst OPRegister::getType( ){
+	return _type;
+}
+
+void OPRegister::setType(t_Src_Dst ty){
+	_type=ty;
+}
+

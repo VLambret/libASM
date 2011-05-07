@@ -51,6 +51,13 @@ public	:
 	virtual void setOp( string);
 
 
+/**	\brief	get the Dst/Src type of the Operand
+	getter of the type
+*/
+	 virtual t_Src_Dst getType( );
+
+
+
 };
 
 #endif

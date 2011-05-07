@@ -19,9 +19,12 @@ t_OpType OPLabel::getOptype(){
 
 
  string OPLabel::toString(){
-   return "Label";
+   return _oper;
     }
 
  void OPLabel::setOp( string op){
     _oper=op;
     }
+t_Src_Dst OPLabel::getType( ){
+	return Src;
+}

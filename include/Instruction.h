@@ -31,12 +31,13 @@ private:
 	Operand *_op1;
 	Operand *_op2;
 	Operand *_op3;
+	int _nbrOper;
 
 public:
 
 /**	\brief	Constructor of the class instruction
 */
-	Instruction(string, t_Operator, t_Format, t_Inst, Operand *, Operand *, Operand *);
+	Instruction(string, t_Operator, t_Format, t_Inst, Operand *, Operand *, Operand *, int);
 
 /**	\brief	Destructor of the class instruction
 */
@@ -96,7 +97,7 @@ public:
 /**	\brief	get the Type of the Instruction
 	accessor of the Type
 */
-	t_Inst  getType();
+	virtual t_Inst  getType();
 
 
 	/**	\brief	get the type of the line
@@ -139,6 +140,19 @@ public:
 /**	\brief	get the dependance between the current instruction and i2	\return return "WAW" or "not dependant" in format string
 */
 	string WAW(Instruction i2);
+
+/**	\brief	get the number of operand	\return return the number of operand
+*/
+	int getNumberOper();
+
+
+/**	\brief	set the number of operand*/
+	void setNumberOper(int);
+
+	/**	\brief	return true if the directive indicate a function
+*/
+	virtual bool isFunction();
+
 
 };
 

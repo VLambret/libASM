@@ -8,12 +8,16 @@
 
 
 #include <Node.h>
+#include <Function.h>
+#include <Basic_block.h>
 #include <Instruction.h>
 #include <string>
 #include <stdio.h>
 #include <Enum_type.h>
 #include <fstream>
+#include <list>
 using namespace std;
+
 
 /**	\class	Program
 	\brief	class representing a program as list
@@ -66,16 +70,38 @@ public:
 
 /**	\brief	get the dependance betwen two instructions
 */
-	string dependance(Instruction i1, Instruction i2);
+	void dependance(Instruction i1, Instruction i2);
 
 
 /**	\brief	write the programme in file
 */
 	void inFile(string const filename);
 
+/**	\brief	return true if the program is Empty
+*/
+	bool isEmpty();
+
+/**	\brief	calculate functions
+	return number of functions in the program
+*/
+	void  calculate_Function();
+
+/**	\brief	get the number of functions in the program
+*/
+	int nbr_Func();
+
+/**	\brief	get the fonction on the list
+*/
+	Function  get_Function(int );
+
+
+
 private:
 	int _length;
 	Node * _head;
+	list <Function> myfunc;
+	int _nbr_func;
+	
 	
 
 };

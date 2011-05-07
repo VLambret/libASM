@@ -1,8 +1,10 @@
 #include "Program.h"
 
+
 Program::Program(){
 	_head= NULL;
 	_length=0;
+	_nbr_func=0;
 }
 
 Program::Program(Program const&  otherprogram){
@@ -140,29 +142,16 @@ void Program::display()
 		else element = element->getnext();
 
 	}
+	if(isEmpty())	cout<<"The program is empty"<<endl;
 	cout << endl;
 }
 
-string Program::dependance(Instruction i1, Instruction i2){
+void Program::dependance(Instruction i1, Instruction i2){
 
-
-	if(i1.getOp1()->getOptype()==Reg){
-
-            if((i1.getOp1()->getOp().compare(i2.getOp1()->getOp())==0) && (i2.getOp1()->getOptype()==Reg) )   return "WAW";
-            else if((i1.getOp1()->getOp().compare(i2.getOp2()->getOp())==0) && (i2.getOp2()->getOptype()==Reg)) return "RAW";
-            else if((i1.getOp1()->getOp().compare(i2.getOp3()->getOp())==0) && (i2.getOp3()->getOptype()==Reg)) return "RAW";
-        }
-
-        if((i1.getOp2()->getOptype()==Reg) && (i2.getOp1()->getOptype()==Reg)){
-            if(i1.getOp2()->getOp().compare(i2.getOp1()->getOp())==0 )    return "WAR";
-        }
-
-        if((i1.getOp3()->getOptype()==Reg) && (i2.getOp1()->getOptype()==Reg)){
-            if(i1.getOp3()->getOp().compare(i2.getOp1()->getOp())==0)     return "WAR";
-        }
-
-        return "not dependant";
-
+	string dep1= i1.is_dependant(i2);
+	string dep2= i2.is_dependant(i1);
+	cout<<"Depedance i1->i2: "<<dep1<<endl;
+	cout<<"Depedance i2->i1: "<<dep2<<endl;
 }
 
 Line* Program::findLine(int index){
@@ -186,18 +175,15 @@ int Program::size(){
 	return _length;
 }
 
+bool Program::isEmpty(){
+	if(!_head)	return true;
+	return false;
+}
+
 void Program::inFile(string const filename){
 
 	Node* element = _head;
 	ofstream monflux(filename.c_str());
-
-	monflux<<"###--------------------------------------------------------------------------------------------###"<<endl;
-	monflux<<"#file : "<<filename<<endl;
-	monflux<<"#date :   "<<endl;
-	monflux<<"###--------------------------------------------------------------------------------------------###\n"<<endl;
-	
-
-	
 
 	if(monflux){
 		while(element != NULL)
@@ -219,6 +205,56 @@ void Program::inFile(string const filename){
 	}
 
 	monflux.close();	
+}
+
+
+void Program::calculate_Function(){
+	Function func;
+
+	if (!isEmpty()){	
+
+		Node* element = _head;
+		func.set_head(_head);
+		//cout<<func.get_head()->getLine()->getContent()<<endl;
+		while(element != NULL)
+		{
+			if(!element->getLine()->getContent().compare(".end")){
+				func.set_end(element);
+				//cout<<func.get_end()->getLine()->getContent()<<endl;
+				myfunc.push_back(func);
+				_nbr_func++;
+				func.set_head(element->getnext());
+				//cout<<func.get_head()->getLine()->getContent()<<endl;
+			}
+			
+			if(element->getnext()==NULL){
+				func.set_end(element);
+				//cout<<func.get_end()->getLine()->getContent()<<endl;
+				myfunc.push_back(func);
+				_nbr_func++;
+				break;
+			}
+			else element = element->getnext();
+
+		}		
+	}
+}
+
+int Program::nbr_Func(){
+	return _nbr_func;
+}
+
+Function  Program::get_Function(int index){
+
+	list<Function>::iterator it;
+	it=myfunc.begin();
+
+  	if(index<= _nbr_func){
+  		for (int i=0; i<index;i++ ) it++;
+		return *it;	
+	}
+	
+	return myfunc.back();	
 }
 
 
