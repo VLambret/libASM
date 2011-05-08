@@ -123,7 +123,7 @@ $(SRC_PARSE)/asm_mipslex.c : $(INCLUDE)/asm_mipsyac.h $(SRC_PARSE)/asm_mips.lex
 
 .PHONY : testparse
 
-testparse:$(SRC)/$(EX)/primes.s bin/cpp/main_test
+testparse:$(SRC)/$(EX)/complete.s bin/cpp/main_test
 	cat $< | ./bin/cpp/main_test
 
 

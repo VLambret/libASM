@@ -58,7 +58,7 @@ string Instruction::stringOPcode(){
  			"clo"," clz"," ebase"," eepc"," eret"," ll"," madd"," maddu",
 			"mfc2"," movn"," movz"," msub"," msubu"," mtc2","pref"," sc"," syncu",
 		 	"tccontext"," teq"," teqi"," tge","tgei"," tgeiu"," tgeu"," tlt",
-      			"tlti"," tltiu"," tltu"," tne"," tnei"," waitn"  };
+      			"tlti"," tltiu"," tltu"," tne"," tnei"," waitn","rfe"  };
 
 	return opString[_op];
 }
@@ -111,22 +111,21 @@ t_Line Instruction::typeLine(){
 
 string Instruction::getContent(){
 
-	string tmp,tmp1,tmp2,tmp3,tmp4,tmp5;
+	//string tmp,tmp1,tmp2,tmp3,tmp4,tmp5;
+	string rt ;
 
-	tmp= stringOPcode()+ " ";
-	tmp1= tmp+ _op1->getOp();
-	if (_op2!=NULL){
-		tmp2= tmp1+ ",";
-		tmp3 =tmp2+ _op2->getOp();
-	}
-	else	return tmp1;
-	if(_op3!=NULL){
-		tmp4= tmp3+ ",";
-		tmp5 =tmp4+ _op3->getOp();
-	}
-	else return tmp3;
-	return tmp5;
+	rt= stringOPcode()+ " ";
 
+	if (_op1!=NULL){
+		rt = rt+ _op1->getOp();
+		if (_op2!=NULL){
+			rt = rt+ "," + _op2->getOp();
+			if(_op3!=NULL){
+				rt =rt+","+ _op3->getOp();
+			}
+		}
+	}
+	return rt;
 }
 
 void Instruction::setContent(string line){

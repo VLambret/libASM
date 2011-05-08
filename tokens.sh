@@ -1,3 +1,8 @@
+# Renvoient un type
+à vérifier
+"fonctionnels"
+
+
 #adding_operator
 .a_label.
 align_directive
@@ -22,8 +27,8 @@ equ_directive
 #expr__shfop__expr
 extern_directive
 format_hint_mem
-format_label
-format_n
+"format_label:j jal"
+format_n:rfe syscall wait eret sync
 format_od_rs
 format_rd
 format_rd_mem

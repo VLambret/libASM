@@ -25,7 +25,8 @@
  			clo, clz, ebase, eepc, eret, ll, madd, maddu, 
 			mfc2, movn, movz, msub, msubu, mtc2,pref, sc, syncu,
 		 	tccontext, teq, teqi, tge,tgei, tgeiu, tgeu, tlt,
-      			tlti, tltiu, tltu, tne, tnei, waitn  };
+      			tlti, tltiu, tltu, tne, tnei, waitn,
+			rfe  };
 
 /**	\brief	Type enum which take the type of the line			
 */

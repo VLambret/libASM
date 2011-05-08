@@ -67,8 +67,6 @@ static int strmap_id ;
 
 void programparse() {
 	std::cout << "Starting parsing" << std::endl;
-	prog.display() ;	
-	std::cout << "Initialize starting" << std::endl;
 	// ###------------------------------------------------------### 
 	//    initialize global and static variables			
 	// ###------------------------------------------------------### 
@@ -80,7 +78,6 @@ void programparse() {
 	strmap_id = 0;
 
   PT_FIG        = pt_fig          ;
-	std::cout << "Initialize starting2" << std::endl;
 
   PT_FIG->FLAG |= ASM_FIG__ERROR  ;
 
@@ -88,7 +85,6 @@ void programparse() {
   ERR_FLG       = 0               ;
   ASM_LINENO    = 1               ;
   FIL_NAM       = fil_name        ;
-	std::cout << "Initialize starting3" << std::endl;
 
   PRG_NAM       = NULL            ;
 
@@ -98,17 +94,18 @@ void programparse() {
   CUR_ADR       = 0               ;
   CUR_SIZ       = 0               ;
   PT_ISS        = NULL            ;
-	std::cout << "Initialize starting4" << std::endl;
 
   PT_FIG        = pt_fig          ;
   GLB_DIC       = pt_fig->GLB_DIC ;
   GLB_SYM       = pt_fig->GLB_SYM ;
   MEM_TAB       = pt_fig->MEM_TAB ;
-	std::cout << "Initialize starting5" << std::endl;
   //PT_OBJ        = asm_GetObject   (pt_fig, fil_name);
-	std::cout << "Initialize done" << std::endl;
+	
+	
 	yyparse() ;
 	std::cout << "Parsing done" << std::endl;
+	std::cout << std::endl;
+
 	prog.display() ;
 }
 
@@ -743,10 +740,22 @@ format_label
 
 format_n
 	: Codop_n
-		{ printf("format_n\n") ; } /*{
-		MCR_WRDS [0] = $1 ;
-		MCR_WNBR     =  1 ;
-		}*/
+		{
+			t_Operator op ;
+			switch($1) {
+				case ASM_MPS__SYSCALL : op = syscallu ; break ;
+				case ASM_MPS__WAIT : op = waitn ; break ;
+				case ASM_MPS__RFE : op = rfe ; break ;
+				case ASM_MPS__ERET : op = eret ; break ;
+				default: std::cerr<< "asm_mips.yac : " << $1 << "is not an valid Codop_n for format_n" << std::endl ; break ;
+			}
+			
+			prog.addLine(new Instruction("Codop_n",op,O,OTHER,(OPLabel*)0,(OPLabel*)0,(OPLabel*)0,0)) ;
+
+			std::cout << "format_n : " << $1 << std::endl ;
+			std::cout << "format_n syscall: " << ASM_MPS__SYSCALL << std::endl ;
+			std::cout << "format_n wait: " << ASM_MPS__WAIT << std::endl ;
+		}
 	;
 
 format_od_rs
