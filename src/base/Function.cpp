@@ -3,7 +3,6 @@
 Function::Function(){
 	_head = NULL;
 	_end = NULL;
-	_nbr_BB=0;
 }
 
 Function::~Function(){}
@@ -53,9 +52,6 @@ int Function::size(){
 	return lenght;
 }	
 
-string Function::toString(){
-	return "ok";
-}
 
 void Function::restitution(string const filename){
 	
@@ -66,15 +62,19 @@ void Function::restitution(string const filename){
 		while(element != _end)
 		{
 			if(element->getLine()->typeLine()==line_Instru || element->getLine()->typeLine()== line_Direct) monflux<<"\t";
-			monflux << element->getLine()-> getContent() <<endl;
+			monflux << element->getLine()-> getContent() ;
+			if(element->getLine()->getContent().compare("nop")) monflux<<endl;
 		
-			if(element->getnext()==_end)	break;
-			else {
-				if(element->getLine()->typeLine()!= element->getnext()->getLine()->typeLine()) monflux<<endl;
-				element = element->getnext();
-			}			
+			if(element->getnext()==_end){
+				if(element->getnext()->getLine()->typeLine()==line_Instru || 
+							element->getnext()->getLine()->typeLine()==line_Direct) monflux<<"\t";
+				monflux << element->getnext()->getLine()-> getContent();
+				break;
+			}
+			else element = element->getnext();
+
 		}
-		cout << endl;
+		
 	}
 
 	else {
@@ -86,42 +86,49 @@ void Function::restitution(string const filename){
 
 void Function::calculate_basic_block(){
 	Basic_block BB;	
+	int begin=0;
 
 		Node* element = _head;
-		BB.set_head(_head);
-		cout<<BB.get_head()->getLine()->getContent()<<endl;
-		while(element != NULL)
-		{
+
+
+		/*supprime les directives precedent le premier BB*/
+		while(!begin){
+			if(element->getLine()->typeLine()!=line_Direct){
+				BB.set_head(element);
+				begin=1;
+			}	
+			else	element= element->getnext();
+
+		}
+		while(element != _end)
+		{ 		/*si l'instruction est un branchement alors on prend le delay sot comme
+				dernier element du BB et comme tete l'element qui suit*/
 			if(element->getLine()->typeLine()==line_Instru){
 				if(element->getLine()->getType()==BR){
 					BB.set_end(element->getnext());
-					cout<<BB.get_end()->getLine()->getContent()<<endl;
 					myBB.push_back(BB);
-					_nbr_BB++;
-					if(element->getnext()->getnext()!=NULL){
+					if(element->getnext()->getnext()!=_end && element->getnext()!=_end){
 						BB.set_head(element->getnext()->getnext());
-						cout<<BB.get_head()->getLine()->getContent()<<endl;
+						element = element->getnext();
 					}
 					else	break;
 				}
 			}
-			if(element->getLine()->typeLine()==line_Lab){
-				BB.set_end(element->getnext());
-					cout<<BB.get_end()->getLine()->getContent()<<endl;
+			/*si l'instruction suivante est un label alors on prend l'instruction courante comme fin
+			du BB et on prens le suivant comme tete du prochain BB*/
+			if(element->getnext()->getLine()->typeLine()==line_Lab){
+				BB.set_end(element);
 					myBB.push_back(BB);
-					_nbr_BB++;
-					if(element->getnext()->getnext()!=NULL){
-						BB.set_head(element->getnext()->getnext());
-						cout<<BB.get_head()->getLine()->getContent()<<endl;
-					}
-					else	break;
+					BB.set_head(element->getnext());
 
 			}
-			if(element->getnext()==NULL){
+			if(element->getnext()->getLine()->typeLine()==line_Direct){
 				BB.set_end(element);
-				cout<<BB.get_end()->getLine()->getContent()<<endl;
+				break;
+			}
+			if(element->getnext()==_end){
+				BB.set_end(element);
 				myBB.push_back(BB);
-				_nbr_BB++;
 				break;
 			}
 			else element = element->getnext();
@@ -130,7 +137,7 @@ void Function::calculate_basic_block(){
 }
 
 int Function::nbr_BB(){
-	return _nbr_BB;
+	return myBB.size();
 }
 
 Basic_block Function::get_BB(int index){
@@ -138,10 +145,11 @@ Basic_block Function::get_BB(int index){
 	list<Basic_block>::iterator it;
 	it=myBB.begin();
 
-  	if(index<= _nbr_BB){
+  	if(index< myBB.size()){
   		for (int i=0; i<index;i++ ) it++;
 		return *it;	
 	}
+	else cout<<"Error: index is bigger than the size of the list"<<endl; 
 	
 	return myBB.back();
 }

@@ -47,7 +47,7 @@ public:
 */
 	void addLine(Line * newline);
 
-/**	\brief	Add a line to the program
+/**	\brief	Add a line to the program with position as index
 */
 	int add_position(Line *newline, int position);
 
@@ -56,7 +56,7 @@ public:
 	void display();
 
 
-/**	\brief	Delete a line to the program
+/**	\brief	Delete a line in the program
 */
 	void delLine(int index);
 
@@ -82,7 +82,6 @@ public:
 	bool isEmpty();
 
 /**	\brief	calculate functions
-	return number of functions in the program
 */
 	void  calculate_Function();
 
@@ -90,7 +89,7 @@ public:
 */
 	int nbr_Func();
 
-/**	\brief	get the fonction on the list
+/**	\brief	get one fonction of the list myfunc
 */
 	Function  get_Function(int );
 
@@ -100,8 +99,6 @@ private:
 	int _length;
 	Node * _head;
 	list <Function> myfunc;
-	int _nbr_func;
-	
 	
 
 };

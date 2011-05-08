@@ -5,6 +5,9 @@ Basic_block::Basic_block(){
 	_end = NULL;
 }
 
+
+Basic_block::~Basic_block(){}
+
 void Basic_block::set_head(Node *head){
 	_head = head;
 }
@@ -21,7 +24,6 @@ Node* Basic_block::get_end(){
 	return _end;
 }
 
-Basic_block::~Basic_block(){}
 
 void Basic_block::display(){
 
@@ -54,9 +56,6 @@ int Basic_block::size(){
 	return lenght;
 }	
 
-string Basic_block::toString(){
-	return "ok";
-}
 
 void Basic_block::restitution(string const filename){
 	
@@ -67,15 +66,19 @@ void Basic_block::restitution(string const filename){
 		while(element != _end)
 		{
 			if(element->getLine()->typeLine()==line_Instru || element->getLine()->typeLine()== line_Direct) monflux<<"\t";
-			monflux << element->getLine()-> getContent() <<endl;
+			monflux << element->getLine()-> getContent() ;
+			if(element->getLine()->getContent().compare("nop")) monflux<<endl;
 		
-			if(element->getnext()==_end)	break;
-			else {
-				if(element->getLine()->typeLine()!= element->getnext()->getLine()->typeLine()) monflux<<endl;
-				element = element->getnext();
-			}			
+			if(element->getnext()==_end){
+				if(element->getnext()->getLine()->typeLine()==line_Instru || 
+							element->getnext()->getLine()->typeLine()==line_Direct) monflux<<"\t";
+				monflux << element->getnext()->getLine()-> getContent();
+				break;
+			}
+			else element = element->getnext();
+
 		}
-		cout << endl;
+		
 	}
 
 	else {

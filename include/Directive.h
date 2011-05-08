@@ -33,7 +33,7 @@ public	:
 */
 	virtual t_Line typeLine();
 
-	/**	\brief	get the string name of the Directive
+	/**	\brief	get the string of the Directive
 */	
 	virtual string toString();
 

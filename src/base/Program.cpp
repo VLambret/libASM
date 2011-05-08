@@ -1,10 +1,9 @@
-#include "Program.h"
+#include <Program.h>
 
 
 Program::Program(){
 	_head= NULL;
 	_length=0;
-	_nbr_func=0;
 }
 
 Program::Program(Program const&  otherprogram){
@@ -189,15 +188,15 @@ void Program::inFile(string const filename){
 		while(element != NULL)
 		{
 			if(element->getLine()->typeLine()==line_Instru || element->getLine()->typeLine()== line_Direct) monflux<<"\t";
-			monflux << element->getLine()-> getContent() <<endl;
+			monflux << element->getLine()-> getContent();
 		
 			if(element->getnext()==NULL)	break;
 			else {
-				if(element->getLine()->typeLine()!= element->getnext()->getLine()->typeLine()) monflux<<endl;
+				if(element->getLine()->getContent().compare("nop")) monflux<<endl;
 				element = element->getnext();
 			}			
 		}
-		cout << endl;
+		
 	}
 
 	else {
@@ -222,7 +221,6 @@ void Program::calculate_Function(){
 				func.set_end(element);
 				//cout<<func.get_end()->getLine()->getContent()<<endl;
 				myfunc.push_back(func);
-				_nbr_func++;
 				func.set_head(element->getnext());
 				//cout<<func.get_head()->getLine()->getContent()<<endl;
 			}
@@ -231,7 +229,6 @@ void Program::calculate_Function(){
 				func.set_end(element);
 				//cout<<func.get_end()->getLine()->getContent()<<endl;
 				myfunc.push_back(func);
-				_nbr_func++;
 				break;
 			}
 			else element = element->getnext();
@@ -241,7 +238,7 @@ void Program::calculate_Function(){
 }
 
 int Program::nbr_Func(){
-	return _nbr_func;
+	return myfunc.size();
 }
 
 Function  Program::get_Function(int index){
@@ -249,7 +246,7 @@ Function  Program::get_Function(int index){
 	list<Function>::iterator it;
 	it=myfunc.begin();
 
-  	if(index<= _nbr_func){
+  	if(index< myfunc.size()){
   		for (int i=0; i<index;i++ ) it++;
 		return *it;	
 	}

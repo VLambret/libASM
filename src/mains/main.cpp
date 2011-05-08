@@ -9,7 +9,7 @@ int main(){
 
 	Program prog;
 	Operand *Op1,*Op2, *Op3, *Op4, *Op5;
-	Line *lg1,*lg2,*lg3,*lg4,*lg5;
+	Line *lg1,*lg2,*lg3,*lg4,*lg5,*lg6;
 	OPLabel label("Loop");
 	OPRegister registr("$5",5,Src);
 	OPRegister registr1("$6",6,Dst);
@@ -34,6 +34,7 @@ int main(){
 	lg3= &ins;
 	lg4= &dir1;
 	lg5= &ins5;
+	lg6= &ins1;
 
 	cout<<label.getOp()<<endl;
 	//label.setOp("End");
@@ -81,10 +82,10 @@ int main(){
 	prog.display();
 	prog.add_position(lg1,0);
 	prog.display();
-	prog.add_position(lg3,1);
-	prog.addLine(lg2);
-	prog.display();
+	prog.add_position(lg2,1);
 	prog.addLine(lg3);
+	prog.display();
+	prog.addLine(lg6);
 	prog.addLine(lg5);
 	prog.addLine(lg3);
 	prog.addLine(lg4);	
@@ -103,15 +104,27 @@ int main(){
 	prog1.display();
 	cout<<prog.size()<<endl;
 
-	prog1.inFile("file.txt");*/
+	prog1.inFile("src/examples/file.txt");*/
 
-
+	Function unc;
+	Basic_block bb;
 	cout<<"\n TEST OPTION"<<endl;
 	prog.calculate_Function();
 	prog.get_Function(0).display();
+	cout<<prog.nbr_Func()<<endl;
 	cout<<"\n";
-	/*cout<<*/prog.get_Function(0).calculate_basic_block();//<<endl;
-	//prog.get_Function(0).get_BB(0).display();
+	/*cout<<*/
+	unc=prog.get_Function(0);
+	unc.display();
+	cout<<unc.size()<<endl;
+	unc.restitution("./tmp/ex1.txt");
+	unc.calculate_basic_block();
+	bb=unc.get_BB(0);
+	cout<<endl;
+	bb.get_head();
+	bb.display();
+	bb.restitution("./tmp/ex.txt");
+	cout<<endl;
 	
 
 

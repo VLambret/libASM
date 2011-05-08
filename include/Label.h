@@ -28,23 +28,20 @@ public	:
 */
 	virtual ~Label();
 
-	 
 		/**	\brief	get the type of the line
 */
 	virtual t_Line typeLine();
 
-	/**	\brief	get the string name of Label
+	/**	\brief	get the string of Label
 */	
 	virtual string toString();
 
 	/**	\brief	get the string  of the Label
 */	
-
 	virtual string getContent();
 
 	/**	\brief	set the string of the Label
 */	
-
 	virtual void setContent(string);
 
 	/**	\brief	return true if the directive indicate a function
