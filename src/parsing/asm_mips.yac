@@ -732,29 +732,12 @@ format_hint_mem
 format_label
 	: Codop_label
 	  immediate
-		{
-			string m ;
-			t_Operator op ;
-			m = strmap[$2] ;
-			if ($1 == (ASM_MPS__J))
-				op = j ;
-			else
-				op = jal ;
+	  	{	t_Operator op ;
+			string m = strmap[$2] ;
+			if ($1 == (ASM_MPS__J)) op = j ; else op = jal ;
 
-
-			std::cout << "format_label : " << op << "\t" << m << std::endl ;
-			OPLabel label("m") ;
+			//std::cout << "format_label : " << op << "\t" << m << std::endl ;
 			prog.addLine(new Instruction(op+" "+m,op,J,BR,new OPLabel(m),(OPLabel*)0,(OPLabel*)0,1)) ;	
-			//prog.addLine(new Instruction(op+" "+m,op,J,BR,&label,(OPLabel*)0,(OPLabel*)0)) ;	
-			//printf("format_label line= %d Codop_label=%d, immediate=%d, content=%d, expected=%d\n",ASM_LINENO,$1, $2, toto,ASM_MPS__J) ; } /*{
-/*		if (PAS_NBR == ASM_ASP__CODE)
-		  {
-		  if (($2 & 0xf0000000) != (CUR_ADR & 0xf0000000))
-		    lcl_error (7, NULL, 0);
-		  }
-
-		MCR_WRDS [0] = $1 | (($2 >> 2) & 0x03ffffff);
-		MCR_WNBR     =  1 ;*/
 		}
 	;
 
