@@ -350,7 +350,8 @@ extern struct asiss  *ASM_FREISS     ;
 	/*    functions							*/
 	/* ###------------------------------------------------------### */
 
-extern unsigned int   asm_error                  ();
+//extern unsigned int   asm_error                  ();
+extern unsigned int   asm_error                  (int           code, char         *func, int           line, char         *s1, int           n1);
 
 extern struct asfig  *asm_addasfig               ();
 extern struct asosc  *asm_addasosc               ();
@@ -374,7 +375,8 @@ extern void           asm_Initialize             ();
 extern struct asisc  *asm_GetInputSection        ();
 extern struct asosc  *asm_GetOutputSection       ();
 extern struct asosc  *asm_GetInputOutSection     ();
-extern struct asobj  *asm_GetObject              ();
+//extern struct asobj  *asm_GetObject              ();
+extern struct asobj  *asm_GetObject              (struct asfig *pt_fig,char         *ident);
 extern struct uttyp  *asm_GetObjectSymbolList    ();
 
 extern struct asfig  *asm_ReadMipsAsmFiles       ();

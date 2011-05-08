@@ -13,11 +13,14 @@
 #include <Label.h>
 #include <stdlib.h>
 #include <stdio.h>
+extern "C" {
 #include "utl200.h"
 #include "asm200.h"
+}
 //#include UTL_H
 //#include ASM_H
 #include <asm_mipsyac.h>
+#include<map>
 
 
 #undef  yylex
@@ -33,15 +36,8 @@ extern FILE          *yyin        ;
 
 Program prog ;
 
-void programparse() {
-	std::cout << "Starting parsing" << std::endl;
-	prog.display() ;	
-	yyparse() ;
-	std::cout << "Parsing done" << std::endl;
-	prog.display() ;
-}
 
-/*
+
 static int            PAS_NBR     = ASM_ASP__SIZEOF   ;	// pass number	
 static char          *FIL_NAM     = NULL              ;	// file name	
 
@@ -63,7 +59,59 @@ static unsigned int   CUR_SIZ     = 0                 ;	// current size
 static struct asiss  *PT_ISS      = NULL              ;	// current a-sz	
 
 static struct uttyp  *MEM_TAB     = NULL              ;	// memory table	
-*/
+
+static unsigned int   ERR_FLG     = 0                 ;	// error flag
+
+map<int,string> strmap ;
+static int strmap_id ;
+
+void programparse() {
+	std::cout << "Starting parsing" << std::endl;
+	prog.display() ;	
+	std::cout << "Initialize starting" << std::endl;
+	// ###------------------------------------------------------### 
+	//    initialize global and static variables			
+	// ###------------------------------------------------------### 
+
+	struct asfig *pt_fig	;
+	unsigned int pas_nbr ;
+	char *fil_name  = "toto";
+	utl_Initialize() ;
+	strmap_id = 0;
+
+  PT_FIG        = pt_fig          ;
+	std::cout << "Initialize starting2" << std::endl;
+
+  PT_FIG->FLAG |= ASM_FIG__ERROR  ;
+
+  PAS_NBR       = pas_nbr         ;
+  ERR_FLG       = 0               ;
+  ASM_LINENO    = 1               ;
+  FIL_NAM       = fil_name        ;
+	std::cout << "Initialize starting3" << std::endl;
+
+  PRG_NAM       = NULL            ;
+
+  MCR_WNBR      = 0               ;
+  SET_FLAGS     = ASM_SET_FLAGS   ;
+  SEC_SYM       = NULL            ;
+  CUR_ADR       = 0               ;
+  CUR_SIZ       = 0               ;
+  PT_ISS        = NULL            ;
+	std::cout << "Initialize starting4" << std::endl;
+
+  PT_FIG        = pt_fig          ;
+  GLB_DIC       = pt_fig->GLB_DIC ;
+  GLB_SYM       = pt_fig->GLB_SYM ;
+  MEM_TAB       = pt_fig->MEM_TAB ;
+	std::cout << "Initialize starting5" << std::endl;
+  //PT_OBJ        = asm_GetObject   (pt_fig, fil_name);
+	std::cout << "Initialize done" << std::endl;
+	yyparse() ;
+	std::cout << "Parsing done" << std::endl;
+	prog.display() ;
+}
+
 // ###--------------------------------------------------------------### 
 // function	: yyerror						
 // description	: print yacc error messages				
@@ -72,7 +120,6 @@ static struct uttyp  *MEM_TAB     = NULL              ;	// memory table
 
 //*
 
-static unsigned int   ERR_FLG     = 0                 ;	// error flag	
 
 static void yyerror (char * str)
 {
@@ -87,33 +134,29 @@ static void yyerror (char * str)
   if (ERR_FLG > ASM_MAXERR)
     ERR_FLG += asm_error (17, FIL_NAM, ASM_LINENO, NULL, 0);
   }
- */
-//*/
+*/
+
 
 // ###--------------------------------------------------------------### 
 // function	: lcl_error						
 // description	: print an error message				
 // called func.	: asm_error						
 // ###--------------------------------------------------------------### 
-/*
-static void lcl_error (code, str, nbr)
 
-unsigned int  code;
-char         *str ;
-int           nbr ;
-
-  {
+static void lcl_error (unsigned int code,char *str,int nbr)
+{
   ERR_FLG += asm_error (code, FIL_NAM, ASM_LINENO, str, nbr);
 
   if (ERR_FLG > ASM_MAXERR)
     ERR_FLG += asm_error (17, FIL_NAM, ASM_LINENO, NULL, 0);
   }
-*/
+//*/
+
 // ###--------------------------------------------------------------### 
 // function	: lcl_isbch						
 // description	: return non zero value if an instruction is a branch	
 // ###--------------------------------------------------------------### 
-/*
+
 static unsigned int lcl_isbch (unsigned int ins_wrd)
 {
   unsigned int flag = 0;
@@ -129,12 +172,12 @@ static unsigned int lcl_isbch (unsigned int ins_wrd)
 
   return (flag);
   }
-*/
+
 // ###--------------------------------------------------------------### 
 // function	: lcl_isjmp						
 // description	: return non zero value if an instruction is a jump	
 // ###--------------------------------------------------------------### 
-/*
+
 static unsigned int lcl_isjmp (unsigned int ins_wrd)
 {
   unsigned int flag = 0;
@@ -146,12 +189,6 @@ static unsigned int lcl_isjmp (unsigned int ins_wrd)
 
   return (flag);
   }
-*/
-/*int main() {
-	ASM_LINENO = 0 ;
-  	yyparse ();
-	return 0 ;
-}*/
 
 // ###--------------------------------------------------------------### 
 // function	: asm_ldmipsasm						
@@ -332,11 +369,11 @@ struct asfig *asm_ldmipsasm (FILE *fp, char *fil_name, struct asfig *pt_fig, uns
 
 adding_operator
 	: Plus
-		{ printf("adding_operator plus\n") ;}
-		//{ $$ = ASM_OPR__PLUS ; }
+		{ printf("adding_operator plus\n") ;
+		$$ = ASM_OPR__PLUS ; }
 	| Minus
-		{ printf("adding_operator minus\n") ;}
-		//{ $$ = ASM_OPR__MINUS; }
+		{ printf("adding_operator minus\n") ;
+		$$ = ASM_OPR__MINUS; }
 	;
 
 .a_label.
@@ -460,13 +497,11 @@ byte_immediate_list
 	: immediate
 	  ...byte_immediate..
 		{
-		/*
 		struct utchn *pt_chn;
+		printf("byte_immediate_list\n") ;
 
 		pt_chn = utl_revutchn ($2                     );
-		$$     = utl_addutchn (pt_chn, $1 & 0x000000ff);
-		*/
-		printf("byte_immediate_list\n") ;
+		//$$     = utl_addutchn (pt_chn, $1 & 0x000000ff);
 		}
 	;
 
@@ -582,39 +617,40 @@ equ_directive
 
 expr..addop__expr..
 	: expression
-		{ printf("expr..addop__expr.. expression\n") ; }
-		//{ $$ = $1; }
+		{ printf("expr..addop__expr.. expression\n") ;
+		$$ = $1; }
 	| expr..addop__expr..
 	  adding_operator
 	  expression
-		{ printf("expr..addop__expr.. add\n") ; }
-		/*{
-		if   ($2 == ASM_OPR__PLUS) $$ = $1 + $3;
-		else                       $$ = $1 - $3;
-		}*/
+		{ printf("expr..addop__expr.. add\n") ; 
+		if   ($2 == ASM_OPR__PLUS)
+			{$$ = $1 + $3;}
+		else
+			{$$ = $1 - $3;}
+		}
 	;
 
 expression
 	: LeftParen
 	  immediate
 	  RightParen
-		{ printf("expression\n") ; }
-		//{ $$ =   $2; }
+		{ printf("expression\n") ;
+		$$ =   $2; }
 	| Tilda
 	  LeftParen
 	  immediate
 	  RightParen
-		{ printf("expression ~\n") ; }
-		//{ $$ = ~ $3; }
+		{ printf("expression ~\n") ;
+		$$ = ~ $3; }
 	| Minus
 	  LeftParen
 	  immediate
 	  RightParen
-		{ printf("expression minus\n") ; }
-		//{ $$ = - $3; }
+		{ printf("expression minus\n") ;
+		$$ = - $3; }
 	| term
-		{ printf("expression term\n") ; }
-		//{ $$ =   $1; }
+		{ printf("expression term\n") ;
+		$$ =   $1; }
 	;
 
 expr__logop__expr..logop__expr..
@@ -696,16 +732,30 @@ format_hint_mem
 format_label
 	: Codop_label
 	  immediate
-		{ printf("format_label\n") ; } /*{
-		if (PAS_NBR == ASM_ASP__CODE)
+		{
+			string m ;
+			t_Operator op ;
+			m = strmap[$2] ;
+			if ($1 == (ASM_MPS__J))
+				op = j ;
+			else
+				op = jal ;
+
+
+			std::cout << "format_label : " << op << "\t" << m << std::endl ;
+			OPLabel label("m") ;
+			prog.addLine(new Instruction(op+" "+m,op,J,BR,new OPLabel("m"),(OPLabel*)0,(OPLabel*)0)) ;	
+			//prog.addLine(new Instruction(op+" "+m,op,J,BR,&label,(OPLabel*)0,(OPLabel*)0)) ;	
+			//printf("format_label line= %d Codop_label=%d, immediate=%d, content=%d, expected=%d\n",ASM_LINENO,$1, $2, toto,ASM_MPS__J) ; } /*{
+/*		if (PAS_NBR == ASM_ASP__CODE)
 		  {
 		  if (($2 & 0xf0000000) != (CUR_ADR & 0xf0000000))
 		    lcl_error (7, NULL, 0);
 		  }
 
 		MCR_WRDS [0] = $1 | (($2 >> 2) & 0x03ffffff);
-		MCR_WNBR     =  1 ;
-		}*/
+		MCR_WNBR     =  1 ;*/
+		}
 	;
 
 format_n
@@ -1078,13 +1128,13 @@ signed_16_bit_immediate
 
 immediate
 	: expr..addop__expr..
-		{ printf("immediate\n") ; } /*{ $$ = $1; }*/
+		{ printf("immediate\n") ; $$ = $1; }
 	| expr__mulop__expr..mulop__expr..
-		{ printf("immediate\n") ; } /*{ $$ = $1; }*/
+		{ printf("immediate\n") ; $$ = $1; }
 	| expr__logop__expr..logop__expr..
-		{ printf("immediate\n") ; } /*{ $$ = $1; }*/
+		{ printf("immediate\n") ; $$ = $1; }
 	| expr__shfop__expr
-		{ printf("immediate\n") ; } /*{ $$ = $1; }*/
+		{ printf("immediate\n") ; $$ = $1; }
 	;
 
 integer_register
@@ -1569,21 +1619,27 @@ mul_div_operator
 
 primary
 	: Litteral
-		{ printf("primary Litteral\n") ; } /*{ $$ = $1; }*/
+		{ printf("primary Litteral\n") ;
+		$$ = $1; }
 	| Identifier
-		{ printf("primary Identifier\n") ; } /*{
+		{
+		printf("primary Identifier %s\n",$1) ;
+		strmap_id++ ;
+		strmap[strmap_id] = $1 ;
+		
 		unsigned int   valu = 0   ;
 		struct utdic  *dic  = NULL;
+		//((PAS_NBR == ASM_ASP__SYMBOLS) || (PAS_NBR == ASM_ASP__CODE   ))
+		 /*{
 
-		if ((PAS_NBR == ASM_ASP__SYMBOLS) ||
-		    (PAS_NBR == ASM_ASP__CODE   )   )
-		  {
 		  dic  = PT_OBJ->SYM_DIC;
 		  valu = (unsigned int) utl_GetDicItem (dic, $1);
+		printf("primary Identifier 2%s\n",$1) ; 
 
 		  if (utl_GetDicStatus (dic) == UTL_DIC__FAILED)
 		    {
 		    valu = (unsigned int) utl_GetDicItem (GLB_DIC, $1);
+		printf("primary Identifier 3%s\n",$1) ; 
 		    if (utl_GetDicStatus (GLB_DIC) == UTL_DIC__FAILED)
 		      {
 		      if (PAS_NBR == ASM_ASP__CODE)
@@ -1591,9 +1647,11 @@ primary
 		      }
 		    }
 		  }
+		  */
 
-		$$ = valu;
-		}*/
+		$$ = strmap_id ;
+
+		}
 	;
 
 section_specification_directive
@@ -1704,13 +1762,13 @@ shift_operator
 
 term
 	: primary
-		{ printf("term primary\n") ; } /*{ $$ =   $1; }*/
+		{ printf("term primary\n") ; $$ =   $1; }
 	| Minus
 	  primary
-		{ printf("term minus primary\n") ; } /*{ $$ = - $2; }*/
+		{ printf("term minus primary\n") ; $$ = - $2; }
 	| Tilda
 	  primary
-		{ printf("term ~\n") ; } /*{ $$ = ~ $2; }*/
+		{ printf("term ~\n") ; $$ = ~ $2; }
 	;
 
 unlabeled_directive

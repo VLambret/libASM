@@ -108,6 +108,7 @@ $(OBJ)/$(PARSE)/%.o : $(SRC_PARSE)/%.c
 
 $(OBJ)/$(PARSE)/asm_mipsyac.o : $(SRC_PARSE)/asm_mipsyac.cpp
 	@mkdir -p $(OBJ)/$(PARSE)
+	$(CPP) $(CFLAGS) -E -c -o $@.c $<
 	$(CPP) $(CFLAGS) -c -o $@ $<
 
 $(SRC_PARSE)/asm_mipsyac.cpp $(INCLUDE)/asm_mipsyac.h : $(SRC_PARSE)/asm_mips.yac
@@ -117,6 +118,14 @@ $(SRC_PARSE)/asm_mipsyac.cpp $(INCLUDE)/asm_mipsyac.h : $(SRC_PARSE)/asm_mips.ya
 
 $(SRC_PARSE)/asm_mipslex.c : $(INCLUDE)/asm_mipsyac.h $(SRC_PARSE)/asm_mips.lex
 	$(LEX) -Pasm_mips -o $@ $(SRC_PARSE)/asm_mips.lex
+
+# Tests
+
+.PHONY : testparse
+
+testparse:$(SRC)/$(EX)/primes.s bin/cpp/main_test
+	cat $< | ./bin/cpp/main_test
+
 
 # Show tokens
 

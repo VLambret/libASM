@@ -38,7 +38,7 @@ char  separ;
         if (i != idx)
           {
           tmp_str = utl_SaveNString (str + idx,          i - idx);
-          pt_chn  = utl_addutchn    (pt_chn   , (void *) tmp_str);
+          pt_chn  = utl_addutchn    (pt_chn   , (union utdat)(void *) tmp_str);
           }
         idx = i + 1;
         }
@@ -48,7 +48,7 @@ char  separ;
     if (i != idx)
       {
       tmp_str = utl_SaveNString (str + idx,          i - idx);
-      pt_chn  = utl_addutchn    (pt_chn   , (void *) tmp_str);
+      pt_chn  = utl_addutchn    (pt_chn   , (union utdat)(void *) tmp_str);
       }
     }
 

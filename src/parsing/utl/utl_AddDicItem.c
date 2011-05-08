@@ -98,6 +98,7 @@ void         *data  ;
         pt_dic->FRE_D (pt_typ->DAT2.VPNT);
 
       pt_typ->DAT2.VPNT = pt_dic->ADD_D (data);
+
       }
 
     }

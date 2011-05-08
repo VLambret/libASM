@@ -37,7 +37,7 @@ int   right;
       {
       sprintf (buf + idx, "%d", i);
       name   = utl_SaveString (buf                  );
-      pt_chn = utl_addutchn   (pt_chn, (void *) name);
+      pt_chn = utl_addutchn   (pt_chn, (union utdat)(void *) name);
       }
     }
   else
@@ -46,7 +46,7 @@ int   right;
       {
       sprintf (buf + idx, "%d", i);
       name   = utl_SaveString (buf                  );
-      pt_chn = utl_addutchn   (pt_chn, (void *) name);
+      pt_chn = utl_addutchn   (pt_chn, (union utdat)(void *) name);
       }
     }
 
