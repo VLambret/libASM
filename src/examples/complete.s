@@ -10,3 +10,6 @@ label1:
 	sync
 	wait
 	rfe
+
+	jalr	$1
+	jalr	$2,	$3
