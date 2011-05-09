@@ -768,7 +768,7 @@ format_od_rs
 				default: std::cerr<< "asm_mips.yac : " << $1 << "is not an valid Codop_od_rs for format_od_rs" << std::endl ; break ;
 			}
 			std::cout << "format_od_rs : OP="<< $1 << "jalr=" << ASM_MPS__JALR <<"rs="<< $2 << std::endl;
-			prog.addLine(new Instruction("Codop_od_rs",op,R,BR,new OPRegister("reg",$2,Src),(OPLabel*)0,(OPLabel*)0,1)) ;
+			prog.addLine(new Instruction("Codop_od_rs",op,R,BR,new OPRegister($2,Src),(OPLabel*)0,(OPLabel*)0,1)) ;
 		}
 	| Codop_od_rs
 	  integer_register

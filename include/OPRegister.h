@@ -31,6 +31,8 @@ public	:
 /**	\brief	Constructor of the Register class
 */
 	OPRegister(string, int, t_Src_Dst);
+	
+	OPRegister(int, t_Src_Dst);
 
 /**	\brief	Destructor of the Register class
 */
