@@ -807,36 +807,64 @@ format_rd_mem
 	  LeftParen
 	  integer_register
 	  RightParen
-		{ printf("format_rd_mem\n") ; } /*{
-		MCR_WRDS [0] = $1 | ($6 << 21) | ($2 << 16) | $4 ;
-		MCR_WNBR     =  1 ;
-		}*/
+		{
+			t_Operator op ;
+			switch($1) {
+				case ASM_MPS__LB : op = lb ; break ;
+				case ASM_MPS__LBU : op = lbu ; break ;
+				case ASM_MPS__LH : op = lh ; break ;
+				case ASM_MPS__LHU : op = lhu ; break ;
+				case ASM_MPS__LW : op = lw ; break ;
+				case ASM_MPS__LWL : op = lwl ; break ;
+				case ASM_MPS__LWR : op = lwr ; break ;
+				case ASM_MPS__LL : op = ll ; break ;
+				default: std::cerr<< "asm_mips.yac : " << $1 << "is not an valid Codop_rd_mem for format_rd_mem" << std::endl ; break ;
+			}
+			std::cout << "format_rd_mem " << "Op" << $1 << " " << $2 <<"," << $4 << "($" << $6 <<")" << std::endl ;
+			prog.addLine(new Instruction("Codop_rd_mem",op,I,MEM,new OPRegister($2,Dst),new OPImmediate($4),new OPRegister($2,Src),3)) ;
+		}
 	| Codop_rd_mem
 	  integer_register
 	  Comma
 	  LeftParen
 	  integer_register
 	  RightParen
-		{ printf("format_rd_mem\n") ; } /*{
-		MCR_WRDS [0] = $1 | ($5 << 21) | ($2 << 16)       ;
-		MCR_WNBR     =  1 ;
-		}*/
+		{
+			t_Operator op ;
+			switch($1) {
+				case ASM_MPS__LB : op = lb ; break ;
+				case ASM_MPS__LBU : op = lbu ; break ;
+				case ASM_MPS__LH : op = lh ; break ;
+				case ASM_MPS__LHU : op = lhu ; break ;
+				case ASM_MPS__LW : op = lw ; break ;
+				case ASM_MPS__LWL : op = lwl ; break ;
+				case ASM_MPS__LWR : op = lwr ; break ;
+				case ASM_MPS__LL : op = ll ; break ;
+				default: std::cerr<< "asm_mips.yac : " << $1 << "is not an valid Codop_rd_mem for format_rd_mem" << std::endl ; break ;
+			}
+			std::cout << "format_rd_mem " << "Op" << $1 << " " << $2 <<",($" << $5 <<")" << std::endl ;
+			prog.addLine(new Instruction("Codop_rd_mem",op,I,MEM,new OPRegister($2,Dst),new OPRegister($5,Src),(OPLabel*)0,2)) ;
+		}
 	| Codop_rd_mem
 	  integer_register
 	  Comma
 	  immediate
-		{ printf("format_rd_mem\n") ; } /*{
-		unsigned int  i_h  = 0;
-		unsigned int  i_l  = 0;
-
-		i_h          = ($4 >> 16) & 0x0000ffff   ;
-		i_l          = ($4      ) & 0x0000ffff   ;
-
-		MCR_WRDS [0] = ASM_MPS__LUI |              ( 1 << 16) | i_h;
-		MCR_WRDS [1] = ASM_MPS__ORI | ( 1 << 21) | ( 1 << 16) | i_l;
-		MCR_WRDS [2] = $1           | ( 1 << 21) | ($2 << 16)      ;
-		MCR_WNBR     = 3            ;
-		}*/
+		{
+			t_Operator op ;
+			switch($1) {
+				case ASM_MPS__LB : op = lb ; break ;
+				case ASM_MPS__LBU : op = lbu ; break ;
+				case ASM_MPS__LH : op = lh ; break ;
+				case ASM_MPS__LHU : op = lhu ; break ;
+				case ASM_MPS__LW : op = lw ; break ;
+				case ASM_MPS__LWL : op = lwl ; break ;
+				case ASM_MPS__LWR : op = lwr ; break ;
+				case ASM_MPS__LL : op = ll ; break ;
+				default: std::cerr<< "asm_mips.yac : " << $1 << "is not an valid Codop_rd_mem for format_rd_mem" << std::endl ; break ;
+			}
+			std::cout << "format_rd_mem " << "Op" << $1 << " " << $2 <<"," << $4 << std::endl ;
+			prog.addLine(new Instruction("Codop_rd_mem",op,I,MEM,new OPRegister($2,Dst),new OPImmediate($4),(OPLabel*)0,2)) ;
+		}
 	;
 
 format_rd_si16

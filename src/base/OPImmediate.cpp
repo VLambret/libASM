@@ -1,10 +1,15 @@
-#include "OPImmediate.h"
+#include <OPImmediate.h>
+#include <sstream>
 
 OPImmediate::OPImmediate(string op){
-
     _oper = op;
+}
 
-    }
+OPImmediate::OPImmediate(int imm){
+	std::ostringstream oss ;
+	oss << imm ;
+    _oper = oss.str() ;
+}
 
 OPImmediate::~OPImmediate(){}
 
@@ -26,6 +31,6 @@ string OPImmediate::toString(){
 void OPImmediate::setOp( string op){
     _oper=op;
    }
-t_Src_Dst OPImmediate::getType( ){
+t_Src_Dst OPImmediate::getType( ){
 	return Src;
 }

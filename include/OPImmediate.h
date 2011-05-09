@@ -20,9 +20,11 @@ class OPImmediate: public Operand{
 
 public	:
 
-/**	\brief	Constructor of the Immediate Class
-*/
+/**	\brief	Constructor of the Immediate Class */
 	OPImmediate(string);
+
+/**	\brief	Constructor of the Immediate Class */
+	OPImmediate(int);
 
 /**	\brief	Destructor of the Immediate Class
 */
