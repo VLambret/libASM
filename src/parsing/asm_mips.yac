@@ -781,17 +781,22 @@ format_od_rs
 				default: std::cerr<< "asm_mips.yac : " << $1 << "is not an valid Codop_od_rs for format_od_rs" << std::endl ; break ;
 			}
 			//std::cout << "format_od_rs : OP="<< $1 << "jalr=" << ASM_MPS__JALR <<"rd="<< $2 << " rs=" << $4 << std::endl;
-			prog.addLine(new Instruction("Codop_od_rs",op,R,BR,new OPRegister($2,Dst),new OPRegister($4,Src),(OPLabel*)0,1)) ;
+			prog.addLine(new Instruction("Codop_od_rs",op,R,BR,new OPRegister($2,Dst),new OPRegister($4,Src),(OPLabel*)0,2)) ;
 		}
 	;
 
 format_rd
 	: Codop_rd
 	  integer_register
-		{ printf("format_rd\n") ; } /*{
-		MCR_WRDS [0] = $1 | ($2 << 11) ;
-		MCR_WNBR     =  1 ;
-		}*/
+		{
+			t_Operator op ;
+			switch($1) {
+				case ASM_MPS__MFHI : op = mfhi ; break ;
+				case ASM_MPS__MFLO : op = mflo ; break ;
+				default: std::cerr<< "asm_mips.yac : " << $1 << "is not an valid Codop_rd for format_rd" << std::endl ; break ;
+			}
+			prog.addLine(new Instruction("Codop_rd",op,R,ALU,new OPRegister($2,Dst),(OPLabel*)0,(OPLabel*)0,1)) ;
+		}
 	;
 
 format_rd_mem

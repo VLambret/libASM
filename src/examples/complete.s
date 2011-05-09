@@ -13,3 +13,6 @@ label1:
 
 	jalr	$1
 	jalr	$2,	$3
+
+	mfhi	$4
+	mflo	$5
