@@ -393,7 +393,8 @@ char *str;
 	/*   architecture dependent key words				*/
 	/* ###------------------------------------------------------### */
 
-    if (ASM_ARCHI == ASM_ARC__MIPS32)
+    //if (ASM_ARCHI == ASM_ARC__MIPS32)
+    if (1)
       {
       utl_AddDicItem (t_ht, utl_SaveString ("clo"       ), Codop_rd_rs      );
       utl_AddDicItem (t_ht, utl_SaveString ("clz"       ), Codop_rd_rs      );
@@ -430,7 +431,8 @@ char *str;
       utl_AddDicItem (t_ht, utl_SaveString ("wait"      ), Codop_n          );
       }
 
-    if (ASM_ARCHI == ASM_ARC__MIPS1 )
+    //if (ASM_ARCHI == ASM_ARC__MIPS1 )
+    if (1)
       {
       utl_AddDicItem (t_ht, utl_SaveString ("rfe"       ), Codop_n          );
       }
@@ -675,7 +677,8 @@ char *str;
 	/*   architecture dependent key words				*/
 	/* ###------------------------------------------------------### */
 
-    if (ASM_ARCHI == ASM_ARC__MIPS32)
+    //if (ASM_ARCHI == ASM_ARC__MIPS32)
+    if (1)
       {
       utl_AddDicItem (v_ht, utl_SaveString ("clo"       ), ASM_MPS__CLO      );
       utl_AddDicItem (v_ht, utl_SaveString ("clz"       ), ASM_MPS__CLZ      );
@@ -712,7 +715,8 @@ char *str;
       utl_AddDicItem (v_ht, utl_SaveString ("wait"      ), ASM_MPS__WAIT     );
       }
 
-    if (ASM_ARCHI == ASM_ARC__MIPS1 )
+    //if (ASM_ARCHI == ASM_ARC__MIPS1 )
+    if (1 )
       {
       utl_AddDicItem (v_ht, utl_SaveString ("rfe"       ), ASM_MPS__RFE      );
       }

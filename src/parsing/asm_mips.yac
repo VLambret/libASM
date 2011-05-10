@@ -896,10 +896,16 @@ format_rd_rs
 	  integer_register
 	  Comma
 	  integer_register
-		{ printf("format_rd_rs\n") ; } /*{
-		MCR_WRDS [0] = $1 | ($4 << 21) | ($2 << 16) | ($2 << 11);
-		MCR_WNBR     =  1 ;
-		}*/
+		{
+			t_Operator op ;
+			switch($1) {
+				case ASM_MPS__CLO : op = clo ; break ;
+				case ASM_MPS__CLZ : op = clz ; break ;
+				default: std::cerr<< "asm_mips.yac : " << $1 << "is not an valid Codop_rd_rs for format_rd_rs" << std::endl ; break ;
+			}
+			std::cout << "format_rd_rs " << "Op" << $1 << " $" << $2 <<", $" << $4 << std::endl ;
+			prog.addLine(new Instruction(op,new OPRegister($2,Dst),new OPRegister($4,Src))) ;
+		}
 	;
 
 format_rd_rs_rt
