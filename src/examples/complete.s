@@ -50,7 +50,7 @@ label1:
 	clz		$13,$14
 
 	add		$1,	$2,	$3
-	addu		$1,	$2,	$3
+	addu	$1,	$2,	$3
 	and		$1,	$2,	$3
 	mul		$1,	$2,	$3
 	nor		$1,	$2,	$3
@@ -62,4 +62,9 @@ label1:
 	xor		$1,	$2,	$3
 	movn	$1,	$2,	$3
 	movz	$1,	$2,	$3
+
+	addi	$2,	$3,	42
+	addiu	$4,	$5,	43
+	slti	$6,	$7,	44
+	sltiu	$8,	$9,	45
 	#test

@@ -886,7 +886,7 @@ format_rd_si16
 				case ASM_MPS__LUI : op = lui ; break ;
 				default: std::cerr<< "asm_mips.yac : " << $1 << "is not an valid Codop_rd_si16 for format_rd_si16" << std::endl ; break ;
 			}
-			std::cout << "format_rd_si16 " << "Op" << $1 << " $" << $2 <<"," << $4 << std::endl ;
+			//std::cout << "format_rd_si16 " << "Op" << $1 << " $" << $2 <<"," << $4 << std::endl ;
 			prog.addLine(new Instruction(op,new OPRegister($2,Dst),new OPImmediate($4))) ;
 		}
 	;
@@ -903,7 +903,7 @@ format_rd_rs
 				case ASM_MPS__CLZ : op = clz ; break ;
 				default: std::cerr<< "asm_mips.yac : " << $1 << "is not an valid Codop_rd_rs for format_rd_rs" << std::endl ; break ;
 			}
-			std::cout << "format_rd_rs " << "Op" << $1 << " $" << $2 <<", $" << $4 << std::endl ;
+			//std::cout << "format_rd_rs " << "Op" << $1 << " $" << $2 <<", $" << $4 << std::endl ;
 			prog.addLine(new Instruction(op,new OPRegister($2,Dst),new OPRegister($4,Src))) ;
 		}
 	;
@@ -933,7 +933,7 @@ format_rd_rs_rt
 				case ASM_MPS__MOVZ :op = movz ; break ;
 				default: std::cerr<< "asm_mips.yac : " << $1 << "is not an valid Codop_rd_rs_rt for format_rd_rs_rt" << std::endl ; break ;
 			}
-			std::cout << "format_rd_rs_rt " << "Op" << $1 << " $" << $2 <<", $" << $4 << ", $" << $6<< std::endl ;
+			//std::cout << "format_rd_rs_rt " << "Op" << $1 << " $" << $2 <<", $" << $4 << ", $" << $6<< std::endl ;
 			prog.addLine(new Instruction(op,new OPRegister($2,Dst),new OPRegister($4,Src),new OPRegister($6,Src))) ;
 		}
 	;
@@ -945,10 +945,18 @@ format_rd_rs_si16
 	  integer_register
 	  Comma
 	  signed_16_bit_immediate
-		{ printf("format_rd_rs_si16\n") ; } /*{
-		MCR_WRDS [0] = $1 | ($4 << 21) | ($2 << 16) | $6;
-		MCR_WNBR     =  1 ;
-		}*/
+	  	{
+			t_Operator op ;
+			switch($1) {
+				case ASM_MPS__ADDI : op = addi ; break ;
+				case ASM_MPS__ADDIU : op = addiu ; break ;
+				case ASM_MPS__SLTI : op = slti ; break ;
+				case ASM_MPS__SLTIU : op = sltiu ; break ;
+				default: std::cerr<< "asm_mips.yac : " << $1 << "is not an valid Codop_rd_rs_si16 for format_rd_rs_si16" << std::endl ; break ;
+			}
+			//std::cout << "format_rd_rs " << "Op" << $1 << " $" << $2 <<", $" << $4 << std::endl ;
+			prog.addLine(new Instruction(op,new OPRegister($2,Dst),new OPRegister($4,Src),new OPImmediate($6))) ;
+		}
 	;
 
 format_rd_rs_ui16
