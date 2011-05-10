@@ -1,7 +1,5 @@
-#include "Instruction.h"
-
-
-
+#include <Instruction.h>
+#include <Enum_type.h>
 
 Instruction::Instruction(string instr, t_Operator oper, t_Format form, t_Inst type, Operand *Op1, Operand *Op2, Operand *Op3, int nbr){
 
@@ -16,51 +14,78 @@ Instruction::Instruction(string instr, t_Operator oper, t_Format form, t_Inst ty
 
 }
 
+Instruction::Instruction(t_Operator oper, Operand *Op1, Operand *Op2, Operand *Op3){
+	_op= oper;
+	_op1= Op1;
+	_op2= Op2;
+	_op3= Op3;
+}
+
+Instruction::Instruction(t_Operator oper, Operand *Op1, Operand *Op2){
+	_op= oper;
+	_op1= Op1;
+	_op2= Op2;
+	_op3= (Operand*)0;
+}
+
+Instruction::Instruction(t_Operator oper, Operand *Op1){
+	_op= oper;
+	_op1= Op1;
+	_op2= (Operand*)0;
+	_op3= (Operand*)0;
+}
+
+Instruction::Instruction(t_Operator oper){
+	_op= oper;
+	_op1= (Operand*)0;
+	_op2= (Operand*)0;
+	_op3= (Operand*)0;
+}
 Instruction::~Instruction(){}
 
 Operand* Instruction::getOp1(){
-	return _op1;
+return _op1;
 }
 
 void Instruction::setOp1(Operand * o){
-	_op1=o;
+_op1=o;
 }
 
 Operand* Instruction::getOp2(){
-	return _op2;
+return _op2;
 }
 
 void Instruction::setOp2(Operand * o){
-	_op2=o;
+_op2=o;
 }
 
 Operand* Instruction::getOp3(){
-	return _op3;
+return _op3;
 }
 
 void Instruction::setOp3(Operand * o){
-	_op3 =o;
+_op3 =o;
 }
 
 
 t_Operator Instruction::getOPcode(){
-	return _op;
+return _op;
 }
 
 string Instruction::stringOPcode(){
-	string opString[]={"b", "beqz", "bnez"," beq"," bgez"," bgezal"," bgtz"," blez"," bltz"," bltzal"," bne",
-			"j"," jal"," jalr"," jr",
-			"la"," li"," loadi"," sb"," sh"," lb"," lbu"," lh"," lhu"," lui"," lw"," lwl"," lwr"," sw",
-			"add"," addu"," addi"," addiu"," andu"," andi"," mul"," mult"," multu"," nor"," oru"," ori",
-			"srl"," srlv"," sub"," subu"," sll"," sllv"," slt"," slti"," sltiu"," sltu","xoru"," xori",
-			"sra"," srav","  div"," divu"," mfhi"," mflo"," mthi"," mtlo",
-			"move"," neg"," negu"," nop","breaku"," syscallu","mfc0","mtc0",
- 			"clo"," clz"," ebase"," eepc"," eret"," ll"," madd"," maddu",
-			"mfc2"," movn"," movz"," msub"," msubu"," mtc2","pref"," sc"," syncu",
-		 	"tccontext"," teq"," teqi"," tge","tgei"," tgeiu"," tgeu"," tlt",
-      			"tlti"," tltiu"," tltu"," tne"," tnei"," waitn","rfe"  };
+string opString[]={"b", "beqz", "bnez"," beq"," bgez"," bgezal"," bgtz"," blez"," bltz"," bltzal"," bne",
+		"j"," jal"," jalr"," jr",
+		"la"," li"," loadi"," sb"," sh"," lb"," lbu"," lh"," lhu"," lui"," lw"," lwl"," lwr"," sw",
+		"add"," addu"," addi"," addiu"," andu"," andi"," mul"," mult"," multu"," nor"," oru"," ori",
+		"srl"," srlv"," sub"," subu"," sll"," sllv"," slt"," slti"," sltiu"," sltu","xoru"," xori",
+		"sra"," srav","  div"," divu"," mfhi"," mflo"," mthi"," mtlo",
+		"move"," neg"," negu"," nop","breaku"," syscallu","mfc0","mtc0",
+		"clo"," clz"," ebase"," eepc"," eret"," ll"," madd"," maddu",
+		"mfc2"," movn"," movz"," msub"," msubu"," mtc2","pref"," sc"," syncu",
+		"tccontext"," teq"," teqi"," tge","tgei"," tgeiu"," tgeu"," tlt",
+			"tlti"," tltiu"," tltu"," tne"," tnei"," waitn","rfe"  };
 
-	return opString[_op];
+return opString[_op];
 }
 
 
@@ -73,63 +98,63 @@ void Instruction::setOPcode(t_Operator newop)
 
 t_Format Instruction::getFormat(){
 
-	if(_op1->getOptype()==Lab) _format=J;
-	else if((_op1->getOptype()==Imm) || (_op2->getOptype()==Lab) || (_op2->getOptype()==Imm) ||(_op3->getOptype()==Lab) || (_op3->getOptype()==Imm))
-				_format=I;
-	else if ((_op1->getOptype()==Reg) && (_op2->getOptype()==Reg) && (_op3->getOptype()==Reg))	_format=R;
-	else return _format=O;
+if(_op1->getOptype()==Lab) _format=J;
+else if((_op1->getOptype()==Imm) || (_op2->getOptype()==Lab) || (_op2->getOptype()==Imm) ||(_op3->getOptype()==Lab) || (_op3->getOptype()==Imm))
+			_format=I;
+else if ((_op1->getOptype()==Reg) && (_op2->getOptype()==Reg) && (_op3->getOptype()==Reg))	_format=R;
+else return _format=O;
 
-	return _format;
+return _format;
 }
 
 
 string Instruction::stringForm(){
-	string form[]={"J", "I", "R", "O"};
+string form[]={"J", "I", "R", "O"};
 
-	return form[_format];
+return form[_format];
 }
 
 t_Inst  Instruction::getType(){
-	if (_op<15) _type= BR;
-	else if ((14<_op) && (_op<29)) _type= MEM;
-	else if ((28<_op)&& (_op<61))  _type= ALU;
-	else _type= OTHER;
+if (_op<15) _type= BR;
+else if ((14<_op) && (_op<29)) _type= MEM;
+else if ((28<_op)&& (_op<61))  _type= ALU;
+else _type= OTHER;
 
-	return _type;
+return _type;
 
 }
 
 string Instruction::toString(){
-	return getContent();
+return getContent();
 
 }
 
 
 t_Line Instruction::typeLine(){
-	return line_Instru;
+return line_Instru;
 }
 
 string Instruction::getContent(){
 
-	//string tmp,tmp1,tmp2,tmp3,tmp4,tmp5;
-	string rt ;
+//string tmp,tmp1,tmp2,tmp3,tmp4,tmp5;
+string rt ;
 
-	rt= stringOPcode()+ " ";
+rt= stringOPcode()+ " ";
 
-	if (_op1!=NULL){
-		rt = rt+ _op1->getOp();
-		if (_op2!=NULL){
-			rt = rt+ "," + _op2->getOp();
-			if(_op3!=NULL){
-				rt =rt+","+ _op3->getOp();
-			}
+if (_op1!=NULL){
+	rt = rt+ _op1->getOp();
+	if (_op2!=NULL){
+		rt = rt+ "," + _op2->getOp();
+		if(_op3!=NULL){
+			rt =rt+","+ _op3->getOp();
 		}
 	}
-	return rt;
+}
+return rt;
 }
 
 void Instruction::setContent(string line){
-	_line =line;
+_line =line;
 
 }
 

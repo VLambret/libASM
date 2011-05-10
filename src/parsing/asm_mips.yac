@@ -821,7 +821,8 @@ format_rd_mem
 				default: std::cerr<< "asm_mips.yac : " << $1 << "is not an valid Codop_rd_mem for format_rd_mem" << std::endl ; break ;
 			}
 			std::cout << "format_rd_mem " << "Op" << $1 << " " << $2 <<"," << $4 << "($" << $6 <<")" << std::endl ;
-			prog.addLine(new Instruction("Codop_rd_mem",op,I,MEM,new OPRegister($2,Dst),new OPImmediate($4),new OPRegister($2,Src),3)) ;
+			//prog.addLine(new Instruction("Codop_rd_mem",op,I,MEM,new OPRegister($2,Dst),new OPImmediate($4),new OPRegister($2,Src),3)) ;
+			prog.addLine(new Instruction(op,new OPRegister($2,Dst),new OPImmediate($4),new OPRegister($2,Src))) ;
 		}
 	| Codop_rd_mem
 	  integer_register

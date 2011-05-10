@@ -11,7 +11,7 @@
 
 /**	\brief	Type enum which take the type of the instructions			
 */
-	enum t_Inst {ALU, MEM, BR, OTHER,BAD2};
+	enum t_Inst {ALU, MEM, BR, OTHER,BAD};
 
 /**	\brief	Type enum which take the Operator of the instructions			
 */
@@ -33,7 +33,7 @@
 	movn,	movz,	msub,	msubu,	mtc2,	pref,
 	sc,		syncu,	tccontext,teq,	teqi,	tge,
 	tgei,	tgeiu,	tgeu,	tlt,	 tlti,	tltiu,
-	tltu,	tne,	tnei,	waitn,	rfe};
+	tltu,	tne,	tnei,	waitn,	rfe,	maxop};
 
 /**	\brief	Structure allowing to add caracteristics to an operator*/
 	struct s_Profile {
@@ -42,8 +42,8 @@
 		t_Inst		type ;
 	} ;
 
-	static s_Profile op_profile[rfe+1] = {
-			{b,			B,		BAD2},
+	static s_Profile op_profile[maxop] = {
+			{b,			B,		BAD},
 			{beqz,		I,		BR},
 			{bnez,		I,		BR},
 			{beq,		I,		BR},
@@ -69,20 +69,20 @@
 			{lhu,		I,		MEM},
 			{lui,		I,		MEM},
 			{lw,		I,		MEM},
-			{lwl,		B,		BAD2},
-			{lwr,		B,		BAD2},
+			{lwl,		B,		BAD},
+			{lwr,		B,		BAD},
 			{sw,		I,		MEM},
 			{add,		R,		ALU},
 			{addu,		R,		ALU},
 			{addi,		I,		ALU},
 			{addiu,		I,		ALU},
-			{andu,		B,		BAD2},
+			{andu,		B,		BAD},
 			{andi,		I,		ALU},
-			{mul,		B,		BAD2},
+			{mul,		B,		BAD},
 			{mult,		R,		ALU},
 			{multu,		R,		ALU},
 			{nor,		R,		ALU},
-			{oru,		B,		BAD2},
+			{oru,		B,		BAD},
 			{ori,		I,		ALU},
 			{srl,		R,		ALU},
 			{srlv,		R,		ALU},
@@ -104,48 +104,67 @@
 			{mflo,		R,		OTHER},
 			{mthi,		R,		OTHER},
 			{mtlo,		R,		OTHER},
-			{move,		B,		BAD2},
-			{neg,		B,		BAD2},
-			{negu,		B,		BAD2},
-			{nop,		B,		BAD2},
-			{breaku,	B,		BAD2},
-			{syscallu,	B,		BAD2},
-			{mfc0,		B,		BAD2},
-			{mtc0,		B,		BAD2},
-			{clo,		B,		BAD2},
-			{clz,		B,		BAD2},
-			{ebase,		B,		BAD2},
-			{eepc,		B,		BAD2},
-			{eret,		B,		BAD2},
-			{ll,		B,		BAD2},
-			{madd,		B,		BAD2},
-			{maddu,		B,		BAD2},
-			{mfc2,		B,		BAD2},
-			{movn,		B,		BAD2},
-			{movz,		B,		BAD2},
-			{msub,		B,		BAD2},
-			{msubu,		B,		BAD2},
-			{mtc2,		B,		BAD2},
-			{pref,		B,		BAD2},
-			{sc,		B,		BAD2},
-			{syncu,		B,		BAD2},
-			{tccontext,	B,		BAD2},
-			{teq,		B,		BAD2},
-			{teqi,		B,		BAD2},
-			{tge,		B,		BAD2},
-			{tgei,		B,		BAD2},
-			{tgeiu,		B,		BAD2},
-			{tgeu,		B,		BAD2},
-			{tlt,		B,		BAD2},
-			{tlti,		B,		BAD2},
-			{tltiu,		B,		BAD2},
-			{tltu,		B,		BAD2},
-			{tne,		B,		BAD2},
-			{tnei,		B,		BAD2},
-			{waitn,		B,		BAD2},
-			{rfe,		B,		BAD2}
+			{move,		B,		BAD},
+			{neg,		B,		BAD},
+			{negu,		B,		BAD},
+			{nop,		B,		BAD},
+			{breaku,	B,		BAD},
+			{syscallu,	B,		BAD},
+			{mfc0,		B,		BAD},
+			{mtc0,		B,		BAD},
+			{clo,		B,		BAD},
+			{clz,		B,		BAD},
+			{ebase,		B,		BAD},
+			{eepc,		B,		BAD},
+			{eret,		B,		BAD},
+			{ll,		B,		BAD},
+			{madd,		B,		BAD},
+			{maddu,		B,		BAD},
+			{mfc2,		B,		BAD},
+			{movn,		B,		BAD},
+			{movz,		B,		BAD},
+			{msub,		B,		BAD},
+			{msubu,		B,		BAD},
+			{mtc2,		B,		BAD},
+			{pref,		B,		BAD},
+			{sc,		B,		BAD},
+			{syncu,		B,		BAD},
+			{tccontext,	B,		BAD},
+			{teq,		B,		BAD},
+			{teqi,		B,		BAD},
+			{tge,		B,		BAD},
+			{tgei,		B,		BAD},
+			{tgeiu,		B,		BAD},
+			{tgeu,		B,		BAD},
+			{tlt,		B,		BAD},
+			{tlti,		B,		BAD},
+			{tltiu,		B,		BAD},
+			{tltu,		B,		BAD},
+			{tne,		B,		BAD},
+			{tnei,		B,		BAD},
+			{waitn,		B,		BAD},
+			{rfe,		B,		BAD}
 		};
 
+	/** brief function that return the type of an operator*/
+	static t_Inst op2type(t_Operator op) {
+		if ((op < 0) || (op >= maxop)) {
+			std::cerr << "op2type() : Invalid operator " << op << std::endl ;
+			return BAD ;
+		} else {
+			return op_profile[op].type ;
+		}		
+	}
+
+	/** brief function that return the format of an operator*/
+	static t_Format op2format(t_Operator op) {
+		if ((op < 0) || (op >= maxop)) {
+			std::cerr << "op2format() : Invalid operator " << op << std::endl ;
+			return B ;
+		} else {
+			return op_profile[op].format ;
+		}		
+	}
 	
 
 

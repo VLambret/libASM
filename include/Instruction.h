@@ -39,6 +39,15 @@ public:
 */
 	Instruction(string, t_Operator, t_Format, t_Inst, Operand *, Operand *, Operand *, int);
 
+/**	\brief	Constructor with 3 Operands of the class instruction */
+	Instruction(t_Operator, Operand *, Operand *, Operand *);
+/**	\brief	Constructor with 2 Operands of the class instruction */
+	Instruction(t_Operator, Operand *, Operand *);
+/**	\brief	Constructor with 1 Operand of the class instruction */
+	Instruction(t_Operator, Operand *);
+/**	\brief	Constructor without Operands of the class instruction */
+	Instruction(t_Operator);
+
 /**	\brief	Destructor of the class instruction
 */
 	virtual ~Instruction();
@@ -129,24 +138,24 @@ public:
 */
 	string is_dependant(Instruction i2);
 
-/**	\brief	get the dependance RAW between the current instruction and i2	\return return "RAW" or "not dependant" in format string
+/**	\brief	get the dependance RAW between the current instruction and i2	\return return "RAW" or "not dependant" in format string
 */
 	string RAW(Instruction i2);
 
-/**	\brief	get the dependance between the current instruction and i2	\return return "WAR" or "not dependant" in format string
+/**	\brief	get the dependance between the current instruction and i2	\return return "WAR" or "not dependant" in format string
 */
 	string WAR(Instruction i2);
 
-/**	\brief	get the dependance between the current instruction and i2	\return return "WAW" or "not dependant" in format string
+/**	\brief	get the dependance between the current instruction and i2	\return return "WAW" or "not dependant" in format string
 */
 	string WAW(Instruction i2);
 
-/**	\brief	get the number of operand	\return return the number of operand
+/**	\brief	get the number of operand	\return return the number of operand
 */
 	int getNumberOper();
 
 
-/**	\brief	set the number of operand*/
+/**	\brief	set the number of operand*/
 	void setNumberOper(int);
 
 	/**	\brief	return true if the directive indicate a function
