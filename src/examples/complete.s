@@ -67,4 +67,8 @@ label1:
 	addiu	$4,	$5,	43
 	slti	$6,	$7,	44
 	sltiu	$8,	$9,	45
+
+	andi	$2,	$3,	42
+	ori		$4,	$5,	43
+	xori	$6,	$7,	44
 	#test
