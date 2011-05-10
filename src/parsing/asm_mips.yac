@@ -872,7 +872,7 @@ format_rd_si16
 	  integer_register
 	  Comma
 	  signed_16_bit_immediate
-		{ printf("format_rd_si6\n") ; } /*{
+		{ printf("format_rd_si6\n") ; }/*
 		MCR_WRDS [0] = $1 | ($2 << 16) | $4;
 		MCR_WNBR     =  1 ;
 		}*/
