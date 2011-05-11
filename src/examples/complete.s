@@ -108,3 +108,10 @@ label1:
 
 	beq		$1,		$2,		label1
 	bne		$3,		$4,		label2
+
+	teqi	$16,	19
+	tgei	$18,	21
+	tgeiu	$20,	23
+	tlti	$22,	25
+	tltiu	$24,	27
+	tnei	$26,	29

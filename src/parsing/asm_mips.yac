@@ -1106,10 +1106,19 @@ format_rs_si16
 	  integer_register
 	  Comma
 	  signed_16_bit_immediate
-		{ printf("format_rs_si16\n") ; } /*{
-		MCR_WRDS [0] = $1 | ($2 << 21) | $4;
-		MCR_WNBR     =  1 ;
-		}*/
+	  	{
+			t_Operator op ;
+			switch($1) {
+				case ASM_MPS__TEQI: op = teqi; break ;
+				case ASM_MPS__TGEI: op = tgei; break ;
+				case ASM_MPS__TGEIU: op = tgeiu; break ;
+				case ASM_MPS__TLTI: op = tlti; break ;
+				case ASM_MPS__TLTIU: op = tltiu; break ;
+				case ASM_MPS__TNEI: op = tnei; break ;
+				default: std::cerr<< "asm_mips.yac : " << $1 << "is not an valid Codop_rs_si16 for format_rs_si16" << std::endl ; break ;
+			}
+			prog.addLine(new Instruction(op,new OPRegister($2,Src),new OPImmediate($4))) ;
+		}
 	;
 
 format_rt_cop0r
