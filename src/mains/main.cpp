@@ -15,7 +15,7 @@ int main(){
 	OPRegister registr1("$6",6,Dst);
 	OPRegister registr2("$7",7,Src);
 	OPRegister registr3("$6",6,Src);
-	OPImmediate imm("10");
+	OPImmediate imm("43");
 	OPExpression expr("16<<Ism");
 	Op1= &registr;
 	Op2= &registr1;
@@ -25,7 +25,7 @@ int main(){
 	Directive dir(".ent");
 	Directive dir1(".end");
 	Label lab("Loop");
-	Instruction ins("add $6,$5,$5",add,R, ALU,Op2,Op1,Op1,3);
+	Instruction ins("sw $5,43($6)",sw,I, MEM,Op1,&imm,Op2,3);
 	Instruction ins1("add $8,$6,$7",add,R, ALU,Op4,Op3,Op3,3);
 	Instruction ins5("j Loop",j,J, BR,&label,NULL,NULL,1);
 	string tlin[]={"line_Instru","line_Lab","line_Direct"};
@@ -65,7 +65,7 @@ int main(){
 	//ins.setOp1(Op2);
 	//cout<<ins.getOp1()->getOp()<<endl;
 	cout<<ins.stringOPcode()<<endl;
-	ins.setOPcode(sub);
+	//ins.setOPcode(sub);
 	cout<<ins.stringOPcode()<<endl;
 	cout<<ins.stringForm()<<endl;
 	cout<<ins.stringType()<<endl;
