@@ -1037,22 +1037,22 @@ format_rs_label
 	  integer_register
 	  Comma
 	  immediate
-		{ printf("format_rs_label\n") ; } /*{
-		unsigned int  imd  = 0;
+	  	{
+			t_Operator op ;
+			string m = strmap[$4] ;
+			switch($1) {
+				case ASM_MPS__BGEZ : op = bgez ; break ;
+				case ASM_MPS__BGEZAL : op = bgezal ; break ;
+				case ASM_MPS__BGTZ : op = bgtz ; break ;
+				case ASM_MPS__BLEZ : op = blez ; break ;
+				case ASM_MPS__BLTZ : op = bltz ; break ;
+				case ASM_MPS__BLTZAL : op = bltzal ; break ;
+				default: std::cerr<< "asm_mips.yac : " << $1 << "is not an valid Codop_rs_label for format_rs_label" << std::endl ; break ;
+			}
+			std::cout << "format_rs_label : " << m << std::endl ;
+			prog.addLine(new Instruction(op,new OPRegister($2,Src),new OPLabel(m))) ;
+		}
 
-		imd = $4 - CUR_ADR - 4;
-
-		if (PAS_NBR == ASM_ASP__CODE)
-		  {
-		  if (((imd & 0xfffe0000) != 0x00000000) &&
-		      ((imd & 0xfffe0000) != 0xfffe0000)   )
-		    lcl_error (7, NULL, 0);
-		  }
-
-		imd          = (imd >> 2) & 0x0000ffff;
-		MCR_WRDS [0] = $1 | ($2 << 21) | imd;
-		MCR_WNBR     =  1 ;
-		}*/
 	;
 
 format_rs_rt

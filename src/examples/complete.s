@@ -83,3 +83,10 @@ label1:
 	jr		$10
 	mthi	$11
 	mtlo	$12
+
+	bgez	$0,	label1
+	bgezal	$1,	label2
+	bgtz	$2,	label3
+	blez	$3,	label4
+	bltz	$4,	label5
+	bltzal	$5,	label6
