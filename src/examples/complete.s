@@ -90,3 +90,18 @@ label1:
 	blez	$3,	label4
 	bltz	$4,	label5
 	bltzal	$5,	label6
+
+	mult	$0,		$3
+	multu	$2,		$5
+	div		$4,		$7
+	divu	$6,		$9
+	madd	$8,		$11
+	maddu	$10,	$13
+	msub	$12,	$15
+	msubu	$14,	$17
+	teq		$16,	$19
+	tge		$18,	$21
+	tgeu	$20,	$23
+	tlt		$22,	$25
+	tltu	$24,	$27
+	tne		$26,	$29
