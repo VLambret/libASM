@@ -71,4 +71,8 @@ label1:
 	andi	$2,	$3,	42
 	ori		$4,	$5,	43
 	xori	$6,	$7,	44
+
+	sllv	$1,	$2,	$3
+	srav	$4,	$5,	$6
+	srlv	$7,	$8,	$9
 	#test
