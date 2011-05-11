@@ -79,3 +79,7 @@ label1:
 	sll		$1,	$2,	30
 	sra		$4,	$5,	60
 	srl		$7,	$8,	90
+
+	jr		$10
+	mthi	$11
+	mtlo	$12
