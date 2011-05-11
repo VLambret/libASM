@@ -105,3 +105,6 @@ label1:
 	tlt		$22,	$25
 	tltu	$24,	$27
 	tne		$26,	$29
+
+	beq		$1,		$2,		label1
+	bne		$3,		$4,		label2
