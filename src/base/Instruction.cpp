@@ -136,21 +136,34 @@ return line_Instru;
 
 string Instruction::getContent(){
 
-//string tmp,tmp1,tmp2,tmp3,tmp4,tmp5;
-string rt ;
 
-rt= stringOPcode()+ " ";
+	string rt ;
 
-if (_op1!=NULL){
-	rt = rt+ _op1->getOp();
-	if (_op2!=NULL){
-		rt = rt+ "," + _op2->getOp();
-		if(_op3!=NULL){
-			rt =rt+","+ _op3->getOp();
+	rt= stringOPcode()+ " ";
+
+	if(getType()==MEM){
+		if (_op1!=NULL){
+			rt = rt+ _op1->getOp();
+			if (_op2!=NULL){
+				rt = rt+ "," + _op2->getOp();
+			}
+			if(_op3!=NULL){
+				rt =rt+"("+ _op3->getOp()+")";	
+			}		
 		}
 	}
-}
-return rt;
+	else{
+		if (_op1!=NULL){
+			rt = rt+ _op1->getOp();
+			if (_op2!=NULL){
+				rt = rt+ "," + _op2->getOp();
+				if(_op3!=NULL){
+					rt =rt+","+ _op3->getOp();
+				}
+			}
+		}
+	}	
+	return rt;
 }
 
 void Instruction::setContent(string line){
