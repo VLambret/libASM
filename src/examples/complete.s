@@ -117,4 +117,7 @@ label1:
 	tnei	$26,	29
 
 	mfc0	r20,	status
-	mtc0	$zero,		status
+	mtc0	$zero,	status
+	
+	mfc2	r20,	$0
+	mtc2	$zero,	$1
