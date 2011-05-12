@@ -145,8 +145,11 @@ string Instruction::getContent(){
 		if (_op1!=NULL){
 			rt = rt+ _op1->getOp();
 			if (_op2!=NULL){
-				rt = rt+ "," + _op2->getOp();
+				if(_op2->getOptype()!=Reg)
+					rt = rt+ "," + _op2->getOp();
+				else	rt = rt+ ",(" + _op2->getOp()+")";
 			}
+			
 			if(_op3!=NULL && _op2==NULL){
 				rt =rt+",("+ _op3->getOp()+")";	
 			}
