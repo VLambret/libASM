@@ -176,7 +176,7 @@
 
 /**	\brief	Type enum which take the type of the register			
 */
-	enum t_Src_Dst {Src,Dst};
+	enum t_Src_Dst {Src,Dst,CopSrc,CopDst} ;
 
 
 #endif

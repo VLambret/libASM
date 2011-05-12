@@ -1126,10 +1126,17 @@ format_rt_cop0r
 	  integer_register
 	  Comma
 	  cop0_reg
-		{ printf("format_rt_cop0r\n") ; } /*{
-		MCR_WRDS [0] = $1 | ($2 << 16) | ($4      );
-		MCR_WNBR     =  1 ;
-		}*/
+	  	{
+			t_Operator op ;
+			t_Src_Dst spin, spinc0 ;
+			switch($1) {
+				case ASM_MPS__MFC0: op = mfc0; spin = Dst ; spinc0 = CopSrc ; break ;
+				case ASM_MPS__MTC0: op = mtc0; spin = Src ; spinc0 = CopDst ; break ;
+				default: std::cerr<< "asm_mips.yac : " << $1 << "is not an valid Codop_rt_cop0r for format_rt_cop0r" << std::endl ; break ;
+			}
+			std::cout << "format_rt_cop0r : cop0_reg=" << $4 << std::endl ;
+			prog.addLine(new Instruction(op,new OPRegister($2,spin),new OPRegister($4,spinc0))) ;
+		}
 	;
 
 format_rt_cop2r

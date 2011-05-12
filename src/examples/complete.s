@@ -115,3 +115,6 @@ label1:
 	tlti	$22,	25
 	tltiu	$24,	27
 	tnei	$26,	29
+
+	mfc0	r20,	status
+	mtc0	$zero,		status
