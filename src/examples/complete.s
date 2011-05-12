@@ -135,4 +135,6 @@ label1:
 	sw		$2,		6
 	sc		$3,		7
 
-	break 	-10 
+	break 	-10
+
+	pref	10,		11($12)

@@ -126,7 +126,7 @@
 			{msub,		B,		BAD},
 			{msubu,		B,		BAD},
 			{mtc2,		B,		BAD},
-			{pref,		B,		BAD},
+			{pref,		O,		MEM},
 			{sc,		B,		BAD},
 			{syncu,		B,		BAD},
 			{tccontext,	B,		BAD},

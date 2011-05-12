@@ -713,17 +713,15 @@ format_hint_mem
 	  LeftParen
 	  integer_register
 	  RightParen
-		{ printf("format_hint_mem\n") ; }
-		/*{
-		if (PAS_NBR == ASM_ASP__CODE)
-		  {
-		  if (($2 & 0xffffffe0) != 0)
-		    lcl_error (6, NULL, $2);
-		  }
-
-		MCR_WRDS [0] = $1 | ($6 << 21) | ($2 << 16) | $4;
-		MCR_WNBR     =  1 ;
-		}*/
+	  	{	t_Operator op ;
+			string m = strmap[$2] ;
+			
+			switch($1) {
+				case ASM_MPS__PREF : op = pref ; break ;
+				default: std::cerr<< "asm_mips.yac : " << $1 << "is not an valid Codop_hint_mem for format_hint_mem" << std::endl ; break ;
+			}
+			prog.addLine(new Instruction(op,new OPImmediate($2),new OPImmediate($4),new OPRegister($6,Src))) ;	
+		}
 	;
 
 format_label
@@ -737,8 +735,6 @@ format_label
 				case ASM_MPS__JAL : op = jal ; break ;
 				default: std::cerr<< "asm_mips.yac : " << $1 << "is not an valid Codop_label for format_label" << std::endl ; break ;
 			}
-
-			//prog.addLine(new Instruction(op+" "+m,op,J,BR,new OPLabel(m),(OPLabel*)0,(OPLabel*)0,1)) ;	
 			prog.addLine(new Instruction(op,new OPLabel(m))) ;	
 		}
 	;
@@ -754,8 +750,6 @@ format_n
 				case ASM_MPS__ERET : op = eret ; break ;
 				default: std::cerr<< "asm_mips.yac : " << $1 << "is not an valid Codop_n for format_n" << std::endl ; break ;
 			}
-			
-			//prog.addLine(new Instruction("Codop_n",op,O,OTHER,(OPLabel*)0,(OPLabel*)0,(OPLabel*)0,0)) ;
 			prog.addLine(new Instruction(op)) ;
 		}
 	;
@@ -769,8 +763,6 @@ format_od_rs
 				case ASM_MPS__JALR : op = jalr ; break ;
 				default: std::cerr<< "asm_mips.yac : " << $1 << "is not an valid Codop_od_rs for format_od_rs" << std::endl ; break ;
 			}
-			//std::cout << "format_od_rs : OP="<< $1 << "jalr=" << ASM_MPS__JALR <<"rs="<< $2 << std::endl;
-			//prog.addLine(new Instruction("Codop_od_rs",op,R,BR,new OPRegister($2,Src),(OPLabel*)0,(OPLabel*)0,1)) ;
 			prog.addLine(new Instruction(op,new OPRegister($2,Src))) ;
 		}
 	| Codop_od_rs
@@ -783,8 +775,6 @@ format_od_rs
 				case ASM_MPS__JALR : op = jalr ; break ;
 				default: std::cerr<< "asm_mips.yac : " << $1 << "is not an valid Codop_od_rs for format_od_rs" << std::endl ; break ;
 			}
-			//std::cout << "format_od_rs : OP="<< $1 << "jalr=" << ASM_MPS__JALR <<"rd="<< $2 << " rs=" << $4 << std::endl;
-			//prog.addLine(new Instruction("Codop_od_rs",op,R,BR,new OPRegister($2,Dst),new OPRegister($4,Src),(OPLabel*)0,2)) ;
 			prog.addLine(new Instruction(op,new OPRegister($2,Dst),new OPRegister($4,Src))) ;
 		}
 	;
@@ -799,7 +789,6 @@ format_rd
 				case ASM_MPS__MFLO : op = mflo ; break ;
 				default: std::cerr<< "asm_mips.yac : " << $1 << "is not an valid Codop_rd for format_rd" << std::endl ; break ;
 			}
-			//prog.addLine(new Instruction("Codop_rd",op,R,ALU,new OPRegister($2,Dst),(OPLabel*)0,(OPLabel*)0,1)) ;
 			prog.addLine(new Instruction(op,new OPRegister($2,Dst))) ;
 		}
 	;
@@ -825,8 +814,6 @@ format_rd_mem
 				case ASM_MPS__LL : op = ll ; break ;
 				default: std::cerr<< "asm_mips.yac : " << $1 << "is not an valid Codop_rd_mem for format_rd_mem" << std::endl ; break ;
 			}
-			//std::cout << "format_rd_mem " << "Op" << $1 << " " << $2 <<"," << $4 << "($" << $6 <<")" << std::endl ;
-			//prog.addLine(new Instruction("Codop_rd_mem",op,I,MEM,new OPRegister($2,Dst),new OPImmediate($4),new OPRegister($2,Src),3)) ;
 			prog.addLine(new Instruction(op,new OPRegister($2,Dst),new OPImmediate($4),new OPRegister($2,Src))) ;
 		}
 	| Codop_rd_mem
@@ -848,8 +835,6 @@ format_rd_mem
 				case ASM_MPS__LL : op = ll ; break ;
 				default: std::cerr<< "asm_mips.yac : " << $1 << "is not an valid Codop_rd_mem for format_rd_mem" << std::endl ; break ;
 			}
-			//std::cout << "format_rd_mem " << "Op" << $1 << " " << $2 <<",($" << $5 <<")" << std::endl ;
-			//prog.addLine(new Instruction("Codop_rd_mem",op,I,MEM,new OPRegister($2,Dst),new OPRegister($5,Src),(OPLabel*)0,2)) ;
 			prog.addLine(new Instruction(op,new OPRegister($2,Dst),new OPRegister($5,Src))) ;
 		}
 	| Codop_rd_mem
@@ -869,8 +854,6 @@ format_rd_mem
 				case ASM_MPS__LL : op = ll ; break ;
 				default: std::cerr<< "asm_mips.yac : " << $1 << "is not an valid Codop_rd_mem for format_rd_mem" << std::endl ; break ;
 			}
-			//std::cout << "format_rd_mem " << "Op" << $1 << " " << $2 <<"," << $4 << std::endl ;
-			//prog.addLine(new Instruction("Codop_rd_mem",op,I,MEM,new OPRegister($2,Dst),new OPImmediate($4),(OPLabel*)0,2)) ;
 			prog.addLine(new Instruction(op,new OPRegister($2,Dst),new OPImmediate($4))) ;
 		}
 	;
@@ -886,7 +869,6 @@ format_rd_si16
 				case ASM_MPS__LUI : op = lui ; break ;
 				default: std::cerr<< "asm_mips.yac : " << $1 << "is not an valid Codop_rd_si16 for format_rd_si16" << std::endl ; break ;
 			}
-			//std::cout << "format_rd_si16 " << "Op" << $1 << " $" << $2 <<"," << $4 << std::endl ;
 			prog.addLine(new Instruction(op,new OPRegister($2,Dst),new OPImmediate($4))) ;
 		}
 	;
@@ -903,7 +885,6 @@ format_rd_rs
 				case ASM_MPS__CLZ : op = clz ; break ;
 				default: std::cerr<< "asm_mips.yac : " << $1 << "is not an valid Codop_rd_rs for format_rd_rs" << std::endl ; break ;
 			}
-			//std::cout << "format_rd_rs " << "Op" << $1 << " $" << $2 <<", $" << $4 << std::endl ;
 			prog.addLine(new Instruction(op,new OPRegister($2,Dst),new OPRegister($4,Src))) ;
 		}
 	;
@@ -933,7 +914,6 @@ format_rd_rs_rt
 				case ASM_MPS__MOVZ :op = movz ; break ;
 				default: std::cerr<< "asm_mips.yac : " << $1 << "is not an valid Codop_rd_rs_rt for format_rd_rs_rt" << std::endl ; break ;
 			}
-			//std::cout << "format_rd_rs_rt " << "Op" << $1 << " $" << $2 <<", $" << $4 << ", $" << $6<< std::endl ;
 			prog.addLine(new Instruction(op,new OPRegister($2,Dst),new OPRegister($4,Src),new OPRegister($6,Src))) ;
 		}
 	;
@@ -954,7 +934,6 @@ format_rd_rs_si16
 				case ASM_MPS__SLTIU : op = sltiu ; break ;
 				default: std::cerr<< "asm_mips.yac : " << $1 << "is not an valid Codop_rd_rs_si16 for format_rd_rs_si16" << std::endl ; break ;
 			}
-			//std::cout << "format_rd_rs " << "Op" << $1 << " $" << $2 <<", $" << $4 << std::endl ;
 			prog.addLine(new Instruction(op,new OPRegister($2,Dst),new OPRegister($4,Src),new OPImmediate($6))) ;
 		}
 	;
@@ -974,7 +953,6 @@ format_rd_rs_ui16
 				case ASM_MPS__XORI : op = xori ; break ;
 				default: std::cerr<< "asm_mips.yac : " << $1 << "is not an valid Codop_rd_rs_ui16 for format_rd_rs_ui16" << std::endl ; break ;
 			}
-			//std::cout << "format_rd_rs " << "Op" << $1 << " $" << $2 <<", $" << $4 << std::endl ;
 			prog.addLine(new Instruction(op,new OPRegister($2,Dst),new OPRegister($4,Src),new OPImmediate($6))) ;
 		}
 	;
