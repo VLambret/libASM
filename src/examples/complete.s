@@ -134,3 +134,5 @@ label1:
 	sh		$1,		5
 	sw		$2,		6
 	sc		$3,		7
+
+	break 	-10 
