@@ -1369,9 +1369,9 @@ macro_rd_rt
 	  integer_register
 	  	{
 	  		if ($1 == ASM_MPS__NEG) {
-				prog.addLine(new Instruction(sub,new OPRegister($2,Dst),new OPRegister(0,Src),new OPRegister(4,Src))) ;
+				prog.addLine(new Instruction(sub,new OPRegister($2,Dst),new OPRegister(0,Src),new OPRegister($4,Src))) ;
 			} else if ($1 == ASM_MPS__NEGU) {
-				prog.addLine(new Instruction(subu,new OPRegister($2,Dst),new OPRegister(0,Src),new OPRegister(4,Src))) ;
+				prog.addLine(new Instruction(subu,new OPRegister($2,Dst),new OPRegister(0,Src),new OPRegister($4,Src))) ;
 			} else {
 				std::cerr<< "asm_mips.yac : " << $1 << "is not an valid Macro_rd_rt" << std::endl ; break ;
 			}
