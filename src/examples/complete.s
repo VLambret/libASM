@@ -138,3 +138,8 @@ label1:
 	break 	-10
 
 	pref	10,		11($12)
+
+	li		$10,	0xFFFF0000
+	loadi	$11,	0x0000FFFF
+
+	move	$5,		$4

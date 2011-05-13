@@ -482,7 +482,7 @@ assembly_file
 		if  (PAS_NBR == ASM_ASP__SIZEOF )
 		  PT_FIG->OBJECTS = asm_addasobj (PT_FIG->OBJECTS, FIL_NAM);
 		 */
-		 printf("programme assembleur\n") ;
+		// printf("programme assembleur\n") ;
 		}
         ;
 
@@ -1321,17 +1321,17 @@ macro_rd_i32
 	  integer_register
 	  Comma
 	  immediate
-		{ printf("macro_rd_i32\n") ; } /*{
-		unsigned int  i_h  = 0;
-		unsigned int  i_l  = 0;
-
-		i_h          = ($4 >> 16) & 0x0000ffff   ;
-		i_l          = ($4      ) & 0x0000ffff   ;
-
-		MCR_WRDS [0] = ASM_MPS__LUI |              ($2 << 16) | i_h;
-		MCR_WRDS [1] = ASM_MPS__ORI | ($2 << 21) | ($2 << 16) | i_l;
-		MCR_WNBR     = 2 ;
-		}*/
+	  	{
+	  		if ($1 != ASM_MPS__LI) {
+				std::cerr<< "asm_mips.yac : " << $1 << "is not an valid Macro_rd_i32" << std::endl ;
+			}
+			int hi, lo ;
+			hi = ($4 >> 16) &  0x0000FFFF ;
+			lo = ($4      ) &  0x0000FFFF ;
+						
+			prog.addLine(new Instruction(lui,new OPRegister(1,Dst),new OPImmediate(hi))) ;
+			prog.addLine(new Instruction(ori,new OPRegister($2,Dst),new OPRegister(1,Src),new OPImmediate(lo))) ;
+		}
 	;
 
 macro_rd_label
@@ -1357,11 +1357,14 @@ macro_rd_rs
 	  integer_register
 	  Comma
 	  integer_register
-		{ printf("macro_rd_rs\n") ; } /*{
-		MCR_WRDS [0] = $1 | ($4 << 21) | ($2 << 11);
-		MCR_WNBR     =  1 ;
-		}*/
-	;
+	  	{
+	  		if ($1 != ASM_MPS__MOVE) {
+				std::cerr<< "asm_mips.yac : " << $1 << "is not an valid Macro_rd_rs" << std::endl ;
+			}
+						
+			prog.addLine(new Instruction(or_,new OPRegister($2,Dst),new OPRegister($4,Src),new OPRegister(0,Src))) ;
+		}
+	;	
 
 macro_rd_rt
 	: Macro_rd_rt
