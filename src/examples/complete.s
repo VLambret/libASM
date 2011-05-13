@@ -148,3 +148,6 @@ label1:
 	nop
 	
 	la		$10,		etaudela
+
+	neg		$10,	$11
+	negu	$12,	$13

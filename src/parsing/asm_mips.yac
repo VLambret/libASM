@@ -1346,18 +1346,6 @@ macro_rd_label
 			prog.addLine(new Instruction(lui,new OPRegister(1,Dst),new OPExpression(oss_hi.str()))) ;
 			prog.addLine(new Instruction(ori,new OPRegister($2,Dst),new OPRegister(1,Src),new OPExpression(oss_lo.str()))) ;
 		}
-
-		{ printf("macro_rd_label\n") ; } /*{
-		unsigned int  i_h  = 0;
-		unsigned int  i_l  = 0;
-
-		i_h          = ($4 >> 16) & 0x0000ffff   ;
-		i_l          = ($4      ) & 0x0000ffff   ;
-
-		MCR_WRDS [0] = ASM_MPS__LUI |              ($2 << 16) | i_h;
-		MCR_WRDS [1] = ASM_MPS__ORI | ($2 << 21) | ($2 << 16) | i_l;
-		MCR_WNBR     = 2 ;
-		}*/
 	;
 
 macro_rd_rs
@@ -1379,10 +1367,15 @@ macro_rd_rt
 	  integer_register
 	  Comma
 	  integer_register
-		{ printf("macro_rd_rt\n") ; } /*{
-		MCR_WRDS [0] = $1 | ($4 << 16) | ($2 << 11);
-		MCR_WNBR     =  1 ;
-		}*/
+	  	{
+	  		if ($1 == ASM_MPS__NEG) {
+				prog.addLine(new Instruction(sub,new OPRegister($2,Dst),new OPRegister(0,Src),new OPRegister(4,Src))) ;
+			} else if ($1 == ASM_MPS__NEGU) {
+				prog.addLine(new Instruction(subu,new OPRegister($2,Dst),new OPRegister(0,Src),new OPRegister(4,Src))) ;
+			} else {
+				std::cerr<< "asm_mips.yac : " << $1 << "is not an valid Macro_rd_rt" << std::endl ; break ;
+			}
+		}
 	;
 
 macro_rs_label
