@@ -1393,22 +1393,6 @@ macro_rs_label
 				std::cerr<< "asm_mips.yac : " << $1 << "is not an valid Macro_rs_label" << std::endl ; break ;
 			}
 		}
-		{ printf("macro_rs_label\n") ; } /*{
-		unsigned int  imd  = 0;
-
-		imd = $4 - CUR_ADR - 4;
-
-		if (PAS_NBR == ASM_ASP__CODE)
-		  {
-		  if (((imd & 0xfffe0000) != 0x00000000) &&
-		      ((imd & 0xfffe0000) != 0xfffe0000)   )
-		    lcl_error (7, NULL, 0);
-		  }
-
-		imd          = (imd >> 2) & 0x0000ffff;
-		MCR_WRDS [0] = $1 | ($2 << 21) | imd;
-		MCR_WNBR     =  1 ;
-		}*/
 	;
 
 memory_alloc_directive
