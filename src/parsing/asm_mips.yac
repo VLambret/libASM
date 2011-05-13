@@ -21,7 +21,7 @@ extern "C" {
 //#include ASM_H
 #include <asm_mipsyac.h>
 #include<map>
-
+#include <sstream>
 
 #undef  yylex
 #define yylex         asm_mipslex
@@ -1332,6 +1332,21 @@ macro_rd_label
 	  integer_register
 	  Comma
 	  immediate
+	  	{
+			string m = strmap[$4] ;
+		    std::ostringstream oss_hi ;
+		    std::ostringstream oss_lo ;
+	  		if ($1 != ASM_MPS__LI) {
+				std::cerr<< "asm_mips.yac : " << $1 << "is not an valid Macro_rd_i32" << std::endl ;
+			}
+
+		    oss_hi << "%hi(" << m << ")" ;
+		    oss_lo << "%lo(" << m << ")" ;
+						
+			prog.addLine(new Instruction(lui,new OPRegister(1,Dst),new OPExpression(oss_hi.str()))) ;
+			prog.addLine(new Instruction(ori,new OPRegister($2,Dst),new OPRegister(1,Src),new OPExpression(oss_lo.str()))) ;
+		}
+
 		{ printf("macro_rd_label\n") ; } /*{
 		unsigned int  i_h  = 0;
 		unsigned int  i_l  = 0;
