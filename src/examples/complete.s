@@ -143,3 +143,5 @@ label1:
 	loadi	$11,	0x0000FFFF
 
 	move	$5,		$4
+
+	b		infini
