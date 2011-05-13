@@ -151,3 +151,6 @@ label1:
 
 	neg		$10,	$11
 	negu	$12,	$13
+
+	beqz	$14,	labela
+	bnez	$15,	labelb

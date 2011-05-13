@@ -1383,6 +1383,16 @@ macro_rs_label
 	  integer_register
 	  Comma
 	  immediate
+	  	{
+			string m = strmap[$4] ;
+	  		if ($1 == ASM_MPS__BEQZ) {
+				prog.addLine(new Instruction(beq,new OPRegister(0,Src),new OPRegister($2,Src),new OPLabel(m))) ;
+			} else if ($1 == ASM_MPS__BNEZ) {
+				prog.addLine(new Instruction(bne,new OPRegister(0,Src),new OPRegister($2,Src),new OPLabel(m))) ;
+			} else {
+				std::cerr<< "asm_mips.yac : " << $1 << "is not an valid Macro_rs_label" << std::endl ; break ;
+			}
+		}
 		{ printf("macro_rs_label\n") ; } /*{
 		unsigned int  imd  = 0;
 
