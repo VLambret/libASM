@@ -145,3 +145,4 @@ label1:
 	move	$5,		$4
 
 	b		infini
+	nop 

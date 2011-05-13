@@ -1301,10 +1301,12 @@ macro_label
 
 macro_n
 	: Macro_n
-		{ printf("macro_n\n") ; } /*{
-		MCR_WRDS [0] = $1 ;
-		MCR_WNBR     =  1 ;
-		}*/
+	  	{
+	  		if ($1 != ASM_MPS__NOP) {
+				std::cerr<< "asm_mips.yac : " << $1 << "is not an valid Macro_n" << std::endl ;
+			}
+			prog.addLine(new Instruction(add,new OPRegister(0,Dst),new OPRegister(0,Src),new OPRegister(0,Src))) ;
+		}
 	;
 
 macro_rd_i32
