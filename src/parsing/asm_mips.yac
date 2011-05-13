@@ -1292,7 +1292,7 @@ macro_label
 	  immediate
 	  	{
 			string m = strmap[$2] ;
-	  		if ($1 != ASM_MPS__LI) {
+	  		if ($1 != ASM_MPS__B) {
 				std::cerr<< "asm_mips.yac : " << $1 << "is not an valid Macro_label" << std::endl ;
 			}
 			prog.addLine(new Instruction(bgez,new OPRegister(0,Src),new OPLabel(m))) ;
