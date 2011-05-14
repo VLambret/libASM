@@ -136,19 +136,19 @@ public:
 /**	\brief	get the dependance between the current instruction and i2
 	\return return "RAW", "WAR", "WAW" or "not dependant" in format string
 */
-	string is_dependant(Instruction i2);
+	//t_Dep is_dependant(Instruction i2);
 
 /**	\brief	get the dependance RAW between the current instruction and i2	\return return "RAW" or "not dependant" in format string
 */
-	string RAW(Instruction i2);
+	//t_Dep RAW(Instruction i2);
 
 /**	\brief	get the dependance between the current instruction and i2	\return return "WAR" or "not dependant" in format string
 */
-	string WAR(Instruction i2);
+	//t_Dep WAR(Instruction i2);
 
 /**	\brief	get the dependance between the current instruction and i2	\return return "WAW" or "not dependant" in format string
 */
-	string WAW(Instruction i2);
+	//t_Dep WAW(Instruction i2);
 
 /**	\brief	get the number of operand	\return return the number of operand
 */

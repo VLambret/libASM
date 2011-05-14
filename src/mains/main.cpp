@@ -1,8 +1,9 @@
 #include <iostream>
-#include "Instruction.h"
-#include "Program.h"
-#include "Directive.h"
-#include "Label.h"
+#include <Instruction.h>
+#include <Program.h>
+#include <Directive.h>
+#include <Label.h>
+#include <fstream>
 
 
 int main(){
@@ -75,14 +76,14 @@ int main(){
 	//ins.setContent("j loop");
 	cout<<ins.getContent()<<endl;
 
-	cout<<ins.is_dependant(ins1)<<endl;
+	//cout<<ins.is_dependant(ins1)<<endl;
 
 
 	cout<<"TEST PROG"<<endl;
 	prog.display();
-	prog.add_position(lg1,0);
+	prog.add_Line_at(lg1,0);
 	prog.display();
-	prog.add_position(lg2,1);
+	prog.add_Line_at(lg2,1);
 	prog.addLine(lg3);
 	prog.display();
 	prog.addLine(lg6);
@@ -92,7 +93,7 @@ int main(){
 	prog.display();
 	cout<<prog.findLine(1)-> getContent()<<"\n"<<endl;
 
-	prog.dependance(ins,ins1);
+	//prog.dependance(ins,ins1);
 	//prog.delLine(3);
 	//cout<<prog.findLine(2)-> getContent()<<"\n"<<endl;
 	prog.display();
@@ -109,7 +110,7 @@ int main(){
 	Function unc;
 	Basic_block bb;
 	cout<<"\n TEST OPTION"<<endl;
-	prog.calculate_Function();
+	prog.comput_Function();
 	prog.get_Function(0).display();
 	cout<<prog.nbr_Func()<<endl;
 	cout<<"\n";
@@ -118,12 +119,12 @@ int main(){
 	unc.display();
 	cout<<unc.size()<<endl;
 	unc.restitution("./tmp/ex1.txt");
-	unc.calculate_basic_block();
+	unc.comput_basic_block();
 	bb=unc.get_BB(0);
 	cout<<endl;
 	bb.get_head();
 	bb.display();
-	bb.restitution("./tmp/ex.txt");
+	bb.restitution("./tmp/ex12.txt");
 	cout<<endl;
 	
 

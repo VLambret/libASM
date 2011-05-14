@@ -62,7 +62,7 @@ public:
 
 /**	\brief	Calculate the basics bolck of the function
 */
-	void calculate_basic_block();
+	void comput_basic_block();
 
 /**	\brief	get the number of Basic block in the function
 */

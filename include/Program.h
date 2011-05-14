@@ -49,7 +49,7 @@ public:
 
 /**	\brief	Add a line to the program with position as index
 */
-	int add_position(Line *newline, int position);
+	int add_Line_at(Line *newline, int position);
 
 /** \brief display the program
 */
@@ -70,7 +70,7 @@ public:
 
 /**	\brief	get the dependance betwen two instructions
 */
-	void dependance(Instruction i1, Instruction i2);
+	//t_Dep dependance(Instruction i1, Instruction i2);
 
 
 /**	\brief	write the programme in file
@@ -83,7 +83,7 @@ public:
 
 /**	\brief	calculate functions
 */
-	void  calculate_Function();
+	void  comput_Function();
 
 /**	\brief	get the number of functions in the program
 */

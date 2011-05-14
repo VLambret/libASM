@@ -89,7 +89,7 @@ void Basic_block::restitution(string const filename){
 
 }
 
-bool Basic_block::isLabelised(){
+bool Basic_block::isLabeled(){
 	if (_head->getLine()->typeLine()==line_Lab){
 		return true;
 	}

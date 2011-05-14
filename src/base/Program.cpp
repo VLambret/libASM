@@ -89,7 +89,7 @@ void Program::delLine(int index){
     	}
 }
 
-int Program::add_position(Line *newline, int position)
+int Program::add_Line_at(Line *newline, int position)
 {
     if (position <= 0){
        	Node * new_nod = new Node(newline);
@@ -144,15 +144,15 @@ void Program::display()
 	if(isEmpty())	cout<<"The program is empty"<<endl;
 	cout << endl;
 }
-
-void Program::dependance(Instruction i1, Instruction i2){
+/*
+t_Dep Program::dependance(Instruction i1, Instruction i2){
 
 	string dep1= i1.is_dependant(i2);
 	string dep2= i2.is_dependant(i1);
 	cout<<"Depedance i1->i2: "<<dep1<<endl;
 	cout<<"Depedance i2->i1: "<<dep2<<endl;
 }
-
+*/
 Line* Program::findLine(int index){
 
     int j;
@@ -207,7 +207,7 @@ void Program::inFile(string const filename){
 }
 
 
-void Program::calculate_Function(){
+void Program::comput_Function(){
 	Function func;
 
 	if (!isEmpty()){	

@@ -84,7 +84,7 @@ void Function::restitution(string const filename){
 	monflux.close();
 }
 
-void Function::calculate_basic_block(){
+void Function::comput_basic_block(){
 	Basic_block BB;	
 	int begin=0;
 

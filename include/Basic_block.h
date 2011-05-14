@@ -61,7 +61,7 @@ public:
 
 /**	\brief	Return true if the first line of the block is a label
 */
-	bool isLabelised();
+	bool isLabeled();
 
 private:
 

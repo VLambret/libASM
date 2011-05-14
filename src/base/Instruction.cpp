@@ -181,77 +181,72 @@ string Instruction::stringType(){
 	string typ[]={"ALU", "MEM", "BR", "OTHER"};
 	return typ[_type];
 }
-
-string Instruction::RAW(Instruction i2){
+/*
+t_Dep Instruction::RAW(Instruction i2){
 
 	 if(_op1->getOptype()==Reg  && _op1->getType() == Dst){
 		if((_op1->getOp().compare(i2.getOp1()->getOp())==0) && (i2.getOp1()->getOptype()==Reg) && 
 					(i2.getOp1()->getType() == Src)) 
-							return "RAW";
+							return RAW;
 		if(i2.getNumberOper()>=2 && i2.getOp2()!=NULL){
             		if((_op1->getOp().compare(i2.getOp2()->getOp())==0) && (i2.getOp2()->getOptype()==Reg) && 
 					(i2.getOp2()->getType() == Src)) 
-							return "RAW";
+							return RAW;
 		}
                 else if(i2.getNumberOper()==3 && i2.getOp3()!=NULL){ 
 			if((_op1->getOp().compare(i2.getOp3()->getOp())==0) && (i2.getOp3()->getOptype()==Reg) &&
 					(i2.getOp3()->getType() == Src)) 
-							return "RAW";
+							return RAW;
 		}
         }
-	return "not depedant";
+	return NONE;
 
 }
 
-string Instruction::WAR(Instruction i2){
+t_Dep Instruction::WAR(Instruction i2){
 
 	if(i2.getOp1()->getType() == Dst){
 		if(getNumberOper()>=2 && _op2->getType() == Src && getOp2()!=NULL){
 		 	if((_op2->getOptype()==Reg) && (i2.getOp1()->getOptype()==Reg)){
-	            		if(_op2->getOp().compare(i2.getOp1()->getOp())==0 )    return "WAR";
+	            		if(_op2->getOp().compare(i2.getOp1()->getOp())==0 )    return WAR;
 	        	}
 		}
 		else if(getNumberOper()==3 && _op3->getType() == Dst && getOp1()!=NULL){
 	        	if((_op3->getOptype()==Reg) && (i2.getOp1()->getOptype()==Reg)){
-	            		if(_op3->getOp().compare(i2.getOp1()->getOp())==0)     return "WAR";
+	            		if(_op3->getOp().compare(i2.getOp1()->getOp())==0)     return WAR;
 	        	}
 		}	
 		if( _op1->getType() == Src){
 	        	if((_op1->getOptype()==Reg) && (i2.getOp1()->getOptype()==Reg)){
-	            		if(_op1->getOp().compare(i2.getOp1()->getOp())==0)     return "WAR";
+	            		if(_op1->getOp().compare(i2.getOp1()->getOp())==0)     return WAR;
 	        	}
 		}
 	}
-	return "not depedant";
+	return NONE;
 
 }
 
-string Instruction::WAW(Instruction i2){
+t_Dep Instruction::WAW(Instruction i2){
 
 	
         if(_op1->getOptype()==Reg){
 		if(_op1->getType() == Dst && i2.getOp1()->getType() == Dst)
 
-            if((_op1->getOp().compare(i2.getOp1()->getOp())==0) && (i2.getOp1()->getOptype()==Reg) )   return "WAW";
+            if((_op1->getOp().compare(i2.getOp1()->getOp())==0) && (i2.getOp1()->getOptype()==Reg) )   return WAW;
           }
-	return "not depedant";
+	return NONE;
 
 }
 
-string Instruction::is_dependant(Instruction i2){
+t_Dep Instruction::is_dependant(Instruction i2){
 
-	string dep1, dep2, dep3;
 
-        dep1= RAW(i2);
-	dep2=WAR(i2);
-	dep3=WAW(i2);
-
-	if(dep1.compare("RAW")==0) return dep1;
-	if(dep2.compare("WAR")==0) return dep2;
-	return dep3;
+	if(RAW(i2)!=NONE) return RAW;
+	if(WAR(i2)!=NONE) return WAR;
+	return WAW(i2);
 
 }
-
+*/
 
 int Instruction::getNumberOper(){
 	return _nbrOper;

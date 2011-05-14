@@ -35,6 +35,10 @@
 	tgei,	tgeiu,	tgeu,	tlt,	 tlti,	tltiu,
 	tltu,	tne,	tnei,	waitn,	rfe,	maxop};
 
+/**	\brief	Type enum which take the type of dependance			
+*/
+	//enum t_Dep {NONE,RAW,WAR,WAW};
+
 /**	\brief	Structure allowing to add caracteristics to an operator*/
 	struct s_Profile {
 		t_Operator	op ;
