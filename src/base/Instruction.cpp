@@ -73,17 +73,23 @@ return _op;
 }
 
 string Instruction::stringOPcode(){
-string opString[]={"b", "beqz", "bnez"," beq"," bgez"," bgezal"," bgtz"," blez"," bltz"," bltzal"," bne",
-		"j"," jal"," jalr"," jr",
-		"la"," li"," loadi"," sb"," sh"," lb"," lbu"," lh"," lhu"," lui"," lw"," lwl"," lwr"," sw",
-		"add"," addu"," addi"," addiu"," andu"," andi"," mul"," mult"," multu"," nor"," oru"," ori",
-		"srl"," srlv"," sub"," subu"," sll"," sllv"," slt"," slti"," sltiu"," sltu","xoru"," xori",
-		"sra"," srav","  div"," divu"," mfhi"," mflo"," mthi"," mtlo",
-		"move"," neg"," negu"," nop","breaku"," syscallu","mfc0","mtc0",
-		"clo"," clz"," ebase"," eepc"," eret"," ll"," madd"," maddu",
-		"mfc2"," movn"," movz"," msub"," msubu"," mtc2","pref"," sc"," syncu",
-		"tccontext"," teq"," teqi"," tge","tgei"," tgeiu"," tgeu"," tlt",
-			"tlti"," tltiu"," tltu"," tne"," tnei"," waitn","rfe"  };
+string opString[]={"b","beqz","bnez","beq","bgez","bgezal",
+	"bgtz","blez","bltz","bltzal","bne","j",
+	"jal","jalr","jr","la","li","loadi",
+	"sb","sh","lb","lbu","lh","lhu",
+	"lui","lw","lwl","lwr","sw","add",
+	"addu","addi","addiu","and","andi","mul",
+	"mult","multu","nor","or","ori","srl",
+	"srlv","sub","subu","sll","sllv","slt",
+	"slti","sltiu","sltu","xor","xori","sra",
+	"srav","div","	divu","	mfhi","mflo","mthi",
+	"mtlo","move","neg","negu","nop","break",
+	"syscallu","mfc0","mtc0","clo","clz","ebase",
+	"eepc","eret","ll","madd","maddu","mfc2",
+	"movn","movz","	msub","	msubu","mtc2","	pref",
+	"sc","syncu","	tccontext","teq","teqi","tge",
+	"tgei","tgeiu","tgeu","tlt","tlti","tltiu",
+	"tltu","tne","tnei","waitn","rfe"};
 
 return opString[_op];
 }
