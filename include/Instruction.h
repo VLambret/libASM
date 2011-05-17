@@ -134,23 +134,27 @@ public:
 	string stringType();
 
 /**	\brief	get the dependance between the current instruction and i2
-	\return return "RAW", "WAR", "WAW" or "not dependant" in format string
+	\return return "RAW", "WAR", "WAW" or "not dependant" in format enum
 */
-	//t_Dep is_dependant(Instruction i2);
+	t_Dep is_dependant(Instruction i2);
 
-/**	\brief	get the dependance RAW between the current instruction and i2	\return return "RAW" or "not dependant" in format string
+/**	\brief	get the information if there is dependance RAW between the current instruction and i2	
+	\return return true if there is a RAW dependance
 */
-	//t_Dep RAW(Instruction i2);
+	bool is_dep_RAW(Instruction i2);
 
-/**	\brief	get the dependance between the current instruction and i2	\return return "WAR" or "not dependant" in format string
+/**	\brief	get the information if there is dependance WAR between the current instruction and i2	
+	\return return true if there is a WAR dependance
 */
-	//t_Dep WAR(Instruction i2);
+	bool is_dep_WAR(Instruction i2);
 
-/**	\brief	get the dependance between the current instruction and i2	\return return "WAW" or "not dependant" in format string
+/**	\brief	get the information if there is dependance WAW between the current instruction and i2	
+	\return return true if there is a WAW dependance
 */
-	//t_Dep WAW(Instruction i2);
+	bool is_dep_WAW(Instruction i2);
 
-/**	\brief	get the number of operand	\return return the number of operand
+/**	\brief	get the number of operand	
+	\return return the number of operand
 */
 	int getNumberOper();
 
@@ -161,6 +165,18 @@ public:
 	/**	\brief	return true if the directive indicate a function
 */
 	virtual bool isFunction();
+
+	/**	\brief	get the regiter destination of the instruction
+*/
+	Operand * getRegDst();
+
+	/**	\brief	get the first register source of the instruction
+*/
+	Operand * getRegSrc1();
+	
+	/**	\brief	get the second register source of the instruction
+*/
+	Operand * getRegSrc2();
 
 
 };

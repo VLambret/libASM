@@ -69,8 +69,9 @@ public:
 	int size();
 
 /**	\brief	get the dependance betwen two instructions
+	\return return the dependance in enum format
 */
-	//t_Dep dependance(Instruction i1, Instruction i2);
+	t_Dep dependance(Instruction i1, Instruction i2);
 
 
 /**	\brief	write the programme in file

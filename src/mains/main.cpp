@@ -26,7 +26,7 @@ int main(){
 	Directive dir(".ent");
 	Directive dir1(".end");
 	Label lab("Loop");
-	Instruction ins("sw $5,43($6)",sw,I, MEM,Op1,NULL,Op2,3);
+	Instruction ins("sw $5,43($6)",sw,I, MEM,Op2,NULL,Op2,3);
 	Instruction ins1("add $8,$6,$7",add,R, ALU,Op4,Op3,Op3,3);
 	Instruction ins5("j Loop",j,J, BR,&label,NULL,NULL,1);
 	string tlin[]={"line_Instru","line_Lab","line_Direct"};
@@ -76,7 +76,7 @@ int main(){
 	//ins.setContent("j loop");
 	cout<<ins.getContent()<<endl;
 
-	//cout<<ins.is_dependant(ins1)<<endl;
+	cout<<ins.is_dependant(ins1)<<endl;
 
 
 	cout<<"TEST PROG"<<endl;
@@ -93,7 +93,7 @@ int main(){
 	prog.display();
 	cout<<prog.findLine(1)-> getContent()<<"\n"<<endl;
 
-	//prog.dependance(ins,ins1);
+	prog.dependance(ins,ins1);
 	//prog.delLine(3);
 	//cout<<prog.findLine(2)-> getContent()<<"\n"<<endl;
 	prog.display();

@@ -37,7 +37,7 @@
 
 /**	\brief	Type enum which take the type of dependance			
 */
-	//enum t_Dep {NONE,RAW,WAR,WAW};
+	enum t_Dep {NONE,RAW,WAR,WAW};
 
 /**	\brief	Structure allowing to add caracteristics to an operator*/
 	struct s_Profile {
