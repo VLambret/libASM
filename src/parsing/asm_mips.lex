@@ -217,6 +217,8 @@ char *str;
     utl_AddDicItem (t_ht, utl_SaveString ("$sp"       ), IntegerRegister  );
     utl_AddDicItem (t_ht, utl_SaveString ("$s8"       ), IntegerRegister  );
     utl_AddDicItem (t_ht, utl_SaveString ("$ra"       ), IntegerRegister  );
+	// ADD
+    utl_AddDicItem (t_ht, utl_SaveString ("$fp"       ), IntegerRegister  );
 
     utl_AddDicItem (t_ht, utl_SaveString ("zero"      ), IntegerRegister  );
     utl_AddDicItem (t_ht, utl_SaveString ("at"        ), IntegerRegister  );
@@ -501,6 +503,8 @@ char *str;
     utl_AddDicItem (v_ht, utl_SaveString ("$sp"       ),                29);
     utl_AddDicItem (v_ht, utl_SaveString ("$s8"       ),                30);
     utl_AddDicItem (v_ht, utl_SaveString ("$ra"       ),                31);
+    // ADD 
+	utl_AddDicItem (v_ht, utl_SaveString ("$fp"       ),                30);
 
     utl_AddDicItem (v_ht, utl_SaveString ("zero"      ),                 0);
     utl_AddDicItem (v_ht, utl_SaveString ("at"        ),                 1);

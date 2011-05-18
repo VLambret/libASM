@@ -7,8 +7,10 @@
 
 
 int main(){
-	Program p("src/examples/complete.s") ;
-	p.display() ;
+	//Program p("src/examples/complete.s") ;
+	//p.display() ;
+	Program p2("src/examples/primes.s") ;
+	p2.display() ;
 	//Program p(f) ;
 	//Program p() ;
 	// programparse("src/examples/complete.s") ;
