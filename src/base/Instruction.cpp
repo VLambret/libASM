@@ -187,72 +187,63 @@ string Instruction::stringType(){
 	string typ[]={"ALU", "MEM", "BR", "OTHER"};
 	return typ[_type];
 }
-/*
-t_Dep Instruction::RAW(Instruction i2){
 
-	 if(_op1->getOptype()==Reg  && _op1->getType() == Dst){
-		if((_op1->getOp().compare(i2.getOp1()->getOp())==0) && (i2.getOp1()->getOptype()==Reg) && 
-					(i2.getOp1()->getType() == Src)) 
-							return RAW;
-		if(i2.getNumberOper()>=2 && i2.getOp2()!=NULL){
-            		if((_op1->getOp().compare(i2.getOp2()->getOp())==0) && (i2.getOp2()->getOptype()==Reg) && 
-					(i2.getOp2()->getType() == Src)) 
-							return RAW;
-		}
-                else if(i2.getNumberOper()==3 && i2.getOp3()!=NULL){ 
-			if((_op1->getOp().compare(i2.getOp3()->getOp())==0) && (i2.getOp3()->getOptype()==Reg) &&
-					(i2.getOp3()->getType() == Src)) 
-							return RAW;
-		}
-        }
-	return NONE;
 
-}
+bool Instruction::is_dep_RAW(Instruction i2){
 
-t_Dep Instruction::WAR(Instruction i2){
+	if(getRegDst()!=NULL){
+		if(i2.getRegSrc2()!=NULL)
+			 if(getRegDst()->getOp().compare(i2.getRegSrc2()->getOp())==0)    return true;		        	
+		
+		if(i2.getRegSrc1()!=NULL)
+		 	if(getRegDst()->getOp().compare(i2.getRegSrc1()->getOp())==0)    return true;
+		       	
+				
 
-	if(i2.getOp1()->getType() == Dst){
-		if(getNumberOper()>=2 && _op2->getType() == Src && getOp2()!=NULL){
-		 	if((_op2->getOptype()==Reg) && (i2.getOp1()->getOptype()==Reg)){
-	            		if(_op2->getOp().compare(i2.getOp1()->getOp())==0 )    return WAR;
-	        	}
-		}
-		else if(getNumberOper()==3 && _op3->getType() == Dst && getOp1()!=NULL){
-	        	if((_op3->getOptype()==Reg) && (i2.getOp1()->getOptype()==Reg)){
-	            		if(_op3->getOp().compare(i2.getOp1()->getOp())==0)     return WAR;
-	        	}
-		}	
-		if( _op1->getType() == Src){
-	        	if((_op1->getOptype()==Reg) && (i2.getOp1()->getOptype()==Reg)){
-	            		if(_op1->getOp().compare(i2.getOp1()->getOp())==0)     return WAR;
-	        	}
-		}
 	}
-	return NONE;
+	 
+	return false;
 
 }
 
-t_Dep Instruction::WAW(Instruction i2){
+bool Instruction::is_dep_WAR(Instruction i2){
 
+	if(i2.getRegDst()!=NULL ){
+
+			if(getRegSrc2()!=NULL){
+			 	if(getRegSrc2()->getOp().compare(i2.getRegDst()->getOp())==0)    return true;		        	
+			}
+			if(getRegSrc1()!=NULL){
+			 	if(getRegSrc1()->getOp().compare(i2.getRegDst()->getOp())==0)    return true;
+		        	
+			}			
+	}
 	
-        if(_op1->getOptype()==Reg){
-		if(_op1->getType() == Dst && i2.getOp1()->getType() == Dst)
+	return false;
 
-            if((_op1->getOp().compare(i2.getOp1()->getOp())==0) && (i2.getOp1()->getOptype()==Reg) )   return WAW;
+}
+
+bool Instruction::is_dep_WAW(Instruction i2){
+
+        if(getRegDst()!=NULL && i2.getRegDst()!=NULL){	
+	
+            if(getRegDst()->getOp().compare(i2.getRegDst()->getOp())==0)   return true;
+
           }
-	return NONE;
+
+	return false;
 
 }
 
 t_Dep Instruction::is_dependant(Instruction i2){
 
 
-	if(RAW(i2)!=NONE) return RAW;
-	if(WAR(i2)!=NONE) return WAR;
-	return WAW(i2);
+	if(is_dep_RAW(i2)) return RAW;
+	if(is_dep_WAR(i2)) return WAR;
+	if(is_dep_WAW(i2)) return WAW;
+	return NONE;
 
 }
-*/
 
 int Instruction::getNumberOper(){
 	return _nbrOper;
@@ -264,4 +255,29 @@ void Instruction::setNumberOper(int nbr){
 
 bool Instruction::isFunction(){
 	return false;
+}
+
+Operand * Instruction::getRegDst(){
+	if(_op1->getOptype()==Reg && _op1->getType() == Dst && _op1!=NULL && _op1->getOp().compare("$0"))
+		return _op1;
+
+	return NULL;
+}
+
+Operand * Instruction::getRegSrc1(){
+	if(_op1->getOptype()==Reg && _op1->getType() == Src && _op1!=NULL && _op1->getOp().compare("$0"))
+		return _op1;
+	if(_op2->getOptype()==Reg && _op2->getType() == Src && _op2!=NULL && _op2->getOp().compare("$0"))
+		return _op2;
+
+	return NULL;
+}
+
+Operand * Instruction::getRegSrc2(){
+	if(_op2->getOptype()==Reg && _op2->getType() == Src && _op2!=NULL && _op2->getOp().compare("$0"))
+		return _op2;
+	if(_op3->getOptype()==Reg && _op3->getType() == Src && _op3!=NULL && _op3->getOp().compare("$0"))
+		return _op3;
+
+	return NULL;
 }

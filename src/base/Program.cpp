@@ -160,15 +160,19 @@ void Program::display()
 	if(isEmpty())	cout<<"The program is empty"<<endl;
 	cout << endl;
 }
-/*
-t_Dep Program::dependance(Instruction i1, Instruction i2){
 
-	string dep1= i1.is_dependant(i2);
-	string dep2= i2.is_dependant(i1);
-	cout<<"Depedance i1->i2: "<<dep1<<endl;
-	cout<<"Depedance i2->i1: "<<dep2<<endl;
+
+t_Dep Program::dependance(Instruction i1, Instruction i2){
+	
+	string dep[]={"NONE","RAW","WAR","WAW"};
+	t_Dep dep1= i1.is_dependant(i2);
+	t_Dep dep2= i2.is_dependant(i1);
+	cout<<"Depedance i1->i2: "<<dep[dep1]<<endl;
+	cout<<"Depedance i2->i1: "<<dep[dep2]<<endl;
+
+	return dep1;
 }
-*/
+
 Line* Program::findLine(int index){
 
     int j;
