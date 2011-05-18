@@ -101,13 +101,12 @@ void programparse(string file) {
   GLB_SYM       = pt_fig->GLB_SYM ;
   MEM_TAB       = pt_fig->MEM_TAB ;
   //PT_OBJ        = asm_GetObject   (pt_fig, fil_name);
-	
+
 	yyin = fopen(file.c_str(), "r") ;
 	yyparse() ;
 	std::cout << "Parsing done" << std::endl;
 	std::cout << std::endl;
-
-	prog.display() ;
+//	prog.display() ;
 }
 
 // ###--------------------------------------------------------------### 

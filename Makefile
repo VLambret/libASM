@@ -36,7 +36,8 @@ YACC=yacc
 CFLAGS=	-Wall \
 		-I$(INCLUDE) \
 		-DUTL_H='<$(UTL_H)>' \
-		-DASM_H='<$(ASM_H)>'
+		-DASM_H='<$(ASM_H)>' \
+		-g
 
 # Object et source files lists
 
@@ -124,7 +125,7 @@ $(SRC_PARSE)/asm_mipslex.c : $(INCLUDE)/asm_mipsyac.h $(SRC_PARSE)/asm_mips.lex
 .PHONY : testparse
 
 testparse:$(SRC)/$(EX)/complete.s bin/cpp/main_test
-	cat $< | ./bin/cpp/main_test
+	./bin/cpp/main_test
 
 
 # Show tokens

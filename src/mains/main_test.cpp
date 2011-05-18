@@ -1,13 +1,17 @@
 #include <iostream>
-#include "OPLabel.h"
-#include "OPExpression.h"
-#include "OPRegister.h"
-#include "OPImmediate.h"
+#include <OPLabel.h>
+#include <Program.h>
+#include <OPExpression.h>
+#include <OPRegister.h>
+#include <OPImmediate.h>
 
-extern void programparse(string) ;
 
 int main(){
-	programparse("src/examples/complete.s") ;
+	Program p("src/examples/complete.s") ;
+	p.display() ;
+	//Program p(f) ;
+	//Program p() ;
+	// programparse("src/examples/complete.s") ;
 	//asm_mipsparse() ;
 /*
 	OPLabel label("Loop");

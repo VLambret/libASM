@@ -37,7 +37,7 @@ public:
 
 /**	\brief	Constructor with input file of program
 */
-	Program (FILE * sourceasm);
+	Program (string const file);
 
 /**	\brief	Destructor of program
 */

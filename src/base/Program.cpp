@@ -1,5 +1,8 @@
 #include <Program.h>
+#include <asm_mipsyac.h>
 
+extern	void programparse(string) ; 
+extern	Program prog ;
 
 Program::Program(){
 	_head= NULL;
@@ -23,8 +26,21 @@ Program::Program(Program const&  otherprogram){
 	}
 }
 
-Program::Program (FILE * sourceasm){
-	cout<<"on donne au constructeur un fichier à parser"<<endl;
+
+Program::Program (string const file){
+	_head = NULL ;
+	_length = 0 ;
+	 programparse(file) ;
+	std::cout << "ETAPE1" << std::endl ;
+
+	Node * tmp = prog._head;
+
+    	while (tmp != NULL){
+
+       		addLine(tmp->getLine());
+       		tmp = tmp->getnext();
+	}
+
 }
 
 Program::~Program(){
