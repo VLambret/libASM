@@ -2,7 +2,25 @@
 
 Directive::Directive( string direct)
 {
-	_line= direct;
+	_dir= direct;
+	_value = "" ;
+	_isfunction = false ;
+}
+
+Directive::Directive(string direct, string value)
+{
+	_dir= direct ;
+	_value= value ;
+	_isfunction= false ;
+
+}
+
+Directive::Directive(string direct, string value, bool isfunction)
+{
+	_dir= direct ;
+	_value= value ;
+	_isfunction= isfunction ;
+
 }
 
 Directive::~Directive(){}
@@ -19,9 +37,7 @@ t_Line Directive::typeLine(){
 }
 
 string Directive::getContent(){
-
-	return _line;
-
+	return _dir + "	" + _value ;
 }
 
 void Directive::setContent(string line){
@@ -30,11 +46,7 @@ void Directive::setContent(string line){
 
 
 bool Directive::isFunction(){
-	if(!_line.compare(".ent")){
-		return true;
-	}
-	else return false;
-
+	return _isfunction ;
 }
 
 t_Inst  Directive::getType(){

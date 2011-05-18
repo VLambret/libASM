@@ -19,10 +19,18 @@ class Directive : public Line{
 
 
 public	:
+	string	_dir ;
+	string	_value ;
+	bool	_isfunction ;
 
-		/**	\brief	Constructor of the Directive
-*/	
+		/**	\brief	Constructor of the Directive*/	
 	Directive(string);
+		
+	/**	\brief	Constructor of the Directive with directive, content and an boolean*/
+	
+	Directive(string,string);
+	/**	\brief	Constructor of the Directive with directive, content and an boolean*/
+	Directive(string,string,bool);
 
 		/**	\brief	Destructor of the Directive
 */

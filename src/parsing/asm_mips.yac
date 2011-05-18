@@ -500,9 +500,7 @@ end_directive
 	: _END_
 	  .Identifier.
 	  	{	std::ostringstream dir ;
-		    dir << ".end	" << $2 ;
-						
-			prog.addLine(new Directive(dir.str())) ;
+			prog.addLine(new Directive("end",$2,false)) ;
 		}
 	;
 
@@ -510,9 +508,7 @@ ent_directive
 	: _ENT_
 	  Identifier
 	  	{	std::ostringstream dir ;
-		    dir << ".ent	" << $2 ;
-						
-			prog.addLine(new Directive(dir.str())) ;
+			prog.addLine(new Directive("ent",$2,true)) ;
 		}
 	;
 
