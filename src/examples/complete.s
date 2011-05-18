@@ -157,3 +157,5 @@ label1:
 
 	.ent	toto
 	.end	toto
+	.text
+	.section .mdebug.abi32

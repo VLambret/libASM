@@ -499,7 +499,7 @@ effective_instruction
 end_directive
 	: _END_
 	  .Identifier.
-	  	{	std::ostringstream dir ;
+	  	{	
 			prog.addLine(new Directive("end",$2,false)) ;
 		}
 	;
@@ -507,7 +507,7 @@ end_directive
 ent_directive
 	: _ENT_
 	  Identifier
-	  	{	std::ostringstream dir ;
+	  	{
 			prog.addLine(new Directive("ent",$2,true)) ;
 		}
 	;
@@ -518,7 +518,7 @@ ent_directive
 		{ printf("Identifier NULL\n") ; }
 	| Identifier
 		//{ $$ = $1  ; }
-		{ printf("Identifier\n") ; }
+		{ std::cout << "Identifier : " << $1 << std::endl ; }
 	;
 
 equ_directive
@@ -1706,7 +1706,10 @@ primary
 section_specification_directive
 	: _SECTION_
 	  Identifier
-		{ printf("section_specification_directive SECTION\n") ; } /*{
+		{ 	//std::cout << "SECTION Identifier : " << $1 << " " << $2 << std::endl ;
+			prog.addLine(new Directive(".section",$2)) ;
+		}
+		/*
 		struct asisc *pt_isc;
 		struct asosc *pt_osc;
 		unsigned int  pos   ;
@@ -1746,7 +1749,9 @@ section_specification_directive
 		  }
 		}*/
 	| Identifier
-		{ printf("section_specification_direction Identifier\n") ; } /*{
+		{ 	//std::cout << "SECTION Identifier : " << $1 << " " << $2 << std::endl ;
+			prog.addLine(new Directive($1)) ;
+		}/*
 		struct asisc *pt_isc;
 		struct asosc *pt_osc;
 		unsigned int  pos   ;
