@@ -10,6 +10,7 @@
 %{
 #include <iostream>
 #include <Program.h>
+#include <Directive.h>
 #include <Label.h>
 #include <stdlib.h>
 #include <stdio.h>
@@ -377,58 +378,9 @@ adding_operator
 	: //empty
 	| label
 	  Colon
-		{
-			Label lab($1) ;
-			//prog.addLine(&lab) ;
+		{	Label lab($1) ;
 			prog.addLine(new Label($1)) ;
-			//std::cout << "label TAGLABEL :" << lab.toString() << std::endl ;
 			std::cout << "label TAGLABEL :" << $1 << std::endl ;
-
-		/*
-		struct utdic *dic     = NULL;
-		struct uttyp *sym_lst = NULL;
-		unsigned int  status  ;
-
-		// ###----------------------------------------------### 
-		//   check that the label is unique. Save its address	
-		// in the dictionary.					
-		// ###----------------------------------------------### 
-
-		if (PAS_NBR == ASM_ASP__LABELS)
-		  {
-		  dic    = PT_OBJ->SYM_DIC;
-		  status = utl_GetDicItemStatus (dic, $1);
-
-		  if (status == UTL_DIC__FAILED)
-		    {
-		    if (SEC_SYM != NULL)
-		      {
-		      utl_AddDicItem (dic, $1, CUR_ADR);
-
-		// ###----------------------------------------------### 
-		//   if the label is declared as global, save it in the	
-		// global symbols dictionary				
-		// ###----------------------------------------------### 
-
-		      status = utl_GetDicItemStatus (GLB_DIC, $1);
-
-		      if (status == UTL_DIC__SUCCEED)
-		        utl_AddDicItem (GLB_DIC, $1, CUR_ADR);
-
-		// ###----------------------------------------------### 
-		//   save the label's address in the symbol's list	
-		// ###----------------------------------------------### 
-
-		      sym_lst            = (struct uttyp *) SEC_SYM->DAT2.VPNT;
-		      SEC_SYM->DAT2.VPNT = utl_adduttyp (sym_lst, $1, CUR_ADR);
-		      }
-		    else
-		      lcl_error (13, NULL, 0);
-		    }
-		  else
-		    lcl_error (2, $1, 0);
-		  }
-		  */
 		}
 	;
 
@@ -547,25 +499,21 @@ effective_instruction
 end_directive
 	: _END_
 	  .Identifier.
-		{ printf("end_directive\n") ; }
-		/*{
-		if ($2 != PRG_NAM)
-		  lcl_error (19, NULL, 0);
-
-		PRG_NAM = NULL;
-		}*/
+	  	{	std::ostringstream dir ;
+		    dir << ".end	" << $2 ;
+						
+			prog.addLine(new Directive(dir.str())) ;
+		}
 	;
 
 ent_directive
 	: _ENT_
 	  Identifier
-		{ printf("ent_directive\n") ; }
-		/*{
-		if (PRG_NAM != NULL)
-		  lcl_error (18, NULL, 0);
-
-		PRG_NAM = $2;
-		}*/
+	  	{	std::ostringstream dir ;
+		    dir << ".ent	" << $2 ;
+						
+			prog.addLine(new Directive(dir.str())) ;
+		}
 	;
 
 .Identifier.

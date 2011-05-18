@@ -154,3 +154,6 @@ label1:
 
 	beqz	$14,	labela
 	bnez	$15,	labelb
+
+	.ent	toto
+	.end	toto
