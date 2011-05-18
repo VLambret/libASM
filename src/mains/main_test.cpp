@@ -4,10 +4,10 @@
 #include "OPRegister.h"
 #include "OPImmediate.h"
 
-extern void programparse(void) ;
+extern void programparse(string) ;
 
 int main(){
-	programparse() ;
+	programparse("src/examples/complete.s") ;
 	//asm_mipsparse() ;
 /*
 	OPLabel label("Loop");

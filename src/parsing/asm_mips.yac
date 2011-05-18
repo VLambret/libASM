@@ -33,7 +33,7 @@ extern "C" {extern int            yylex     (YYSTYPE *);}
 
 extern void           yyrestart ();
 extern int            yyparse   ();
-extern FILE          *yyin        ;
+extern FILE           *yyin       ;
 
 Program prog ;
 
@@ -66,7 +66,7 @@ static unsigned int   ERR_FLG     = 0                 ;	// error flag
 map<int,string> strmap ;
 static int strmap_id ;
 
-void programparse() {
+void programparse(string file) {
 	std::cout << "Starting parsing" << std::endl;
 	// ###------------------------------------------------------### 
 	//    initialize global and static variables			
@@ -102,7 +102,7 @@ void programparse() {
   MEM_TAB       = pt_fig->MEM_TAB ;
   //PT_OBJ        = asm_GetObject   (pt_fig, fil_name);
 	
-	
+	yyin = fopen(file.c_str(), "r") ;
 	yyparse() ;
 	std::cout << "Parsing done" << std::endl;
 	std::cout << std::endl;
@@ -1706,90 +1706,13 @@ primary
 section_specification_directive
 	: _SECTION_
 	  Identifier
-		{ 	//std::cout << "SECTION Identifier : " << $1 << " " << $2 << std::endl ;
+		{ 	
 			prog.addLine(new Directive(".section",$2)) ;
 		}
-		/*
-		struct asisc *pt_isc;
-		struct asosc *pt_osc;
-		unsigned int  pos   ;
-
-		pt_isc = asm_GetInputSection (PT_FIG, $2);
-
-		if (pt_isc == NULL)
-		  lcl_error (12, $2, 0);
-		else
-		  {
-		  pos    = pt_isc->POSITION      ;
-		  pt_osc = pt_isc->OUT_SEC       ;
-
-		  if (PAS_NBR == ASM_ASP__SIZEOF)
-		    {
-		    if (PT_ISS != NULL)
-		      PT_ISS->SIZE = CUR_SIZ;
-
-		    PT_ISS                = pt_osc->SUB_SEC [pos];
-		    PT_ISS                = asm_addasiss (PT_ISS);
-		    pt_osc->SUB_SEC [pos] = PT_ISS               ;
-		    CUR_SIZ = 0           ;
-		    }
-		  else
-		    {
-		    if (pt_osc->CUR_ISS [pos] == NULL)
-		      pt_osc->CUR_ISS [pos] = pt_osc->SUB_SEC [pos]      ;
-		    else
-		      pt_osc->CUR_ISS [pos] = pt_osc->CUR_ISS [pos]->NEXT;
-
-		    PT_ISS  = pt_osc->CUR_ISS [pos];
-		    CUR_ADR = PT_ISS->ADDR         ;
-		    CUR_SIZ = 0                    ;
-
-		    SEC_SYM = asm_GetObjectSymbolList (PT_OBJ, pt_osc->IDENT);
-		    }
-		  }
-		}*/
 	| Identifier
-		{ 	//std::cout << "SECTION Identifier : " << $1 << " " << $2 << std::endl ;
+		{
 			prog.addLine(new Directive($1)) ;
-		}/*
-		struct asisc *pt_isc;
-		struct asosc *pt_osc;
-		unsigned int  pos   ;
-
-		pt_isc = asm_GetInputSection (PT_FIG, $1);
-
-		if (pt_isc == NULL)
-		  lcl_error (12, $1, 0);
-		else
-		  {
-		  pos    = pt_isc->POSITION      ;
-		  pt_osc = pt_isc->OUT_SEC       ;
-
-		  if (PAS_NBR == ASM_ASP__SIZEOF)
-		    {
-		    if (PT_ISS != NULL)
-		      PT_ISS->SIZE = CUR_SIZ;
-
-		    PT_ISS                = pt_osc->SUB_SEC [pos];
-		    PT_ISS                = asm_addasiss (PT_ISS);
-		    pt_osc->SUB_SEC [pos] = PT_ISS               ;
-		    CUR_SIZ = 0           ;
-		    }
-		  else
-		    {
-		    if (pt_osc->CUR_ISS [pos] == NULL)
-		      pt_osc->CUR_ISS [pos] = pt_osc->SUB_SEC [pos]      ;
-		    else
-		      pt_osc->CUR_ISS [pos] = pt_osc->CUR_ISS [pos]->NEXT;
-
-		    PT_ISS  = pt_osc->CUR_ISS [pos];
-		    CUR_ADR = PT_ISS->ADDR         ;
-		    CUR_SIZ = 0                    ;
-
-		    SEC_SYM = asm_GetObjectSymbolList (PT_OBJ, pt_osc->IDENT);
-		    }
-		  }
-		}*/
+		}
 	;
 
 set_directive
