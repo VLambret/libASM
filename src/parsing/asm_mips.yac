@@ -1401,45 +1401,19 @@ mips_instruction
 
 mul_div_operator
 	: Star
-		{ printf("mul_div_operator *\n") ; } /*{ $$ = ASM_OPR__MUL  ; }*/
+		{ $$ = ASM_OPR__MUL  ; }
 	| Slash
-		{ printf("mul_div_operator /\n") ; } /*{ $$ = ASM_OPR__DIV  ; }*/
+		{ $$ = ASM_OPR__DIV  ; }
 	;
 
 primary
 	: Litteral
-		{ printf("primary Litteral\n") ;
-		$$ = $1; }
+		{ $$ = $1; }
 	| Identifier
-		{
-		printf("primary Identifier %s\n",$1) ;
-		strmap_id++ ;
-		strmap[strmap_id] = $1 ;
-		
-		unsigned int   valu = 0   ;
-		struct utdic  *dic  = NULL;
-		//((PAS_NBR == ASM_ASP__SYMBOLS) || (PAS_NBR == ASM_ASP__CODE   ))
-		 /*{
-
-		  dic  = PT_OBJ->SYM_DIC;
-		  valu = (unsigned int) utl_GetDicItem (dic, $1);
-		printf("primary Identifier 2%s\n",$1) ; 
-
-		  if (utl_GetDicStatus (dic) == UTL_DIC__FAILED)
-		    {
-		    valu = (unsigned int) utl_GetDicItem (GLB_DIC, $1);
-		printf("primary Identifier 3%s\n",$1) ; 
-		    if (utl_GetDicStatus (GLB_DIC) == UTL_DIC__FAILED)
-		      {
-		      if (PAS_NBR == ASM_ASP__CODE)
-		        lcl_error (9, $1, 0);
-		      }
-		    }
-		  }
-		  */
-
-		$$ = strmap_id ;
-
+		{	printf("primary Identifier %s\n",$1) ;
+			strmap_id++ ;
+			strmap[strmap_id] = $1 ;
+			$$ = strmap_id ;
 		}
 	;
 
@@ -1458,16 +1432,10 @@ section_specification_directive
 set_directive
 	: _SET_
 	  _REORDER_
-		{ printf("set_directive reorder\n") ; } /*{
-		SET_FLAGS &= ~ASM_SET__NOREORDER;
-		SET_FLAGS |=  ASM_SET__REORDER  ;
-		}*/
+		{	prog.addLine(new Directive(".set","reorder")) ; }
 	| _SET_
 	  _NOREORDER_
-		{ printf("set directive noreorder\n") ; } /*{
-		SET_FLAGS &= ~ASM_SET__REORDER  ;
-		SET_FLAGS |=  ASM_SET__NOREORDER;
-		}*/
+		{	prog.addLine(new Directive(".set","noreorder")) ; }
 	;
 
 shift_operator

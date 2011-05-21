@@ -175,3 +175,6 @@ label1:
 	.skip	32
 	
 	.word	6,7,8,9,10
+	
+	.set	reorder
+	.set	noreorder
