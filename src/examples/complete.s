@@ -168,3 +168,4 @@ label1:
 	.asciiz	"other_num"
 
 	.byte	1,2,3,4,5
+	.lcomm	sum,	4

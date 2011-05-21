@@ -1330,86 +1330,10 @@ memory_lcomm_alloc
 	  Identifier
 	  Comma
 	  Litteral
-		{ printf("memory_lcomm_alloc\n") ; } /*{
-		char          *isc_name ;
-		struct asisc  *pt_isc   ;
-		struct asosc  *pt_osc   ;
-		unsigned int   pos      ;
-		unsigned int   cur_adr  = 0   ;
-		struct asiss  *pt_iss   = NULL;
-		struct uttyp  *sec_sym  = NULL;
-		struct utdic  *dic      = NULL;
-		struct uttyp  *sym_lst  = NULL;
-		unsigned int   status   ;
-
-		// ###----------------------------------------------### 
-		//    the space is allocated in the "bss" input section	
-		// ###----------------------------------------------### 
-
-		isc_name = utl_SaveString      (".bss");
-		pt_isc   = asm_GetInputSection (PT_FIG, isc_name);
-
-		if (pt_isc == NULL)
-		  lcl_error (12, isc_name, 0);
-
-		if (ERR_FLG == 0)
-		  {
-		  pos    = pt_isc->POSITION      ;
-		  pt_osc = pt_isc->OUT_SEC       ;
-
-		  if (PAS_NBR == ASM_ASP__SIZEOF)
-		    {
-		    pt_iss                = pt_osc->SUB_SEC [pos];
-		    pt_iss                = asm_addasiss (pt_iss);
-		    pt_osc->SUB_SEC [pos] = pt_iss               ;
-		    pt_iss->SIZE          = $4                   ;
-		    }
-		  else
-		    {
-		    if (pt_osc->CUR_ISS [pos] == NULL)
-		      pt_osc->CUR_ISS [pos] = pt_osc->SUB_SEC [pos]      ;
-		    else
-		      pt_osc->CUR_ISS [pos] = pt_osc->CUR_ISS [pos]->NEXT;
-
-		    pt_iss  = pt_osc->CUR_ISS [pos];
-		    cur_adr = pt_iss->ADDR         ;
-
-		    sec_sym = asm_GetObjectSymbolList (PT_OBJ, pt_osc->IDENT);
-		    }
-		  }
-
-		// ###----------------------------------------------### 
-		//   the Identifier defines the label of the current	
-		// space.						
-		//							
-		//   check that the label is unique. Save its address	
-		// in the dictionary.					
-		// ###----------------------------------------------### 
-
-		if (PAS_NBR == ASM_ASP__LABELS)
-		  {
-		  dic    = PT_OBJ->SYM_DIC;
-		  status = utl_GetDicItemStatus (dic, $2);
-
-		  if (status == UTL_DIC__SUCCEED)
-		    lcl_error (2, $2, 0);
-
-		  if (sec_sym == NULL)
-		    lcl_error (13, NULL, 0);
-
-		  if (ERR_FLG == 0)
-		    {
-		    utl_AddDicItem (dic, $2, cur_adr);
-
-		// ###----------------------------------------------### 
-		//   save the label's address in the symbol's list	
-		// ###----------------------------------------------### 
-
-		    sym_lst            = (struct uttyp *) sec_sym->DAT2.VPNT;
-		    sec_sym->DAT2.VPNT = utl_adduttyp (sym_lst, $2, cur_adr);
-		    }
-		  }
-		}*/
+		{	std::ostringstream str ;
+		    str << $2 << "," << $4 ;
+			prog.addLine(new Directive(".lcomm",str.str())) ;
+		}
 	;
 
 memory_comm_alloc
