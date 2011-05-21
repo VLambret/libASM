@@ -609,9 +609,9 @@ expr__shfop__expr
 extern_directive
 	: _EXTERN_
 	  label
-		{	std::ostringstream lit ;
-		    lit << $2;
-			prog.addLine(new Directive(".extern",lit.str())) ;
+		{	std::ostringstream lab ;
+		    lab << $2;
+			prog.addLine(new Directive(".extern",lab.str())) ;
 		}
 	;
 
@@ -1112,21 +1112,10 @@ format_ui20
 global_directive
 	: _GLOBAL_
 	  label
-		{ printf("global_directive\n") ; } /*{
-		struct utdic *dic ;
-		unsigned int  addr;
-
-		if (PAS_NBR == ASM_ASP__LABELS)
-		  {
-		  dic  = PT_OBJ->SYM_DIC;
-		  addr = (unsigned int) utl_GetDicItem (dic, $2);
-
-		  if (utl_GetDicStatus (dic) == UTL_DIC__FAILED)
-		    addr = 0;
-
-		  utl_AddDicItem (GLB_DIC, $2, addr);
-		  }
-		}*/
+		{	std::ostringstream lab ;
+		    lab << $2;
+			prog.addLine(new Directive(".global",lab.str())) ;
+		}
 	;
 
 signed_16_bit_immediate

@@ -162,3 +162,4 @@ label1:
 
 	.align	2
 	.extern	toto
+	.global	toto
