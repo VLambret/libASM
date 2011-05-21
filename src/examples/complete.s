@@ -159,3 +159,5 @@ label1:
 	.end	toto
 	.text
 	.section .mdebug.abi32
+
+	.align	2

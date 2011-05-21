@@ -377,33 +377,15 @@ adding_operator
 	: //empty
 	| label
 	  Colon
-		{	Label lab($1) ;
-			prog.addLine(new Label($1)) ;
-			std::cout << "label TAGLABEL :" << $1 << std::endl ;
-		}
+		{ prog.addLine(new Label($1)) ; }
 	;
 
 align_directive
 	: _ALIGN_
 	  Litteral
-		{
-		/*
-		unsigned int msk = 0x00000001;
-		unsigned int adr ;
-
-		// ###----------------------------------------------### 
-		//   align the current address				
-		// ###----------------------------------------------### 
-
-		if ($2 > 31)
-		  lcl_error (18, NULL, $2);
-
-		msk      = msk << $2 ;
-		adr      = (CUR_ADR + (msk - 1)) & (~ (msk - 1));
-		CUR_SIZ += (adr     -  CUR_ADR )                ;
-		CUR_ADR  =  adr                                 ;
-		*/
-		printf("align\n") ;
+		{	std::ostringstream lit ;
+		    lit << $2;
+			prog.addLine(new Directive("align",lit.str())) ;
 		}
 	;
 

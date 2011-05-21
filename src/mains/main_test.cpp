@@ -9,7 +9,7 @@
 int main(){
 	//Program p("src/examples/complete.s") ;
 	//p.display() ;
-	Program p2("src/examples/primes.s") ;
+	Program p2("src/examples/complete.s") ;
 	p2.display() ;
 	//Program p(f) ;
 	//Program p() ;
