@@ -1361,10 +1361,10 @@ memory_space_alloc
 memory_skip_alloc
 	: _SKIP_
 	  Litteral
-		{ printf("memory_skip_alloc\n") ; } /*{
-		CUR_ADR += $2;
-		CUR_SIZ += $2;
-		}*/
+		{	std::ostringstream str ;
+		    str << $2 ;
+			prog.addLine(new Directive(".skip",str.str())) ;
+		}
 	;
 
 memory_word_alloc

@@ -172,3 +172,4 @@ label1:
 	.comm	smallobj,4,0
 
 	.space	64
+	.skip	32
