@@ -31,7 +31,7 @@
 	syscallu,mfc0,	mtc0,	clo,	clz,	ebase,
 	eepc,	eret,	ll,		madd,	maddu,	mfc2,
 	movn,	movz,	msub,	msubu,	mtc2,	pref,
-	sc,		syncu,	tccontext,teq,	teqi,	tge,
+	sc,		sync_,	tccontext,teq,	teqi,	tge,
 	tgei,	tgeiu,	tgeu,	tlt,	 tlti,	tltiu,
 	tltu,	tne,	tnei,	waitn,	rfe,	maxop};
 
@@ -132,7 +132,7 @@
 			{mtc2,		B,		BAD},
 			{pref,		O,		MEM},
 			{sc,		B,		BAD},
-			{syncu,		B,		BAD},
+			{sync_,		B,		BAD},
 			{tccontext,	B,		BAD},
 			{teq,		B,		BAD},
 			{teqi,		B,		BAD},

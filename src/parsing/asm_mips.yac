@@ -289,45 +289,15 @@ equ_directive
 		    lit << $2 << ",	" << $4 ;
 			prog.addLine(new Directive(".equ",lit.str())) ;
 		}
-		{ printf("equ_directive\n") ; }
-		/*{
-		struct utdic *dic     = NULL;
-		struct uttyp *sym_lst = NULL;
-
-		// ###----------------------------------------------### 
-		//   check that the identifier is unique. Save its	
-		// value in the dictionary.				
-		// ###----------------------------------------------### 
-
-		if (PAS_NBR == ASM_ASP__SYMBOLS)
-		  {
-		  dic = PT_OBJ->SYM_DIC;
-		  if (utl_GetDicItemStatus (dic, $1) == UTL_DIC__FAILED)
-		    {
-		    if (SEC_SYM != NULL)
-		      {
-		      utl_AddDicItem (dic, $1, $3);
-
-		      sym_lst            = (struct uttyp *) SEC_SYM->DAT2.VPNT;
-		      SEC_SYM->DAT2.VPNT = utl_adduttyp (sym_lst, $1, $3);
-		      }
-		    else
-		      lcl_error (13, NULL, 0);
-		    }
-		  else
-		    lcl_error (3, $1, 0);
-		  }
-		}*/
 	;
 
 expr..addop__expr..
 	: expression
-		{ printf("expr..addop__expr.. expression\n") ;
-		$$ = $1; }
+		{ $$ = $1; }
 	| expr..addop__expr..
 	  adding_operator
 	  expression
-		{ printf("expr..addop__expr.. add\n") ; 
+		{
 		if   ($2 == ASM_OPR__PLUS)
 			{$$ = $1 + $3;}
 		else
@@ -339,73 +309,62 @@ expression
 	: LeftParen
 	  immediate
 	  RightParen
-		{ printf("expression\n") ;
-		$$ =   $2; }
+		{ $$ =   $2; }
 	| Tilda
 	  LeftParen
 	  immediate
 	  RightParen
-		{ printf("expression ~\n") ;
-		$$ = ~ $3; }
+		{ $$ = ~ $3; }
 	| Minus
 	  LeftParen
 	  immediate
 	  RightParen
-		{ printf("expression minus\n") ;
-		$$ = - $3; }
+		{ $$ = - $3; }
 	| term
-		{ printf("expression term\n") ;
-		$$ =   $1; }
+		{ $$ =   $1; }
 	;
 
 expr__logop__expr..logop__expr..
 	: expression
 	  logic_operator
 	  expression
-		{ printf("expr__logop__expr..logop__expr..\n") ; }
-		/*{
+		{
 		if   ($2 == ASM_OPR__OR  ) $$ = $1 | $3;
 		if   ($2 == ASM_OPR__AND ) $$ = $1 & $3;
 		if   ($2 == ASM_OPR__XOR ) $$ = $1 ^ $3;
-		}*/
+		}
 	| expr__logop__expr..logop__expr..
 	  logic_operator
 	  expression
-		{ printf("expr__logop__expr..logop__expr..\n") ; }
-		/*{
+		{
 		if   ($2 == ASM_OPR__OR  ) $$ = $1 | $3;
 		if   ($2 == ASM_OPR__AND ) $$ = $1 & $3;
 		if   ($2 == ASM_OPR__XOR ) $$ = $1 ^ $3;
-		}*/
+		}
 	;
 
 expr__mulop__expr..mulop__expr..
 	: expression
 	  mul_div_operator
 	  expression
-		{ printf("expr__mulop__expr..mulop__expr..\n") ; }
-		/*{
+		{
 		if   ($2 == ASM_OPR__MUL ) $$ = $1 * $3;
 		else                       $$ = $1 / $3;
-		}*/
+		}
 	| expr__mulop__expr..mulop__expr..
 	  Star
 	  expression
-		{ printf("expr__mulop__expr..mulop__expr..\n") ; }
-		/*{
-		$$ = $1 * $3;
-		}*/
+		{ $$ = $1 * $3; }
 	;
 
 expr__shfop__expr
 	: expression
 	  shift_operator
 	  expression
-		{ printf("expr__shfop__expr\n") ; }
-		/*{
+		{
 		if   ($2 == ASM_OPR__SHL ) $$ = $1 << $3;
 		else                       $$ = $1 >> $3;
-		}*/
+		}
 	;
 
 extern_directive
@@ -460,6 +419,7 @@ format_n
 				case ASM_MPS__WAIT : op = waitn ; break ;
 				case ASM_MPS__RFE : op = rfe ; break ;
 				case ASM_MPS__ERET : op = eret ; break ;
+				case ASM_MPS__SYNC : op = sync_ ; break ;
 				default: std::cerr<< "asm_mips.yac : " << $1 << "is not an valid Codop_n for format_n" << std::endl ; break ;
 			}
 			prog.addLine(new Instruction(op)) ;
@@ -927,22 +887,20 @@ signed_16_bit_immediate
 
 immediate
 	: expr..addop__expr..
-		{ printf("immediate\n") ; $$ = $1; }
+		{  $$ = $1; }
 	| expr__mulop__expr..mulop__expr..
-		{ printf("immediate\n") ; $$ = $1; }
+		{  $$ = $1; }
 	| expr__logop__expr..logop__expr..
-		{ printf("immediate\n") ; $$ = $1; }
+		{  $$ = $1; }
 	| expr__shfop__expr
-		{ printf("immediate\n") ; $$ = $1; }
+		{  $$ = $1; }
 	;
 
 integer_register
 	: IntegerRegister
-		{ printf("integer_register\n") ; $$ = $1; }
+		{  $$ = $1; }
 	| ARegister
-		{ printf("integer_register\n") ;
-		$$ = $1 & 0x0000001f;
-		}
+		{ $$ = $1 & 0x0000001f; }
 	;
 
 label
@@ -952,18 +910,15 @@ label
 
 labelable_directive
 	: memory_alloc_directive
-		{
-			std::cout << "memory_alloc_directive TAGDIR" << std::endl ;
-		}
 	;
 
 logic_operator
 	: Bar
-		{ printf("logic_operator bar\n") ; $$ = ASM_OPR__OR   ; }
+		{ $$ = ASM_OPR__OR   ; }
 	| Ampersand
-		{ printf("logic operator Ampersand\n") ; $$ = ASM_OPR__AND  ; }
+		{ $$ = ASM_OPR__AND  ; }
 	| Circomflex
-		{ printf("logic_operator Circomflex\n") ; $$ = ASM_OPR__XOR  ; }
+		{ $$ = ASM_OPR__XOR  ; }
 	;
 
 macro_instruction
@@ -1203,7 +1158,7 @@ primary
 	: Litteral
 		{ $$ = $1; }
 	| Identifier
-		{	printf("primary Identifier %s\n",$1) ;
+		{	
 			strmap_id++ ;
 			strmap[strmap_id] = $1 ;
 			$$ = strmap_id ;
