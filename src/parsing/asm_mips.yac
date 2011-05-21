@@ -40,24 +40,22 @@ map<int,string> strmap ;
 static int strmap_id ;
 
 void programparse(string file) {
-	std::cout << "Starting parsing" << std::endl;
 	// ###------------------------------------------------------### 
 	//    initialize global and static variables			
 	// ###------------------------------------------------------### 
 
-	char *fil_name  = "toto";
-
+//	std::cout << "Starting parsing" << std::endl;
+	
 	strmap_id = 0;
 
 	yyin = fopen(file.c_str(), "r") ;
 	yyparse() ;
-	std::cout << "Parsing done" << std::endl;
-	std::cout << std::endl;
+	//std::cout << "Parsing done" << std::endl;
 }
 
 
 static void yyerror (char * str)
-	{ std::cout << "yyerror at line " << ASM_LINENO << " : " << str <<std::endl ; }
+	{ std::cout << "yyerror at line " << ASM_LINENO << " : " << str <<std::endl ;	}
 
 %}
 

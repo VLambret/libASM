@@ -31,7 +31,6 @@ Program::Program (string const file){
 	_head = NULL ;
 	_length = 0 ;
 	 programparse(file) ;
-	std::cout << "ETAPE1" << std::endl ;
 
 	Node * tmp = prog._head;
 
