@@ -173,3 +173,5 @@ label1:
 
 	.space	64
 	.skip	32
+	
+	.word	6,7,8,9,10

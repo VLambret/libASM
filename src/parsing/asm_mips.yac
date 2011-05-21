@@ -358,8 +358,10 @@ struct asfig *asm_ldmipsasm (FILE *fp, char *fil_name, struct asfig *pt_fig, uns
 %type  <uval>    signed_16_bit_immediate
 %type  <uval>    term
 %type  <uval>    unsigned_16_bit_immediate
-%type  <pchn>    word_immediate_list
-%type  <pchn> ...word_immediate..
+/*%type  <pchn>    word_immediate_list
+%type  <pchn> ...word_immediate..*/
+%type  <uval>    word_immediate_list
+%type  <uval> ...word_immediate..
 %type  <text>   .Identifier.
 
 %pure_parser
@@ -439,7 +441,6 @@ byte_immediate_list
 		    bylist << strmap[$1] << "," << $3;
 			strmap[strmap_id] = bylist.str() ;
 			$$ = $1 ;
-		printf("byte_immediate\n") ;
 		}
 	;
 
@@ -1370,22 +1371,7 @@ memory_skip_alloc
 memory_word_alloc
 	: _WORD_
 	  word_immediate_list
-		{ printf("memory_word_alloc\n") ;}
-		/*{
-		unsigned int  chn_len;
-		struct utchn *pt_chn ;
-
-		pt_chn = $2 ;
-
-		if (PAS_NBR == ASM_ASP__CODE)
-		  MEM_TAB = asm_SetMemory (MEM_TAB, CUR_ADR, pt_chn);
-
-		chn_len  = utl_lenutchn (pt_chn);
-		pt_chn   = utl_frlutchn (pt_chn);
-
-		CUR_ADR += chn_len              ;
-		CUR_SIZ += chn_len              ;
-		}*/
+			{prog.addLine(new Directive(".word",strmap[$2])) ;}
 	;
 
 mips_instruction
@@ -1567,34 +1553,27 @@ unsigned_16_bit_immediate
 word_immediate_list
 	: immediate
 	  ...word_immediate..
-		{ printf("word_immediate_list\n") ; } /*{
-		struct utchn *pt_chn;
-
-		pt_chn = utl_revutchn ($2                             );
-
-		pt_chn = utl_addutchn (pt_chn, ($1 >> 24) & 0x000000ff);
-		pt_chn = utl_addutchn (pt_chn, ($1 >> 16) & 0x000000ff);
-		pt_chn = utl_addutchn (pt_chn, ($1 >>  8) & 0x000000ff);
-		pt_chn = utl_addutchn (pt_chn, ($1      ) & 0x000000ff);
-		$$     =               pt_chn;
-		}*/
+		{	std::ostringstream bylist ;
+		    bylist << $1 << strmap[$2] ;
+			strmap[strmap_id] = bylist.str() ;
+			$$ = $2 ;
+		}
 	;
 
 ...word_immediate..
 	: //empty
-		{ printf("...word_immediate.. empty\n") ; } /*{ $$ = NULL; }*/
+		{	strmap_id++ ;
+			strmap[strmap_id] = "" ;
+			$$ = strmap_id ;
+		}
 	| ...word_immediate..
 	  Comma
 	  immediate
-		{ printf("...word_immediate..\n") ; } /*{
-		struct utchn *pt_chn;
-
-		pt_chn = utl_addutchn ($1    , ($3      ) & 0x000000ff);
-		pt_chn = utl_addutchn (pt_chn, ($3 >>  8) & 0x000000ff);
-		pt_chn = utl_addutchn (pt_chn, ($3 >> 16) & 0x000000ff);
-		pt_chn = utl_addutchn (pt_chn, ($3 >> 24) & 0x000000ff);
-		$$     =               pt_chn;
-		}*/
+		{	std::ostringstream bylist ;
+		    bylist << strmap[$1] << "," << $3;
+			strmap[strmap_id] = bylist.str() ;
+			$$ = $1 ;
+		}
 	;
 
 %%
