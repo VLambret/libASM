@@ -165,3 +165,6 @@ label1:
 	.global	toto
 	
 	.ascii	"prim_num\000"
+	.asciiz	"other_num"
+
+	.byte	1,2,3,4,5

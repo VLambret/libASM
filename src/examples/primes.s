@@ -78,6 +78,7 @@ $L6:
 	.align	2
 $LC0:
 	.ascii	"prim_num\000"
+	.asciiz	"prim_num\000"
 	.align	2
 $LC1:
 	.ascii	"r\000"
