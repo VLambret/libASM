@@ -1352,10 +1352,10 @@ memory_comm_alloc
 memory_space_alloc
 	: _SPACE_
 	  Litteral
-		{ printf("memory_space_alloc\n") ; } /*{
-		CUR_ADR += $2;
-		CUR_SIZ += $2;
-		}*/
+		{	std::ostringstream str ;
+		    str << $2 ;
+			prog.addLine(new Directive(".space",str.str())) ;
+		}
 	;
 
 memory_skip_alloc
