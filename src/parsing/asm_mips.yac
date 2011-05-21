@@ -385,7 +385,7 @@ align_directive
 	  Litteral
 		{	std::ostringstream lit ;
 		    lit << $2;
-			prog.addLine(new Directive("align",lit.str())) ;
+			prog.addLine(new Directive(".align",lit.str())) ;
 		}
 	;
 
@@ -407,21 +407,11 @@ an_instruction
 
 assembly_file
 	: assembly_instructions
-		{
-		/*
-		if  (PRG_NAM != NULL)
-		  lcl_error (19, NULL, 0);
-
-		if  (PAS_NBR == ASM_ASP__SIZEOF )
-		  PT_FIG->OBJECTS = asm_addasobj (PT_FIG->OBJECTS, FIL_NAM);
-		 */
-		// printf("programme assembleur\n") ;
-		}
-        ;
+	;
 
 assembly_instructions
 	: ..an_instruction..
-        ;
+	;
 
 byte_immediate_list
 	: immediate
@@ -448,17 +438,14 @@ byte_immediate_list
 		}
 	;
 
-// TODO : mecanisme ?
 CarriageReturn_ERR
 	: CarriageReturn
-	//	{ yyerrok; }
 		{ printf("CariageReturn_ERR\n") ; }
 	;
 
 cop0_reg
 	: Cop0Register
-		//{ $$ = $1; }
-		{ printf("cop0_reg\n") ; }
+		{ $$ = $1; }
 	;
 
 cop2_reg
@@ -480,26 +467,20 @@ effective_instruction
 end_directive
 	: _END_
 	  .Identifier.
-	  	{	
-			prog.addLine(new Directive("end",$2,false)) ;
-		}
+	  	{	prog.addLine(new Directive("end",$2,false)) ; }
 	;
 
 ent_directive
 	: _ENT_
 	  Identifier
-	  	{
-			prog.addLine(new Directive("ent",$2,true)) ;
-		}
+	  	{ prog.addLine(new Directive("ent",$2,true)) ; }
 	;
 
 .Identifier.
 	: // empty
-		//{ $$ = NULL; }
-		{ printf("Identifier NULL\n") ; }
+		{ $$ = NULL; }
 	| Identifier
-		//{ $$ = $1  ; }
-		{ std::cout << "Identifier : " << $1 << std::endl ; }
+		{ $$ = $1  ; }
 	;
 
 equ_directive
@@ -628,6 +609,10 @@ expr__shfop__expr
 extern_directive
 	: _EXTERN_
 	  label
+		{	std::ostringstream lit ;
+		    lit << $2;
+			prog.addLine(new Directive(".extern",lit.str())) ;
+		}
 	;
 
 format_hint_mem

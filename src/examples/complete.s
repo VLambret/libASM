@@ -161,3 +161,4 @@ label1:
 	.section .mdebug.abi32
 
 	.align	2
+	.extern	toto
