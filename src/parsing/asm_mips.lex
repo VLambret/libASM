@@ -106,11 +106,17 @@ identifier        ({special_char}|{letter})({special_char}|{letter_or_digit})*
 		return (Litteral);
 			}
 {string}		{
-		struct utchn *pt_chn = NULL;
+/*		struct utchn *pt_chn = NULL;
 		char         *str    = NULL;
-		char          c_val  ;
+		char          c_val  ;*/
 
-		str = yytext + 1;
+		char * str ;
+		
+		str = utl_SaveString (yytext);
+	  	yylval.text = str;
+
+
+/*		str = yytext + 1;
 		while ((*str != '\"') && (*str != '\0'))
 		  {
 		  c_val  = utl_CharToAscii (str   , &str );
@@ -118,7 +124,7 @@ identifier        ({special_char}|{letter})({special_char}|{letter_or_digit})*
                   pt_chn = utl_addutchn    (pt_chn,(union utdat) c_val);
 		  }
 
-		yylval.pchn = utl_revutchn (pt_chn);
+		yylval.pchn = utl_revutchn (pt_chn);*/
 		return (String);
 			}
 

@@ -163,3 +163,5 @@ label1:
 	.align	2
 	.extern	toto
 	.global	toto
+	
+	.ascii	"prim_num\000"

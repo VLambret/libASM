@@ -66,6 +66,13 @@ static unsigned int   ERR_FLG     = 0                 ;	// error flag
 map<int,string> strmap ;
 static int strmap_id ;
 
+int	strmap_add(string tmp) {
+	strmap_id++ ;
+	strmap[strmap_id] = tmp ;
+	return strmap_id ;
+}
+
+
 void programparse(string file) {
 	std::cout << "Starting parsing" << std::endl;
 	// ###------------------------------------------------------### 
@@ -330,7 +337,8 @@ struct asfig *asm_ldmipsasm (FILE *fp, char *fil_name, struct asfig *pt_fig, uns
 %token           RightParen
 %token           Slash
 %token           Star
-%token <pchn>    String
+//%token <pchn>    String
+%token <text>    String
 %token           Tilda
 
 %type  <uval>    cop0_reg
@@ -1120,16 +1128,7 @@ global_directive
 
 signed_16_bit_immediate
 	: immediate
-		{ printf("signed_16_bit_immediate\n") ; } /*{
-		if (PAS_NBR == ASM_ASP__CODE)
-		  {
-		  if ((($1 & 0xffff8000) != 0x00000000) &&
-		      (($1 & 0xffff8000) != 0xffff8000)   )
-		    lcl_error (5, NULL, $1);
-		  }
-
-		$$ = $1 & 0x0000ffff;
-		}*/
+		{ $$ = $1 & 0x0000ffff; }
 	;
 
 immediate
@@ -1145,19 +1144,19 @@ immediate
 
 integer_register
 	: IntegerRegister
-		{ printf("integer_register\n") ; } /*{ $$ = $1; }*/
+		{ printf("integer_register\n") ; $$ = $1; }
 	| ARegister
-		{ printf("integer_register\n") ; } /*{
+		{ printf("integer_register\n") ;
 		if ($1 > 31)
 		  lcl_error (14, NULL, $1);
 
 		$$ = $1 & 0x0000001f;
-		}*/
+		}
 	;
 
 label
 	: Identifier
-		{ printf("label\n") ; } /*{ $$ = $1; }*/
+		{ $$ = $1; }
 	;
 
 labelable_directive
@@ -1169,11 +1168,11 @@ labelable_directive
 
 logic_operator
 	: Bar
-		{ printf("logic_operator bar\n") ; } /*{ $$ = ASM_OPR__OR   ; }*/
+		{ printf("logic_operator bar\n") ; $$ = ASM_OPR__OR   ; }
 	| Ampersand
-		{ printf("logic operator Ampersand\n") ; } /*{ $$ = ASM_OPR__AND  ; }*/
+		{ printf("logic operator Ampersand\n") ; $$ = ASM_OPR__AND  ; }
 	| Circomflex
-		{ printf("logic_operator Circomflex\n") ; } /*{ $$ = ASM_OPR__XOR  ; }*/
+		{ printf("logic_operator Circomflex\n") ; $$ = ASM_OPR__XOR  ; }
 	;
 
 macro_instruction
@@ -1308,7 +1307,11 @@ memory_alloc_directive
 memory_ascii_alloc
 	: _ASCII_
 	  String
-		{ printf("memory_ascii_alloc\n") ; } /*{
+		{	std::ostringstream str ;
+		    str << $2 ;
+			prog.addLine(new Directive(".ascii",str.str())) ;
+		}
+		/*{ printf("memory_ascii_alloc\n") ;
 		unsigned int  chn_len;
 		struct utchn *pt_chn ;
 
