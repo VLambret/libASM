@@ -3,7 +3,7 @@ function1:
 label1:
 
 	j		label1
-	jal		label1
+	jal		label2
 
 	syscall
 	eret
@@ -178,3 +178,4 @@ label1:
 	
 	.set	reorder
 	.set	noreorder
+	.equ	toto,	4

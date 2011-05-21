@@ -18,8 +18,6 @@ extern "C" {
 #include "utl200.h"
 #include "asm200.h"
 }
-//#include UTL_H
-//#include ASM_H
 #include <asm_mipsyac.h>
 #include<map>
 #include <sstream>
@@ -38,31 +36,6 @@ extern FILE           *yyin       ;
 Program prog ;
 
 
-
-static int            PAS_NBR     = ASM_ASP__SIZEOF   ;	// pass number	
-static char          *FIL_NAM     = NULL              ;	// file name	
-
-static char          *PRG_NAM     = NULL              ;	// prg name	
-
-static struct asfig  *PT_FIG      = NULL              ;
-static struct asobj  *PT_OBJ      = NULL              ;
-
-static struct utdic  *GLB_DIC     = NULL              ;	// global dict	
-static struct uttyp  *GLB_SYM     = NULL              ;	// global symb	
-
-static unsigned int   MCR_WRDS [8]                    ;	// macro words	
-static int            MCR_WNBR    = 0                 ;	// macro word #	
-static unsigned int   SET_FLAGS   = 0                 ;	// set direc	
-
-static struct uttyp  *SEC_SYM     = NULL              ;	// current symb	
-static unsigned int   CUR_ADR     = 0                 ;	// current adr	
-static unsigned int   CUR_SIZ     = 0                 ;	// current size	
-static struct asiss  *PT_ISS      = NULL              ;	// current a-sz	
-
-static struct uttyp  *MEM_TAB     = NULL              ;	// memory table	
-
-static unsigned int   ERR_FLG     = 0                 ;	// error flag
-
 map<int,string> strmap ;
 static int strmap_id ;
 
@@ -72,188 +45,20 @@ void programparse(string file) {
 	//    initialize global and static variables			
 	// ###------------------------------------------------------### 
 
-	struct asfig *pt_fig	;
-	unsigned int pas_nbr ;
 	char *fil_name  = "toto";
-	utl_Initialize() ;
+
 	strmap_id = 0;
-
-  PT_FIG        = pt_fig          ;
-
-  PT_FIG->FLAG |= ASM_FIG__ERROR  ;
-
-  PAS_NBR       = pas_nbr         ;
-  ERR_FLG       = 0               ;
-  ASM_LINENO    = 1               ;
-  FIL_NAM       = fil_name        ;
-
-  PRG_NAM       = NULL            ;
-
-  MCR_WNBR      = 0               ;
-  SET_FLAGS     = ASM_SET_FLAGS   ;
-  SEC_SYM       = NULL            ;
-  CUR_ADR       = 0               ;
-  CUR_SIZ       = 0               ;
-  PT_ISS        = NULL            ;
-
-  PT_FIG        = pt_fig          ;
-  GLB_DIC       = pt_fig->GLB_DIC ;
-  GLB_SYM       = pt_fig->GLB_SYM ;
-  MEM_TAB       = pt_fig->MEM_TAB ;
-  //PT_OBJ        = asm_GetObject   (pt_fig, fil_name);
 
 	yyin = fopen(file.c_str(), "r") ;
 	yyparse() ;
 	std::cout << "Parsing done" << std::endl;
 	std::cout << std::endl;
-//	prog.display() ;
 }
-
-// ###--------------------------------------------------------------### 
-// function	: yyerror						
-// description	: print yacc error messages				
-// called func.	: none							
-// ###--------------------------------------------------------------### 
-
-//*
 
 
 static void yyerror (char * str)
-{
-	printf("yyerror ERRTAG ligne=%d, flag=%d, str=%s",ASM_LINENO,ERR_FLG,str) ;
-	//std::cout << "this is a test" << std::endl ;
-	ERR_FLG     = 0                 ;	// error flag	
-}
-/*
-  {
-  ERR_FLG += asm_error (16, FIL_NAM, ASM_LINENO, str, 0);
+	{ std::cout << "yyerror at line " << ASM_LINENO << " : " << str <<std::endl ; }
 
-  if (ERR_FLG > ASM_MAXERR)
-    ERR_FLG += asm_error (17, FIL_NAM, ASM_LINENO, NULL, 0);
-  }
-*/
-
-
-// ###--------------------------------------------------------------### 
-// function	: lcl_error						
-// description	: print an error message				
-// called func.	: asm_error						
-// ###--------------------------------------------------------------### 
-
-static void lcl_error (unsigned int code,char *str,int nbr)
-{
-  ERR_FLG += asm_error (code, FIL_NAM, ASM_LINENO, str, nbr);
-
-  if (ERR_FLG > ASM_MAXERR)
-    ERR_FLG += asm_error (17, FIL_NAM, ASM_LINENO, NULL, 0);
-  }
-//*/
-
-// ###--------------------------------------------------------------### 
-// function	: lcl_isbch						
-// description	: return non zero value if an instruction is a branch	
-// ###--------------------------------------------------------------### 
-
-static unsigned int lcl_isbch (unsigned int ins_wrd)
-{
-  unsigned int flag = 0;
-
-  if ((ins_wrd & ASM_MPS__I_MSK ) == ASM_MPS__BEQ   ) flag = 1 ;
-  if ((ins_wrd & ASM_MPS__IB_MSK) == ASM_MPS__BGEZ  ) flag = 1 ;
-  if ((ins_wrd & ASM_MPS__IB_MSK) == ASM_MPS__BGEZAL) flag = 1 ;
-  if ((ins_wrd & ASM_MPS__I_MSK ) == ASM_MPS__BGTZ  ) flag = 1 ;
-  if ((ins_wrd & ASM_MPS__I_MSK ) == ASM_MPS__BLEZ  ) flag = 1 ;
-  if ((ins_wrd & ASM_MPS__IB_MSK) == ASM_MPS__BLTZ  ) flag = 1 ;
-  if ((ins_wrd & ASM_MPS__IB_MSK) == ASM_MPS__BLTZAL) flag = 1 ;
-  if ((ins_wrd & ASM_MPS__I_MSK ) == ASM_MPS__BNE   ) flag = 1 ;
-
-  return (flag);
-  }
-
-// ###--------------------------------------------------------------### 
-// function	: lcl_isjmp						
-// description	: return non zero value if an instruction is a jump	
-// ###--------------------------------------------------------------### 
-
-static unsigned int lcl_isjmp (unsigned int ins_wrd)
-{
-  unsigned int flag = 0;
-
-  if ((ins_wrd & ASM_MPS__J_MSK ) == ASM_MPS__J     ) flag = 1;
-  if ((ins_wrd & ASM_MPS__J_MSK ) == ASM_MPS__JAL   ) flag = 1;
-  if ((ins_wrd & ASM_MPS__R_MSK ) == ASM_MPS__JR    ) flag = 1;
-  if ((ins_wrd & ASM_MPS__R_MSK ) == ASM_MPS__JALR  ) flag = 1;
-
-  return (flag);
-  }
-
-// ###--------------------------------------------------------------### 
-// function	: asm_ldmipsasm						
-// description	: parse a Mips assembly program. Return the description	
-//		  if the file has been successfully read. Return	
-//		  NULL or a description with an error flag set in case	
-//		  of error						
-// called func.	: yyparse						
-// ###--------------------------------------------------------------### 
-/*
-struct asfig *asm_ldmipsasm (FILE *fp, char *fil_name, struct asfig *pt_fig, unsigned int pas_nbr)
-{
-	// ###------------------------------------------------------### 
-	//    initialize global and static variables			
-	// ###------------------------------------------------------### 
-
-  PT_FIG        = pt_fig          ;
-  PT_FIG->FLAG |= ASM_FIG__ERROR  ;
-
-  PAS_NBR       = pas_nbr         ;
-  ERR_FLG       = 0               ;
-  ASM_LINENO    = 1               ;
-  FIL_NAM       = fil_name        ;
-
-  PRG_NAM       = NULL            ;
-
-  MCR_WNBR      = 0               ;
-  SET_FLAGS     = ASM_SET_FLAGS   ;
-  SEC_SYM       = NULL            ;
-  CUR_ADR       = 0               ;
-  CUR_SIZ       = 0               ;
-  PT_ISS        = NULL            ;
-
-  PT_FIG        = pt_fig          ;
-  GLB_DIC       = pt_fig->GLB_DIC ;
-  GLB_SYM       = pt_fig->GLB_SYM ;
-  MEM_TAB       = pt_fig->MEM_TAB ;
-  PT_OBJ        = asm_GetObject   (pt_fig, fil_name);
-
-  yyin          = fp              ;
-
-  yyrestart (yyin);
-
-	// ###------------------------------------------------------### 
-	//   parse the input file					
-	// ###------------------------------------------------------### 
-
-  yyparse ();
-
-	// ###------------------------------------------------------### 
-	//   release the dictionary					
-	// ###------------------------------------------------------### 
-
-  if (ERR_FLG == 0)
-    {
-    if (PT_ISS != NULL)
-      PT_ISS->SIZE = CUR_SIZ;
-
-    pt_fig->GLB_SYM  =  GLB_SYM       ;
-    pt_fig->MEM_TAB  =  MEM_TAB       ;
-    pt_fig->FLAG    &= ~ASM_FIG__ERROR;
-    }
-
-  return (pt_fig);
-
-	return NULL ;
-  }
-*/
 %}
 
 %union
@@ -330,7 +135,6 @@ struct asfig *asm_ldmipsasm (FILE *fp, char *fil_name, struct asfig *pt_fig, uns
 %token           RightParen
 %token           Slash
 %token           Star
-//%token <pchn>    String
 %token <text>    String
 %token           Tilda
 
@@ -343,8 +147,6 @@ struct asfig *asm_ldmipsasm (FILE *fp, char *fil_name, struct asfig *pt_fig, uns
 %type  <uval>    mul_div_operator
 %type  <uval>    shift_operator
 
-/*%type  <pchn>    byte_immediate_list
-%type  <pchn> ...byte_immediate..*/
 %type  <uval>    byte_immediate_list
 %type  <uval> ...byte_immediate..
 %type  <uval>    expression
@@ -358,8 +160,6 @@ struct asfig *asm_ldmipsasm (FILE *fp, char *fil_name, struct asfig *pt_fig, uns
 %type  <uval>    signed_16_bit_immediate
 %type  <uval>    term
 %type  <uval>    unsigned_16_bit_immediate
-/*%type  <pchn>    word_immediate_list
-%type  <pchn> ...word_immediate..*/
 %type  <uval>    word_immediate_list
 %type  <uval> ...word_immediate..
 %type  <text>   .Identifier.
@@ -371,11 +171,9 @@ struct asfig *asm_ldmipsasm (FILE *fp, char *fil_name, struct asfig *pt_fig, uns
 
 adding_operator
 	: Plus
-		{ printf("adding_operator plus\n") ;
-		$$ = ASM_OPR__PLUS ; }
+		{ $$ = ASM_OPR__PLUS ; }
 	| Minus
-		{ printf("adding_operator minus\n") ;
-		$$ = ASM_OPR__MINUS; }
+		{ $$ = ASM_OPR__MINUS; }
 	;
 
 .a_label.
@@ -446,7 +244,6 @@ byte_immediate_list
 
 CarriageReturn_ERR
 	: CarriageReturn
-		{ printf("CariageReturn_ERR\n") ; }
 	;
 
 cop0_reg
@@ -456,13 +253,7 @@ cop0_reg
 
 cop2_reg
 	: ARegister
-		{ printf("cop2_reg\n") ; }
-		/*{
-		if (($1 & 0xffffc000) != 0)
-		  lcl_error (15, NULL, $1);
-
-		$$ = $1 & 0x00003fff;
-		}*/
+		{ $$ = $1 & 0x00003fff; }
 	;
 
 effective_instruction
@@ -490,9 +281,14 @@ ent_directive
 	;
 
 equ_directive
-	: Identifier
-	  _EQU_
+	: _EQU_
+	  Identifier
+	  Comma
 	  immediate
+		{	std::ostringstream lit ;
+		    lit << $2 << ",	" << $4 ;
+			prog.addLine(new Directive(".equ",lit.str())) ;
+		}
 		{ printf("equ_directive\n") ; }
 		/*{
 		struct utdic *dic     = NULL;
@@ -1145,9 +941,6 @@ integer_register
 		{ printf("integer_register\n") ; $$ = $1; }
 	| ARegister
 		{ printf("integer_register\n") ;
-		if ($1 > 31)
-		  lcl_error (14, NULL, $1);
-
 		$$ = $1 & 0x0000001f;
 		}
 	;
@@ -1440,20 +1233,20 @@ set_directive
 
 shift_operator
 	: DoubleLess
-		{ printf("shift_operator <<\n") ; } /*{ $$ = ASM_OPR__SHL  ; }*/
+		{ $$ = ASM_OPR__SHL  ; }
 	| DoubleGreat
-		{ printf("shift_operator >>\n") ; } /*{ $$ = ASM_OPR__SHR  ; }*/
+		{ $$ = ASM_OPR__SHR  ; }
 	;
 
 term
 	: primary
-		{ printf("term primary\n") ; $$ =   $1; }
+		{ $$ =   $1; }
 	| Minus
 	  primary
-		{ printf("term minus primary\n") ; $$ = - $2; }
+		{ $$ = - $2; }
 	| Tilda
 	  primary
-		{ printf("term ~\n") ; $$ = ~ $2; }
+		{ $$ = ~ $2; }
 	;
 
 unlabeled_directive
@@ -1471,51 +1264,11 @@ unlabeled_directive
 	: //empty
 	| labelable_directive
 	| effective_instruction
-		{ printf("unlabeled instruction\n") ; } /*{
-		unsigned int nop_i   = ASM_MPS__NOP;
-		unsigned int inst    ;
-		unsigned int flag    ;
-		int          i       ;
-
-		for (i=0 ; i<MCR_WNBR ; i++)
-		  {
-		  inst = MCR_WRDS [i];
-		  flag = 0 ;
-
-		  if ((SET_FLAGS & ASM_SET__REORDER) != 0)
-		    flag = lcl_isbch (inst) | lcl_isjmp (inst) ;
-
-		  if (PAS_NBR == ASM_ASP__CODE)
-		    {
-		    MEM_TAB = asm_SetWordMemory (MEM_TAB, CUR_ADR, inst);
-
-		    if (flag != 0)
-		      MEM_TAB = asm_SetWordMemory (MEM_TAB, CUR_ADR+4, nop_i);
-		    }
-
-		  CUR_ADR += 4;
-		  CUR_SIZ += 4;
-
-		  if (flag != 0)
-		    {
-		    CUR_ADR += 4;
-		    CUR_SIZ += 4;
-		    }
-		  }
-		}*/
 	;
 
 unsigned_16_bit_immediate
 	: immediate
-		{ printf("unsigned_16_bit_immediate\n") ; } /*{
-		if (PAS_NBR == ASM_ASP__CODE)
-		  {
-		  if  (($1 & 0xffff0000) != 0x00000000)
-		    lcl_error (5, NULL, $1);
-		  }
-
-		$$ = $1 & 0x0000ffff;
-		}*/
+		{	$$ = $1 & 0x0000ffff; }
 	;
 
 word_immediate_list
