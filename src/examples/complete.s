@@ -169,3 +169,4 @@ label1:
 
 	.byte	1,2,3,4,5
 	.lcomm	sum,	4
+	.comm	smallobj,4,0
