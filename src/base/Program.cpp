@@ -160,6 +160,18 @@ void Program::display()
 	cout << endl;
 }
 
+void Program::flush()
+{
+	Node* element = _head;
+	int i=0;
+
+	while(!isEmpty())
+	{
+		delLine(0);		
+	
+	}
+}
+
 
 t_Dep Program::dependance(Instruction i1, Instruction i2){
 	

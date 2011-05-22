@@ -94,6 +94,11 @@ public:
 */
 	Function  get_Function(int );
 
+/**	\brief	empty the program
+*/
+
+	void flush();
+
 
 
 private:

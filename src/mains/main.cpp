@@ -126,7 +126,10 @@ int main(){
 	bb.display();
 	bb.restitution("./tmp/ex12.txt");
 	cout<<endl;
-	
+
+	prog.flush();
+	cout<<"affichage du prog après vidage"<<endl;
+	prog.display();
 
 
 
