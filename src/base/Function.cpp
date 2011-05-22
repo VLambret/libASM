@@ -103,7 +103,7 @@ void Function::comput_basic_block(){
 		while(element != _end)
 		{ 		/*si l'instruction est un branchement alors on prend le delay sot comme
 				dernier element du BB et comme tete l'element qui suit*/
-			if(element->getLine()->typeLine()==line_Instru){
+			if(element->getLine()->typeLine()==line_Instru && element->getnext()->getLine()->typeLine()==line_Instru){
 				if(element->getLine()->getType()==BR){
 					BB.set_end(element->getnext());
 					myBB.push_back(BB);
