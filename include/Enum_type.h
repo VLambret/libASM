@@ -19,9 +19,9 @@
 	enum t_Operator{
 	b,		beqz,	bnez,	beq,	bgez,	bgezal,
 	bgtz,	blez,	bltz,	bltzal,	bne,	j,
-	jal,	jalr,	jr,		la,		li,		loadi,
-	sb,		sh,		lb,		lbu,	lh,		lhu,
-	lui,	lw,		lwl,	lwr,	sw,		add,
+	jal,	jalr,	jr,		la,		li,		 		loadi,	sb,	sh,	lb,	lbu,	lh,		
+	lhu,	lui,	lw,	lwl,		
+	lwr,	ll,	pref,sw,	add,
 	addu,	addi,	addiu,	and_,	andi,	mul,
 	mult,	multu,	nor,	or_,	ori,	srl,
 	srlv,	sub,	subu,	sll,	sllv,	slt,
@@ -29,8 +29,8 @@
 	srav,	div_,	divu,	mfhi,	mflo,	mthi,
 	mtlo,	move,	neg,	negu,	nop,	break_,
 	syscallu,mfc0,	mtc0,	clo,	clz,	ebase,
-	eepc,	eret,	ll,		madd,	maddu,	mfc2,
-	movn,	movz,	msub,	msubu,	mtc2,	pref,
+	eepc,	eret,	madd,	maddu,	mfc2,
+	movn,	movz,	msub,	msubu,	mtc2,	
 	sc,		sync_,	tccontext,teq,	teqi,	tge,
 	tgei,	tgeiu,	tgeu,	tlt,	 tlti,	tltiu,
 	tltu,	tne,	tnei,	waitn,	rfe,	maxop};

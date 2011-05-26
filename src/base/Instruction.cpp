@@ -77,19 +77,19 @@ string opString[]={"b","beqz","bnez","beq","bgez","bgezal",
 	"bgtz","blez","bltz","bltzal","bne","j",
 	"jal","jalr","jr","la","li","loadi",
 	"sb","sh","lb","lbu","lh","lhu",
-	"lui","lw","lwl","lwr","sw","add",
+	"lui","lw","lwl","lwr","ll","pref","sw","add",
 	"addu","addi","addiu","and","andi","mul",
 	"mult","multu","nor","or","ori","srl",
 	"srlv","sub","subu","sll","sllv","slt",
 	"slti","sltiu","sltu","xor","xori","sra",
-	"srav","div","	divu","	mfhi","mflo","mthi",
+	"srav","div","divu","mfhi","mflo","mthi",
 	"mtlo","move","neg","negu","nop","break",
-	"syscallu","mfc0","mtc0","clo","clz","ebase",
-	"eepc","eret","ll","madd","maddu","mfc2",
-	"movn","movz","	msub","	msubu","mtc2","	pref",
-	"sc","syncu","	tccontext","teq","teqi","tge",
+	"syscall","mfc0","mtc0","clo","clz","ebase",
+	"eepc","eret","madd","maddu","mfc2",
+	"movn","movz","msub","msubu","mtc2",
+	"sc","sync","tccontext","teq","teqi","tge",
 	"tgei","tgeiu","tgeu","tlt","tlti","tltiu",
-	"tltu","tne","tnei","waitn","rfe"};
+	"tltu","tne","tnei","wait","rfe"};
 
 return opString[_op];
 }
@@ -122,7 +122,7 @@ return form[_format];
 
 t_Inst  Instruction::getType(){
 if (_op<15) _type= BR;
-else if ((14<_op) && (_op<29)) _type= MEM;
+else if ((14<_op) && (_op<31)) _type= MEM;
 else if ((28<_op)&& (_op<61))  _type= ALU;
 else _type= OTHER;
 
