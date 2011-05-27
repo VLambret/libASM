@@ -23,6 +23,7 @@ Node* Function::get_end(){
 	return _end;
 }
 void Function::display(){
+	cout<<"Begin"<<endl;
 	Node* element = _head;
 	while(element != _end)
 	{
@@ -35,6 +36,7 @@ void Function::display(){
 		else element = element->getnext();
 
 	}
+	cout<<"End\n\n"<<endl;
 	
 }
 
@@ -59,6 +61,7 @@ void Function::restitution(string const filename){
 	ofstream monflux(filename.c_str());
 
 	if(monflux){
+		monflux<<"Begin"<<endl;
 		while(element != _end)
 		{
 			if(element->getLine()->typeLine()==line_Instru || element->getLine()->typeLine()== line_Direct) monflux<<"\t";
@@ -74,6 +77,7 @@ void Function::restitution(string const filename){
 			else element = element->getnext();
 
 		}
+		monflux<<"End\n\n"<<endl;
 		
 	}
 
@@ -90,10 +94,11 @@ void Function::comput_basic_block(){
 
 		Node* element = _head;
 
-
+		cout<<"entré"<<endl;
 		/*supprime les directives precedent le premier BB*/
 		while(!begin){
 			if(element->getLine()->typeLine()!=line_Direct){
+				cout<<"tête "<<element->getLine()->getContent() <<endl;
 				BB.set_head(element);
 				begin=1;
 			}	
@@ -105,9 +110,11 @@ void Function::comput_basic_block(){
 				dernier element du BB et comme tete l'element qui suit*/
 			if(element->getLine()->typeLine()==line_Instru && element->getnext()->getLine()->typeLine()==line_Instru){
 				if(element->getLine()->getType()==BR){
+					cout<<"fin "<<element->getnext()->getLine()->getContent() <<endl;
 					BB.set_end(element->getnext());
 					myBB.push_back(BB);
 					if(element->getnext()->getnext()!=_end && element->getnext()!=_end){
+						cout<<"tête "<<element->getnext()->getnext()->getLine()->getContent() <<endl;
 						BB.set_head(element->getnext()->getnext());
 						element = element->getnext();
 					}
@@ -117,17 +124,21 @@ void Function::comput_basic_block(){
 			/*si l'instruction suivante est un label alors on prend l'instruction courante comme fin
 			du BB et on prens le suivant comme tete du prochain BB*/
 			if(element->getnext()->getLine()->typeLine()==line_Lab){
+				cout<<"fin "<<element->getLine()->getContent() <<endl;
 				BB.set_end(element);
 					myBB.push_back(BB);
+					cout<<"tête "<<element->getnext()->getLine()->getContent() <<endl;
 					BB.set_head(element->getnext());
 
 			}
 			if(element->getnext()->getLine()->typeLine()==line_Direct){
+				cout<<"fin "<<element->getLine()->getContent() <<endl;
 				BB.set_end(element);
 				break;
 			}
 			if(element->getnext()==_end){
 				BB.set_end(element);
+				cout<<"fin"<<element->getLine()->getContent() <<endl;
 				myBB.push_back(BB);
 				break;
 			}

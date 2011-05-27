@@ -27,6 +27,7 @@ Node* Basic_block::get_end(){
 
 void Basic_block::display(){
 
+	cout<<"Begin"<<endl;
 	Node* element = _head;
 	while(element != _end)
 	{
@@ -39,6 +40,8 @@ void Basic_block::display(){
 		else element = element->getnext();
 
 	}
+
+	cout<<"End\n\n"<<endl;
 }
 
 int Basic_block::size(){
@@ -63,6 +66,7 @@ void Basic_block::restitution(string const filename){
 	ofstream monflux(filename.c_str());
 
 	if(monflux){
+		monflux<<"Begin"<<endl;
 		while(element != _end)
 		{
 			if(element->getLine()->typeLine()==line_Instru || element->getLine()->typeLine()== line_Direct) monflux<<"\t";
@@ -78,6 +82,7 @@ void Basic_block::restitution(string const filename){
 			else element = element->getnext();
 
 		}
+		monflux<<"End\n\n"<<endl;
 		
 	}
 
