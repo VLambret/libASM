@@ -798,7 +798,8 @@ Réalisation
 
 \begin_layout Standard
 Une fois les spécifications établies, nous sommes donc passés à la réalisation
- de notre bibliothèque.
+ de notre bibliothèque. L'objectif du projet étant de récupérer un code assembleur MIPS écrit à la main ou produit par un compilateur
+de type gcc, via un parseur, de le représenter en mémoire et d'effectuer dessus des manipulations, nous avions définit trois grandes taches: Les structures de données, l'implémentation des fonctionnalités de manipulation et le parsing. Nous allons donc vous présenter dans cette partie la réalisations de ces taches.
 \end_layout
 
 \begin_layout Section
@@ -839,52 +840,60 @@ Diagramme UML
 \end_layout
 
 \begin_layout Standard
-Nous avons construit nos classes de bases de manière hiérarchique.
- Tout d'abord nous avons le programme qui est vu comme une suite de lignes
+La structure de données représente le programme correspondant à tout le contenu d'un fichier assembleur (données, code).
+Cette structure vas être découpée en plusieurs classes qui vont réprésenter chacun les différents objets qui caractérisent 
+un code assembleur.
+Nous avons donc construit nos classes de bases de manière hiérarchique.
+Tout d'abord nous avons le programme  que nous avons choisi de voir comme une suite de lignes
  qui peuvent être de différents types : labels, instructions et directives.
+Ce sont les instructions qui sont les plus importantes, elles ont chacunes un code opérateur, des opérandes, un format(R,I,J) et une nature (BR, MEM, ALU).
 \end_layout
 
 \begin_layout Itemize
 Le programme est vu comme une liste chaînée de lignes.
- La classe Node correspondra aux noeuds de la liste chaînée.
+ La classe Node correspond aux noeuds de la liste chaînée.
+Dans ce programme, nous pouvons supprimer, ajouter des lignes. Nous pouvons aussi
+connaitre le nombre de ligne du programme, l'afficher et chercher une ligne en particulier.
  
 \end_layout
 
 \begin_layout Itemize
-La classe Line corespond à l'information contenue dans un noeud de la liste
+La classe Line correspond à l'information contenue dans un noeud de la liste
  chaînée.
- C'est une classe abstraite qui va permettre aux sous-classes Instruction,
- Directive et Label d'hériter de ses caractéristiques.
+ C'est une classe abstraite qui permet aux sous-classes Instruction,
+ Directive et Label d'hériter de ses caractéristiques. Pour chaque ligne nous avons
+la chaîne de caractère. Nous pouvons modifier cette ligne, récupérer la ligne ou son type (instruction, label ou directive).
 \end_layout
 
 \begin_layout Itemize
 Les directives correspondent aux lignes de déclaration de zone (.data, .text)
  de données, de fonction.
  La directive peut être suivi d'un champs.
- Cette classe pourra permettre d'identifier le début et la fin d'une fonction,
- ce qui sera utile lors du calcul des fonctions.
+ Cette classe peut permettre d'identifier le début et la fin d'une fonction,
+ ce qui est utile lors du calcul des fonctions.
  
 \end_layout
 
 \begin_layout Itemize
-Les labels sont les étiquettes utilisées pour designer des données ou instructio
+Les labels sont les étiquettes utilisées pour désigner des données ou instructio
 ns dans le code.
 \end_layout
 
 \begin_layout Itemize
 Les instructions correspondent au code proprement dit.
- Une instruction contient une opération et des opérandes.
- Le type et le format sont déduit de l'opérateur et de l'opération.
+ Une instruction contient un code opérateur, des opérandes, son type et son format.
+Dans cette classe nous pouvons récupérer ses caractéristique mais nous ne pouvont modifier
+que son code opérateur et ses opérandes car le type et le format sont déduit de l'opérateur et de l'opération.
 \end_layout
 
 \begin_layout Itemize
-L'opération est représentée par un type énuméré.
+Le code opérateur est représenté par un type énuméré.
 \end_layout
 
 \begin_layout Itemize
 Les opérandes sont des objets dérivant de la classe abstraite Operand.
  Il y a une classe par type d'opérandes possibles : registre, immediat,
- expression ou label.
+ expression ou label. Pour toutes ces classes nous pouvons modifier l'opérande et la récupérer elle et son type(registre, label...). 
 \end_layout
 
 \begin_layout Section
@@ -928,14 +937,11 @@ Diagramme UML index
 
 \end_layout
 
-\begin_layout Standard
-AJOUT du DIAGRAMME UML2
-\end_layout
 
 \begin_layout Standard
-Nous avons crée deux types d'index, l'un permettant d'accéder les fonctions
- d'un programme et un autre permettant d'accéder les blocs de bases d'une
- fonctions.
+La fonctionnalité d'indexation permet d'accéder aux fonctions
+ d'un programme et d'accéder aux blocs de bases d'une
+ fonctions qui auront été préalablement calculés.
 \end_layout
 
 \begin_layout Subsection
@@ -943,14 +949,15 @@ Fonction
 \end_layout
 
 \begin_layout Standard
+Un programme peut contenir plusieurs fonctions. Nous avons donc implémenté une fonctionnalité
+permettant de récupérer ces fonctions.
+Le calcul des fonctions se fait dans la classe Program qui a une vue d'ensemble
+ de tout le code assembleur, donc de toutes les fonctions définies.
+ On conserve ces fonctions dans une liste stockées dans le programme correspondant.
 La classe Function représente une fonction du programme.
  Elle contient un pointeur sur la ligne début et la ligne de fin de la fonction.
  La classe offre la possibilité d'afficher le contenu de la fonction, de
  restituer le code lui correspondant dans un fichier et calculer sa taille.
- Le calcul des fonctions se fait dans la classe Program qui a une vue d'ensemble
- de toutes le code d'un fichier, donc de toutes les fonctions définies dans
- le code correspondant.
- Ce calcul conserve l'ensemble des fonctions du programme dans une liste.
 \end_layout
 
 \begin_layout Standard
@@ -1067,15 +1074,14 @@ fin
 Bloc de base
 \end_layout
 
-\begin_layout Standard
-%METTRE LA DEFINITION D'UN BB
-\end_layout
 
 \begin_layout Standard
-La classe Basic_block représente les blocs de bases d'une fonction.
+Dans chacune des fonctions d'un programme il y a plusieurs blocs de bases.
+Ces blocs de bases sont des séquences d'instructions contenant un point d'entré et un point de sortie.
+La classe Basic_block représente un bloc de base appartenant à une fonction.
  Elle contient un pointeur sur la ligne début (une instruction ou un label)
  et la ligne de fin du bloc.
- On va pourra afficher le contenu du bloc, la restituer dans un fichier
+ On va pouvoir afficher le contenu du bloc, la restituer dans un fichier
  et calculer sa taille.
  Le calcule des blocs de bases se fait dans la classe Function, qui va conserver
  ces blocs dans une liste.
@@ -1283,10 +1289,26 @@ Calcul de dépendance
 Nous avons réalisé la fonctionnalité qui permet de calculer la dépendance
  entre deux instructions.
  Pour cela nous avons implémenté des méthodes correspondant à chacunes des
- dépendances possibles (RAW, WAR, WAR) dans la classe Instruction.
+ dépendances possibles dans la classe Instruction:
+\end_layout
+
+\begin_layout Itemize
+RAW: détéction des dépendances lecture après ériture, c'est à dire la lecture d'un registre par l'instruction 2 après son écriture dans
+l'instruction 1.
+\end_layout
+
+\begin_layout Itemize
+WAR: détéction des dépendances écriture après lecture, c'est à dire l'écriture dans un registre par l'instruction 2 après sa lecture dans l'instruction 1.
+\end_layout
+
+\begin_layout Itemize
+WAW: détéction des dépendances écriture après ériture, c'est à dire la l'écriture d'un registre par l'instruction 2 après l'écriture dans l'instruction 1.
+\end_layout
+
+\begin_layout Standard
  Ces méthodes testent si la dépendance est verifiée entre l'instruction
  courante et celle donnée en paramètre.
- Nous avons aussi implémentée une méthode permettant de calculer la dépendance
+ Nous avons aussi implémenté une méthode permettant de calculer la dépendance
  entre deux instructions particulières dans un programme.
 \end_layout
 
@@ -1315,73 +1337,24 @@ inline false
 status open
 
 \begin_layout Plain Layout
-
-RAW()
+Nous avons deux instructions: i1 l'instruction correspondant à la classe et i2 l'argument de la méthode.
+RAW(Instruction i2)
 \end_layout
 
 \begin_layout Plain Layout
 
-début
+	if (i1.RegDest && i2.RegSrc1 && i1.RegDest==i2.RegSrc1)	return true
 \end_layout
 
 \begin_layout Plain Layout
 
-	si le registre destination de la première instruction n'est pas null
+	if (i1.RegDest && i2.RegSrc2 && i1.RegDest==i2.RegSrc2)	return true
 \end_layout
+
 
 \begin_layout Plain Layout
 
-		si le premier registre source de la seconde instruction n'est pas null
-\end_layout
-
-\begin_layout Plain Layout
-
-			si les deux registres sont égaux alors retourne vrai
-\end_layout
-
-\begin_layout Plain Layout
-
-			fin si
-\end_layout
-
-\begin_layout Plain Layout
-
-		fin si
-\end_layout
-
-\begin_layout Plain Layout
-
-		si le second registre source de la seconde instruction n'est pas null
-\end_layout
-
-\begin_layout Plain Layout
-
-			si les deux registres sont égaux alors retourne vrai
-\end_layout
-
-\begin_layout Plain Layout
-
-			fin si
-\end_layout
-
-\begin_layout Plain Layout
-
-		fin si
-\end_layout
-
-\begin_layout Plain Layout
-
-	fin si
-\end_layout
-
-\begin_layout Plain Layout
-
-	retourne faux
-\end_layout
-
-\begin_layout Plain Layout
-
-fin
+	return false
 \end_layout
 
 \end_inset
@@ -1490,73 +1463,26 @@ status open
 
 \begin_layout Plain Layout
 
-WAR()
+WAR(Instruction i2)
+\end_layout
+
+
+\begin_layout Plain Layout
+
+	if (i2.RegDest && i1.RegSrc1 && i2.RegDest==i1.RegSrc1)	return true
 \end_layout
 
 \begin_layout Plain Layout
 
-début
+	if (i2.RegDest && i1.RegSrc2 && i2.RegDest==i1.RegSrc2)	return true
 \end_layout
+
 
 \begin_layout Plain Layout
 
-	si le registre destination de la seconde instruction n'est pas null
+	return false
 \end_layout
 
-\begin_layout Plain Layout
-
-		si le premier registre source de la première instruction n'est pas null
-\end_layout
-
-\begin_layout Plain Layout
-
-			si les deux registres sont égaux alors retourne vrai
-\end_layout
-
-\begin_layout Plain Layout
-
-			fin si
-\end_layout
-
-\begin_layout Plain Layout
-
-		fin si
-\end_layout
-
-\begin_layout Plain Layout
-
-		si le second registre source de la première instruction n'est pas null
-\end_layout
-
-\begin_layout Plain Layout
-
-			si les deux registres sont égaux alors retourne vrai
-\end_layout
-
-\begin_layout Plain Layout
-
-			fin si
-\end_layout
-
-\begin_layout Plain Layout
-
-		fin si
-\end_layout
-
-\begin_layout Plain Layout
-
-	fin si
-\end_layout
-
-\begin_layout Plain Layout
-
-	retourne faux
-\end_layout
-
-\begin_layout Plain Layout
-
-fin
-\end_layout
 
 \end_inset
 
@@ -1574,44 +1500,19 @@ status open
 
 \begin_layout Plain Layout
 
-WAW()
+WAW(Instruction i2)
 \end_layout
 
 \begin_layout Plain Layout
 
-début
+	if (i1.RegDest && i2.RegDest && i1.RegDest==i2.RegDest)	return true
 \end_layout
 
 \begin_layout Plain Layout
 
-	si les registres destination de la première et la seconde instruction sont
- non null
+	return false
 \end_layout
 
-\begin_layout Plain Layout
-
-		s'ils sont égaux alors retourne vrai
-\end_layout
-
-\begin_layout Plain Layout
-
-		fin si
-\end_layout
-
-\begin_layout Plain Layout
-
-	fin si
-\end_layout
-
-\begin_layout Plain Layout
-
-	retourne faux
-\end_layout
-
-\begin_layout Plain Layout
-
-fin
-\end_layout
 
 \end_inset
 
@@ -1626,7 +1527,9 @@ Restitution
 Nous avons réalisé la fonctionnalité qui permet de restituer un programme,
  une fonction ou un bloc de base sous forme d'un fichier d'instruction asssemble
 ur.
- La restitution se fait dans une méthode de chacune des classes associée.
+ La restitution se fait dans une méthode de chacune des classes associée. Ces méthodes
+prennent en paramettre le nom du fichier dans lequel on veux écrire. On va parcourir la
+structure, récupère la chaîne de caractère de chaque ligne et l'écrit dans le fichier.
 \end_layout
 
 \begin_layout Section
