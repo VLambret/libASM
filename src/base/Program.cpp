@@ -184,6 +184,20 @@ t_Dep Program::dependance(Instruction i1, Instruction i2){
 	return dep1;
 }
 
+void Program::Exchange_Line(int line1, int line2){
+	Line * lg1,*lg2;
+	
+	lg1=findLine(line1);
+	lg2=findLine(line2);
+
+	delLine(line1);
+	add_Line_at(lg2,line1);
+	delLine(line2);
+	add_Line_at(lg1,line2);
+	
+
+}
+
 Line* Program::findLine(int index){
 
     int j;
@@ -244,22 +258,24 @@ void Program::comput_Function(){
 	if (!isEmpty()){	
 
 		Node* element = _head;
-		func.set_head(_head);
-		//cout<<func.get_head()->getLine()->getContent()<<endl;
+
+		
 		while(element != NULL)
 		{
+			if(!element->getLine()->getContent().compare(".ent")){
+				func.set_head(element->getnext());
+				//cout<<func.get_head()->getLine()->getContent()<<endl;
+			}
 			if(!element->getLine()->getContent().compare(".end")){
 				func.set_end(element);
 				//cout<<func.get_end()->getLine()->getContent()<<endl;
 				myfunc.push_back(func);
-				func.set_head(element->getnext());
-				//cout<<func.get_head()->getLine()->getContent()<<endl;
 			}
 			
 			if(element->getnext()==NULL){
-				func.set_end(element);
+				//func.set_end(element);
 				//cout<<func.get_end()->getLine()->getContent()<<endl;
-				myfunc.push_back(func);
+				//myfunc.push_back(func);
 				break;
 			}
 			else element = element->getnext();

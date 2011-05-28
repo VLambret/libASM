@@ -51,6 +51,10 @@ public:
 */
 	int add_Line_at(Line *newline, int position);
 
+/**	\brief	Reverse two lines which are at the index line1 and line2
+*/
+	void Exchange_Line(int line1, int line2);
+
 /** \brief display the program
 */
 	void display();

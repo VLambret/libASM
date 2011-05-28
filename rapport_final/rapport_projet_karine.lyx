@@ -973,11 +973,6 @@ begin
  if (program.is_not_Empty()) then
 \end_layout
 
-\begin_layout Plain Layout
-
-	function.head <- program.first_directive_function
-
-\end_layout
 
 \begin_layout Plain Layout
 
@@ -1002,7 +997,18 @@ begin
 
 \begin_layout Plain Layout
 
-			function.head <- program.next_node
+		end if
+
+\end_layout
+
+\begin_layout Plain Layout
+
+		if (program.node = directive_of_begining_function) then
+\end_layout
+
+\begin_layout Plain Layout
+
+			function.head <- program.node
 \end_layout
 
 \begin_layout Plain Layout
@@ -1011,19 +1017,10 @@ begin
 
 \end_layout
 
+
 \begin_layout Plain Layout
 
 		if (program.next_node = program.end) then		
-\end_layout
-
-\begin_layout Plain Layout
-
-			function.end <- program.node
-\end_layout
-
-\begin_layout Plain Layout
-
-			program.list_function <- function
 \end_layout
 
 \begin_layout Plain Layout
@@ -1136,12 +1133,21 @@ begin
 
 \begin_layout Plain Layout
 
-				if (function.next_node != function.end && function.next_next_node != function.end)
+				if (function.next_node != function.end && 
+\end_layout
+\begin_layout Plain Layout
+
+				                    function.next_next_node != function.end)
 \end_layout
 
 \begin_layout Plain Layout
 					
-					block.head <- function.next_Nth_node(the node next the Nth delayed slot)
+					block.head <- function.next_Nth_node
+\end_layout
+
+\begin_layout Plain Layout
+					
+						(the node next the Nth delayed slot)
 \end_layout
 
 \begin_layout Plain Layout
@@ -1152,7 +1158,7 @@ begin
 \begin_layout Plain Layout
 
 				
-				else break
+		else break
 \end_layout
 
 \begin_layout Plain Layout

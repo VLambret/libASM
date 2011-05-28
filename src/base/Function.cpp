@@ -25,6 +25,8 @@ Node* Function::get_end(){
 void Function::display(){
 	cout<<"Begin"<<endl;
 	Node* element = _head;
+
+	if(element == _end)	cout << _head->getLine()-> getContent() <<endl;
 	while(element != _end)
 	{
 		cout << element->getLine()-> getContent() <<endl;
@@ -62,6 +64,7 @@ void Function::restitution(string const filename){
 
 	if(monflux){
 		monflux<<"Begin"<<endl;
+		if(element == _end)	monflux << _head->getLine()-> getContent() <<endl;
 		while(element != _end)
 		{
 			if(element->getLine()->typeLine()==line_Instru || element->getLine()->typeLine()== line_Direct) monflux<<"\t";
@@ -71,7 +74,7 @@ void Function::restitution(string const filename){
 			if(element->getnext()==_end){
 				if(element->getnext()->getLine()->typeLine()==line_Instru || 
 							element->getnext()->getLine()->typeLine()==line_Direct) monflux<<"\t";
-				monflux << element->getnext()->getLine()-> getContent();
+				monflux << element->getnext()->getLine()-> getContent()<<endl;
 				break;
 			}
 			else element = element->getnext();
