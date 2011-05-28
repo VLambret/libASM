@@ -798,7 +798,7 @@ Réalisation
 
 \begin_layout Standard
 Une fois les spécifications établies, nous sommes donc passés à la réalisation
- de notre bibliothèque. L'objectif du projet étant de récupérer un code assembleur MIPS écrit à la main ou produit par un compilateur
+ de notre bibliothèque. L'objectif du projet étant de récupérer un code assembleur MIPS écrit à la main ou produit par un compilateur 
 de type gcc, via un parseur, de le représenter en mémoire et d'effectuer dessus des manipulations, nous avions définit trois grandes taches: Les structures de données, l'implémentation des fonctionnalités de manipulation et le parsing. Nous allons donc vous présenter dans cette partie la réalisations de ces taches.
 \end_layout
 
@@ -840,20 +840,17 @@ Diagramme UML
 \end_layout
 
 \begin_layout Standard
-La structure de données représente le programme correspondant à tout le contenu d'un fichier assembleur (données, code).
+La structure de données représente le programme contenu dans un fichier assembleur (données, code).
 Cette structure vas être découpée en plusieurs classes qui vont réprésenter chacun les différents objets qui caractérisent 
-un code assembleur.
-Nous avons donc construit nos classes de bases de manière hiérarchique.
+un code assembleur. 
+Nous avons donc construit nos classes de bases de manière hiérarchique. 
 Tout d'abord nous avons le programme  que nous avons choisi de voir comme une suite de lignes
- qui peuvent être de différents types : labels, instructions et directives.
-Ce sont les instructions qui sont les plus importantes, elles ont chacunes un code opérateur, des opérandes, un format(R,I,J) et une nature (BR, MEM, ALU).
+ qui peuvent être de différents types : labels, instructions et directives. 
+Ce sont les instructions qui sont, pour nous, les plus importantes, elles ont chacunes un code opérateur, des opérandes, un format(R,I,J) et une nature (BR, MEM, ALU).
 \end_layout
 
 \begin_layout Itemize
-Le programme est vu comme une liste chaînée de lignes.
- La classe Node correspond aux noeuds de la liste chaînée.
-Dans ce programme, nous pouvons supprimer, ajouter des lignes. Nous pouvons aussi
-connaitre le nombre de ligne du programme, l'afficher et chercher une ligne en particulier.
+Le programme est vu comme une liste chaînée de lignes. La classe Node correspond aux noeuds de la liste chaînée. Dans ce programme, nous pouvons supprimer, ajouter des lignes. Nous pouvons aussi connaitre le nombre de ligne du programme, l'afficher et chercher une ligne en particulier.
  
 \end_layout
 
@@ -861,8 +858,7 @@ connaitre le nombre de ligne du programme, l'afficher et chercher une ligne en p
 La classe Line correspond à l'information contenue dans un noeud de la liste
  chaînée.
  C'est une classe abstraite qui permet aux sous-classes Instruction,
- Directive et Label d'hériter de ses caractéristiques. Pour chaque ligne nous avons
-la chaîne de caractère. Nous pouvons modifier cette ligne, récupérer la ligne ou son type (instruction, label ou directive).
+ Directive et Label d'hériter de ses caractéristiques. Pour chaque ligne nous avons une chaîne de caractère. Nous pouvons modifier cette ligne, récupérer la ligne ou son type (instruction, label ou directive).
 \end_layout
 
 \begin_layout Itemize
@@ -881,9 +877,7 @@ ns dans le code.
 
 \begin_layout Itemize
 Les instructions correspondent au code proprement dit.
- Une instruction contient un code opérateur, des opérandes, son type et son format.
-Dans cette classe nous pouvons récupérer ses caractéristique mais nous ne pouvont modifier
-que son code opérateur et ses opérandes car le type et le format sont déduit de l'opérateur et de l'opération.
+ Une instruction contient un code opérateur, des opérandes, son type et son format. Dans cette classe nous pouvons récupérer ses caractéristiques mais nous ne pouvont modifier que son code opérateur et ses opérandes car le type et le format sont déduit de l'opérateur et de l'opération.
 \end_layout
 
 \begin_layout Itemize
@@ -893,7 +887,7 @@ Le code opérateur est représenté par un type énuméré.
 \begin_layout Itemize
 Les opérandes sont des objets dérivant de la classe abstraite Operand.
  Il y a une classe par type d'opérandes possibles : registre, immediat,
- expression ou label. Pour toutes ces classes nous pouvons modifier l'opérande et la récupérer elle et son type(registre, label...). 
+ expression ou label. Pour toutes ces classes nous pouvons modifier l'opérande et la récupérer, elle et son type(registre, label...). 
 \end_layout
 
 \begin_layout Section
@@ -949,15 +943,9 @@ Fonction
 \end_layout
 
 \begin_layout Standard
-Un programme peut contenir plusieurs fonctions. Nous avons donc implémenté une fonctionnalité
-permettant de récupérer ces fonctions.
-Le calcul des fonctions se fait dans la classe Program qui a une vue d'ensemble
- de tout le code assembleur, donc de toutes les fonctions définies.
- On conserve ces fonctions dans une liste stockées dans le programme correspondant.
-La classe Function représente une fonction du programme.
- Elle contient un pointeur sur la ligne début et la ligne de fin de la fonction.
- La classe offre la possibilité d'afficher le contenu de la fonction, de
- restituer le code lui correspondant dans un fichier et calculer sa taille.
+Un programme peut contenir plusieurs fonctions. Nous avons donc implémenté une fonctionnalité permettant de récupérer ces fonctions.
+Le calcul des fonctions se fait dans la classe Program qui a une vue d'ensemble de tout le code assembleur, donc de toutes les fonctions définies. On conserve ces fonctions dans une liste stockées dans le programme correspondant. La classe Function représente une fonction du programme. Elle contient un pointeur sur la ligne de début et la ligne de fin de la fonction.
+ La classe offre la possibilité d'afficher le contenu de la fonction, de restituer le code lui correspondant dans un fichier et de calculer sa taille.
 \end_layout
 
 \begin_layout Standard
@@ -976,88 +964,94 @@ compute_function()
 
 \begin_layout Plain Layout
 
-début
+begin
+
 \end_layout
 
 \begin_layout Plain Layout
 
-si le programme n'est pas vide alors
+ if (program.is_not_Empty()) then
 \end_layout
 
 \begin_layout Plain Layout
 
-	tête de la première fonction = tête du programme
+	function.head <- program.first_directive_function
+
 \end_layout
 
 \begin_layout Plain Layout
 
-	tant qu'il existe un noeud alors
+	while (program.node) then
+
 \end_layout
 
 \begin_layout Plain Layout
 
-		si le noeud contient une directive correspondant à la fin de la fonction
- (.end)
+		if (program.node = directive_of_end_function) then
 \end_layout
 
 \begin_layout Plain Layout
 
-			ce noeud correspondra à la fin de la fonction
+			function.end <- program.node
 \end_layout
 
 \begin_layout Plain Layout
 
-			on rajoute cette fonction à la liste des fonction dans le programme
+			program.list_function <- function
 \end_layout
 
 \begin_layout Plain Layout
 
-			le noeud suivant sera la tête de la prochaine fonction,
+			function.head <- program.next_node
 \end_layout
 
 \begin_layout Plain Layout
 
-		fin si
+		end if
+
 \end_layout
 
 \begin_layout Plain Layout
 
-		si le noeud suivant est le dernier noeud du programme alors
+		if (program.next_node = program.end) then		
 \end_layout
 
 \begin_layout Plain Layout
 
-			le noeud courant corespond à la fin de la fonction
+			function.end <- program.node
 \end_layout
 
 \begin_layout Plain Layout
 
-			on rajoute cette fonction dans la liste des fonctions du programme
+			program.list_function <- function
 \end_layout
 
 \begin_layout Plain Layout
 
-			on sort de la boucle
+			break
+
 \end_layout
 
 \begin_layout Plain Layout
 
-		sinon on passe au noeud suivant
+		else program.node <- program.next_node	
+
 \end_layout
 
 \begin_layout Plain Layout
 
-		fin si
+		end if
+
 \end_layout
 
 \begin_layout Plain Layout
 
-	fin tant que
+	end while
 \end_layout
 
 \begin_layout Plain Layout
 
-fin si
+end
 \end_layout
 
 \begin_layout Plain Layout
@@ -1079,13 +1073,17 @@ Bloc de base
 Dans chacune des fonctions d'un programme il y a plusieurs blocs de bases.
 Ces blocs de bases sont des séquences d'instructions contenant un point d'entré et un point de sortie.
 La classe Basic_block représente un bloc de base appartenant à une fonction.
- Elle contient un pointeur sur la ligne début (une instruction ou un label)
+ Elle contient un pointeur sur la ligne de début (une instruction ou un label)
  et la ligne de fin du bloc.
  On va pouvoir afficher le contenu du bloc, la restituer dans un fichier
  et calculer sa taille.
  Le calcule des blocs de bases se fait dans la classe Function, qui va conserver
  ces blocs dans une liste.
 \end_layout
+
+\begin_layout Abstract
+\begin_inset Newpage pagebreak
+\end_inset
 
 \begin_layout Standard
 Voici l'algorithme du calcule des blocs de bases dans une fonction:
@@ -1103,73 +1101,73 @@ compute_Basic_block()
 
 \begin_layout Plain Layout
 
-début
+begin
 \end_layout
 
 \begin_layout Plain Layout
 
-	on prend le premier noeud de la fonction qui n'est pas une directive que
- l'on donne à la tête du bloc
+	block.head <- function.first_node_label_or_instruction
 \end_layout
 
 \begin_layout Plain Layout
 
-	tant que l'on arrive pas à la fin de la fonction
+	while (function.node != function.end) then
 \end_layout
 
 \begin_layout Plain Layout
 
-		si le noeud contient une instruction
+		if (function.node = instruction)
 \end_layout
 
 \begin_layout Plain Layout
 
-			si cette instruction est un branchement alors
+			if (function.node = branch) then
 \end_layout
 
 \begin_layout Plain Layout
 
-				on prend les N prochaines instructions comme fin du bloc (N delay slot)
+				block.end <- function.Nth_node(Nth delayed slot)
 \end_layout
 
 \begin_layout Plain Layout
 
-				on rajoute ce bloc à la liste des blocs de la fonction
+				function.list_block <- block
 \end_layout
 
 \begin_layout Plain Layout
 
-				si le noeud suivant et celui d'après ne sont pas la fin de la fonction
+				if (function.next_node != function.end && function.next_next_node != function.end)
+\end_layout
+
+\begin_layout Plain Layout
+					
+					block.head <- function.next_Nth_node(the node next the Nth delayed slot)
+\end_layout
+
+\begin_layout Plain Layout
+			
+					function.node <- function.next(block.head)
 \end_layout
 
 \begin_layout Plain Layout
 
-					on prend le noeud après le delay slot comme tête du prochain bloc
+				
+				else break
 \end_layout
 
 \begin_layout Plain Layout
 
-					puis on passe au noeud suivant
+				end if
 \end_layout
 
 \begin_layout Plain Layout
 
-				sinon on sort de la boucle
+			end if
 \end_layout
 
 \begin_layout Plain Layout
 
-				fin si
-\end_layout
-
-\begin_layout Plain Layout
-
-			fin si
-\end_layout
-
-\begin_layout Plain Layout
-
-		fin si
+		end if
 \end_layout
 
 \begin_layout Plain Layout
@@ -1179,27 +1177,27 @@ début
 
 \begin_layout Plain Layout
 
-		si le noeud suivant est un label alors
+		if (function.next_node = label) then
 \end_layout
 
 \begin_layout Plain Layout
 
-			on prend le noeud courant comme fin du bloc
+			block.end <- function.node
 \end_layout
 
 \begin_layout Plain Layout
 
-			on rajoute ce bloc à la liste des blocs de la fonction
+			function.list_block <- block
 \end_layout
 
 \begin_layout Plain Layout
 
-			et on prend le prochain comme tête du prochain bloc
+			block.head <- function.next_node
 \end_layout
 
 \begin_layout Plain Layout
 
-		fin si
+		end if
 \end_layout
 
 \begin_layout Plain Layout
@@ -1209,27 +1207,27 @@ début
 
 \begin_layout Plain Layout
 
-		si le prochain noeud est une directive
+		if (function.next_node = directive) then
 \end_layout
 
 \begin_layout Plain Layout
 
-			on prend le noeud comme fin du bloc
+			block.end <- function.node
 \end_layout
 
 \begin_layout Plain Layout
 
-			on rajoute ce bloc à la liste des blocs de la fonction
+			function.list_block <- block
 \end_layout
 
 \begin_layout Plain Layout
 
-			et on sort
+			break
 \end_layout
 
 \begin_layout Plain Layout
 
-		fin si
+		end if
 \end_layout
 
 \begin_layout Plain Layout
@@ -1238,42 +1236,42 @@ début
 
 \begin_layout Plain Layout
 
-		si le prochain noeud est la fin de la fonction
+		if (function.next_node = function.end) then
 \end_layout
 
 \begin_layout Plain Layout
 
-			on prend le noeud comme fin du bloc
+			block.end <- function.node
 \end_layout
 
 \begin_layout Plain Layout
 
-			on rajoute ce bloc à la liste des blocs de la fonction
+			function.block <- block
 \end_layout
 
 \begin_layout Plain Layout
 
-			et on sort
+			break
 \end_layout
 
 \begin_layout Plain Layout
 
-		sinon on passe au noeud suivant
+		else function.node <- function.next_node
 \end_layout
 
 \begin_layout Plain Layout
 
-		fin si
+		end if
 \end_layout
 
 \begin_layout Plain Layout
 
-	fin tant que
+	end while
 \end_layout
 
 \begin_layout Plain Layout
 
-fin
+end
 \end_layout
 
 \end_inset
@@ -1337,8 +1335,12 @@ inline false
 status open
 
 \begin_layout Plain Layout
-Nous avons deux instructions: i1 l'instruction correspondant à la classe et i2 l'argument de la méthode.
 RAW(Instruction i2)
+\end_layout
+
+\begin_layout Plain Layout
+
+begin
 \end_layout
 
 \begin_layout Plain Layout
@@ -1355,6 +1357,11 @@ RAW(Instruction i2)
 \begin_layout Plain Layout
 
 	return false
+\end_layout
+
+\begin_layout Plain Layout
+
+end
 \end_layout
 
 \end_inset
@@ -1466,6 +1473,10 @@ status open
 WAR(Instruction i2)
 \end_layout
 
+\begin_layout Plain Layout
+
+begin
+\end_layout
 
 \begin_layout Plain Layout
 
@@ -1483,6 +1494,10 @@ WAR(Instruction i2)
 	return false
 \end_layout
 
+\begin_layout Plain Layout
+
+end
+\end_layout
 
 \end_inset
 
@@ -1505,6 +1520,11 @@ WAW(Instruction i2)
 
 \begin_layout Plain Layout
 
+begin
+\end_layout
+
+\begin_layout Plain Layout
+
 	if (i1.RegDest && i2.RegDest && i1.RegDest==i2.RegDest)	return true
 \end_layout
 
@@ -1513,6 +1533,10 @@ WAW(Instruction i2)
 	return false
 \end_layout
 
+\begin_layout Plain Layout
+
+end
+\end_layout
 
 \end_inset
 
