@@ -1182,6 +1182,10 @@ set_directive
 	| _SET_
 	  _NOREORDER_
 		{	prog.addLine(new Directive(".set","noreorder")) ; }
+	| _SET_
+	  immediate
+		{	string m = strmap[$2] ;
+			prog.addLine(new Directive(".set",m)) ; }
 	;
 
 shift_operator
