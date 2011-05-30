@@ -60,7 +60,7 @@ letter_or_digit   {letter}|{digit}
 special_char      [\.\_\$]
 identifier        ({special_char}|{letter})({special_char}|{letter_or_digit})*
 
-string2_char       ({hexa_digit}|{letter})
+string2_char       ({hexa_digit}|{letter}|[\_])
 string2            ({string2_char}+)
 
 
