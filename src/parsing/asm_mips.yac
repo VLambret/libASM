@@ -1197,7 +1197,6 @@ other_directive
 	_String
 		{	std::ostringstream dir ;
 		    dir << $1 ;
-			std::cout << $1 << std::endl ;
 			prog.addLine(new Directive(dir.str(),strmap[strmap_id])) ;
 		}
 	;
@@ -1206,7 +1205,6 @@ _String
 	: 
 		{	strmap_id++ ;
 			strmap[strmap_id] = "" ;
-			std::cout << " _String" << std::endl ;
 			$$ = strmap_id ;
 		}
 	| _String
@@ -1214,7 +1212,6 @@ _String
 		{	std::ostringstream str ;
 		    str << strmap[$1] << " " << $2;
 			strmap[strmap_id] = str.str() ;
-			std::cout << " _String String: " << str.str() << std::endl ;
 			$$ = $1 ;
 		}
 	| _String
@@ -1222,15 +1219,6 @@ _String
 		{	std::ostringstream str ;
 		    str << strmap[$1] << "," ;
 			strmap[strmap_id] = str.str() ;
-			std::cout << " _String comma: " << str.str() << std::endl ;
-			$$ = $1 ;
-		}
-	| _String
-	  Litteral
-		{	std::ostringstream str ;
-		    str << strmap[$1] << $2;
-			strmap[strmap_id] = str.str() ;
-			std::cout << " _String Litteral: " << str.str() << std::endl ;
 			$$ = $1 ;
 		}
 	| _String
@@ -1238,7 +1226,6 @@ _String
 		{	std::ostringstream str ;
 		    str << strmap[$1] << "@";
 			strmap[strmap_id] = str.str() ;
-			std::cout << " _String Identifier: " << str.str() << std::endl ;
 			$$ = $1 ;
 		}
 	| _String
@@ -1246,7 +1233,13 @@ _String
 		{	std::ostringstream str ;
 		    str << strmap[$1] << $2;
 			strmap[strmap_id] = str.str() ;
-			std::cout << " _String Identifier: " << str.str() << std::endl ;
+			$$ = $1 ;
+		}
+	| _String
+	  Litteral
+		{	std::ostringstream str ;
+		    str << strmap[$1] << $2;
+			strmap[strmap_id] = str.str() ;
 			$$ = $1 ;
 		}
 	| _String
@@ -1254,7 +1247,13 @@ _String
 		{	std::ostringstream str ;
 		    str << strmap[$1] << "-";
 			strmap[strmap_id] = str.str() ;
-			std::cout << " _String Minus : " << str.str() << std::endl ;
+			$$ = $1 ;
+		}
+	| _String
+	  IntegerRegister
+		{	std::ostringstream str ;
+		    str << strmap[$1] << "$" << $2 ;
+			strmap[strmap_id] = str.str() ;
 			$$ = $1 ;
 		}
 

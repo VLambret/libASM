@@ -104,7 +104,6 @@ identifier        ({special_char}|{letter})({special_char}|{letter_or_digit})*
 		return (Litteral);
 			}
 \@ {
-	printf("AROBASE\n") ;
 	return (Arobase) ;
 }
 

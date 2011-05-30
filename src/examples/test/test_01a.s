@@ -10,7 +10,7 @@
 	.ent	main
 	.type	main, @function
 main:
-	.frame	$fp,24,$31		# vars= 8, regs= 1/0, args= 0, gp= 8
+	.frame	24
 	.mask	0x40000000,-4
 	.fmask	0x00000000,0
 	.set	noreorder
@@ -26,7 +26,6 @@ main:
 	addiu	$sp,$sp,24
 	j	$31
 	nop
-
 	.set	macro
 	.set	reorder
 	.end	main
