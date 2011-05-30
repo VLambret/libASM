@@ -979,8 +979,10 @@ macro_rd_i32
 			hi = ($4 >> 16) &  0x0000FFFF ;
 			lo = ($4      ) &  0x0000FFFF ;
 						
+			prog.addLine(new Directive(".set","noat")) ; 
 			prog.addLine(new Instruction(lui,new OPRegister(1,Dst),new OPImmediate(hi))) ;
 			prog.addLine(new Instruction(ori,new OPRegister($2,Dst),new OPRegister(1,Src),new OPImmediate(lo))) ;
+			prog.addLine(new Directive(".set","at")) ; 
 		}
 	;
 
@@ -1000,8 +1002,10 @@ macro_rd_label
 		    oss_hi << "%hi(" << m << ")" ;
 		    oss_lo << "%lo(" << m << ")" ;
 						
+			prog.addLine(new Directive(".set","noat")) ; 
 			prog.addLine(new Instruction(lui,new OPRegister(1,Dst),new OPExpression(oss_hi.str()))) ;
 			prog.addLine(new Instruction(ori,new OPRegister($2,Dst),new OPRegister(1,Src),new OPExpression(oss_lo.str()))) ;
+			prog.addLine(new Directive(".set","at")) ; 
 		}
 	;
 
