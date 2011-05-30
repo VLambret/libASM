@@ -131,15 +131,18 @@ testparse:$(SRC)/$(EX)/complete.s bin/cpp/main_test
 
 test1:test1a
 
-LAUNCHER1a=test_01a
+TEST1a=test_01a
 GCCMIPS=mipsel-linux-gnu-gcc
 
 $(SRC)/$(EX)/test/%.s:$(SRC)/$(EX)/test/%.c
 	$(GCCMIPS) -S -o $@ $<
 	
 
-test1a:$(BIN)/$(CP)/$(LAUNCHER1a) $(SRC)/$(EX)/test/test_01a.s
+test1a:$(BIN)/$(CP)/$(TEST1a) $(SRC)/$(EX)/test/$(TEST1a).s
 	./$<
+	$(GCCMIPS) -c -o $(TMP)/$(TEST1a)_source.o  $(SRC)/$(EX)/test/$(TEST1a).s
+	$(GCCMIPS) -c -o $(TMP)/$(TEST1a)_parsed.o  $(TMP)/$(TEST1a).s
+
 
 
 # Show tokens

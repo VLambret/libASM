@@ -1,4 +1,4 @@
-#include "Label.h"
+#include <Label.h>
 
 Label::Label( string lab){
 	_line= lab;
@@ -19,7 +19,7 @@ t_Line Label::typeLine(){
 
 string Label::getContent(){
 
-	return _line;
+	return _line + ":";
 
 }
 

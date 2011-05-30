@@ -1244,7 +1244,6 @@ _String
 	  integer_register
 		{	std::ostringstream str ;
 		    str << strmap[$1] << "$" << $2 ;
-			std::cout << "STRING INTEGER :" << $2 << std::endl ;
 			strmap[strmap_id] = str.str() ;
 			$$ = $1 ;
 		}
