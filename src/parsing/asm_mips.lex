@@ -80,11 +80,18 @@ identifier        ({special_char}|{letter})({special_char}|{letter_or_digit})*
 \)			{                return (RightParen    ); }
 \,			{                return (Comma         ); }
 {hexa_valu}		{
- 		yylval.uval = utl_HexToInt (yytext + 2, NULL);
+ 		//yylval.uval = utl_HexToInt (yytext + 2, NULL);
+		int rt ;
+		rt = strtol(yytext+2,NULL,16) ;
+ 		yylval.uval = rt ;
+		//printf("hex_value : %d",rt) ;
 		return (Litteral);
 			}
 {octal_valu}		{
- 		yylval.uval = utl_OctToInt (yytext + 2, NULL);
+ 		//yylval.uval = utl_OctToInt (yytext + 2, NULL);
+		int rt ;
+		rt = strtol(yytext+2,NULL,8) ;
+ 		yylval.uval = rt ;
 		return (Litteral);
 			}
 {binary_valu}		{
@@ -118,6 +125,7 @@ identifier        ({special_char}|{letter})({special_char}|{letter_or_digit})*
 		return (ARegister);
 			}
 
+
 {identifier}		{
 		int           token;
 		char         *ident;
@@ -135,7 +143,8 @@ identifier        ({special_char}|{letter})({special_char}|{letter_or_digit})*
 		  yylval.uval = search_valu (ident);
 		  return (token);
 		  }
-			}
+		}
+
 #.*$			{					}
 ;.*$			{					}
 
