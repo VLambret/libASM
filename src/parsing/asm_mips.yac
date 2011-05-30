@@ -265,13 +265,13 @@ effective_instruction
 end_directive
 	: _END_
 	  .Identifier.
-	  	{	prog.addLine(new Directive("end",$2,false)) ; }
+	  	{	prog.addLine(new Directive(".end",$2,false)) ; }
 	;
 
 ent_directive
 	: _ENT_
 	  Identifier
-	  	{ prog.addLine(new Directive("ent",$2,true)) ; }
+	  	{ prog.addLine(new Directive(".ent",$2,true)) ; }
 	;
 
 .Identifier.
