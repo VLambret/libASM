@@ -745,6 +745,36 @@ format_rs_rt
 			}
 			prog.addLine(new Instruction(op,new OPRegister($2,Src),new OPRegister($4,Src))) ;
 		}
+	| Codop_rs_rt
+	  integer_register
+	  Comma
+	  integer_register
+	  Comma
+	  integer_register
+	  	{
+			t_Operator op ;
+			if ($2 != 0 ) {
+				std::cerr << "Invalid $zero register for Codop_rs_label" << std::endl ;
+			}
+			switch($1) {
+				case ASM_MPS__MULT: op = mult; break ;
+				case ASM_MPS__MULTU: op = multu; break ;
+				case ASM_MPS__DIV: op = div_ ; break ;
+				case ASM_MPS__DIVU: op = divu ; break ;
+				case ASM_MPS__MADD: op = madd; break ;
+				case ASM_MPS__MADDU: op = maddu; break ;
+				case ASM_MPS__MSUB: op = msub; break ;
+				case ASM_MPS__MSUBU: op = msubu; break ;
+				case ASM_MPS__TEQ: op = teq; break ;
+				case ASM_MPS__TGE: op = tge; break ;
+				case ASM_MPS__TGEU: op = tgeu; break ;
+				case ASM_MPS__TLT: op = tlt; break ;
+				case ASM_MPS__TLTU: op = tltu; break ;
+				case ASM_MPS__TNE: op = tne ; break ;
+				default: std::cerr<< "asm_mips.yac : " << $1 << "is not an valid Codop_rs_label for format_rs_label" << std::endl ; break ;
+			}
+			prog.addLine(new Instruction(op,new OPRegister(0,Src),new OPRegister($4,Src),new OPRegister($6,Src))) ;
+		}
 	;
 
 format_rs_rt_label
