@@ -409,6 +409,18 @@ format_label
 			}
 			prog.addLine(new Instruction(op,new OPLabel(m))) ;	
 		}
+	// FIX for gcc : gcc use j as jr and made macro expansion
+	| Codop_label
+	  integer_register
+		{
+			t_Operator op ;
+			switch($1) {
+				case ASM_MPS__J : op = jr ; break ;
+				case ASM_MPS__JAL : op = jalr ; break ;
+				default: std::cerr<< "asm_mips.yac : " << $1 << "is not an valid Codop_label for format_label" << std::endl ; break ;
+			}
+			prog.addLine(new Instruction(op,new OPRegister($2,Src))) ;
+		}
 	;
 
 format_n
@@ -1229,6 +1241,14 @@ _String
 			$$ = $1 ;
 		}
 	| _String
+	  integer_register
+		{	std::ostringstream str ;
+		    str << strmap[$1] << "$" << $2 ;
+			std::cout << "STRING INTEGER :" << $2 << std::endl ;
+			strmap[strmap_id] = str.str() ;
+			$$ = $1 ;
+		}
+	| _String
 	  Identifier
 		{	std::ostringstream str ;
 		    str << strmap[$1] << $2;
@@ -1246,13 +1266,6 @@ _String
 	  Minus
 		{	std::ostringstream str ;
 		    str << strmap[$1] << "-";
-			strmap[strmap_id] = str.str() ;
-			$$ = $1 ;
-		}
-	| _String
-	  IntegerRegister
-		{	std::ostringstream str ;
-		    str << strmap[$1] << "$" << $2 ;
 			strmap[strmap_id] = str.str() ;
 			$$ = $1 ;
 		}

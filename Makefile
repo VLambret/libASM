@@ -122,10 +122,24 @@ $(SRC_PARSE)/asm_mipslex.c : $(INCLUDE)/asm_mipsyac.h $(SRC_PARSE)/asm_mips.lex
 
 # Tests
 
-.PHONY : testparse
+.PHONY : testparse test1 test1a
 
 testparse:$(SRC)/$(EX)/complete.s bin/cpp/main_test
 	./bin/cpp/main_test
+
+# Recette tests
+
+test1:test1a
+
+LAUNCHER1a=test_01a
+GCCMIPS=mipsel-linux-gnu-gcc
+
+$(SRC)/$(EX)/test/%.s:$(SRC)/$(EX)/test/%.c
+	$(GCCMIPS) -S -o $@ $<
+	
+
+test1a:$(BIN)/$(CP)/$(LAUNCHER1a) $(SRC)/$(EX)/test/test_01a.s
+	./$<
 
 
 # Show tokens
