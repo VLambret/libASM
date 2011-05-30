@@ -133,6 +133,7 @@ test1:test1a
 
 TEST1a=test_01a
 GCCMIPS=mipsel-linux-gnu-gcc
+ODMIPS=mipsel-linux-gnu-objdump
 
 $(SRC)/$(EX)/test/%.s:$(SRC)/$(EX)/test/%.c
 	$(GCCMIPS) -S -o $@ $<
@@ -140,8 +141,11 @@ $(SRC)/$(EX)/test/%.s:$(SRC)/$(EX)/test/%.c
 
 test1a:$(BIN)/$(CP)/$(TEST1a) $(SRC)/$(EX)/test/$(TEST1a).s
 	./$<
-	$(GCCMIPS) -c -o $(TMP)/$(TEST1a)_source.o  $(SRC)/$(EX)/test/$(TEST1a).s
-	$(GCCMIPS) -c -o $(TMP)/$(TEST1a)_parsed.o  $(TMP)/$(TEST1a).s
+	$(GCCMIPS) -march=r3000 -c -o $(TMP)/$(TEST1a)_source.o  $(SRC)/$(EX)/test/$(TEST1a).s
+	$(GCCMIPS) -march=r3000 -c -o $(TMP)/$(TEST1a)_parsed.o  $(TMP)/$(TEST1a).s
+	$(ODMIPS) -d $(TMP)/$(TEST1a)_source.o > $(TMP)/$(TEST1a)_source.s
+	$(ODMIPS) -d $(TMP)/$(TEST1a)_parsed.o > $(TMP)/$(TEST1a)_parsed.s
+	diff $(TMP)/$(TEST1a)_source.s $(TMP)/$(TEST1a)_parsed.s
 
 
 
