@@ -136,6 +136,7 @@ static void yyerror (char * str)
 %token <text>    String
 // Add
 %token <text>    String2
+%token <text>    GCC_operator
 %token           Tilda
 // Add
 %token <text>   Arobase
@@ -557,6 +558,23 @@ format_rd_si16
 				default: std::cerr<< "asm_mips.yac : " << $1 << "is not an valid Codop_rd_si16 for format_rd_si16" << std::endl ; break ;
 			}
 			prog.addLine(new Instruction(op,new OPRegister($2,Dst),new OPImmediate($4))) ;
+		}
+	| Codop_rd_si16
+	  integer_register
+	  Comma
+	  GCC_operator
+	  LeftParen
+	  signed_16_bit_immediate
+	  RightParen
+		{
+			t_Operator op ;
+		    std::ostringstream hilo ;
+			switch($1) {
+				case ASM_MPS__LUI : op = lui ; break ;
+				default: std::cerr<< "asm_mips.yac : " << $1 << "is not an valid Codop_rd_si16 for format_rd_si16" << std::endl ; break ;
+			}
+		    hilo << $4 << "(" <<$6<< ")" ;
+			prog.addLine(new Instruction(op,new OPRegister($2,Dst),new OPExpression(hilo.str()))) ;
 		}
 	;
 
