@@ -132,6 +132,14 @@ string2            ({string2_char}+)
 			}
 
 
+\%{string2}\({identifier}\) {
+		char * str ;
+		
+		str = utl_SaveString (yytext);
+	  	yylval.text = str;
+		return (GCC_operator);
+		}
+
 {identifier}		{
 		int           token;
 		char         *ident;
@@ -151,13 +159,6 @@ string2            ({string2_char}+)
 		  }
 		}
 
-\%{string2} {
-		char * str ;
-		
-		str = utl_SaveString (yytext);
-	  	yylval.text = str;
-		return (GCC_operator);
-		}
 
 #.*$			{					}
 ;.*$			{					}

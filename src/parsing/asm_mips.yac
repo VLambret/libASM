@@ -563,18 +563,19 @@ format_rd_si16
 	  integer_register
 	  Comma
 	  GCC_operator
-	  LeftParen
+/*	  LeftParen
 	  signed_16_bit_immediate
-	  RightParen
+	  RightParen*/
 		{
 			t_Operator op ;
-		    std::ostringstream hilo ;
+		    //std::ostringstream hilo ;
 			switch($1) {
 				case ASM_MPS__LUI : op = lui ; break ;
 				default: std::cerr<< "asm_mips.yac : " << $1 << "is not an valid Codop_rd_si16 for format_rd_si16" << std::endl ; break ;
 			}
-		    hilo << $4 << "(" <<$6<< ")" ;
-			prog.addLine(new Instruction(op,new OPRegister($2,Dst),new OPExpression(hilo.str()))) ;
+		    //hilo << $4 << "(" <<$6<< ")" ;
+			//prog.addLine(new Instruction(op,new OPRegister($2,Dst),new OPExpression(hilo.str()))) ;
+			prog.addLine(new Instruction(op,new OPRegister($2,Dst),new OPExpression($4))) ;
 		}
 	;
 
@@ -641,6 +642,13 @@ format_rd_rs_si16
 			}
 			prog.addLine(new Instruction(op,new OPRegister($2,Dst),new OPRegister($4,Src),new OPImmediate($6))) ;
 		}
+	| Codop_rd_rs_si16
+	  integer_register
+	  Comma
+	  GCC_operator
+	  LeftParen
+	  signed_16_bit_immediate
+	  RightParen
 	;
 
 format_rd_rs_ui16
