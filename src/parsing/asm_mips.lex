@@ -103,6 +103,11 @@ identifier        ({special_char}|{letter})({special_char}|{letter_or_digit})*
 		  yylval.uval = 0;
 		return (Litteral);
 			}
+\@ {
+	printf("AROBASE\n") ;
+	return (Arobase) ;
+}
+
 {character}		{
 		char         *str    = NULL;
 		char          c_val  ;
