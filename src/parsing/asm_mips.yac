@@ -968,6 +968,15 @@ integer_register
 label
 	: Identifier
 		{ $$ = $1; }
+	| Litteral
+		{	std::ostringstream str ;
+		    str << $1;
+			$$ = const_cast<char*>(str.str().c_str()) ;
+		}
+	| String2
+		{ 
+		std::cout << "Label String2 " << $1 << std::endl ;
+		$$ = $1; }
 	;
 
 labelable_directive
