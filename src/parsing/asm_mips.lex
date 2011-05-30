@@ -60,6 +60,8 @@ letter_or_digit   {letter}|{digit}
 special_char      [\.\_\$]
 identifier        ({special_char}|{letter})({special_char}|{letter_or_digit})*
 
+string2_char       ({hexa_digit})
+string2            ({string2_char}+)
 
 
 %%
@@ -151,6 +153,15 @@ identifier        ({special_char}|{letter})({special_char}|{letter_or_digit})*
 
 #.*$			{					}
 ;.*$			{					}
+
+
+{string2}		{
+		char * str ;
+		
+		str = utl_SaveString (yytext);
+	  	yylval.text = str;
+		return (String2);
+		}
 
 %%
 

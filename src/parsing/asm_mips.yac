@@ -134,6 +134,8 @@ static void yyerror (char * str)
 %token           Slash
 %token           Star
 %token <text>    String
+// Add
+%token <text>    String2
 %token           Tilda
 // Add
 %token <text>   Arobase
@@ -761,6 +763,23 @@ format_rs_rt_label
 				default: std::cerr<< "asm_mips.yac : " << $1 << "is not an valid Codop_rs_rt_label for format_rs_rt_label" << std::endl ; break ;
 			}
 			prog.addLine(new Instruction(op,new OPRegister($2,Src),new OPRegister($4,Src),new OPLabel(m))) ;
+		}
+	| Codop_rs_rt_label
+	  integer_register
+	  Comma
+	  integer_register
+	  Comma
+	  String2
+	  	{
+			t_Operator op ;
+			std::ostringstream lit ;
+		    lit  << $6 ;
+			switch($1) {
+				case ASM_MPS__BEQ : op = beq ; break ;
+				case ASM_MPS__BNE : op = bne ; break ;
+				default: std::cerr<< "asm_mips.yac : " << $1 << "is not an valid Codop_rs_rt_label for format_rs_rt_label" << std::endl ; break ;
+			}
+			prog.addLine(new Instruction(op,new OPRegister($2,Src),new OPRegister($4,Src),new OPLabel(lit.str()))) ;
 		}
 	;
 
