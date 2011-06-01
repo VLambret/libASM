@@ -190,6 +190,7 @@ status open
 \begin_layout Plain Layout
 \begin_inset Graphics
 	filename images/schéma1.png
+	width 70text%
 
 \end_inset
 
@@ -503,6 +504,7 @@ status open
 \begin_layout Plain Layout
 \begin_inset Graphics
 	filename images/planning.png
+	width 70text%
 
 \end_inset
 
@@ -518,10 +520,6 @@ Planning
 
 \end_inset
 
-
-\end_layout
-
-\begin_layout Plain Layout
 
 \end_layout
 
@@ -1586,10 +1584,6 @@ Dans un premier temps nous avons commenté les actions existantes pour n'avoir
  compilation du code.
 \end_layout
 
-\begin_layout Standard
-#################### A COMPLETER #############
-\end_layout
-
 \begin_layout Subsection
 Le passage au C++
 \end_layout
@@ -2099,7 +2093,7 @@ and $4, $5, $6 # ligne g
 \end_layout
 
 \begin_layout Standard
-     En particulier :
+En particulier :
 \end_layout
 
 \begin_layout Standard
@@ -2130,6 +2124,124 @@ les autres lignes sont ensuite insérées dans le programme.
 
 \begin_layout Subsection
 Calcul de dépendance entre instructions
+\end_layout
+
+\begin_layout Standard
+Ce test est réalisé par le fichier 
+\emph on
+test_04.cpp
+\emph default
+.
+ Le programme initialise un programme à partir du fichier 
+\emph on
+test4.s
+\emph default
+, puis affiche l'ensemble des dépendances entres les instructions.
+ Une vérification manuelle nous confirme que les calculs sont corrects.
+\end_layout
+
+\begin_layout Standard
+\begin_inset listings
+inline false
+status open
+
+\begin_layout Plain Layout
+
+        : 0   1   2   3   4   5    
+\end_layout
+
+\begin_layout Plain Layout
+
+Ligne 0 : -----WAW-RAW-RAW-WAWnone
+\end_layout
+
+\begin_layout Plain Layout
+
+Ligne 1 : -WAW-----RAW-RAW-WAWnone
+\end_layout
+
+\begin_layout Plain Layout
+
+Ligne 2 : -WAR-WAR----none-WARnone
+\end_layout
+
+\begin_layout Plain Layout
+
+Ligne 3 : -WAR-WARnone-----WARnone
+\end_layout
+
+\begin_layout Plain Layout
+
+Ligne 4 : -WAW-WAW-RAW-RAW----none
+\end_layout
+
+\begin_layout Plain Layout
+
+Ligne 5 : nonenonenonenonenone----
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+Nous échangeons ensuite la première et la dernière instruction puis nous
+ affichons de nouveau l'ensemble des dépendances.
+ La vérification manuelle ne permet pas de relever d'incohérences.
+\end_layout
+
+\begin_layout Standard
+\begin_inset listings
+inline false
+status open
+
+\begin_layout Plain Layout
+
+        : 0   1   2   3   4   5
+\end_layout
+
+\begin_layout Plain Layout
+
+Ligne 0 : ----nonenonenonenonenone
+\end_layout
+
+\begin_layout Plain Layout
+
+Ligne 1 : none-----RAW-RAW-WAW-WAW
+\end_layout
+
+\begin_layout Plain Layout
+
+Ligne 2 : none-WAR----none-WAR-WAR
+\end_layout
+
+\begin_layout Plain Layout
+
+Ligne 3 : none-WARnone-----WAR-WAR
+\end_layout
+
+\begin_layout Plain Layout
+
+Ligne 4 : none-WAW-RAW-RAW-----WAW
+\end_layout
+
+\begin_layout Plain Layout
+
+Ligne 5 : none-WAW-RAW-RAW-WAW----
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+Le programme est restitué dans 
+\emph on
+tmp/test4.s
+\emph default
+, les deux instructions sont bien échangées.
 \end_layout
 
 \begin_layout Section

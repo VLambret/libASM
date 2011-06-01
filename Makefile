@@ -37,6 +37,7 @@ CFLAGS=	-Wall \
 		-I$(INCLUDE) \
 		-DUTL_H='<$(UTL_H)>' \
 		-DASM_H='<$(ASM_H)>' \
+		-fpermissive \
 		-g
 
 # Object et source files lists
@@ -157,7 +158,7 @@ test1b:$(BIN)/$(CP)/$(TEST1b) $(SRC)/$(EX)/test/$(TEST1b).s
 test1c:$(BIN)/$(CP)/$(TEST1c) $(SRC)/$(EX)/primes.s
 	./$<
 	$(GCCMIPS) -march=r3000 -c -o $(TMP)/$(TEST1c)_source.o  $(SRC)/$(EX)/primes.s
-	$(GCCMIPS) -march=r3000 -c -o $(TMP)/$(TEST1c)_parsed.o  $(TMP)/primes.s
+	$(GCCMIPS) -march=r3000 -c -o $(TMP)/$(TEST1c)_parsed.o  $(TMP)/primest-pull.s
 	$(DIFF) $(TMP)/$(TEST1c)_source.o $(TMP)/$(TEST1c)_parsed.o > $(TMP)/$(TEST1c)_source.objdiff.txt
 
 # Show tokens
