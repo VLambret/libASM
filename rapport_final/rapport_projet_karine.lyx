@@ -1519,14 +1519,21 @@ Départ d'un parseur existant
 \end_layout
 
 \begin_layout Standard
-Nous sommes partis sur un simulateur déjà existant écrit par Mr Pirouz utilisant
- un parseur pour interprêter un code assembleur mips.
- La partie parsing était basée sur lex comme analyseur lexical et yacc comme
- analyseur syntaxique.
+Nous sommes partis sur d'un outil existant écrit par Mr Bazargan Sabet utilisant
+ un parseur pour construire une représentation en mémoire d'un programme
+ assembleur mips.
+ La partie parsing était basée sur 
+\emph on
+lex
+\emph default
+ comme analyseur lexical et 
+\emph on
+yacc
+\emph default
+ comme analyseur syntaxique.
  Nous souhaitions récupérer les règles de découpage en mots clés ainsi que
  la grammaire et remplacer tous les actions du parseur par des appels aux
  constructeurs de notre bibliothèque de base.
- 
 \end_layout
 
 \begin_layout Standard
@@ -1537,23 +1544,50 @@ Dans un premier temps nous avons cherché à isoler le code de ce parseur
 \end_layout
 
 \begin_layout Itemize
-Les règles dans deux fichiers lex et yacc,
+les règles dans deux fichiers 
+\emph on
+lex
+\emph default
+ et 
+\emph on
+yacc
+\emph default
+,
 \end_layout
 
 \begin_layout Itemize
-une bibliothèque asm contenant les fonctions utiles pour les actions,
+une bibliothèque asm contenant les fonctions utiles pour les actions 
+\emph on
+yacc
+\emph default
+,
 \end_layout
 
 \begin_layout Itemize
-une biblothèque utl de fonctions de manipulations de données pour le passage
- de données lex à et yacc, ou entre actions.
+une bibliothèque utl de fonctions de manipulations de données pour le passage
+ de données entre 
+\emph on
+lex
+\emph default
+ et 
+\emph on
+yacc
+\emph default
+, ou entre actions 
+\emph on
+yacc
+\emph default
+.
 \end_layout
 
 \begin_layout Standard
 Dans un premier temps nous avons commenté les actions existantes pour n'avoir
  qu'un simple affichage du nom de la règle parcourue afin de tester la seule
  compilation du code.
- Cette étape s'étant bien passée, nous avons pensé 
+\end_layout
+
+\begin_layout Standard
+#################### A COMPLETER #############
 \end_layout
 
 \begin_layout Subsection
@@ -1562,16 +1596,32 @@ Le passage au C++
 
 \begin_layout Standard
 Pour que notre parseur fasse appel à des constructeur C++ dans les actions
- nous avons besoin de compiler le fichier yacc avec g++.
- A priori g++ pouvant compiler du C nous avons d'abord cherché à lui faire
- compiler le code passant avec gcc.
+ nous avons eu besoin de compiler le fichier yacc avec 
+\emph on
+g++
+\emph default
+.
+ A priori 
+\emph on
+g++
+\emph default
+ pouvant compiler du C nous avons d'abord cherché à lui faire compiler le
+ code passant avec 
+\emph on
+gcc
+\emph default
+.
  Avant d'y arriver nous avons rencontré deux types de problèmes :
 \end_layout
 
 \begin_layout Itemize
-g++ est plus exigeant sur les types et n'accepte pas l'ancienne syntaxe
- C pour déclarer les paramètres des fonctions.
- Nous avons donc mis à jour les headers et les corps des fonctions des bibliothè
+
+\emph on
+g++
+\emph default
+ est plus exigeant sur les types et n'accepte pas l'ancienne syntaxe C pour
+ déclarer les paramètres des fonctions.
+ Nous avons donc mis à jour les entêtes et les corps des fonctions des bibliothè
 ques et corrigé les incohérences de type dans le code.
 \end_layout
 
@@ -1580,8 +1630,11 @@ L'usage de C++ dans le fichier yacc a posé un problème long à résoudre :
  le mécanisme de dialogue entre Lex et Yacc ne marchait plus.
  Les deux logiciels étant des projets différents, et le support du C++ évoluant
  suivant les versions, l'information ne fut pas facile à trouver.
- Lors de cette étape git fut très utile pour créer une branche par solution
- essayée.
+ Lors de cette étape 
+\emph on
+git
+\emph default
+ fut très utile pour créer une branche par solution essayée.
 \end_layout
 
 \begin_layout Standard
@@ -1616,21 +1669,34 @@ Les règles initiales transformaient les données au plus tôt pour les mettre
 
 \begin_layout Itemize
 Les expressions étant évaluées, il aurait été long de chercher à les conserver
- sous forme de chaine de caractère, nous les avons donc conservé sous leur
- forme numérique, perdant en lisibilité sur le code final.
+ sous forme de chaîne de caractères, nous les avons donc conservées sous
+ leur forme numérique, perdant en lisibilité sur le code final.
 \end_layout
 
 \begin_layout Itemize
-L'analyseur lexical gérait plusieurs architectures différentes.
+L'analyseur lexical gérait plusieurs versions du jeu MIPS.
  Nous avons décidé de tout accepter dans notre parseur afin de simplifier
  le test des règles et de reconnaître le plus de codes possibles.
 \end_layout
 
+\begin_layout Itemize
+Afin d'éviter d'avoir à gérer les pseudos-instructions qui auraient complexifié
+ la bibliothèque, par exemple pour le cacul de dépendance, nous avons choisi
+ d'étendre les macros dans le parseur.
+\end_layout
+
 \begin_layout Standard
-Comme les règles utilisent tous les constructeurs, nous en avons profité
- pour nous questionner sur les interfaces de nos fonctions.
- Nous avons ainsi put trouver des améliorations pour que notre bibliothèque
- gagne en sûreté et en simplicité.
+Comme tous les constructeurs de Lignes sont utilisés dans les actions du
+ parseur nous avons ainsi bénéficié d'un premier retour critique sur leurs
+ signatures.
+ Dans certains cas nous avons modifié nos constructeurs pour gagner en simplicit
+é et en sûreté d'utilisation.
+ Par exemple au départ nous n'avions qu'un seul constructeur pour la classe
+ Instruction et l'on passait plusieurs paramètres comme le type d'instruction
+ ou le nombre d'operandes.
+ Afin de gagner en sûreté et en lisibilité nous avons préféré utiliser plusieurs
+ constructeurs pour chaque nombre d'opérandes et déduire les autres informations
+ à partir de l'opérateur ou des opérandes.
 \end_layout
 
 \begin_layout Subsubsection
@@ -1638,12 +1704,48 @@ Tests
 \end_layout
 
 \begin_layout Standard
-Afin de vérifier le bon fonctionnement du programme, nous avons créé un
- code complete.s contenant pour chaque règle le code permettant de tester
- tous les cas qu'elle couvre (par exemple, toutes les instructions d'un
- format).
- Ceci nous a permis de tester la bonne restitution et le respect de l'ordre
- des arguments pour chaque cas.
+En parallèle de l'écriture d'une action pour le parseur, nous avons complété
+ un fichier 
+\emph on
+complete.s
+\emph default
+ permettant de tester tous les cas couverts par la règle.
+ Ceci nous a permis de vérifier exhaustivement qu'entre l'acquisition du
+ programme par le parseur, sa représentation dans les classes de base et
+ sa restitution vers un fichier assembleur il n'y avait aucune erreur ou
+ altération parasite.
+\end_layout
+
+\begin_layout Standard
+Une fois ceci validé nous avons testé le parseur avec le fichier assembleur
+ primes.s produit pour le premier test de la recette.
+ Nous avons relevé de nombreuses erreurs venant d'une mauvaise utilisation
+ des instructions par 
+\emph on
+gcc
+\emph default
+, par exemple, un opérateur au format R utilisé au format I (slt rd, rs,
+ imm).
+ Dans un premier temps nous avons cherché comment désactiver ce comportement
+ mais la chaîne 
+\emph on
+gcc
+\emph default
+ dispose de peu d'options pour modifier l'assembleur produit par son compilateur.
+ Afin de pouvoir lancer les tests, nous avons donc ajouté de nouvelles règles
+ reconnaissant ces formats invalides et mais construisant l'instruction
+ valide correspondante (slti à la place de slt pour notre exemple).
+\end_layout
+
+\begin_layout Standard
+Nous avons également eu besoin de nouveau tokens dans le fichier 
+\emph on
+lex
+\emph default
+ pour gérer de manièer plus générique les directives, les labels ou des
+ syntaxe de gcc pour les expressions comme le %hi(imm).
+ En créant de nouveaux tokens nous avons pu les récupérer comme du texte
+ sans toucher aux tokens déjà existants pour éviter les effets de bord.
 \end_layout
 
 \begin_layout Subsubsection
@@ -1651,22 +1753,8 @@ Fonctionnement final
 \end_layout
 
 \begin_layout Standard
-Au final, le parseur est appelé par un constructeur de la classe Program
- prenant le nom du fichier source en paramètre.
- Dans le parseur, les règles associées aux instructions, aux labels et aux
- directives instancient les Classes appropriées et les ajouter à un Program
- local au parseur.
-\end_layout
-
-\begin_layout Standard
-Les macros sont expansées dans le programme par leur suite d'instructions.
- Ceci nous simplifie le reste de la bibliothèque qui n'a pas à gérer les
- pseudos instructions, par exemple pour le calcul de dépendances.
-\end_layout
-
-\begin_layout Standard
-Une fois le code parsé, on copie les instructions du Program local vers
- le Program appelant.
+Le parseur est utilisé par un des constructeurs de la classe Program qui
+ lui permet de s'initialiser à partir d'un fichier.
 \end_layout
 
 \begin_layout Part
@@ -1735,7 +1823,11 @@ Le code de la bibliothèque de base.
 \end_layout
 
 \begin_layout Itemize
-La documentation de la bibliothèque générée par Doxygen.
+La documentation de la bibliothèque générée par 
+\emph on
+Doxygen
+\emph default
+.
 \end_layout
 
 \begin_layout Section
@@ -1839,7 +1931,11 @@ Ces programmes sont compilés avec
 \emph on
 mipsel-linux-gnu-gcc
 \emph default
- version 4.5.2.
+ version 4.5.2 pour le 
+\emph on
+MIPS R3000
+\emph default
+.
 \end_layout
 
 \begin_layout Subsubsection
@@ -1880,7 +1976,11 @@ Manipulation d'un programme
 
 \begin_layout Standard
 A partir de ces trois même programmes d'exemple, nous avons executé les
- opérations suivantes dans test1.cpp: 
+ opérations suivantes dans 
+\emph on
+test1.cpp
+\emph default
+: 
 \end_layout
 
 \begin_layout Itemize
@@ -1894,7 +1994,15 @@ Calcul du découpage en blocs de base et en fonctions.
 
 \begin_layout Itemize
 Écriture des séquences de lignes de ces blocs de base et fonctions dans
- les fichiers test1.txt et test2.txt.
+ les fichiers 
+\emph on
+test1.txt
+\emph default
+ et 
+\emph on
+test2.txt
+\emph default
+.
 \end_layout
 
 \begin_layout Section
@@ -1904,7 +2012,11 @@ Calcul du découpage en blocs de base et en fonctions.
 \begin_layout Standard
 Nous démontrons les possibilités de manipulation, insertion et suppression
  de lignes en transformant la séquence d'instructions suivante qui est implément
-é dans le fichier test2.cpp :
+é dans le fichier 
+\emph on
+test2.cpp
+\emph default
+ :
 \end_layout
 
 \begin_layout Standard
