@@ -1776,19 +1776,30 @@ Pour cette comparaison nous avons écrit un outil dédié :
 \end_layout
 
 \begin_layout Itemize
-Dans un premier temps on utilise od pour convertir le fichier binaire en
- un fichier texte code ou chaque ligne représente un mot de 32 bits sous
- sa forme héxadécimale.
+Dans un premier temps on utilise 
+\emph on
+od
+\emph default
+ pour convertir le fichier binaire en un fichier texte code ou chaque ligne
+ représente un mot de 32 bits sous sa forme héxadécimale.
  L'adresse n'est pas conservée afin de ne comparer que le code produit.
 \end_layout
 
 \begin_layout Itemize
-Ensuite nous faisons appel à objdump pour mips afin de construire un dictionnair
-e contenant la correspondance entre un code objet et sa traduction assembleur.
+Ensuite nous faisons appel à 
+\emph on
+objdump
+\emph default
+ pour mips afin de construire un dictionnaire contenant la correspondance
+ entre un code objet et sa traduction assembleur.
 \end_layout
 
 \begin_layout Itemize
-diff est enfin appelé sur les deux fichiers de code.
+
+\emph on
+diff
+\emph default
+ est enfin appelé sur les deux fichiers de code.
  Afin de rendre les différences visibles par l'humain, on récupère la traduction
  de chaque mot pour voir la différence sous forme assembleur.
 \end_layout
@@ -1798,22 +1809,37 @@ Voici les 3 programmes que nous avons choisi pour notre échantillon :
 \end_layout
 
 \begin_layout Itemize
-test1a.c : Un programme de quelques lignes sans appels de fonctions pour
- échantillon,
+
+\emph on
+test1a.c
+\emph default
+ : Un programme de quelques lignes sans appels de fonctions pour échantillon,
 \end_layout
 
 \begin_layout Itemize
-test1b.c : Ce programme comporte une boucle et qui compte les nombres premiers
- via un appel de fonction,
+
+\emph on
+test1b.c
+\emph default
+ : Ce programme comporte une boucle et qui compte les nombres premiers via
+ un appel de fonction,
 \end_layout
 
 \begin_layout Itemize
-primes.c : Ce programme affiche les nombres premiers dans un intervalle et
- utilise des appels à la bibliothèque standard.
+
+\emph on
+primes.c
+\emph default
+ : Ce programme affiche les nombres premiers dans un intervalle et utilise
+ des appels à la bibliothèque standard.
 \end_layout
 
 \begin_layout Standard
-Ces programmes sont compilés avec mipsel-linux-gnu-gcc version 4.5.2.
+Ces programmes sont compilés avec 
+\emph on
+mipsel-linux-gnu-gcc
+\emph default
+ version 4.5.2.
 \end_layout
 
 \begin_layout Subsubsection
@@ -1830,12 +1856,22 @@ Le lancement des test s'effectue via la commande make test1.
  voici les causes :
 \end_layout
 
-\begin_layout Standard
+\begin_layout Itemize
 Nous avons choisi d'étendre les macros dans le parseur, mais gcc ne choisi
  pas forcément les mêmes instructions.
  Par exemple pour le li gcc optimise dans le cas d'un immédiat de 16 bits
  en n'utilisant qu'une seule instruction ce que nous n'avons pas fait dans
  le parseur.
+\end_layout
+
+\begin_layout Itemize
+Ce nombre différent d'instructions implique un décallage des adresses pour
+ les sauts.
+\end_layout
+
+\begin_layout Standard
+D'après nos tests nous pouvons donc dire que si nous n'avons pas une égalité
+ des fichiers binaires produits ceux-ci sont par contre équivalents.
 \end_layout
 
 \begin_layout Section
@@ -2001,13 +2037,36 @@ Fonctionnalité d'indexation: l'indexation sur les labels n'a pas été fait.
 \end_layout
 
 \begin_layout Itemize
-###################Victor_remplir#####################################parsing???
-?
+Du fait du temps passé sur le parseur nous n'avons pas pu écrire des tests
+ unitaires prévus pour les classes de base, qui furent remplacés par des
+ tests fonctionnels et une vérification humaine moins chronophage.
 \end_layout
 
 \begin_layout Section
-Extensions possibles###################Victor_remplir###########################
-##########
+Extensions possibles
+\end_layout
+
+\begin_layout Standard
+Si notre bibliothèque est parfaitement utilisable en l'état, nous avons
+ trouvé des axes d'améliorations possibles pour des développements ultérieurs
+ :
+\end_layout
+
+\begin_layout Itemize
+Gérer les opérateurs d'instruction avec une classe ce qui permettrait de
+ gagner en facilité d'utilisation et d'extension par les utilisateurs.
+\end_layout
+
+\begin_layout Itemize
+Être capable de gérer différentes architectures MIPS avec un parseur paramétrabl
+e et un moyen de décrire une architecture pour le reste de la bibliothèque.
+\end_layout
+
+\begin_layout Itemize
+Supprimer les bibliothèques asm et utl qui rendaient des services utiles
+ au parseur d'origine écrit en C mais perdent en intérêt pour notre bibliothèque
+ qui peut les obtenir plus facilement par la bibliothèque standard C++ ou
+ s'en passer.
 \end_layout
 
 \begin_layout Part
