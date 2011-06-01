@@ -1794,7 +1794,42 @@ diff est enfin appelé sur les deux fichiers de code.
 \end_layout
 
 \begin_layout Standard
-Nous avons écrit trois petits 
+Voici les 3 programmes que nous avons choisi pour notre échantillon :
+\end_layout
+
+\begin_layout Itemize
+test1a.c : Un programme de quelques lignes sans appels de fonctions pour
+ échantillon,
+\end_layout
+
+\begin_layout Itemize
+test1b.c : Ce programme comporte une boucle et qui compte les nombres premiers
+ via un appel de fonction,
+\end_layout
+
+\begin_layout Itemize
+primes.c : Ce programme affiche les nombres premiers dans un intervalle et
+ utilise des appels à la bibliothèque standard.
+\end_layout
+
+\begin_layout Standard
+Ces programmes sont compilés avec gcc 4.5.2 pour mipsel.
+\end_layout
+
+\begin_layout Subsubsection
+Résultats
+\end_layout
+
+\begin_layout Standard
+Le lancement des 
+\end_layout
+
+\begin_layout Subsubsection
+Explication des différences observées
+\end_layout
+
+\begin_layout Standard
+Les deux codes restitués et 
 \end_layout
 
 \begin_layout Section
