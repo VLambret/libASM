@@ -44,9 +44,6 @@ public	:
 */
 	virtual string toString()=0;
 
-	/**	\brief	return true if the directive indicate a function
-*/
-	virtual bool isFunction()=0;
 
 	/**	\brief	return the type of the instruction
 */

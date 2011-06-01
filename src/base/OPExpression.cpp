@@ -24,6 +24,4 @@ string OPExpression::toString(){
 void OPExpression::setOp( string op){
     _oper=op;
     }
-t_Src_Dst OPExpression::getType( ){
-	return Src;
-}
+

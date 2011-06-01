@@ -254,19 +254,20 @@ void Program::inFile(string const filename){
 
 void Program::comput_Function(){
 	Function func;
-
+	
 	if (!isEmpty()){	
 
 		Node* element = _head;
-
+		
 		
 		while(element != NULL)
 		{
-			if(!element->getLine()->getContent().compare(".ent")){
+			
+			if(!element->getLine()->getContent().compare(0,4,".ent")){
 				func.set_head(element->getnext());
 				//cout<<func.get_head()->getLine()->getContent()<<endl;
 			}
-			if(!element->getLine()->getContent().compare(".end")){
+			if(!element->getLine()->getContent().compare(0,4,".end")){
 				func.set_end(element);
 				//cout<<func.get_end()->getLine()->getContent()<<endl;
 				myfunc.push_back(func);

@@ -46,11 +46,6 @@ public	:
 */
 	virtual string toString()=0;
 
-/**	\brief	get the type of the register
-	getter of the register type
-*/
-	 virtual t_Src_Dst getType( )=0;
-
 
 protected :
 	string _oper;

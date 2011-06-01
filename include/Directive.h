@@ -55,7 +55,7 @@ public	:
 
 	/**	\brief	return true if the directive indicate a function
 */
-	virtual bool isFunction();
+	bool isFunction();
 
 	/**	\brief	return the type of the instruction
 */

@@ -33,10 +33,12 @@ void Basic_block::display(){
 	if(element == _end)	cout << _head->getLine()-> getContent() <<endl;
 	while(element != _end)
 	{
-		cout << element->getLine()-> getContent() <<endl;
+		if(element->getLine()->typeLine()!=line_Direct)
+			cout << element->getLine()-> getContent() <<endl;
 		
 		if(element->getnext()==_end){
-			cout << element->getnext()->getLine()-> getContent() <<endl;
+			if(element->getLine()->typeLine()!=line_Direct)
+				cout << element->getnext()->getLine()-> getContent() <<endl;
 			break;
 		}
 		else element = element->getnext();
@@ -65,21 +67,21 @@ int Basic_block::size(){
 void Basic_block::restitution(string const filename){
 	
 	Node* element = _head;
-	ofstream monflux(filename.c_str());
+	ofstream monflux(filename.c_str(), ios::app);
 
 	if(monflux){
 		monflux<<"Begin"<<endl;
 		if(element == _end)	monflux << _head->getLine()-> getContent() <<endl;
 		while(element != _end)
 		{
-			if(element->getLine()->typeLine()==line_Instru || element->getLine()->typeLine()== line_Direct) monflux<<"\t";
-			monflux << element->getLine()-> getContent() ;
-			if(element->getLine()->getContent().compare("nop")) monflux<<endl;
+			if(element->getLine()->typeLine()==line_Instru ) monflux<<"\t";
+				if(element->getLine()->typeLine()!=line_Direct)
+					monflux << element->getLine()-> getContent()<<endl ;
 		
 			if(element->getnext()==_end){
-				if(element->getnext()->getLine()->typeLine()==line_Instru || 
-							element->getnext()->getLine()->typeLine()==line_Direct) monflux<<"\t";
-				monflux << element->getnext()->getLine()-> getContent()<<endl;
+				if(element->getnext()->getLine()->typeLine()==line_Instru ) monflux<<"\t";
+					if(element->getLine()->typeLine()!=line_Direct)
+						monflux << element->getnext()->getLine()-> getContent()<<endl;
 				break;
 			}
 			else element = element->getnext();
