@@ -1813,7 +1813,7 @@ primes.c : Ce programme affiche les nombres premiers dans un intervalle et
 \end_layout
 
 \begin_layout Standard
-Ces programmes sont compilés avec gcc 4.5.2 pour mipsel.
+Ces programmes sont compilés avec mipsel-linux-gnu-gcc version 4.5.2.
 \end_layout
 
 \begin_layout Subsubsection
@@ -1821,19 +1821,25 @@ Résultats
 \end_layout
 
 \begin_layout Standard
-Le lancement des 
-\end_layout
-
-\begin_layout Subsubsection
-Explication des différences observées
+Le lancement des test s'effectue via la commande make test1.
+ Cette règle construit les fichiers assembleurs puis appelle le script diffobj.sh
+ pour effectuer la comparaison.
+ Le premier succès est que les codes restitués se compilent sans problèmes
+ majeurs.
+ La comparaison des codes objets montre par contre des différences dont
+ voici les causes :
 \end_layout
 
 \begin_layout Standard
-Les deux codes restitués et 
+Nous avons choisi d'étendre les macros dans le parseur, mais gcc ne choisi
+ pas forcément les mêmes instructions.
+ Par exemple pour le li gcc optimise dans le cas d'un immédiat de 16 bits
+ en n'utilisant qu'une seule instruction ce que nous n'avons pas fait dans
+ le parseur.
 \end_layout
 
 \begin_layout Section
-Manipulation d'un programme
+Manipulation d'un programme 
 \end_layout
 
 \begin_layout Standard

@@ -502,7 +502,7 @@ format_rd_mem
 				case ASM_MPS__LL : op = ll ; break ;
 				default: std::cerr<< "asm_mips.yac : " << $1 << "is not an valid Codop_rd_mem for format_rd_mem" << std::endl ; break ;
 			}
-			prog.addLine(new Instruction(op,new OPRegister($2,Dst),new OPImmediate($4),new OPRegister($2,Src))) ;
+			prog.addLine(new Instruction(op,new OPRegister($2,Dst),new OPImmediate($4),new OPRegister($6,Src))) ;
 		}
 	| Codop_rd_mem
 	  integer_register
@@ -524,7 +524,7 @@ format_rd_mem
 				case ASM_MPS__LL : op = ll ; break ;
 				default: std::cerr<< "asm_mips.yac : " << $1 << "is not an valid Codop_rd_mem for format_rd_mem" << std::endl ; break ;
 			}
-			prog.addLine(new Instruction(op,new OPRegister($2,Dst),new OPExpression($4),new OPRegister($2,Src))) ;
+			prog.addLine(new Instruction(op,new OPRegister($2,Dst),new OPExpression($4),new OPRegister($6,Src))) ;
 		}
 	| Codop_rd_mem
 	  integer_register
