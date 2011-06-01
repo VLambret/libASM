@@ -1775,7 +1775,7 @@ status open
 \begin_layout Plain Layout
 \begin_inset Graphics
 	filename images/repartition.png
-	width 80text%
+	width 70text%
 
 \end_inset
 
@@ -1791,13 +1791,21 @@ Planning final
 
 \end_layout
 
-\begin_layout Plain Layout
-
-\end_layout
-
 \end_inset
 
 
+\end_layout
+
+\begin_layout Standard
+Par rapport à la répartition initiale nous avions mal évalué la charge de
+ travail de la partie parsing qui s'est averré bien plus importantes que
+ prévue alors que nous pensions la terminer en quelques semaines.
+ Suivant notre principe d'attribuer le travail à faire suivant ce qui est
+ déjà fini Emel s'est retrouvé à réaliser toutes les fonctionalités de la
+ bibliothèque de base tandis que Victor a essentiellement travaillé sur
+ le parsing, modifiant les classes de bases pour le besoin du parseur.
+ Nous avons toutefois travaillé en équipe, en particulier pour la détection
+ de bugs et d'évolutions de fonctionalités.
 \end_layout
 
 \begin_layout Section
@@ -2096,10 +2104,6 @@ and $4, $5, $6 # ligne g
 En particulier :
 \end_layout
 
-\begin_layout Standard
-
-\end_layout
-
 \begin_layout Itemize
 le contenu du commentaire de la ligne 1 est supprimé automatiquement par
  le parseur,
@@ -2291,6 +2295,8 @@ Supprimer les bibliothèques asm et utl qui rendaient des services utiles
  au parseur d'origine écrit en C mais perdent en intérêt pour notre bibliothèque
  qui peut les obtenir plus facilement par la bibliothèque standard C++ ou
  s'en passer.
+ Plus globalement, reprendre le parseur pour lui faire manipuler uniquement
+ du texte afin de rendre la restitution de programme plus fidèle à l'original.
 \end_layout
 
 \begin_layout Part
@@ -2298,10 +2304,22 @@ Conclusion
 \end_layout
 
 \begin_layout Standard
-Travailler avec Karine et Victor a été super! En plus nous avons fait le
- plus important: le projet fonctionne (vous n'y verrez que du feu) et l'écriture
- du rapport n'a pas du tout posé de problème! Vive les biblothèque qui lise
- le MIPS!!!
+L'objectif de notre bibliothèque est rempli : un utilisateur récupérer notre
+ bibliothèque sur la page du projet 
+\emph on
+https://github.com/VLambret/libASM
+\emph default
+ et en installant uniquement des logiciels libres standards la compiler
+ et l'utiliser pour son usage.
+ La conception objet permet d'adapter ou d'étendre facilement les services
+ rendus par notre bibliothèque et de l'utiliser facilement pour concevoir
+ un nouvel outil s'appuyant sur nos Classes.
+\end_layout
+
+\begin_layout Standard
+Ce projet fut l'occasion de travailler en équipe sur un projet de développement
+ concret tout en approfondissant nos connaissances sur le MIPS, le fonctionnemen
+t des outils de compilation comme sur l'usage d'outils collaboratifs.
 \end_layout
 
 \end_body
