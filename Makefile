@@ -129,12 +129,14 @@ testparse:$(SRC)/$(EX)/complete.s bin/cpp/main_test
 
 # Recette tests
 
-test1:test1a
+test1:test1a test1b test1c
 
 TEST1a=test_01a
 TEST1b=test_01b
+TEST1c=test_01c
 GCCMIPS=mipsel-linux-gnu-gcc
 ODMIPS=mipsel-linux-gnu-objdump
+DIFF=./diffobj.sh
 
 $(SRC)/$(EX)/test/%.s:$(SRC)/$(EX)/test/%.c
 	$(GCCMIPS) -S -o $@ $<
@@ -144,18 +146,19 @@ test1a:$(BIN)/$(CP)/$(TEST1a) $(SRC)/$(EX)/test/$(TEST1a).s
 	./$<
 	$(GCCMIPS) -march=r3000 -c -o $(TMP)/$(TEST1a)_source.o  $(SRC)/$(EX)/test/$(TEST1a).s
 	$(GCCMIPS) -march=r3000 -c -o $(TMP)/$(TEST1a)_parsed.o  $(TMP)/$(TEST1a).s
-	$(ODMIPS) -d $(TMP)/$(TEST1a)_source.o > $(TMP)/$(TEST1a)_source.s
-	$(ODMIPS) -d $(TMP)/$(TEST1a)_parsed.o > $(TMP)/$(TEST1a)_parsed.s
-	diff $(TMP)/$(TEST1a)_source.s $(TMP)/$(TEST1a)_parsed.s
+	$(DIFF) $(TMP)/$(TEST1a)_source.o $(TMP)/$(TEST1a)_parsed.o > $(TMP)/$(TEST1a)_source.objdiff.txt
 
 test1b:$(BIN)/$(CP)/$(TEST1b) $(SRC)/$(EX)/test/$(TEST1b).s
 	./$<
-	#$(GCCMIPS) -march=r3000 -c -o $(TMP)/$(TEST1b)_source.o  $(SRC)/$(EX)/test/$(TEST1b).s
-	#$(GCCMIPS) -march=r3000 -c -o $(TMP)/$(TEST1b)_parsed.o  $(TMP)/$(TEST1b).s
-	#$(ODMIPS) -d $(TMP)/$(TEST1b)_source.o > $(TMP)/$(TEST1b)_source.s
-	#$(ODMIPS) -d $(TMP)/$(TEST1b)_parsed.o > $(TMP)/$(TEST1b)_parsed.s
-	#diff $(TMP)/$(TEST1b)_source.s $(TMP)/$(TEST1b)_parsed.s
+	$(GCCMIPS) -march=r3000 -c -o $(TMP)/$(TEST1b)_source.o  $(SRC)/$(EX)/test/$(TEST1b).s
+	$(GCCMIPS) -march=r3000 -c -o $(TMP)/$(TEST1b)_parsed.o  $(TMP)/$(TEST1b).s
+	$(DIFF) $(TMP)/$(TEST1b)_source.o $(TMP)/$(TEST1b)_parsed.o > $(TMP)/$(TEST1b)_source.objdiff.txt
 
+test1c:$(BIN)/$(CP)/$(TEST1c) $(SRC)/$(EX)/primes.s
+	./$<
+	$(GCCMIPS) -march=r3000 -c -o $(TMP)/$(TEST1c)_source.o  $(SRC)/$(EX)/primes.s
+	$(GCCMIPS) -march=r3000 -c -o $(TMP)/$(TEST1c)_parsed.o  $(TMP)/primes.s
+	$(DIFF) $(TMP)/$(TEST1c)_source.o $(TMP)/$(TEST1c)_parsed.o > $(TMP)/$(TEST1c)_source.objdiff.txt
 
 # Show tokens
 
