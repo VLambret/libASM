@@ -27,9 +27,6 @@ void Label::setContent(string line){
 	_line =line;
 }
 
-bool Label::isFunction(){
-	return false;
-}
 
 t_Inst  Label::getType(){
 	return OTHER;

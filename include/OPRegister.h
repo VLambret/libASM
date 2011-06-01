@@ -78,7 +78,7 @@ public	:
 /**	\brief	get the type of the register
 	getter of the register type
 */
-	 virtual t_Src_Dst getType( );
+	t_Src_Dst getType( );
 
 
 };

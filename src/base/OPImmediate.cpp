@@ -31,6 +31,4 @@ string OPImmediate::toString(){
 void OPImmediate::setOp( string op){
     _oper=op;
    }
-t_Src_Dst OPImmediate::getType( ){
-	return Src;
-}
+

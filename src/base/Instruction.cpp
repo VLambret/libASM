@@ -253,30 +253,34 @@ void Instruction::setNumberOper(int nbr){
 	_nbrOper=nbr;
 }
 
-bool Instruction::isFunction(){
-	return false;
-}
+
 
 Operand * Instruction::getRegDst(){
-	if(_op1->getOptype()==Reg && _op1->getType() == Dst && _op1!=NULL && _op1->getOp().compare("$0"))
+	OPRegister *op1 = dynamic_cast< OPRegister * > (_op1);
+	
+	if(_op1->getOptype()==Reg && op1->getType() == Dst && _op1!=NULL && _op1->getOp().compare("$0"))
 		return _op1;
 
 	return NULL;
 }
 
 Operand * Instruction::getRegSrc1(){
-	if(_op1->getOptype()==Reg && _op1->getType() == Src && _op1!=NULL && _op1->getOp().compare("$0"))
+	OPRegister *op1 = dynamic_cast< OPRegister * > (_op1);
+	OPRegister *op2 = dynamic_cast< OPRegister * > (_op2);
+	if(_op1->getOptype()==Reg && op1->getType() == Src && _op1!=NULL && _op1->getOp().compare("$0"))
 		return _op1;
-	if(_op2->getOptype()==Reg && _op2->getType() == Src && _op2!=NULL && _op2->getOp().compare("$0"))
+	if(_op2->getOptype()==Reg && op2->getType() == Src && _op2!=NULL && _op2->getOp().compare("$0"))
 		return _op2;
 
 	return NULL;
 }
 
 Operand * Instruction::getRegSrc2(){
-	if(_op2->getOptype()==Reg && _op2->getType() == Src && _op2!=NULL && _op2->getOp().compare("$0"))
+	OPRegister *op3 = dynamic_cast< OPRegister * > (_op3);
+	OPRegister *op2 = dynamic_cast< OPRegister * > (_op2);
+	if(_op2->getOptype()==Reg && op2->getType() == Src && _op2!=NULL && _op2->getOp().compare("$0"))
 		return _op2;
-	if(_op3->getOptype()==Reg && _op3->getType() == Src && _op3!=NULL && _op3->getOp().compare("$0"))
+	if(_op3->getOptype()==Reg && op3->getType() == Src && _op3!=NULL && _op3->getOp().compare("$0"))
 		return _op3;
 
 	return NULL;

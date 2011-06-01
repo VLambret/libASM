@@ -44,9 +44,6 @@ public	:
 */	
 	virtual void setContent(string);
 
-	/**	\brief	return true if the directive indicate a function
-*/
-	virtual bool isFunction();
 
 	/**	\brief	return the type of the instruction
 */
