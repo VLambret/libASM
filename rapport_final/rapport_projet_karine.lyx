@@ -1928,47 +1928,62 @@ Méthode de test
 Le but de ce test est de mesurer les changements produits par notre outils
  sur un programme entre son acquisition par le parseur et sa restitution.
  La comparaison des deux codes sources assembleurs en entrée et en sortie
- n'est pas un test pertinent à cause des changements de noms des registres
- et des changements de mise en page.
- La solution retenue consiste donc à comparer les codes objets produits
- par la compilation de ces deux codes sources.
+ n'est pas pertinent à cause des changements induits par le parseur.
+ Par exemple pour les registres 
+\emph on
+$zero
+\emph default
+, 
+\emph on
+zero
+\emph default
+ et 
+\emph on
+$0
+\emph default
+ sont tous transformés en 
+\emph on
+$0
+\emph default
+.
+ La solution retenue consiste donc à ne pas comparer les soures mais les
+ codes objets compilés.
 \end_layout
 
 \begin_layout Standard
-Pour cette comparaison nous avons écrit un outil dédié :
+Pour cela nous avons écrit un script qui effectue cette comparaison binaire.
+ Voici son fonctionnement :
 \end_layout
 
 \begin_layout Itemize
-Dans un premier temps on utilise 
+Dans un premier temps il utilise 
 \emph on
 od
 \emph default
- pour convertir le fichier binaire en un fichier texte code ou chaque ligne
- représente un mot de 32 bits sous sa forme héxadécimale.
- L'adresse n'est pas conservée afin de ne comparer que le code produit.
+ pour convertir les codes objets en fichiers texte contenant un mot de 32
+ bits en héxadécimal sur chaque ligne.
 \end_layout
 
 \begin_layout Itemize
-Ensuite nous faisons appel à 
+Ensuite 
 \emph on
-objdump
+il utilise objdump
 \emph default
- pour mips afin de construire un dictionnaire contenant la correspondance
- entre un code objet et sa traduction assembleur.
+ pour obtenir un dictionnaire traduisant les mots binaires en code assembleur.
 \end_layout
 
 \begin_layout Itemize
-
+Enfin il compare les mots héxadécimaux avec le programme 
 \emph on
 diff
 \emph default
- est enfin appelé sur les deux fichiers de code.
- Afin de rendre les différences visibles par l'humain, on récupère la traduction
- de chaque mot pour voir la différence sous forme assembleur.
+ et ajoute au résultat la traduction assembleur des mots concernés en utilisant
+ le dictionnaire.
 \end_layout
 
 \begin_layout Standard
-Voici les 3 programmes que nous avons choisi pour notre échantillon :
+Lors des tests nous remplacé les programmes prévus initialement afin de
+ couvrir plus de cas différents :
 \end_layout
 
 \begin_layout Itemize
@@ -1976,7 +1991,7 @@ Voici les 3 programmes que nous avons choisi pour notre échantillon :
 \emph on
 test1a.c
 \emph default
- : Un programme de quelques lignes sans appels de fonctions pour échantillon,
+ : Un programme avec quelques opérations basiques pour tester une base minimale,
 \end_layout
 
 \begin_layout Itemize
@@ -1984,8 +1999,8 @@ test1a.c
 \emph on
 test1b.c
 \emph default
- : Ce programme comporte une boucle et qui compte les nombres premiers via
- un appel de fonction,
+ : Ce programme compte les nombres premiers dans un intervalle, il introduit
+ des sauts conditionnels et des appels de fonction,
 \end_layout
 
 \begin_layout Itemize
@@ -1993,8 +2008,8 @@ test1b.c
 \emph on
 primes.c
 \emph default
- : Ce programme affiche les nombres premiers dans un intervalle et utilise
- des appels à la bibliothèque standard.
+ : Ce programme affiche les nombres premiers dans un intervalle, il ajoute
+ les appels à la bibliothèque standard.
 \end_layout
 
 \begin_layout Standard
@@ -2026,13 +2041,13 @@ Le lancement des test s'effectue via la commande make test1.
 \begin_layout Itemize
 Nous avons choisi d'étendre les macros dans le parseur, mais gcc ne choisi
  pas forcément les mêmes instructions.
- Par exemple pour le li gcc optimise dans le cas d'un immédiat de 16 bits
- en n'utilisant qu'une seule instruction ce que nous n'avons pas fait dans
- le parseur.
+ Par exemple pour la macro li (load immediate) gcc optimise dans le cas
+ d'un immédiat de 16 bits en n'utilisant qu'une seule instruction ce que
+ nous n'avons pas fait dans le parseur.
 \end_layout
 
 \begin_layout Itemize
-Ce nombre différent d'instructions implique un décallage des adresses pour
+Ce nombre différent d'instructions implique un décalage des adresses pour
  les sauts.
 \end_layout
 
