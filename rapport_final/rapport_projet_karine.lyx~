@@ -1,0 +1,2326 @@
+#LyX 1.6.10 created this file. For more info see http://www.lyx.org/
+\lyxformat 345
+\begin_document
+\begin_header
+\textclass article
+\use_default_options true
+\language english
+\inputencoding auto
+\font_roman default
+\font_sans default
+\font_typewriter default
+\font_default_family default
+\font_sc false
+\font_osf false
+\font_sf_scale 100
+\font_tt_scale 100
+
+\graphics default
+\paperfontsize default
+\spacing single
+\use_hyperref false
+\papersize default
+\use_geometry true
+\use_amsmath 1
+\use_esint 1
+\cite_engine basic
+\use_bibtopic false
+\paperorientation portrait
+\leftmargin 2cm
+\topmargin 2cm
+\rightmargin 2cm
+\bottommargin 2cm
+\headheight 2cm
+\headsep 2cm
+\footskip 2cm
+\secnumdepth 3
+\tocdepth 3
+\paragraph_separation indent
+\defskip medskip
+\quotes_language english
+\papercolumns 1
+\papersides 1
+\paperpagestyle default
+\tracking_changes false
+\output_changes false
+\author "" 
+\author "" 
+\end_header
+
+\begin_body
+
+\begin_layout Title
+Lecture et représentation d'un programme assembleur MIPS
+\end_layout
+
+\begin_layout Author
+Emel Hajjem ; Victor Lambret
+\end_layout
+
+\begin_layout Date
+2011
+\end_layout
+
+\begin_layout Abstract
+Ce rapport présente la spécification, la réalisation et la procedure de
+ recette de notre projet PSESI dont le but est de fournir une représentation
+ d'un programme assembleur MIPS et un ensemble de fonctions de manipulation
+ de cette représentation.
+\end_layout
+
+\begin_layout Abstract
+\begin_inset Newpage pagebreak
+\end_inset
+
+
+\end_layout
+
+\begin_layout Abstract
+\begin_inset CommandInset toc
+LatexCommand tableofcontents
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Newpage pagebreak
+\end_inset
+
+
+\end_layout
+
+\begin_layout Part
+Spécification
+\end_layout
+
+\begin_layout Section
+Contexte
+\end_layout
+
+\begin_layout Standard
+Le but de notre projet est de fournir une représentation d'un programme
+ assembleur MIPS.
+ Aussi, nous lui ajouterons un ensemble de fonctionnalités de manipulation
+ de programme.
+ Celles-ci constitueront une brique de base qui permettra des développements
+ ultérieurs, notamment dans le but de calculer des temps d'execution ou
+ de mettre en oeuvre des techniques d'optimisation ou d'analyse de code.
+ Cet outil sera étendu puis utilisé dans le cadre des enseignements de M1
+ d'architecture ou de compilation avancée.
+ 
+\end_layout
+
+\begin_layout Standard
+Ce projet sera réalisé en binôme, Victor Lambret et Emel Hajjem et encadré
+ par Karine Heydemann.
+\end_layout
+
+\begin_layout Standard
+Il faut savoir que ce projet demande ou developpera des connaissances autour
+ des notions suivantes.
+\end_layout
+
+\begin_layout Itemize
+Le jeu d'instruction MIPS étant donné que l'on va manipuler du code assembleur
+ MIPS.
+\end_layout
+
+\begin_layout Itemize
+Un langage de programmmation qui permettra l'implémentation de la solution
+ retenue pour ce projet.
+\end_layout
+
+\begin_layout Itemize
+L'anglais technique pour la rédaction des commentaires et de la documentation.
+\end_layout
+
+\begin_layout Itemize
+Des techniques et outils de parsing, qui permettront de lire un fichier
+ assembleur.
+\end_layout
+
+\begin_layout Itemize
+La structure d'un programme assembleur et des notions relatives à la compilation.
+\end_layout
+
+\begin_layout Section
+Objectifs
+\end_layout
+
+\begin_layout Standard
+L'objectif du projet est de récupérer un code assembleur MIPS écrit à la
+ main ou produit par un compilateur gcc, via un parseur, et de le représenter
+ en mémoire grâce à des structures de données.
+ Les manipulations de code suivantes sont aussi souhaitées.
+\end_layout
+
+\begin_layout Itemize
+Modification d'un opérande.
+\end_layout
+
+\begin_layout Itemize
+Ajout et suppression d'instructions.
+\end_layout
+
+\begin_layout Itemize
+Calcul de dépendance entre deux instructions.
+\end_layout
+
+\begin_layout Itemize
+Calcul des blocs de base d'une fonction.
+\end_layout
+
+\begin_layout Standard
+Enfin l'outil réalisé doit être capable de reproduire le code initial ou
+ modifié dans un fichier.
+\end_layout
+
+\begin_layout Standard
+\begin_inset Float figure
+wide false
+sideways false
+status open
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Graphics
+	filename images/schéma1.png
+	width 70text%
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Caption
+
+\begin_layout Plain Layout
+Schéma de fonctionement de la bibliothèque
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+C'est dans cette perspective que nous allons réaliser une bibliothèque,
+ afin qu'un developpeur puisse inclure facilement les fonctionnalités que
+ nous proposons dans son programme.
+\end_layout
+
+\begin_layout Standard
+Il faut donc :
+\end_layout
+
+\begin_layout Itemize
+créer un parseur qui lira le code assembleur initial dans un fichier,
+\end_layout
+
+\begin_layout Itemize
+définir et implanter des structures de données appropriées pour la représentatio
+n du programme,
+\end_layout
+
+\begin_layout Itemize
+définir et implanter les opérations de manipulation,
+\end_layout
+
+\begin_layout Itemize
+fournir une bibliothèque permettant de récupérer la représentation de la
+ manipuler et d'en générer un fichier.
+\end_layout
+
+\begin_layout Section
+Organisation
+\end_layout
+
+\begin_layout Subsection
+Méthode de travail
+\end_layout
+
+\begin_layout Standard
+Notre projet consistant à déveloper un même outil à deux avec une interdépendanc
+e entre les tâches à réaliser, nous allons utiliser un système de gestion
+ de versions pour une collaboration plus aisée.
+ De plus, nous allons adopter des méthodes de travail inspirées de l'Extreme
+ Programming^[ http://fr.wikipedia.org/wiki/EXtreme_Programming], consistant
+ à :
+\end_layout
+
+\begin_layout Itemize
+privilégier les solutions les plus simples pendant le développement et optimiser
+ à la fin du projet en fonction du besoin,
+\end_layout
+
+\begin_layout Itemize
+découper le travail en cycles de développement courts de manière à intégrer
+ au plus vite les changements dans l'archivage,
+\end_layout
+
+\begin_layout Itemize
+valider le bon fonctionement des différentes parties de la librairie par
+ des tests unitaires,
+\end_layout
+
+\begin_layout Itemize
+définir et utiliser un ensemble de règles communes de codage (nommage, commentai
+re...).
+\end_layout
+
+\begin_layout Standard
+Toute réalisation de code suivra le schéma suivant :
+\end_layout
+
+\begin_layout Enumerate
+Écriture de tests.
+\end_layout
+
+\begin_layout Enumerate
+Écriture du code et de la documentation de la classe associée.
+\end_layout
+
+\begin_layout Enumerate
+Validation par un passage réussi des tests.
+\end_layout
+
+\begin_layout Standard
+En particulier nous nous répartirons le travail entre l'écriture des tests
+ et du code.
+\end_layout
+
+\begin_layout Subsection
+Liste des taches
+\end_layout
+
+\begin_layout Standard
+Nous pouvons découper notre travail en trois grandes tâches pour réaliser
+ nos objectifs.
+\end_layout
+
+\begin_layout Subsubsection
+Structures de donnée
+\end_layout
+
+\begin_layout Standard
+Pour écrire ces structures de données nous avons choisi de les implémenter
+ grace au langage C++.
+\end_layout
+
+\begin_layout Standard
+Mais avant de passer à la programmation, il faut dans un premier temps définir
+ ces structures.
+ Pour mieux les visualiser, nous allons les représenter dans un diagramme
+ UML.
+\end_layout
+
+\begin_layout Standard
+Comme nous voulons offrir la possibilité de reproduire le code, il faut
+ conserver toutes les informations.
+ Nous avons donc décider de voir un programme comme un ensemble de lignes.
+ Parmis ces lignes, seules celles correspondant aux instructions nous interessen
+t.
+ Toutefois, pour des developpements ultérieurs, il est utile de pouvoir
+ accéder à toutes les informations (toutes les lignes) et donc de conserver
+ celles-ci.
+ Dans le but d'analyse de code ultérieure, on souhaite connaitre pour chaque
+ instruction son code opérateur et pouvoir le modifier, sa nature (opération
+ arithmétique ou logique, opération mémoire ou branchement) ainsi que ses
+ opérateurs.
+ Les opérandes sont soit des registres, des immédiats des expressions ou
+ des labels.
+ Les labels sont aussi importants, ils indiquent notamment le début des
+ fonctions et des certains blocs de base.
+ Ainsi, nous avons identifié les entités suivantes pour lesquelles nous
+ developperons des structures de données.
+\end_layout
+
+\begin_layout Itemize
+Programme : entité correspondant à un ensemble de lignes, parmis lesquelles
+ nous identifirons celles correspondant aux début de fonction en les conservant
+ afin d'avoir un accès direct aux fonctions.
+\end_layout
+
+\begin_layout Itemize
+Ligne : entité correspondant à une ligne du code asm d'origine, pouvant
+ être une directive, une déclaration, un label ou une instruction.
+\end_layout
+
+\begin_layout Itemize
+Label : entité composée d'un nom.
+\end_layout
+
+\begin_layout Itemize
+Instruction : entité composée d'un code opération et d'opérandes.
+ Nous conservons son format et déduirons son type du code opération.
+\end_layout
+
+\begin_layout Itemize
+Opérande : entité correspondant à un registre (son numéro), un label (chaîne
+ ou identifiant), un immediat (valeur numérique) ou une expression.
+\end_layout
+
+\begin_layout Itemize
+Découpage en sous-tâches :
+\end_layout
+
+\begin_layout Itemize
+Diagramme : réalisation du diagramme UML précis des classes utilisées.
+\end_layout
+
+\begin_layout Itemize
+Classes de base : réalisation des classes Programme, Ligne, Instruction,
+ Label et Opérande.
+\end_layout
+
+\begin_layout Subsubsection
+Implémentation des fonctionnalités de manipulation
+\end_layout
+
+\begin_layout Standard
+Après avoir défini nos structures de données, nous pourrons passer à la
+ définition et à l'implémentation des différentes fonctions qui vont permettre
+ de manipuler le code initial.
+ 
+\end_layout
+
+\begin_layout Standard
+Découpage en sous-tâches :
+\end_layout
+
+\begin_layout Itemize
+Calcul de dépendance : réalisation de la fonctionnalité de calcul de dépendance
+ entre deux instructions.
+\end_layout
+
+\begin_layout Itemize
+Index : réalisation de la fonctionnalité de calcul des blocs de base et
+ de fonctions d'accès indexées aux lignes du programme par les labels, blocs
+ de base ou fonctions.
+\end_layout
+
+\begin_layout Itemize
+Restitution : réalisation de la fonctionnalité permettant d'écrire la totalité
+ ou une partie du programme sous forme d'un fichier d'instructions assembleur.
+\end_layout
+
+\begin_layout Subsubsection
+Parsing
+\end_layout
+
+\begin_layout Standard
+Notre projet nécessite un parseur qui fera l'analyse lexicale et syntaxique
+ du code assembleur MIPS donné en entrée.
+ L'écriture d'un parseur étant une tâche qui prendrait beaucoup de temps,
+ nous allons réutiliser un parseur écrit par Mr Pirouz acceptant en entrée
+ des fichiers assembleur MIPS produit par gcc.
+ Nous aurons à comprendre, puis nettoyer celui-ci avant de modifier les
+ actions afin de produire la représentation du programme avec nos structures
+ de données.
+\end_layout
+
+\begin_layout Standard
+Découpage en sous-tâches :
+\end_layout
+
+\begin_layout Itemize
+Nettoyage : nettoyage du parseur existant pour en conserver les règles d'analyse.
+\end_layout
+
+\begin_layout Itemize
+Parsing : construction de l'entité programme à partir du parsing d'un fichier
+ assembleur.
+\end_layout
+
+\begin_layout Subsection
+Outils
+\end_layout
+
+\begin_layout Standard
+Notre projet doit pouvoir être utilisé et adapté facilement, nous allons
+ donc le développer grâce à des outils standards et libres :
+\end_layout
+
+\begin_layout Itemize
+g++ pour compiler la librairie et le code de test(C++),
+\end_layout
+
+\begin_layout Itemize
+gccpour mips installé via crosstools pour compiler les programmes d'exemples
+ écrits en C vers de l'assembleur MIPS,
+\end_layout
+
+\begin_layout Itemize
+make pour la gestion du projet,
+\end_layout
+
+\begin_layout Itemize
+un gestionnaire de version comme git,
+\end_layout
+
+\begin_layout Itemize
+Doxygen pour générer la documentation en anglais à partir de commentaires
+ bien écrits dans le code du projet.
+\end_layout
+
+\begin_layout Subsection
+Planning
+\end_layout
+
+\begin_layout Standard
+Nos tâches étant assez dépendantes entre elles, nous nous sommes répartis
+ le travail pour le démarrage du projet.
+ Il nous est assez difficile de donner une estimation précise du temps que
+ prendra chaque tâche, c'est pourquoi les tâches suivantes seront attribuées
+ en fonction de l'avancement.
+\end_layout
+
+\begin_layout Standard
+L'ordre de réalisation des tâches sera dicté par les dépendances que nous
+ avons identifiées dans ce schéma :
+\end_layout
+
+\begin_layout Standard
+\begin_inset Float figure
+wide false
+sideways false
+status open
+
+\begin_layout Plain Layout
+\begin_inset Graphics
+	filename images/planning.png
+	width 70text%
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Caption
+
+\begin_layout Plain Layout
+Planning
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Section
+Recette
+\end_layout
+
+\begin_layout Subsection
+Documents fournis
+\end_layout
+
+\begin_layout Standard
+A la fin de notre projet, nous produirons les documents suivants.
+\end_layout
+
+\begin_layout Itemize
+Le diagramme de classes UML du projet.
+\end_layout
+
+\begin_layout Itemize
+Le code de la bibliothèque de base.
+\end_layout
+
+\begin_layout Itemize
+Le code des classes de tests unitaires et de l'ensemble des outils de test.
+\end_layout
+
+\begin_layout Itemize
+La documentation de la bibliothèque générée par Doxygen.
+\end_layout
+
+\begin_layout Subsection
+Procédure de recette
+\end_layout
+
+\begin_layout Standard
+La librairie produite sera validée par deux procédures de recette.
+ Tout d'abord une recette continue composée de test unitaires, de nos revues
+ de code et de la validation des étapes par notre encadrante.
+\end_layout
+
+\begin_layout Standard
+La seconde partie de la recette sera basée sur des scénarios testant chacun
+ un ensemble de fonctionnalités.
+\end_layout
+
+\begin_layout Subsubsection
+Acquisition d'un programme avec le parseur et restitution
+\end_layout
+
+\begin_layout Standard
+Nous allons écrire trois petits programmes en langage C, typiquement de
+ parcours de tableau, de multiplication de matrices ou de tri rapide.
+ Ces programmes seront compilés vers de l'assembleur avec gcc puis représentés
+ en mémoire en utilisant le parseur avant d'être restitués en assembleur.
+ Nous vérifierons que les programmes restitués sont identiques aux programmes
+ d'origine, en particulier qu'ils peuvent toujours être compilés et produire
+ le même code exécutable.
+\end_layout
+
+\begin_layout Subsubsection
+Manipulation d'un programme
+\end_layout
+
+\begin_layout Standard
+A partir de ces trois même programmes d'exemple, nous effectuerons les opération
+s suivantes.
+\end_layout
+
+\begin_layout Itemize
+Affichage des informations générales du programme comme le nombre de lignes
+ et d'instructions.
+\end_layout
+
+\begin_layout Itemize
+Calcul du découpage en blocs de base et en fonctions.
+\end_layout
+
+\begin_layout Itemize
+Écriture dans un fichier des séquences de lignes de ces blocs de base et
+ fonctions dans des fichiers différents.
+\end_layout
+
+\begin_layout Subsubsection
+Manipulation d'instructions
+\end_layout
+
+\begin_layout Standard
+Nous allons démontrer les possibilités de manipulation, insertion et suppression
+ de lignes en transformant la séquence d'instructions suivante :
+\end_layout
+
+\begin_layout Standard
+\begin_inset listings
+inline false
+status open
+
+\begin_layout Plain Layout
+
+# Code avec des Nor # ligne 1
+\end_layout
+
+\begin_layout Plain Layout
+
+add $5, $0, $0 # ligne 2
+\end_layout
+
+\begin_layout Plain Layout
+
+or $6, $5, $0 # ligne 3
+\end_layout
+
+\begin_layout Plain Layout
+
+nor $4, $5, $6 # ligne 4
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+Pour obtenir le programme suivant :
+\end_layout
+
+\begin_layout Standard
+\begin_inset listings
+inline false
+status open
+
+\begin_layout Plain Layout
+
+# Equivalence en plusieurs instructions # ligne a
+\end_layout
+
+\begin_layout Plain Layout
+
+# ligne b
+\end_layout
+
+\begin_layout Plain Layout
+
+lui $4, 0xFFFF # ligne c
+\end_layout
+
+\begin_layout Plain Layout
+
+ori $4, $4, 0XFFFF # ligne d
+\end_layout
+
+\begin_layout Plain Layout
+
+xor $5, $4, $0 # ligne e
+\end_layout
+
+\begin_layout Plain Layout
+
+xor $6, $4, $0 # ligne f
+\end_layout
+
+\begin_layout Plain Layout
+
+and $4, $5, $6 # ligne g
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+En particulier :
+\end_layout
+
+\begin_layout Itemize
+le contenu du commentaire de la ligne 1 sera modifié,
+\end_layout
+
+\begin_layout Itemize
+la ligne 2 sera supprimée,
+\end_layout
+
+\begin_layout Itemize
+les opérandes et l'opérateur de la ligne 3 seront modifiés pour obtenir
+ la ligne c,
+\end_layout
+
+\begin_layout Itemize
+l'opérateur de la ligne 4 sera modifié pour obtenir la ligne g,
+\end_layout
+
+\begin_layout Itemize
+les autres lignes seront ensuite insérées dans le programme.
+\end_layout
+
+\begin_layout Subsubsection
+Calcul de dépendance entre instructions
+\end_layout
+
+\begin_layout Standard
+En partant de cette séquence d'instructions :
+\end_layout
+
+\begin_layout Standard
+\begin_inset listings
+inline false
+status open
+
+\begin_layout Plain Layout
+
+# Exemple de programme utilisé pour la recette 
+\end_layout
+
+\begin_layout Plain Layout
+
+1 lw $4, 0($0)
+\end_layout
+
+\begin_layout Plain Layout
+
+2 lw $4, 0($8) # Write after Write avec 1
+\end_layout
+
+\begin_layout Plain Layout
+
+3 addi $5, $4, 10 # Read after Write avec 2
+\end_layout
+
+\begin_layout Plain Layout
+
+4 sw $4, 0($8)
+\end_layout
+
+\begin_layout Plain Layout
+
+5 sub $4, $10, $5 # Write after Read avec 4 et 3
+\end_layout
+
+\begin_layout Plain Layout
+
+6 addi $31, $31, 4 # instruction indépendante
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+Nous effectuerons les opérations suivantes :
+\end_layout
+
+\begin_layout Itemize
+Calcul et affichage des dépendances entre instructions.
+\end_layout
+
+\begin_layout Itemize
+Inversion de deux instructions indépendantes.
+\end_layout
+
+\begin_layout Itemize
+Production du fichier assembleur résultat.
+\end_layout
+
+\begin_layout Part
+Réalisation
+\end_layout
+
+\begin_layout Standard
+Une fois les spécifications établies, nous sommes donc passés à la réalisation
+ de notre bibliothèque.
+ L'objectif du projet étant de lire un code assembleur MIPS écrit à la main
+ ou produit par un compilateur de type gcc, via un parseur, de le représenter
+ en mémoire et d'effectuer dessus des manipulations, nous avions défini
+ trois grandes tâches : définition et implantation des structures de données,
+ l'implémentation des fonctionnalités de manipulation et le parsing.
+ Nous allons donc vous présenter dans cette partie la réalisations de ces
+ tâches.
+\end_layout
+
+\begin_layout Section
+Classe de bases
+\end_layout
+
+\begin_layout Standard
+\begin_inset Float figure
+wide false
+sideways false
+status open
+
+\begin_layout Plain Layout
+\begin_inset Graphics
+	filename images/UML.png
+	width 100text%
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Caption
+
+\begin_layout Plain Layout
+Diagramme UML
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+Les structures de données représentent le programme contenu dans un fichier
+ assembleur (données, code).
+ Ces structures vont être répariti en classes représentant les différents
+ objets qui caractérisent un code assembleur.
+ Nous avons donc construit nos classes de bases de manière hiérarchique.
+ Tout d'abord nous avons le programme  que nous avons choisi de voir comme
+ une suite de lignes qui peuvent être de différents types : labels, instructions
+ et directives.
+ Ce sont les instructions qui sont, pour nous, les plus importantes, elles
+ ont chacunes un code opérateur, des opérandes, un format de codage(R, I,
+ J, O) et une nature (BR, MEM, ALU, OTHER).
+\end_layout
+
+\begin_layout Itemize
+Le programme est vu comme une liste chaînée de lignes.
+ La classe Node correspond aux noeuds de la liste chaînée.
+ Dans ce programme, nous pouvons supprimer ou ajouter des lignes.
+ Nous pouvons aussi connaitre le nombre de ligne du programme, l'afficher
+ et chercher une ligne en particulier.
+ 
+\end_layout
+
+\begin_layout Itemize
+La classe Line correspond à l'information contenue dans un noeud de la liste
+ chaînée.
+ C'est une classe abstraite qui permet aux sous-classes Instruction, Directive
+ et Label d'hériter de ses caractéristiques.
+ Chaque ligne a pour attribut une chaîne de caractère.
+ Nous pouvons modifier cette ligne, récupérer la ligne ou son type (instruction,
+ label ou directive).
+\end_layout
+
+\begin_layout Itemize
+Les directives correspondent aux lignes de déclaration de zone (.data, .text)
+ de données, de fonction.
+ La directive peut être suivi d'un champs.
+ Cette classe peut identifier le début et la fin d'une fonction(.ent, .end),
+ ce qui est utile lors du calcul des fonctions.
+ 
+\end_layout
+
+\begin_layout Itemize
+Les labels sont les étiquettes utilisées pour désigner des données ou instructio
+ns dans le code.
+\end_layout
+
+\begin_layout Itemize
+Les instructions correspondent au code proprement dit.
+ Une instruction contient un code opérateur, des opérandes, son type et
+ son format.
+ Dans cette classe nous pouvons récupérer ses caractéristiques mais nous
+ ne pouvont modifier que son code opérateur et ses opérandes car le type
+ et le format sont déduit de l'opérateur et des opérandes.
+\end_layout
+
+\begin_layout Itemize
+Le code opérateur est représenté par un type énuméré, qui lui même représente
+ toutes les mémoniques asm.
+\end_layout
+
+\begin_layout Itemize
+Les opérandes sont des objets dérivant de la classe abstraite Operand.
+ Il y a une classe par type d'opérandes possibles : registre, immediat,
+ expression ou label.
+ Pour toutes ces classes nous pouvons modifier l'opérande et la récupérer,
+ elle et son type(registre, label...).
+ 
+\end_layout
+
+\begin_layout Section
+Index
+\end_layout
+
+\begin_layout Standard
+\begin_inset Float figure
+wide false
+sideways false
+status open
+
+\begin_layout Plain Layout
+\begin_inset Graphics
+	filename images/UML2.png
+	width 100text%
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Caption
+
+\begin_layout Plain Layout
+Diagramme UML index
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+La fonctionnalité d'indexation permet d'accéder aux fonctions d'un programme
+ et d'accéder aux blocs de bases d'une fonction.
+\end_layout
+
+\begin_layout Subsection
+Fonction
+\end_layout
+
+\begin_layout Standard
+Un programme peut contenir plusieurs fonctions.
+ Nous avons donc implémenté une fonctionnalité permettant de délimiter ces
+ fonctions.
+ Le calcul des fonctions se fait dans la classe Program qui a une vue d'ensemble
+ de tout le code assembleur, donc de toutes les fonctions définies.
+ On conserve ces fonctions dans une liste stockée dans le programme correspondan
+t.
+ La classe Function représente une fonction du programme.
+ Elle contient un pointeur sur la ligne de début et la ligne de fin de la
+ fonction.
+ La classe offre la possibilité d'afficher le contenu de la fonction, de
+ restituer le code lui correspondant dans un fichier et de calculer sa taille.
+\end_layout
+
+\begin_layout Standard
+Voici l'algorithme en pseudo code du calcul des fonctions d'un programme
+ :
+\end_layout
+
+\begin_layout Standard
+\begin_inset listings
+inline false
+status open
+
+\begin_layout Plain Layout
+
+compute_function()
+\end_layout
+
+\begin_layout Plain Layout
+
+beginFunction function
+\end_layout
+
+\begin_layout Plain Layout
+
+ if (program.is_not_Empty()) then
+\end_layout
+
+\begin_layout Plain Layout
+
+	Node current_node<-program.head	while (current_node) then
+\end_layout
+
+\begin_layout Plain Layout
+
+		if (current_node = directive_of_end_function) then
+\end_layout
+
+\begin_layout Plain Layout
+
+			function.end <-current_node
+\end_layout
+
+\begin_layout Plain Layout
+
+			program.add_list_function ( function)
+\end_layout
+
+\begin_layout Plain Layout
+
+		end if
+\end_layout
+
+\begin_layout Plain Layout
+
+		if (current_node = directive_of_begining_function) then
+\end_layout
+
+\begin_layout Plain Layout
+
+			function.head <- current_node
+\end_layout
+
+\begin_layout Plain Layout
+
+		end if
+\end_layout
+
+\begin_layout Plain Layout
+
+		if (current_node.next_node = program.end) then		
+\end_layout
+
+\begin_layout Plain Layout
+
+			break
+\end_layout
+
+\begin_layout Plain Layout
+
+		else current_node <- current_node.next_node	
+\end_layout
+
+\begin_layout Plain Layout
+
+		end if
+\end_layout
+
+\begin_layout Plain Layout
+
+	end while
+\end_layout
+
+\begin_layout Plain Layout
+
+end
+\end_layout
+
+\begin_layout Plain Layout
+
+fin
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Subsection
+Bloc de base
+\end_layout
+
+\begin_layout Standard
+Dans chacune des fonctions d'un programme il y a plusieurs blocs de bases.
+ Ces blocs de bases sont des séquences d'instructions contenant un seul
+ point d'entré et un seul point de sortie.
+ La classe Basic_block représente un bloc de base.
+ Elle contient un pointeur sur la ligne de début (une instruction ou un
+ label) et la ligne de fin du bloc.
+ Cette classe offre la possibilité d'afficher le contenu du bloc, le restituer
+ dans un fichier et calculer sa taille.
+ Le calcul des blocs de bases se fait dans la classe Function, qui va conserver
+ ces blocs dans une liste.
+\end_layout
+
+\begin_layout Abstract
+\begin_inset Newpage pagebreak
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+Voici l'algorithme en pseudo code du calcule des blocs de bases dans une
+ fonction:
+\end_layout
+
+\begin_layout Standard
+\begin_inset listings
+inline false
+status open
+
+\begin_layout Plain Layout
+
+compute_Basic_block()
+\end_layout
+
+\begin_layout Plain Layout
+
+begin
+\end_layout
+
+\begin_layout Plain Layout
+
+	Node current_node <- function.head 
+\end_layout
+
+\begin_layout Plain Layout
+
+	block.head <- function.first_node_label_or_instruction
+\end_layout
+
+\begin_layout Plain Layout
+
+	while (current_node != function.end) then
+\end_layout
+
+\begin_layout Plain Layout
+
+		if (current_node = instruction)
+\end_layout
+
+\begin_layout Plain Layout
+
+			if (current_node = branch) then
+\end_layout
+
+\begin_layout Plain Layout
+
+				block.end <- current_node.Nem_next_node(N delayed slot)
+\end_layout
+
+\begin_layout Plain Layout
+
+				function.add_list_block ( block)
+\end_layout
+
+\begin_layout Plain Layout
+
+				if (current_node.next_node != function.end && 
+\end_layout
+
+\begin_layout Plain Layout
+
+				 current_node.next_node._next_node != function.end)
+\end_layout
+
+\begin_layout Plain Layout
+
+						block.head <- current_node.next_Nem_node
+\end_layout
+
+\begin_layout Plain Layout
+
+						(the node next the Nth delayed slot)
+\end_layout
+
+\begin_layout Plain Layout
+
+			              current_node <-  current_node.next(block.head)
+\end_layout
+
+\begin_layout Plain Layout
+
+						else break
+\end_layout
+
+\begin_layout Plain Layout
+
+				end if
+\end_layout
+
+\begin_layout Plain Layout
+
+			end if
+\end_layout
+
+\begin_layout Plain Layout
+
+		end if
+\end_layout
+
+\begin_layout Plain Layout
+
+		
+\end_layout
+
+\begin_layout Plain Layout
+
+		if (current_node.next_node = label) then
+\end_layout
+
+\begin_layout Plain Layout
+
+			block.end <- current_node
+\end_layout
+
+\begin_layout Plain Layout
+
+			function.add_list_block ( block )
+\end_layout
+
+\begin_layout Plain Layout
+
+			block.head <- current_node.next_node
+\end_layout
+
+\begin_layout Plain Layout
+
+		end if
+\end_layout
+
+\begin_layout Plain Layout
+
+	
+\end_layout
+
+\begin_layout Plain Layout
+
+		if (current_node.next_node = directive) then
+\end_layout
+
+\begin_layout Plain Layout
+
+			block.end <- current_node
+\end_layout
+
+\begin_layout Plain Layout
+
+			function.add_list_block ( block )
+\end_layout
+
+\begin_layout Plain Layout
+
+			break
+\end_layout
+
+\begin_layout Plain Layout
+
+		end if
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\begin_layout Plain Layout
+
+		if (current_node.next_node = function.end) then
+\end_layout
+
+\begin_layout Plain Layout
+
+			block.end <- current_node
+\end_layout
+
+\begin_layout Plain Layout
+
+			function.add_list_block ( block)
+\end_layout
+
+\begin_layout Plain Layout
+
+			break
+\end_layout
+
+\begin_layout Plain Layout
+
+		else current_node <- current_node.next_node
+\end_layout
+
+\begin_layout Plain Layout
+
+		end if
+\end_layout
+
+\begin_layout Plain Layout
+
+	end while
+\end_layout
+
+\begin_layout Plain Layout
+
+end
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Section
+Calcul de dépendance
+\end_layout
+
+\begin_layout Standard
+Nous avons réalisé la fonctionnalité qui permet de calculer la dépendance
+ entre deux instructions.
+ Pour cela nous avons implémenté des méthodes correspondant à chacunes des
+ dépendances possibles dans la classe Instruction:
+\end_layout
+
+\begin_layout Itemize
+RAW: détéction des dépendances lecture après écriture entre deux instructions
+ i1 et i2, c'est à dire la lecture d'un registre par i2 après son écriture
+ par i1.
+\end_layout
+
+\begin_layout Itemize
+WAR: détéction des dépendances écriture après lecture entre deux instructions
+ i1 et i2, c'est à dire l'écriture dans un registre par i2 après sa lecture
+ par i1.
+\end_layout
+
+\begin_layout Itemize
+WAW: détéction des dépendances écriture après écriture entre deux instructions
+ i1 et i2, c'est à dire l'écriture d'un registre par i2 après l'écriture
+ par i1.
+\end_layout
+
+\begin_layout Standard
+ Ces méthodes testent si la dépendance est verifiée entre l'instruction
+ courante et celle donnée en paramètre.
+ Nous avons aussi implémenté une méthode permettant de calculer la dépendance
+ entre deux instructions particulières dans un programme.
+\end_layout
+
+\begin_layout Standard
+Voici les algorithmes pour chacun des types de calcul des dépendances :
+\end_layout
+
+\begin_layout Subsection
+Read after Write
+\end_layout
+
+\begin_layout Standard
+Cette fonction renvoie vrai si il y a une dépendance de type WAR entre l'instruc
+tion courante et i2 passé en paramètre, sinon retourne faux.
+\end_layout
+
+\begin_layout Standard
+\begin_inset listings
+inline false
+status open
+
+\begin_layout Plain Layout
+
+begin
+\end_layout
+
+\begin_layout Plain Layout
+
+	if (self.RegDest && i2.RegSrc1 && self.RegDest==i2.RegSrc1)	return true
+\end_layout
+
+\begin_layout Plain Layout
+
+	if (self.RegDest && i2.RegSrc2 && self.RegDest==i2.RegSrc2)	return true
+\end_layout
+
+\begin_layout Plain Layout
+
+	return false
+\end_layout
+
+\begin_layout Plain Layout
+
+end
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Subsection
+Write after Read
+\end_layout
+
+\begin_layout Standard
+Cette fonction renvoie vrai si il y a une dépendance de type WAR entre l'instruc
+tion courante et i2 passé en paramètre, sinon retourne faux.
+\end_layout
+
+\begin_layout Standard
+\begin_inset listings
+inline false
+status open
+
+\begin_layout Plain Layout
+
+WAR(Instruction i2)
+\end_layout
+
+\begin_layout Plain Layout
+
+begin
+\end_layout
+
+\begin_layout Plain Layout
+
+	if (i2.RegDest && self.RegSrc1 && i2.RegDest==self.RegSrc1)	return true
+\end_layout
+
+\begin_layout Plain Layout
+
+	if (i2.RegDest && self.RegSrc2 && i2.RegDest==self.RegSrc2)	return true
+\end_layout
+
+\begin_layout Plain Layout
+
+	return false
+\end_layout
+
+\begin_layout Plain Layout
+
+end
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Subsection
+Write after Write
+\end_layout
+
+\begin_layout Standard
+Cette fonction renvoie vrai si il y a une dépendance de type WAW entre l'instruc
+tion courante et i2 passé en paramètre, sinon retourne faux.
+\end_layout
+
+\begin_layout Standard
+\begin_inset listings
+inline false
+status open
+
+\begin_layout Plain Layout
+
+WAW(Instruction i2)
+\end_layout
+
+\begin_layout Plain Layout
+
+begin
+\end_layout
+
+\begin_layout Plain Layout
+
+	if (self.RegDest && i2.RegDest && self.RegDest==i2.RegDest)	return true
+\end_layout
+
+\begin_layout Plain Layout
+
+	return false
+\end_layout
+
+\begin_layout Plain Layout
+
+end
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Section
+Restitution
+\end_layout
+
+\begin_layout Standard
+Nous avons réalisé la fonctionnalité qui permet de restituer un programme,
+ une fonction ou un bloc de base sous forme d'un fichier d'instruction asssemble
+ur.
+ La restitution se fait dans une méthode de chacune des classes associée.
+ Ces méthodes prennent en parametre le nom du fichier dans lequel on veux
+ écrire.
+ On parcour la structure, récupère la chaîne de caractère de chaque ligne
+ et on l'écrit dans le fichier.
+\end_layout
+
+\begin_layout Section
+Parseur
+\end_layout
+
+\begin_layout Subsection
+Départ d'un parseur existant
+\end_layout
+
+\begin_layout Standard
+Nous sommes partis sur d'un outil existant écrit par Mr Bazargan Sabet utilisant
+ un parseur pour construire une représentation en mémoire d'un programme
+ assembleur mips.
+ La partie parsing était basée sur 
+\emph on
+lex
+\emph default
+ comme analyseur lexical et 
+\emph on
+yacc
+\emph default
+ comme analyseur syntaxique.
+ Nous souhaitions récupérer les règles de découpage en mots clés ainsi que
+ la grammaire et remplacer tous les actions du parseur par des appels aux
+ constructeurs de notre bibliothèque de base.
+\end_layout
+
+\begin_layout Standard
+Dans un premier temps nous avons cherché à isoler le code de ce parseur
+ du reste du simulateur afin de le compiler dans un premier temps, puis
+ l'adapter à notre besoin.
+ Cette étape nous a fait conserver uniquement 3 élements :
+\end_layout
+
+\begin_layout Itemize
+les règles dans deux fichiers 
+\emph on
+lex
+\emph default
+ et 
+\emph on
+yacc
+\emph default
+,
+\end_layout
+
+\begin_layout Itemize
+une bibliothèque asm contenant les fonctions utiles pour les actions 
+\emph on
+yacc
+\emph default
+,
+\end_layout
+
+\begin_layout Itemize
+une bibliothèque utl de fonctions de manipulations de données pour le passage
+ de données entre 
+\emph on
+lex
+\emph default
+ et 
+\emph on
+yacc
+\emph default
+, ou entre actions 
+\emph on
+yacc
+\emph default
+.
+\end_layout
+
+\begin_layout Standard
+Dans un premier temps nous avons commenté les actions existantes pour n'avoir
+ qu'un simple affichage du nom de la règle parcourue afin de tester la seule
+ compilation du code.
+\end_layout
+
+\begin_layout Subsection
+Le passage au C++
+\end_layout
+
+\begin_layout Standard
+Pour que notre parseur fasse appel à des constructeur C++ dans les actions
+ nous avons eu besoin de compiler le fichier yacc avec 
+\emph on
+g++
+\emph default
+.
+ A priori 
+\emph on
+g++
+\emph default
+ pouvant compiler du C nous avons d'abord cherché à lui faire compiler le
+ code passant avec 
+\emph on
+gcc
+\emph default
+.
+ Avant d'y arriver nous avons rencontré deux types de problèmes :
+\end_layout
+
+\begin_layout Itemize
+
+\emph on
+g++
+\emph default
+ est plus exigeant sur les types et n'accepte pas l'ancienne syntaxe C pour
+ déclarer les paramètres des fonctions.
+ Nous avons donc mis à jour les entêtes et les corps des fonctions des bibliothè
+ques et corrigé les incohérences de type dans le code.
+\end_layout
+
+\begin_layout Itemize
+L'usage de C++ dans le fichier yacc a posé un problème long à résoudre :
+ le mécanisme de dialogue entre Lex et Yacc ne marchait plus.
+ Les deux logiciels étant des projets différents, et le support du C++ évoluant
+ suivant les versions, l'information ne fut pas facile à trouver.
+ Lors de cette étape 
+\emph on
+git
+\emph default
+ fut très utile pour créer une branche par solution essayée.
+\end_layout
+
+\begin_layout Standard
+Une fois ces deux points résolus, nous avons put utiliser C++ librement.
+\end_layout
+
+\begin_layout Subsection
+Intégration à la bibliothèque
+\end_layout
+
+\begin_layout Subsubsection
+Adaptations
+\end_layout
+
+\begin_layout Standard
+Le parseur étant initialement prévu pour de la simulation, son comportement
+ n'était pas adapté pour notre besoin de représenter le code d'un programme
+ :
+\end_layout
+
+\begin_layout Itemize
+Les règles initiales transformaient les données au plus tôt pour les mettre
+ dans des structures de données dédiées à la simulation, souvent sous forme
+ binaire.
+ Nous avons cherché à faire remonter les données jusqu'aux règles appelants
+ les constructeurs.
+ Pour préserver les données comme du texte autant que possible, nous avons
+ placé les chaines de caractères (par exemple les labels) dans un tableau
+ associatif dynamique puis fait remonter un identifiant numérique, la valeur
+ étant ensuite récupérée par le constructeur via cette clé.
+\end_layout
+
+\begin_layout Itemize
+Les expressions étant évaluées, il aurait été long de chercher à les conserver
+ sous forme de chaîne de caractères, nous les avons donc conservées sous
+ leur forme numérique, perdant en lisibilité sur le code final.
+\end_layout
+
+\begin_layout Itemize
+L'analyseur lexical gérait plusieurs versions du jeu MIPS.
+ Nous avons décidé de tout accepter dans notre parseur afin de simplifier
+ le test des règles et de reconnaître le plus de codes possibles.
+\end_layout
+
+\begin_layout Itemize
+Afin d'éviter d'avoir à gérer les pseudos-instructions qui auraient complexifié
+ la bibliothèque, par exemple pour le cacul de dépendance, nous avons choisi
+ d'étendre les macros dans le parseur.
+\end_layout
+
+\begin_layout Standard
+Comme tous les constructeurs de Lignes sont utilisés dans les actions du
+ parseur nous avons ainsi bénéficié d'un premier retour critique sur leurs
+ signatures.
+ Dans certains cas nous avons modifié nos constructeurs pour gagner en simplicit
+é et en sûreté d'utilisation.
+ Par exemple au départ nous n'avions qu'un seul constructeur pour la classe
+ Instruction et l'on passait plusieurs paramètres comme le type d'instruction
+ ou le nombre d'operandes.
+ Afin de gagner en sûreté et en lisibilité nous avons préféré utiliser plusieurs
+ constructeurs pour chaque nombre d'opérandes et déduire les autres informations
+ à partir de l'opérateur ou des opérandes.
+\end_layout
+
+\begin_layout Subsubsection
+Tests
+\end_layout
+
+\begin_layout Standard
+En parallèle de l'écriture d'une action pour le parseur, nous avons complété
+ un fichier 
+\emph on
+complete.s
+\emph default
+ permettant de tester tous les cas couverts par la règle.
+ Ceci nous a permis de vérifier exhaustivement qu'entre l'acquisition du
+ programme par le parseur, sa représentation dans les classes de base et
+ sa restitution vers un fichier assembleur il n'y avait aucune erreur ou
+ altération parasite.
+\end_layout
+
+\begin_layout Standard
+Une fois ceci validé nous avons testé le parseur avec le fichier assembleur
+ primes.s produit pour le premier test de la recette.
+ Nous avons relevé de nombreuses erreurs venant d'une mauvaise utilisation
+ des instructions par 
+\emph on
+gcc
+\emph default
+, par exemple, un opérateur au format R utilisé au format I (slt rd, rs,
+ imm).
+ Dans un premier temps nous avons cherché comment désactiver ce comportement
+ mais la chaîne 
+\emph on
+gcc
+\emph default
+ dispose de peu d'options pour modifier l'assembleur produit par son compilateur.
+ Afin de pouvoir lancer les tests, nous avons donc ajouté de nouvelles règles
+ reconnaissant ces formats invalides et mais construisant l'instruction
+ valide correspondante (slti à la place de slt pour notre exemple).
+\end_layout
+
+\begin_layout Standard
+Nous avons également eu besoin de nouveau tokens dans le fichier 
+\emph on
+lex
+\emph default
+ pour gérer de manièer plus générique les directives, les labels ou des
+ syntaxe de gcc pour les expressions comme le %hi(imm).
+ En créant de nouveaux tokens nous avons pu les récupérer comme du texte
+ sans toucher aux tokens déjà existants pour éviter les effets de bord.
+\end_layout
+
+\begin_layout Subsubsection
+Fonctionnement final
+\end_layout
+
+\begin_layout Standard
+Le parseur est utilisé par un des constructeurs de la classe Program qui
+ lui permet de s'initialiser à partir d'un fichier.
+\end_layout
+
+\begin_layout Part
+Recette 
+\end_layout
+
+\begin_layout Section
+Planning
+\end_layout
+
+\begin_layout Standard
+Nos tâches sont assez dépendantes entre elles, nous nous sommes donc répartis
+ le travail pour le démarrage du projet.
+ Ensuite, les tâches ont été attribué en fonction de l'avancement de chacun.
+ Voici le schéma représentant la répartion des tâches.
+\end_layout
+
+\begin_layout Standard
+\begin_inset Float figure
+wide false
+sideways false
+status open
+
+\begin_layout Plain Layout
+\begin_inset Graphics
+	filename images/repartition.png
+	width 70text%
+
+\end_inset
+
+
+\begin_inset Caption
+
+\begin_layout Plain Layout
+Planning final
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+Par rapport à la répartition initiale nous avions mal évalué la charge de
+ travail de la partie parsing qui s'est averré bien plus importantes que
+ prévue alors que nous pensions la terminer en quelques semaines.
+ Suivant notre principe d'attribuer le travail à faire suivant ce qui est
+ déjà fini Emel s'est retrouvé à réaliser toutes les fonctionalités de la
+ bibliothèque de base tandis que Victor a essentiellement travaillé sur
+ le parsing, modifiant les classes de bases pour le besoin du parseur.
+ Nous avons toutefois travaillé en équipe, en particulier pour la détection
+ de bugs et d'évolutions de fonctionalités.
+\end_layout
+
+\begin_layout Section
+Documents fournis
+\end_layout
+
+\begin_layout Standard
+A la fin de notre projet, nous avons produit les documents suivants.
+\end_layout
+
+\begin_layout Itemize
+Le diagramme de classes UML du projet.
+\end_layout
+
+\begin_layout Itemize
+Le code de la bibliothèque de base.
+\end_layout
+
+\begin_layout Itemize
+La documentation de la bibliothèque générée par 
+\emph on
+Doxygen
+\emph default
+.
+\end_layout
+
+\begin_layout Section
+Procédure de recette
+\end_layout
+
+\begin_layout Standard
+La librairie produite a été validée par deux procédures de recette.
+ Tout d'abord une recette continue composée  de nos revues de code et de
+ la validation des étapes par notre encadrante.
+\end_layout
+
+\begin_layout Standard
+La seconde partie de la recette est basée sur des scénarios testant chacun
+ un ensemble de fonctionnalités.
+\end_layout
+
+\begin_layout Subsection
+Acquisition d'un programme avec le parseur et restitution
+\end_layout
+
+\begin_layout Subsubsection
+Méthode de test
+\end_layout
+
+\begin_layout Standard
+Le but de ce test est de mesurer les changements produits par notre outils
+ sur un programme entre son acquisition par le parseur et sa restitution.
+ La comparaison des deux codes sources assembleurs en entrée et en sortie
+ n'est pas un test pertinent à cause des changements de noms des registres
+ et des changements de mise en page.
+ La solution retenue consiste donc à comparer les codes objets produits
+ par la compilation de ces deux codes sources.
+\end_layout
+
+\begin_layout Standard
+Pour cette comparaison nous avons écrit un outil dédié :
+\end_layout
+
+\begin_layout Itemize
+Dans un premier temps on utilise 
+\emph on
+od
+\emph default
+ pour convertir le fichier binaire en un fichier texte code ou chaque ligne
+ représente un mot de 32 bits sous sa forme héxadécimale.
+ L'adresse n'est pas conservée afin de ne comparer que le code produit.
+\end_layout
+
+\begin_layout Itemize
+Ensuite nous faisons appel à 
+\emph on
+objdump
+\emph default
+ pour mips afin de construire un dictionnaire contenant la correspondance
+ entre un code objet et sa traduction assembleur.
+\end_layout
+
+\begin_layout Itemize
+
+\emph on
+diff
+\emph default
+ est enfin appelé sur les deux fichiers de code.
+ Afin de rendre les différences visibles par l'humain, on récupère la traduction
+ de chaque mot pour voir la différence sous forme assembleur.
+\end_layout
+
+\begin_layout Standard
+Voici les 3 programmes que nous avons choisi pour notre échantillon :
+\end_layout
+
+\begin_layout Itemize
+
+\emph on
+test1a.c
+\emph default
+ : Un programme de quelques lignes sans appels de fonctions pour échantillon,
+\end_layout
+
+\begin_layout Itemize
+
+\emph on
+test1b.c
+\emph default
+ : Ce programme comporte une boucle et qui compte les nombres premiers via
+ un appel de fonction,
+\end_layout
+
+\begin_layout Itemize
+
+\emph on
+primes.c
+\emph default
+ : Ce programme affiche les nombres premiers dans un intervalle et utilise
+ des appels à la bibliothèque standard.
+\end_layout
+
+\begin_layout Standard
+Ces programmes sont compilés avec 
+\emph on
+mipsel-linux-gnu-gcc
+\emph default
+ version 4.5.2 pour le 
+\emph on
+MIPS R3000
+\emph default
+.
+\end_layout
+
+\begin_layout Subsubsection
+Résultats
+\end_layout
+
+\begin_layout Standard
+Le lancement des test s'effectue via la commande make test1.
+ Cette règle construit les fichiers assembleurs puis appelle le script diffobj.sh
+ pour effectuer la comparaison.
+ Le premier succès est que les codes restitués se compilent sans problèmes
+ majeurs.
+ La comparaison des codes objets montre par contre des différences dont
+ voici les causes :
+\end_layout
+
+\begin_layout Itemize
+Nous avons choisi d'étendre les macros dans le parseur, mais gcc ne choisi
+ pas forcément les mêmes instructions.
+ Par exemple pour le li gcc optimise dans le cas d'un immédiat de 16 bits
+ en n'utilisant qu'une seule instruction ce que nous n'avons pas fait dans
+ le parseur.
+\end_layout
+
+\begin_layout Itemize
+Ce nombre différent d'instructions implique un décallage des adresses pour
+ les sauts.
+\end_layout
+
+\begin_layout Standard
+D'après nos tests nous pouvons donc dire que si nous n'avons pas une égalité
+ des fichiers binaires produits ceux-ci sont par contre équivalents.
+\end_layout
+
+\begin_layout Section
+Manipulation d'un programme 
+\end_layout
+
+\begin_layout Standard
+A partir de ces trois même programmes d'exemple, nous avons executé les
+ opérations suivantes dans 
+\emph on
+test1.cpp
+\emph default
+: 
+\end_layout
+
+\begin_layout Itemize
+Affichage du programme et du nombre de lignes que contient celui-ci.
+ 
+\end_layout
+
+\begin_layout Itemize
+Calcul du découpage en blocs de base et en fonctions.
+\end_layout
+
+\begin_layout Itemize
+Écriture des séquences de lignes de ces blocs de base et fonctions dans
+ les fichiers 
+\emph on
+test1.txt
+\emph default
+ et 
+\emph on
+test2.txt
+\emph default
+.
+\end_layout
+
+\begin_layout Section
+ Manipulation d'instructions
+\end_layout
+
+\begin_layout Standard
+Nous démontrons les possibilités de manipulation, insertion et suppression
+ de lignes en transformant la séquence d'instructions suivante qui est implément
+é dans le fichier 
+\emph on
+test2.cpp
+\emph default
+ :
+\end_layout
+
+\begin_layout Standard
+\begin_inset listings
+inline false
+status open
+
+\begin_layout Plain Layout
+
+# Code avec des Nor # ligne 1
+\end_layout
+
+\begin_layout Plain Layout
+
+add $5, $0, $0 # ligne 2
+\end_layout
+
+\begin_layout Plain Layout
+
+or $6, $5, $0 # ligne 3
+\end_layout
+
+\begin_layout Plain Layout
+
+nor $4, $5, $6 # ligne 4
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+Pour obtenir le programme suivant :
+\end_layout
+
+\begin_layout Standard
+\begin_inset listings
+inline false
+status open
+
+\begin_layout Plain Layout
+
+# Equivalence en plusieurs instructions # ligne a
+\end_layout
+
+\begin_layout Plain Layout
+
+# ligne b
+\end_layout
+
+\begin_layout Plain Layout
+
+lui $4, 0xFFFF # ligne c
+\end_layout
+
+\begin_layout Plain Layout
+
+ori $4, $4, 0XFFFF # ligne d
+\end_layout
+
+\begin_layout Plain Layout
+
+xor $5, $4, $0 # ligne e
+\end_layout
+
+\begin_layout Plain Layout
+
+xor $6, $4, $0 # ligne f
+\end_layout
+
+\begin_layout Plain Layout
+
+and $4, $5, $6 # ligne g
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+En particulier :
+\end_layout
+
+\begin_layout Itemize
+le contenu du commentaire de la ligne 1 est supprimé automatiquement par
+ le parseur,
+\end_layout
+
+\begin_layout Itemize
+la ligne 2 est supprimée,
+\end_layout
+
+\begin_layout Itemize
+les opérandes et l'opérateur de la ligne 3 sont modifés pour obtenir la
+ ligne c,
+\end_layout
+
+\begin_layout Itemize
+l'opérateur de la ligne 4 est modifié pour obtenir la ligne g,
+\end_layout
+
+\begin_layout Itemize
+les autres lignes sont ensuite insérées dans le programme.
+\end_layout
+
+\begin_layout Subsection
+Calcul de dépendance entre instructions
+\end_layout
+
+\begin_layout Standard
+Ce test est réalisé par le fichier 
+\emph on
+test_04.cpp
+\emph default
+.
+ Le programme initialise un programme à partir du fichier 
+\emph on
+test4.s
+\emph default
+, puis affiche l'ensemble des dépendances entres les instructions.
+ Une vérification manuelle nous confirme que les calculs sont corrects.
+\end_layout
+
+\begin_layout Standard
+\begin_inset listings
+inline false
+status open
+
+\begin_layout Plain Layout
+
+        : 0   1   2   3   4   5    
+\end_layout
+
+\begin_layout Plain Layout
+
+Ligne 0 : -----WAW-RAW-RAW-WAWnone
+\end_layout
+
+\begin_layout Plain Layout
+
+Ligne 1 : -WAW-----RAW-RAW-WAWnone
+\end_layout
+
+\begin_layout Plain Layout
+
+Ligne 2 : -WAR-WAR----none-WARnone
+\end_layout
+
+\begin_layout Plain Layout
+
+Ligne 3 : -WAR-WARnone-----WARnone
+\end_layout
+
+\begin_layout Plain Layout
+
+Ligne 4 : -WAW-WAW-RAW-RAW----none
+\end_layout
+
+\begin_layout Plain Layout
+
+Ligne 5 : nonenonenonenonenone----
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+Nous échangeons ensuite la première et la dernière instruction puis nous
+ affichons de nouveau l'ensemble des dépendances.
+ La vérification manuelle ne permet pas de relever d'incohérences.
+\end_layout
+
+\begin_layout Standard
+\begin_inset listings
+inline false
+status open
+
+\begin_layout Plain Layout
+
+        : 0   1   2   3   4   5
+\end_layout
+
+\begin_layout Plain Layout
+
+Ligne 0 : ----nonenonenonenonenone
+\end_layout
+
+\begin_layout Plain Layout
+
+Ligne 1 : none-----RAW-RAW-WAW-WAW
+\end_layout
+
+\begin_layout Plain Layout
+
+Ligne 2 : none-WAR----none-WAR-WAR
+\end_layout
+
+\begin_layout Plain Layout
+
+Ligne 3 : none-WARnone-----WAR-WAR
+\end_layout
+
+\begin_layout Plain Layout
+
+Ligne 4 : none-WAW-RAW-RAW-----WAW
+\end_layout
+
+\begin_layout Plain Layout
+
+Ligne 5 : none-WAW-RAW-RAW-WAW----
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+Le programme est restitué dans 
+\emph on
+tmp/test4.s
+\emph default
+, les deux instructions sont bien échangées.
+\end_layout
+
+\begin_layout Section
+Conformité à la spécification
+\end_layout
+
+\begin_layout Standard
+Malheureusement, lors de la réalisation de la bibliothèque certains problèmes
+ ont ralenti l'implémentation et ont provoqué des changements par rapport
+ aux sépcifications fournis.
+\end_layout
+
+\begin_layout Itemize
+Fonctionnalité d'indexation: l'indexation sur les labels n'a pas été fait.
+ Mais, cela dis, nous pouvons récupérer les labels grace au blocs de bases
+ en testant si le bloc commence par un label ou pas.
+\end_layout
+
+\begin_layout Itemize
+Du fait du temps passé sur le parseur nous n'avons pas pu écrire des tests
+ unitaires prévus pour les classes de base, qui furent remplacés par des
+ tests fonctionnels et une vérification humaine moins chronophage.
+\end_layout
+
+\begin_layout Section
+Extensions possibles
+\end_layout
+
+\begin_layout Standard
+Si notre bibliothèque est parfaitement utilisable en l'état, nous avons
+ trouvé des axes d'améliorations possibles pour des développements ultérieurs
+ :
+\end_layout
+
+\begin_layout Itemize
+Gérer les opérateurs d'instruction avec une classe ce qui permettrait de
+ gagner en facilité d'utilisation et d'extension par les utilisateurs.
+\end_layout
+
+\begin_layout Itemize
+Être capable de gérer différentes architectures MIPS avec un parseur paramétrabl
+e et un moyen de décrire une architecture pour le reste de la bibliothèque.
+\end_layout
+
+\begin_layout Itemize
+Supprimer les bibliothèques asm et utl qui rendaient des services utiles
+ au parseur d'origine écrit en C mais perdent en intérêt pour notre bibliothèque
+ qui peut les obtenir plus facilement par la bibliothèque standard C++ ou
+ s'en passer.
+ Plus globalement, reprendre le parseur pour lui faire manipuler uniquement
+ du texte afin de rendre la restitution de programme plus fidèle à l'original.
+\end_layout
+
+\begin_layout Part
+Conclusion 
+\end_layout
+
+\begin_layout Standard
+L'objectif de notre bibliothèque est rempli : un utilisateur récupérer notre
+ bibliothèque sur la page du projet 
+\emph on
+https://github.com/VLambret/libASM
+\emph default
+ et en installant uniquement des logiciels libres standards la compiler
+ et l'utiliser pour son usage.
+ La conception objet permet d'adapter ou d'étendre facilement les services
+ rendus par notre bibliothèque et de l'utiliser facilement pour concevoir
+ un nouvel outil s'appuyant sur nos Classes.
+\end_layout
+
+\begin_layout Standard
+Ce projet fut l'occasion de travailler en équipe sur un projet de développement
+ concret tout en approfondissant nos connaissances sur le MIPS et le fonctionnem
+ent des outils de compilations comme sur l'usage d'outils collaboratifs.
+\end_layout
+
+\end_body
+\end_document
