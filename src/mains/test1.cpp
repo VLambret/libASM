@@ -14,12 +14,12 @@ fonctions dans des fichiers differents.
 
 */
 
-int main(){
+int main(int argc, char * argv[]){
 
 	remove("tmp/test1.txt");
 	remove("tmp/test2.txt");
 
-	Program prog("src/examples/primes.s");
+	Program prog(argv[1]);
 	Function functmp;
 	Basic_block BBtmp;
 	list <Function> myfunc; 

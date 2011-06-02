@@ -29,27 +29,12 @@ int main(){
 	Op5= &registr3;
 	Op6= &registr4;
 
-/*
-	Instruction ins("add $5,$0,$0",add,R, ALU,Op2,Op4,Op4,3);
-	Instruction ins1("or $6,$5,$0",or_,R, ALU,Op3,Op1,Op4,3);
-	Instruction ins2("nor $4,$5,$6",nor,R, ALU,Op6,Op1,Op5,3);
 
-	string tlin[]={"line_Instru","line_Lab","line_Direct"};
-	lg1= &dir;
-	lg2= &ins;
-	lg3= &ins1;
-	lg4= &ins2;
-
-	cout<<"TEST PROG"<<endl;
-	prog.addLine(lg1);
-	prog.addLine(lg2);
-	prog.addLine(lg3);
-	prog.addLine(lg4);*/
 
 	Line *ligne;
 	prog.display();
 	
-	//dir.setContent("#Equivalence en plusieurs instructions");
+	
 	prog.delLine(0);
 	ligne = prog.findLine(0);
 

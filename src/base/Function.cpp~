@@ -139,7 +139,7 @@ void Function::comput_basic_block(){
 				BB.set_end(element);
 				break;
 			}*/
-			else if(element->getnext()==_end){
+			if(element->getnext()==_end){
 				BB.set_end(element);
 				cout<<"fin4"<<element->getLine()->getContent() <<endl;
 				myBB.push_back(BB);

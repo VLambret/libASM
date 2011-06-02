@@ -57,9 +57,9 @@ int main(){
 
 		for (int j=0; j<functmp.nbr_BB();j++ ){
 			BBtmp= *it1;
-			//BBtmp.display();
+			BBtmp.display();
 			BBtmp.restitution("tmp/test2.txt");
-			//cout<<"J= "<<j<<endl;
+			cout<<"\n\n"<<endl;
 			it1++;
 		}
 		
