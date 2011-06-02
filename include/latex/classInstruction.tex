@@ -1,0 +1,229 @@
+\hypertarget{classInstruction}{
+\section{Instruction Class Reference}
+\label{classInstruction}\index{Instruction@{Instruction}}
+}
+
+
+class representing an instruction which herited by \hyperlink{classLine}{Line}  
+
+
+{\ttfamily \#include $<$Instruction.h$>$}Inheritance diagram for Instruction::\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[height=2cm]{classInstruction}
+\end{center}
+\end{figure}
+\subsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\hypertarget{classInstruction_ae0035f2c32d1a7219ef303014473072f}{
+\hyperlink{classInstruction_ae0035f2c32d1a7219ef303014473072f}{Instruction} (string, t\_\-Operator, t\_\-Format, t\_\-Inst, \hyperlink{classOperand}{Operand} $\ast$, \hyperlink{classOperand}{Operand} $\ast$, \hyperlink{classOperand}{Operand} $\ast$, int)}
+\label{classInstruction_ae0035f2c32d1a7219ef303014473072f}
+
+\begin{DoxyCompactList}\small\item\em Constructor of the class instruction. \item\end{DoxyCompactList}\item 
+\hypertarget{classInstruction_a2f1ed1606d4090b8a4c255e3af9e34c8}{
+\hyperlink{classInstruction_a2f1ed1606d4090b8a4c255e3af9e34c8}{Instruction} (t\_\-Operator, \hyperlink{classOperand}{Operand} $\ast$, \hyperlink{classOperand}{Operand} $\ast$, \hyperlink{classOperand}{Operand} $\ast$)}
+\label{classInstruction_a2f1ed1606d4090b8a4c255e3af9e34c8}
+
+\begin{DoxyCompactList}\small\item\em Constructor with 3 Operands of the class instruction. \item\end{DoxyCompactList}\item 
+\hypertarget{classInstruction_a0b1ed4432c9c5823ee9e522c7d11bb5f}{
+\hyperlink{classInstruction_a0b1ed4432c9c5823ee9e522c7d11bb5f}{Instruction} (t\_\-Operator, \hyperlink{classOperand}{Operand} $\ast$, \hyperlink{classOperand}{Operand} $\ast$)}
+\label{classInstruction_a0b1ed4432c9c5823ee9e522c7d11bb5f}
+
+\begin{DoxyCompactList}\small\item\em Constructor with 2 Operands of the class instruction. \item\end{DoxyCompactList}\item 
+\hypertarget{classInstruction_a6ae2a4dd83500f9d538a653823161b1c}{
+\hyperlink{classInstruction_a6ae2a4dd83500f9d538a653823161b1c}{Instruction} (t\_\-Operator, \hyperlink{classOperand}{Operand} $\ast$)}
+\label{classInstruction_a6ae2a4dd83500f9d538a653823161b1c}
+
+\begin{DoxyCompactList}\small\item\em Constructor with 1 \hyperlink{classOperand}{Operand} of the class instruction. \item\end{DoxyCompactList}\item 
+\hypertarget{classInstruction_ab2d989cc18e9bf0eeee194a7614514fa}{
+\hyperlink{classInstruction_ab2d989cc18e9bf0eeee194a7614514fa}{Instruction} (t\_\-Operator)}
+\label{classInstruction_ab2d989cc18e9bf0eeee194a7614514fa}
+
+\begin{DoxyCompactList}\small\item\em Constructor without Operands of the class instruction. \item\end{DoxyCompactList}\item 
+\hypertarget{classInstruction_a3f1031e811b710787678f8faf8cc9672}{
+virtual \hyperlink{classInstruction_a3f1031e811b710787678f8faf8cc9672}{$\sim$Instruction} ()}
+\label{classInstruction_a3f1031e811b710787678f8faf8cc9672}
+
+\begin{DoxyCompactList}\small\item\em Destructor of the class instruction. \item\end{DoxyCompactList}\item 
+\hypertarget{classInstruction_a04e2ccada02259b6308917df6cefd06d}{
+\hyperlink{classOperand}{Operand} $\ast$ \hyperlink{classInstruction_a04e2ccada02259b6308917df6cefd06d}{getOp1} ()}
+\label{classInstruction_a04e2ccada02259b6308917df6cefd06d}
+
+\begin{DoxyCompactList}\small\item\em Get the first operand value accessor of the operand. \item\end{DoxyCompactList}\item 
+\hypertarget{classInstruction_ad98f97337a6a2a1bfe344bd79fe54559}{
+void \hyperlink{classInstruction_ad98f97337a6a2a1bfe344bd79fe54559}{setOp1} (\hyperlink{classOperand}{Operand} $\ast$o)}
+\label{classInstruction_ad98f97337a6a2a1bfe344bd79fe54559}
+
+\begin{DoxyCompactList}\small\item\em set the first operand value setter of the operand \item\end{DoxyCompactList}\item 
+\hypertarget{classInstruction_a51c7c00f098ae7b0e824f77d091ea584}{
+\hyperlink{classOperand}{Operand} $\ast$ \hyperlink{classInstruction_a51c7c00f098ae7b0e824f77d091ea584}{getOp2} ()}
+\label{classInstruction_a51c7c00f098ae7b0e824f77d091ea584}
+
+\begin{DoxyCompactList}\small\item\em Get the second operand value accessor of the operand. \item\end{DoxyCompactList}\item 
+\hypertarget{classInstruction_a33a107262438a4f63730c82a1f30300e}{
+void \hyperlink{classInstruction_a33a107262438a4f63730c82a1f30300e}{setOp2} (\hyperlink{classOperand}{Operand} $\ast$o)}
+\label{classInstruction_a33a107262438a4f63730c82a1f30300e}
+
+\begin{DoxyCompactList}\small\item\em set the second operand value setter of the operand \item\end{DoxyCompactList}\item 
+\hypertarget{classInstruction_af871b07a0cc69f1c8bdcff9b7ee50ba3}{
+\hyperlink{classOperand}{Operand} $\ast$ \hyperlink{classInstruction_af871b07a0cc69f1c8bdcff9b7ee50ba3}{getOp3} ()}
+\label{classInstruction_af871b07a0cc69f1c8bdcff9b7ee50ba3}
+
+\begin{DoxyCompactList}\small\item\em Get the third operand value accessor of the operand. \item\end{DoxyCompactList}\item 
+\hypertarget{classInstruction_a29ee9d49576d6403fd81ce57967278ef}{
+void \hyperlink{classInstruction_a29ee9d49576d6403fd81ce57967278ef}{setOp3} (\hyperlink{classOperand}{Operand} $\ast$o)}
+\label{classInstruction_a29ee9d49576d6403fd81ce57967278ef}
+
+\begin{DoxyCompactList}\small\item\em set the third operand value setter of the operand \item\end{DoxyCompactList}\item 
+\hypertarget{classInstruction_a973185cd0d1e01d62115a8b1da956f9f}{
+t\_\-Operator \hyperlink{classInstruction_a973185cd0d1e01d62115a8b1da956f9f}{getOPcode} ()}
+\label{classInstruction_a973185cd0d1e01d62115a8b1da956f9f}
+
+\begin{DoxyCompactList}\small\item\em get the Opcode value accessor of the opcode \item\end{DoxyCompactList}\item 
+\hypertarget{classInstruction_af372e543adb180ce7c9433e3b0d3cd1f}{
+string \hyperlink{classInstruction_af372e543adb180ce7c9433e3b0d3cd1f}{stringOPcode} ()}
+\label{classInstruction_af372e543adb180ce7c9433e3b0d3cd1f}
+
+\begin{DoxyCompactList}\small\item\em get the string Opcode value accessor of the string opcode \item\end{DoxyCompactList}\item 
+\hypertarget{classInstruction_af679b991cc01ab560863e6f428703a49}{
+void \hyperlink{classInstruction_af679b991cc01ab560863e6f428703a49}{setOPcode} (t\_\-Operator newop)}
+\label{classInstruction_af679b991cc01ab560863e6f428703a49}
+
+\begin{DoxyCompactList}\small\item\em set the opcode value setter of the opcode \item\end{DoxyCompactList}\item 
+\hypertarget{classInstruction_a001e765d27e7d59bbca718284ab0a2e3}{
+t\_\-Format \hyperlink{classInstruction_a001e765d27e7d59bbca718284ab0a2e3}{getFormat} ()}
+\label{classInstruction_a001e765d27e7d59bbca718284ab0a2e3}
+
+\begin{DoxyCompactList}\small\item\em get the format of the \hyperlink{classInstruction}{Instruction} accessor of the format \item\end{DoxyCompactList}\item 
+\hypertarget{classInstruction_aeef5ced47cdd5477ba0809bf372b8a72}{
+virtual t\_\-Inst \hyperlink{classInstruction_aeef5ced47cdd5477ba0809bf372b8a72}{getType} ()}
+\label{classInstruction_aeef5ced47cdd5477ba0809bf372b8a72}
+
+\begin{DoxyCompactList}\small\item\em get the Type of the \hyperlink{classInstruction}{Instruction} accessor of the Type \item\end{DoxyCompactList}\item 
+\hypertarget{classInstruction_ad14cb84b8fa70f3e47271d72f7c640a4}{
+virtual t\_\-Line \hyperlink{classInstruction_ad14cb84b8fa70f3e47271d72f7c640a4}{typeLine} ()}
+\label{classInstruction_ad14cb84b8fa70f3e47271d72f7c640a4}
+
+\begin{DoxyCompactList}\small\item\em get the type of the line \item\end{DoxyCompactList}\item 
+\hypertarget{classInstruction_ad892da43543a6b385962a4992fbc76b5}{
+virtual string \hyperlink{classInstruction_ad892da43543a6b385962a4992fbc76b5}{toString} ()}
+\label{classInstruction_ad892da43543a6b385962a4992fbc76b5}
+
+\begin{DoxyCompactList}\small\item\em get the name string instruction \item\end{DoxyCompactList}\item 
+\hypertarget{classInstruction_a24f58a3b18a0c9d66d90ed367a3af748}{
+virtual string \hyperlink{classInstruction_a24f58a3b18a0c9d66d90ed367a3af748}{getContent} ()}
+\label{classInstruction_a24f58a3b18a0c9d66d90ed367a3af748}
+
+\begin{DoxyCompactList}\small\item\em get the string of the instruction \item\end{DoxyCompactList}\item 
+\hypertarget{classInstruction_adb8a823e8a4b3ffa6a7645ec2fefe07c}{
+virtual void \hyperlink{classInstruction_adb8a823e8a4b3ffa6a7645ec2fefe07c}{setContent} (string)}
+\label{classInstruction_adb8a823e8a4b3ffa6a7645ec2fefe07c}
+
+\begin{DoxyCompactList}\small\item\em set the string of the instruction \item\end{DoxyCompactList}\item 
+\hypertarget{classInstruction_aed69e1f72d4ad277672b6b2ff0c2be10}{
+string \hyperlink{classInstruction_aed69e1f72d4ad277672b6b2ff0c2be10}{stringForm} ()}
+\label{classInstruction_aed69e1f72d4ad277672b6b2ff0c2be10}
+
+\begin{DoxyCompactList}\small\item\em set the string format \item\end{DoxyCompactList}\item 
+\hypertarget{classInstruction_a030d0966d0bfd352f21a6ddaa1ab95bc}{
+string \hyperlink{classInstruction_a030d0966d0bfd352f21a6ddaa1ab95bc}{stringType} ()}
+\label{classInstruction_a030d0966d0bfd352f21a6ddaa1ab95bc}
+
+\begin{DoxyCompactList}\small\item\em set the string Type of instruction \item\end{DoxyCompactList}\item 
+t\_\-Dep \hyperlink{classInstruction_a7e93717c1e9df6fed09105accb6c728c}{is\_\-dependant} (\hyperlink{classInstruction}{Instruction} i2)
+\begin{DoxyCompactList}\small\item\em get the dependance between the current instruction and i2 \item\end{DoxyCompactList}\item 
+bool \hyperlink{classInstruction_a757d13233614f3b81f340275e0ac03fc}{is\_\-dep\_\-RAW} (\hyperlink{classInstruction}{Instruction} i2)
+\begin{DoxyCompactList}\small\item\em get the information if there is dependance RAW between the current instruction and i2 \item\end{DoxyCompactList}\item 
+bool \hyperlink{classInstruction_a22c2bbac305649d7f0ec17a04ef217fc}{is\_\-dep\_\-WAR} (\hyperlink{classInstruction}{Instruction} i2)
+\begin{DoxyCompactList}\small\item\em get the information if there is dependance WAR between the current instruction and i2 \item\end{DoxyCompactList}\item 
+bool \hyperlink{classInstruction_a6fd4dd46f540f0674486d559c1fbcd57}{is\_\-dep\_\-WAW} (\hyperlink{classInstruction}{Instruction} i2)
+\begin{DoxyCompactList}\small\item\em get the information if there is dependance WAW between the current instruction and i2 \item\end{DoxyCompactList}\item 
+int \hyperlink{classInstruction_a3278668f293095ccb1565f36894a117e}{getNumberOper} ()
+\begin{DoxyCompactList}\small\item\em get the number of operand \item\end{DoxyCompactList}\item 
+\hypertarget{classInstruction_a748889b83c25f1e791fbbc44d2414f99}{
+void \hyperlink{classInstruction_a748889b83c25f1e791fbbc44d2414f99}{setNumberOper} (int)}
+\label{classInstruction_a748889b83c25f1e791fbbc44d2414f99}
+
+\begin{DoxyCompactList}\small\item\em set the number of operand \item\end{DoxyCompactList}\item 
+\hypertarget{classInstruction_ac7d969cbfe439058d54a78f924e46b8e}{
+virtual bool \hyperlink{classInstruction_ac7d969cbfe439058d54a78f924e46b8e}{isFunction} ()}
+\label{classInstruction_ac7d969cbfe439058d54a78f924e46b8e}
+
+\begin{DoxyCompactList}\small\item\em return true if the directive indicate a function \item\end{DoxyCompactList}\item 
+\hypertarget{classInstruction_ab479411998d84d1fab040fe9d09e3ea3}{
+\hyperlink{classOperand}{Operand} $\ast$ \hyperlink{classInstruction_ab479411998d84d1fab040fe9d09e3ea3}{getRegDst} ()}
+\label{classInstruction_ab479411998d84d1fab040fe9d09e3ea3}
+
+\begin{DoxyCompactList}\small\item\em get the regiter destination of the instruction \item\end{DoxyCompactList}\item 
+\hypertarget{classInstruction_a71763d6a2b2a1d64b3115ca78bce736b}{
+\hyperlink{classOperand}{Operand} $\ast$ \hyperlink{classInstruction_a71763d6a2b2a1d64b3115ca78bce736b}{getRegSrc1} ()}
+\label{classInstruction_a71763d6a2b2a1d64b3115ca78bce736b}
+
+\begin{DoxyCompactList}\small\item\em get the first register source of the instruction \item\end{DoxyCompactList}\item 
+\hypertarget{classInstruction_ae896b626e81e6213db9c23147b50d960}{
+\hyperlink{classOperand}{Operand} $\ast$ \hyperlink{classInstruction_ae896b626e81e6213db9c23147b50d960}{getRegSrc2} ()}
+\label{classInstruction_ae896b626e81e6213db9c23147b50d960}
+
+\begin{DoxyCompactList}\small\item\em get the second register source of the instruction \item\end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\subsection{Detailed Description}
+class representing an instruction which herited by \hyperlink{classLine}{Line} 
+
+\subsection{Member Function Documentation}
+\hypertarget{classInstruction_a3278668f293095ccb1565f36894a117e}{
+\index{Instruction@{Instruction}!getNumberOper@{getNumberOper}}
+\index{getNumberOper@{getNumberOper}!Instruction@{Instruction}}
+\subsubsection[{getNumberOper}]{\setlength{\rightskip}{0pt plus 5cm}int Instruction::getNumberOper ()}}
+\label{classInstruction_a3278668f293095ccb1565f36894a117e}
+
+
+get the number of operand \begin{DoxyReturn}{Returns}
+return the number of operand 
+\end{DoxyReturn}
+\hypertarget{classInstruction_a757d13233614f3b81f340275e0ac03fc}{
+\index{Instruction@{Instruction}!is\_\-dep\_\-RAW@{is\_\-dep\_\-RAW}}
+\index{is\_\-dep\_\-RAW@{is\_\-dep\_\-RAW}!Instruction@{Instruction}}
+\subsubsection[{is\_\-dep\_\-RAW}]{\setlength{\rightskip}{0pt plus 5cm}bool Instruction::is\_\-dep\_\-RAW ({\bf Instruction} {\em i2})}}
+\label{classInstruction_a757d13233614f3b81f340275e0ac03fc}
+
+
+get the information if there is dependance RAW between the current instruction and i2 \begin{DoxyReturn}{Returns}
+return true if there is a RAW dependance 
+\end{DoxyReturn}
+\hypertarget{classInstruction_a22c2bbac305649d7f0ec17a04ef217fc}{
+\index{Instruction@{Instruction}!is\_\-dep\_\-WAR@{is\_\-dep\_\-WAR}}
+\index{is\_\-dep\_\-WAR@{is\_\-dep\_\-WAR}!Instruction@{Instruction}}
+\subsubsection[{is\_\-dep\_\-WAR}]{\setlength{\rightskip}{0pt plus 5cm}bool Instruction::is\_\-dep\_\-WAR ({\bf Instruction} {\em i2})}}
+\label{classInstruction_a22c2bbac305649d7f0ec17a04ef217fc}
+
+
+get the information if there is dependance WAR between the current instruction and i2 \begin{DoxyReturn}{Returns}
+return true if there is a WAR dependance 
+\end{DoxyReturn}
+\hypertarget{classInstruction_a6fd4dd46f540f0674486d559c1fbcd57}{
+\index{Instruction@{Instruction}!is\_\-dep\_\-WAW@{is\_\-dep\_\-WAW}}
+\index{is\_\-dep\_\-WAW@{is\_\-dep\_\-WAW}!Instruction@{Instruction}}
+\subsubsection[{is\_\-dep\_\-WAW}]{\setlength{\rightskip}{0pt plus 5cm}bool Instruction::is\_\-dep\_\-WAW ({\bf Instruction} {\em i2})}}
+\label{classInstruction_a6fd4dd46f540f0674486d559c1fbcd57}
+
+
+get the information if there is dependance WAW between the current instruction and i2 \begin{DoxyReturn}{Returns}
+return true if there is a WAW dependance 
+\end{DoxyReturn}
+\hypertarget{classInstruction_a7e93717c1e9df6fed09105accb6c728c}{
+\index{Instruction@{Instruction}!is\_\-dependant@{is\_\-dependant}}
+\index{is\_\-dependant@{is\_\-dependant}!Instruction@{Instruction}}
+\subsubsection[{is\_\-dependant}]{\setlength{\rightskip}{0pt plus 5cm}t\_\-Dep Instruction::is\_\-dependant ({\bf Instruction} {\em i2})}}
+\label{classInstruction_a7e93717c1e9df6fed09105accb6c728c}
+
+
+get the dependance between the current instruction and i2 \begin{DoxyReturn}{Returns}
+return \char`\"{}RAW\char`\"{}, \char`\"{}WAR\char`\"{}, \char`\"{}WAW\char`\"{} or \char`\"{}not dependant\char`\"{} in format enum 
+\end{DoxyReturn}
+
+
+The documentation for this class was generated from the following file:\begin{DoxyCompactItemize}
+\item 
+\hyperlink{Instruction_8h}{Instruction.h}\end{DoxyCompactItemize}

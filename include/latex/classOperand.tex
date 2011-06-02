@@ -1,0 +1,85 @@
+\hypertarget{classOperand}{
+\section{Operand Class Reference}
+\label{classOperand}\index{Operand@{Operand}}
+}
+
+
+Abstract class representing an operand.  
+
+
+{\ttfamily \#include $<$Operand.h$>$}Inheritance diagram for Operand::\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[height=2cm]{classOperand}
+\end{center}
+\end{figure}
+\subsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\hypertarget{classOperand_aa6ef1ffa183381edb413f9b93782a67b}{
+virtual \hyperlink{classOperand_aa6ef1ffa183381edb413f9b93782a67b}{$\sim$Operand} ()}
+\label{classOperand_aa6ef1ffa183381edb413f9b93782a67b}
+
+\begin{DoxyCompactList}\small\item\em Virtual destructor. \item\end{DoxyCompactList}\item 
+\hypertarget{classOperand_a8cf27955648cbf07144abf4e5a77c266}{
+virtual string \hyperlink{classOperand_a8cf27955648cbf07144abf4e5a77c266}{getOp} ()=0}
+\label{classOperand_a8cf27955648cbf07144abf4e5a77c266}
+
+\begin{DoxyCompactList}\small\item\em Get the operand value virtual accessor of the operand. \item\end{DoxyCompactList}\item 
+\hypertarget{classOperand_a9c31a741d9c16506a9e6c9217e205bd0}{
+virtual void \hyperlink{classOperand_a9c31a741d9c16506a9e6c9217e205bd0}{setOp} (string)=0}
+\label{classOperand_a9c31a741d9c16506a9e6c9217e205bd0}
+
+\begin{DoxyCompactList}\small\item\em set the operand value virtual setter of the operand \item\end{DoxyCompactList}\item 
+virtual t\_\-OpType \hyperlink{classOperand_af4bd7dab87bfd7f3c17ea84f07b02b69}{getOptype} ()=0
+\begin{DoxyCompactList}\small\item\em get the operator type virtual accessor of accessor \item\end{DoxyCompactList}\item 
+virtual string \hyperlink{classOperand_aaa9879d6c4fb8334c1b4d97dad614cef}{toString} ()=0
+\begin{DoxyCompactList}\small\item\em virtual tostring \item\end{DoxyCompactList}\item 
+\hypertarget{classOperand_af9f77597fd0bfb387989fae7acf71957}{
+virtual t\_\-Src\_\-Dst \hyperlink{classOperand_af9f77597fd0bfb387989fae7acf71957}{getType} ()=0}
+\label{classOperand_af9f77597fd0bfb387989fae7acf71957}
+
+\begin{DoxyCompactList}\small\item\em get the type of the register getter of the register type \item\end{DoxyCompactList}\end{DoxyCompactItemize}
+\subsection*{Protected Attributes}
+\begin{DoxyCompactItemize}
+\item 
+\hypertarget{classOperand_af70a183445064a0106d41dfeea681790}{
+string {\bfseries \_\-oper}}
+\label{classOperand_af70a183445064a0106d41dfeea681790}
+
+\end{DoxyCompactItemize}
+
+
+\subsection{Detailed Description}
+Abstract class representing an operand. 
+
+\subsection{Member Function Documentation}
+\hypertarget{classOperand_af4bd7dab87bfd7f3c17ea84f07b02b69}{
+\index{Operand@{Operand}!getOptype@{getOptype}}
+\index{getOptype@{getOptype}!Operand@{Operand}}
+\subsubsection[{getOptype}]{\setlength{\rightskip}{0pt plus 5cm}virtual t\_\-OpType Operand::getOptype ()\hspace{0.3cm}{\ttfamily  \mbox{[}pure virtual\mbox{]}}}}
+\label{classOperand_af4bd7dab87bfd7f3c17ea84f07b02b69}
+
+
+get the operator type virtual accessor of accessor \begin{DoxyReturn}{Returns}
+return the \hyperlink{classOperand}{Operand} type as enum 
+\end{DoxyReturn}
+
+
+Implemented in \hyperlink{classOPExpression_a26efe8d14f0d37157c885ff16988be30}{OPExpression}, \hyperlink{classOPImmediate_af637aedc23b19948b3b2a3de80b730e7}{OPImmediate}, \hyperlink{classOPLabel_a840489088fc49c57b02264089ec4c55b}{OPLabel}, and \hyperlink{classOPRegister_a06690941f531390e7d71526244c0812b}{OPRegister}.\hypertarget{classOperand_aaa9879d6c4fb8334c1b4d97dad614cef}{
+\index{Operand@{Operand}!toString@{toString}}
+\index{toString@{toString}!Operand@{Operand}}
+\subsubsection[{toString}]{\setlength{\rightskip}{0pt plus 5cm}virtual string Operand::toString ()\hspace{0.3cm}{\ttfamily  \mbox{[}pure virtual\mbox{]}}}}
+\label{classOperand_aaa9879d6c4fb8334c1b4d97dad614cef}
+
+
+virtual tostring \begin{DoxyReturn}{Returns}
+return the Object as string 
+\end{DoxyReturn}
+
+
+Implemented in \hyperlink{classOPExpression_a6a29cfb44936766a61099835482ea6d1}{OPExpression}, \hyperlink{classOPImmediate_adbf4bcd0bd6be9d6cb0dcbc5e09ff900}{OPImmediate}, \hyperlink{classOPLabel_a94c9cdc5cf0b3af05a1f917c0d650056}{OPLabel}, and \hyperlink{classOPRegister_a233e4744403c78afc8e88e4c804a485f}{OPRegister}.
+
+The documentation for this class was generated from the following file:\begin{DoxyCompactItemize}
+\item 
+\hyperlink{Operand_8h}{Operand.h}\end{DoxyCompactItemize}
