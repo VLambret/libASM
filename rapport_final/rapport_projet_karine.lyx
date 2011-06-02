@@ -179,6 +179,7 @@ Enfin l'outil réalisé doit être capable de reproduire le code initial ou
 
 \begin_layout Standard
 \begin_inset Float figure
+placement H
 wide false
 sideways false
 status open
@@ -497,6 +498,7 @@ L'ordre de réalisation des tâches sera dicté par les dépendances que nous
 
 \begin_layout Standard
 \begin_inset Float figure
+placement H
 wide false
 sideways false
 status open
@@ -610,6 +612,48 @@ Calcul du découpage en blocs de base et en fonctions.
 
 \begin_layout Subsubsection
 Manipulation d'instructions
+\begin_inset Note Note
+status open
+
+\begin_layout Plain Layout
+Proposition : Code avec numérotation des lignes en début de ligne, visible
+ dans la visualisation PDF
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset listings
+lstparams "breaklines=true,numbers=left,numberstyle={\footnotesize}"
+inline false
+status open
+
+\begin_layout Plain Layout
+
+# Code avec des Nor
+\end_layout
+
+\begin_layout Plain Layout
+
+add	$5, $0, $0
+\end_layout
+
+\begin_layout Plain Layout
+
+or	$6, $5, $0
+\end_layout
+
+\begin_layout Plain Layout
+
+nor	$4, $5, $6
+\end_layout
+
+\end_inset
+
+
 \end_layout
 
 \begin_layout Standard
@@ -629,17 +673,17 @@ status open
 
 \begin_layout Plain Layout
 
-add $5, $0, $0 # ligne 2
+add	$5, $0, $0 # ligne 2
 \end_layout
 
 \begin_layout Plain Layout
 
-or $6, $5, $0 # ligne 3
+or	$6, $5, $0 # ligne 3
 \end_layout
 
 \begin_layout Plain Layout
 
-nor $4, $5, $6 # ligne 4
+nor	$4, $5, $6 # ligne 4
 \end_layout
 
 \end_inset
@@ -812,6 +856,7 @@ Classe de bases
 
 \begin_layout Standard
 \begin_inset Float figure
+placement H
 wide false
 sideways false
 status open
@@ -919,6 +964,7 @@ Index
 
 \begin_layout Standard
 \begin_inset Float figure
+placement H
 wide false
 sideways false
 status open
@@ -1098,13 +1144,6 @@ Dans chacune des fonctions d'un programme il y a plusieurs blocs de bases.
  dans un fichier et calculer sa taille.
  Le calcul des blocs de bases se fait dans la classe Function, qui va conserver
  ces blocs dans une liste.
-\end_layout
-
-\begin_layout Abstract
-\begin_inset Newpage pagebreak
-\end_inset
-
-
 \end_layout
 
 \begin_layout Standard
@@ -1517,7 +1556,7 @@ Départ d'un parseur existant
 \end_layout
 
 \begin_layout Standard
-Nous sommes partis sur d'un outil existant écrit par Mr Bazargan Sabet utilisant
+Nous sommes partis d'un outil existant écrit par Mr Bazargan Sabet utilisant
  un parseur pour construire une représentation en mémoire d'un programme
  assembleur mips.
  La partie parsing était basée sur 
@@ -1536,8 +1575,7 @@ yacc
 
 \begin_layout Standard
 Dans un premier temps nous avons cherché à isoler le code de ce parseur
- du reste du simulateur afin de le compiler dans un premier temps, puis
- l'adapter à notre besoin.
+ du reste du simulateur afin de le compiler avant de l'adapter à notre besoin.
  Cette étape nous a fait conserver uniquement 3 élements :
 \end_layout
 
@@ -1579,9 +1617,9 @@ yacc
 \end_layout
 
 \begin_layout Standard
-Dans un premier temps nous avons commenté les actions existantes pour n'avoir
- qu'un simple affichage du nom de la règle parcourue afin de tester la seule
- compilation du code.
+Dans un premier temps nous avons donc commenté les actions existantes pour
+ n'avoir qu'un simple affichage du nom de la règle parcourue afin de tester
+ la seule compilation du code et comprendre les différentes règles de parsing.
 \end_layout
 
 \begin_layout Subsection
@@ -1632,7 +1670,7 @@ git
 \end_layout
 
 \begin_layout Standard
-Une fois ces deux points résolus, nous avons put utiliser C++ librement.
+Une fois ces deux points résolus, nous avons pu utiliser C++ librement.
 \end_layout
 
 \begin_layout Subsection
@@ -1665,6 +1703,16 @@ Les règles initiales transformaient les données au plus tôt pour les mettre
 Les expressions étant évaluées, il aurait été long de chercher à les conserver
  sous forme de chaîne de caractères, nous les avons donc conservées sous
  leur forme numérique, perdant en lisibilité sur le code final.
+ Par exemple 
+\emph on
+.mask 0x40000000,-4
+\emph default
+ sera transformé en 
+\emph on
+.mask 1073741824,-4
+\emph default
+ car la notation héxadécimale est évaluée au plus tôt comme sa valeur numérique
+ décimale.
 \end_layout
 
 \begin_layout Itemize
@@ -1676,21 +1724,30 @@ L'analyseur lexical gérait plusieurs versions du jeu MIPS.
 \begin_layout Itemize
 Afin d'éviter d'avoir à gérer les pseudos-instructions qui auraient complexifié
  la bibliothèque, par exemple pour le cacul de dépendance, nous avons choisi
- d'étendre les macros dans le parseur.
+ d'étendre les macros.
+ Par exemple, la macro 
+\emph on
+li $2,2
+\emph default
+ sera transformé en la suite d'instructions 
+\emph on
+lui $1,0 ; ori $2,$1,2
+\emph default
+ par le parseur.
 \end_layout
 
 \begin_layout Standard
-Comme tous les constructeurs de Lignes sont utilisés dans les actions du
- parseur nous avons ainsi bénéficié d'un premier retour critique sur leurs
- signatures.
+Comme tous les constructeurs de la classe Line sont utilisés dans les actions
+ du parseur nous avons ainsi bénéficié d'un premier retour critique sur
+ leurs signatures.
  Dans certains cas nous avons modifié nos constructeurs pour gagner en simplicit
 é et en sûreté d'utilisation.
  Par exemple au départ nous n'avions qu'un seul constructeur pour la classe
  Instruction et l'on passait plusieurs paramètres comme le type d'instruction
  ou le nombre d'operandes.
  Afin de gagner en sûreté et en lisibilité nous avons préféré utiliser plusieurs
- constructeurs pour chaque nombre d'opérandes et déduire les autres informations
- à partir de l'opérateur ou des opérandes.
+ constructeurs, un pour chaque nombre d'opérandes possible et déduire les
+ autres informations à partir de l'opérateur ou des opérandes.
 \end_layout
 
 \begin_layout Subsubsection
@@ -1698,8 +1755,8 @@ Tests
 \end_layout
 
 \begin_layout Standard
-En parallèle de l'écriture d'une action pour le parseur, nous avons complété
- un fichier 
+En parallèle de l'écriture d'une action pour une règle du parseur, nous
+ avons complété un fichier 
 \emph on
 complete.s
 \emph default
@@ -1736,7 +1793,7 @@ Nous avons également eu besoin de nouveau tokens dans le fichier
 \emph on
 lex
 \emph default
- pour gérer de manièer plus générique les directives, les labels ou des
+ pour gérer de manière plus générique les directives, les labels ou des
  syntaxe de gcc pour les expressions comme le %hi(imm).
  En créant de nouveaux tokens nous avons pu les récupérer comme du texte
  sans toucher aux tokens déjà existants pour éviter les effets de bord.
@@ -1760,14 +1817,15 @@ Planning
 \end_layout
 
 \begin_layout Standard
-Nos tâches sont assez dépendantes entre elles, nous nous sommes donc répartis
+Nos tâches étant assez dépendantes entre elles, nous nous sommes donc répartis
  le travail pour le démarrage du projet.
- Ensuite, les tâches ont été attribué en fonction de l'avancement de chacun.
+ Ensuite, les tâches ont été attribuées en fonction de l'avancement de chacun.
  Voici le schéma représentant la répartion des tâches.
 \end_layout
 
 \begin_layout Standard
 \begin_inset Float figure
+placement H
 wide false
 sideways false
 status open
@@ -1798,14 +1856,15 @@ Planning final
 
 \begin_layout Standard
 Par rapport à la répartition initiale nous avions mal évalué la charge de
- travail de la partie parsing qui s'est averré bien plus importantes que
+ travail de la partie parsing qui s'est avérée bien plus importante que
  prévue alors que nous pensions la terminer en quelques semaines.
  Suivant notre principe d'attribuer le travail à faire suivant ce qui est
  déjà fini Emel s'est retrouvé à réaliser toutes les fonctionalités de la
  bibliothèque de base tandis que Victor a essentiellement travaillé sur
  le parsing, modifiant les classes de bases pour le besoin du parseur.
  Nous avons toutefois travaillé en équipe, en particulier pour la détection
- de bugs et d'évolutions de fonctionalités.
+ de bugs, l'évolution des fonctionalités, la définition des classes et leur
+ agencement.
 \end_layout
 
 \begin_layout Section
@@ -1813,7 +1872,8 @@ Documents fournis
 \end_layout
 
 \begin_layout Standard
-A la fin de notre projet, nous avons produit les documents suivants.
+A la fin de notre projet, nous avons fourni les documents suivants à notre
+ encadrante.
 \end_layout
 
 \begin_layout Itemize
@@ -1828,6 +1888,15 @@ Le code de la bibliothèque de base.
 La documentation de la bibliothèque générée par 
 \emph on
 Doxygen
+\emph default
+.
+\end_layout
+
+\begin_layout Standard
+Par ailleurs, l'intégralité de notre projet peut être récupéré sur la page
+ github du projet 
+\emph on
+http://github.com/VLambret/libASM
 \emph default
 .
 \end_layout
