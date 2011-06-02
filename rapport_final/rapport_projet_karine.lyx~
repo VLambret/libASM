@@ -179,6 +179,10 @@ Enfin l'outil réalisé doit être capable de reproduire le code initial ou
 
 \begin_layout Standard
 \begin_inset Float figure
+<<<<<<< HEAD:rapport_final/rapport_projet_karine.lyx~
+=======
+placement H
+>>>>>>> 8f7fecf42732ccc4b2f1f53c27f66bf1f3d5b130:rapport_final/rapport_projet_karine.lyx~
 wide false
 sideways false
 status open
@@ -190,6 +194,10 @@ status open
 \begin_layout Plain Layout
 \begin_inset Graphics
 	filename images/schéma1.png
+<<<<<<< HEAD:rapport_final/rapport_projet_karine.lyx~
+=======
+	width 70text%
+>>>>>>> 8f7fecf42732ccc4b2f1f53c27f66bf1f3d5b130:rapport_final/rapport_projet_karine.lyx~
 
 \end_inset
 
@@ -496,6 +504,10 @@ L'ordre de réalisation des tâches sera dicté par les dépendances que nous
 
 \begin_layout Standard
 \begin_inset Float figure
+<<<<<<< HEAD:rapport_final/rapport_projet_karine.lyx~
+=======
+placement H
+>>>>>>> 8f7fecf42732ccc4b2f1f53c27f66bf1f3d5b130:rapport_final/rapport_projet_karine.lyx~
 wide false
 sideways false
 status open
@@ -503,6 +515,10 @@ status open
 \begin_layout Plain Layout
 \begin_inset Graphics
 	filename images/planning.png
+<<<<<<< HEAD:rapport_final/rapport_projet_karine.lyx~
+=======
+	width 70text%
+>>>>>>> 8f7fecf42732ccc4b2f1f53c27f66bf1f3d5b130:rapport_final/rapport_projet_karine.lyx~
 
 \end_inset
 
@@ -521,10 +537,13 @@ Planning
 
 \end_layout
 
+<<<<<<< HEAD:rapport_final/rapport_projet_karine.lyx~
 \begin_layout Plain Layout
 
 \end_layout
 
+=======
+>>>>>>> 8f7fecf42732ccc4b2f1f53c27f66bf1f3d5b130:rapport_final/rapport_projet_karine.lyx~
 \end_inset
 
 
@@ -612,6 +631,51 @@ Calcul du découpage en blocs de base et en fonctions.
 
 \begin_layout Subsubsection
 Manipulation d'instructions
+<<<<<<< HEAD:rapport_final/rapport_projet_karine.lyx~
+=======
+\begin_inset Note Note
+status open
+
+\begin_layout Plain Layout
+Proposition : Code avec numérotation des lignes en début de ligne, visible
+ dans la visualisation PDF
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset listings
+lstparams "breaklines=true,numbers=left,numberstyle={\footnotesize}"
+inline false
+status open
+
+\begin_layout Plain Layout
+
+# Code avec des Nor
+\end_layout
+
+\begin_layout Plain Layout
+
+add	$5, $0, $0
+\end_layout
+
+\begin_layout Plain Layout
+
+or	$6, $5, $0
+\end_layout
+
+\begin_layout Plain Layout
+
+nor	$4, $5, $6
+\end_layout
+
+\end_inset
+
+
+>>>>>>> 8f7fecf42732ccc4b2f1f53c27f66bf1f3d5b130:rapport_final/rapport_projet_karine.lyx~
 \end_layout
 
 \begin_layout Standard
@@ -631,17 +695,29 @@ status open
 
 \begin_layout Plain Layout
 
+<<<<<<< HEAD:rapport_final/rapport_projet_karine.lyx~
 add $5, $0, $0 # ligne 2
+=======
+add	$5, $0, $0 # ligne 2
+>>>>>>> 8f7fecf42732ccc4b2f1f53c27f66bf1f3d5b130:rapport_final/rapport_projet_karine.lyx~
 \end_layout
 
 \begin_layout Plain Layout
 
+<<<<<<< HEAD:rapport_final/rapport_projet_karine.lyx~
 or $6, $5, $0 # ligne 3
+=======
+or	$6, $5, $0 # ligne 3
+>>>>>>> 8f7fecf42732ccc4b2f1f53c27f66bf1f3d5b130:rapport_final/rapport_projet_karine.lyx~
 \end_layout
 
 \begin_layout Plain Layout
 
+<<<<<<< HEAD:rapport_final/rapport_projet_karine.lyx~
 nor $4, $5, $6 # ligne 4
+=======
+nor	$4, $5, $6 # ligne 4
+>>>>>>> 8f7fecf42732ccc4b2f1f53c27f66bf1f3d5b130:rapport_final/rapport_projet_karine.lyx~
 \end_layout
 
 \end_inset
@@ -798,8 +874,19 @@ Réalisation
 
 \begin_layout Standard
 Une fois les spécifications établies, nous sommes donc passés à la réalisation
+<<<<<<< HEAD:rapport_final/rapport_projet_karine.lyx~
  de notre bibliothèque. L'objectif du projet étant de lire un code assembleur MIPS écrit à la main ou produit par un compilateur 
 de type gcc, via un parseur, de le représenter en mémoire et d'effectuer dessus des manipulations, nous avions défini trois grandes tâches : définition et implantation des structures de données, l'implémentation des fonctionnalités de manipulation et le parsing. Nous allons donc vous présenter dans cette partie la réalisations de ces tâches.
+=======
+ de notre bibliothèque.
+ L'objectif du projet étant de lire un code assembleur MIPS écrit à la main
+ ou produit par un compilateur de type gcc, via un parseur, de le représenter
+ en mémoire et d'effectuer dessus des manipulations, nous avions défini
+ trois grandes tâches : définition et implantation des structures de données,
+ l'implémentation des fonctionnalités de manipulation et le parsing.
+ Nous allons donc vous présenter dans cette partie la réalisations de ces
+ tâches.
+>>>>>>> 8f7fecf42732ccc4b2f1f53c27f66bf1f3d5b130:rapport_final/rapport_projet_karine.lyx~
 \end_layout
 
 \begin_layout Section
@@ -808,6 +895,10 @@ Classe de bases
 
 \begin_layout Standard
 \begin_inset Float figure
+<<<<<<< HEAD:rapport_final/rapport_projet_karine.lyx~
+=======
+placement H
+>>>>>>> 8f7fecf42732ccc4b2f1f53c27f66bf1f3d5b130:rapport_final/rapport_projet_karine.lyx~
 wide false
 sideways false
 status open
@@ -840,6 +931,7 @@ Diagramme UML
 \end_layout
 
 \begin_layout Standard
+<<<<<<< HEAD:rapport_final/rapport_projet_karine.lyx~
 Les structures de données représentent le programme contenu dans un fichier assembleur (données, code). 
 Ces structures vont être répariti en classes représentant les différents objets qui caractérisent 
 un code assembleur. 
@@ -852,14 +944,43 @@ Ce sont les instructions qui sont, pour nous, les plus importantes, elles ont ch
 
 \begin_layout Itemize
 Le programme est vu comme une liste chaînée de lignes. La classe Node correspond aux noeuds de la liste chaînée. Dans ce programme, nous pouvons supprimer ou ajouter des lignes. Nous pouvons aussi connaitre le nombre de ligne du programme, l'afficher et chercher une ligne en particulier.
+=======
+Les structures de données représentent le programme contenu dans un fichier
+ assembleur (données, code).
+ Ces structures vont être répariti en classes représentant les différents
+ objets qui caractérisent un code assembleur.
+ Nous avons donc construit nos classes de bases de manière hiérarchique.
+ Tout d'abord nous avons le programme  que nous avons choisi de voir comme
+ une suite de lignes qui peuvent être de différents types : labels, instructions
+ et directives.
+ Ce sont les instructions qui sont, pour nous, les plus importantes, elles
+ ont chacunes un code opérateur, des opérandes, un format de codage(R, I,
+ J, O) et une nature (BR, MEM, ALU, OTHER).
+\end_layout
+
+\begin_layout Itemize
+Le programme est vu comme une liste chaînée de lignes.
+ La classe Node correspond aux noeuds de la liste chaînée.
+ Dans ce programme, nous pouvons supprimer ou ajouter des lignes.
+ Nous pouvons aussi connaitre le nombre de ligne du programme, l'afficher
+ et chercher une ligne en particulier.
+>>>>>>> 8f7fecf42732ccc4b2f1f53c27f66bf1f3d5b130:rapport_final/rapport_projet_karine.lyx~
  
 \end_layout
 
 \begin_layout Itemize
 La classe Line correspond à l'information contenue dans un noeud de la liste
  chaînée.
+<<<<<<< HEAD:rapport_final/rapport_projet_karine.lyx~
  C'est une classe abstraite qui permet aux sous-classes Instruction,
  Directive et Label d'hériter de ses caractéristiques. Chaque ligne a pour attribut une chaîne de caractère. Nous pouvons modifier cette ligne, récupérer la ligne ou son type (instruction, label ou directive).
+=======
+ C'est une classe abstraite qui permet aux sous-classes Instruction, Directive
+ et Label d'hériter de ses caractéristiques.
+ Chaque ligne a pour attribut une chaîne de caractère.
+ Nous pouvons modifier cette ligne, récupérer la ligne ou son type (instruction,
+ label ou directive).
+>>>>>>> 8f7fecf42732ccc4b2f1f53c27f66bf1f3d5b130:rapport_final/rapport_projet_karine.lyx~
 \end_layout
 
 \begin_layout Itemize
@@ -878,17 +999,37 @@ ns dans le code.
 
 \begin_layout Itemize
 Les instructions correspondent au code proprement dit.
+<<<<<<< HEAD:rapport_final/rapport_projet_karine.lyx~
  Une instruction contient un code opérateur, des opérandes, son type et son format. Dans cette classe nous pouvons récupérer ses caractéristiques mais nous ne pouvont modifier que son code opérateur et ses opérandes car le type et le format sont déduit de l'opérateur et des opérandes.
 \end_layout
 
 \begin_layout Itemize
 Le code opérateur est représenté par un type énuméré, qui lui même représente toutes les mémoniques asm.
+=======
+ Une instruction contient un code opérateur, des opérandes, son type et
+ son format.
+ Dans cette classe nous pouvons récupérer ses caractéristiques mais nous
+ ne pouvont modifier que son code opérateur et ses opérandes car le type
+ et le format sont déduit de l'opérateur et des opérandes.
+\end_layout
+
+\begin_layout Itemize
+Le code opérateur est représenté par un type énuméré, qui lui même représente
+ toutes les mémoniques asm.
+>>>>>>> 8f7fecf42732ccc4b2f1f53c27f66bf1f3d5b130:rapport_final/rapport_projet_karine.lyx~
 \end_layout
 
 \begin_layout Itemize
 Les opérandes sont des objets dérivant de la classe abstraite Operand.
  Il y a une classe par type d'opérandes possibles : registre, immediat,
+<<<<<<< HEAD:rapport_final/rapport_projet_karine.lyx~
  expression ou label. Pour toutes ces classes nous pouvons modifier l'opérande et la récupérer, elle et son type(registre, label...). 
+=======
+ expression ou label.
+ Pour toutes ces classes nous pouvons modifier l'opérande et la récupérer,
+ elle et son type(registre, label...).
+ 
+>>>>>>> 8f7fecf42732ccc4b2f1f53c27f66bf1f3d5b130:rapport_final/rapport_projet_karine.lyx~
 \end_layout
 
 \begin_layout Section
@@ -897,6 +1038,10 @@ Index
 
 \begin_layout Standard
 \begin_inset Float figure
+<<<<<<< HEAD:rapport_final/rapport_projet_karine.lyx~
+=======
+placement H
+>>>>>>> 8f7fecf42732ccc4b2f1f53c27f66bf1f3d5b130:rapport_final/rapport_projet_karine.lyx~
 wide false
 sideways false
 status open
@@ -932,11 +1077,17 @@ Diagramme UML index
 
 \end_layout
 
+<<<<<<< HEAD:rapport_final/rapport_projet_karine.lyx~
 
 \begin_layout Standard
 La fonctionnalité d'indexation permet d'accéder aux fonctions
  d'un programme et d'accéder aux blocs de bases d'une
  fonction.
+=======
+\begin_layout Standard
+La fonctionnalité d'indexation permet d'accéder aux fonctions d'un programme
+ et d'accéder aux blocs de bases d'une fonction.
+>>>>>>> 8f7fecf42732ccc4b2f1f53c27f66bf1f3d5b130:rapport_final/rapport_projet_karine.lyx~
 \end_layout
 
 \begin_layout Subsection
@@ -944,6 +1095,7 @@ Fonction
 \end_layout
 
 \begin_layout Standard
+<<<<<<< HEAD:rapport_final/rapport_projet_karine.lyx~
 Un programme peut contenir plusieurs fonctions. Nous avons donc implémenté une fonctionnalité permettant de délimiter ces fonctions. 
 Le calcul des fonctions se fait dans la classe Program qui a une vue d'ensemble de tout le code assembleur, donc de toutes les fonctions définies. On conserve ces fonctions dans une liste stockée dans le programme correspondant. La classe Function représente une fonction du programme. Elle contient un pointeur sur la ligne de début et la ligne de fin de la fonction.
  La classe offre la possibilité d'afficher le contenu de la fonction, de restituer le code lui correspondant dans un fichier et de calculer sa taille.
@@ -952,6 +1104,25 @@ Le calcul des fonctions se fait dans la classe Program qui a une vue d'ensemble 
 \begin_layout Standard
 
 Voici l'algorithme en pseudo code du calcul des fonctions d'un programme :
+=======
+Un programme peut contenir plusieurs fonctions.
+ Nous avons donc implémenté une fonctionnalité permettant de délimiter ces
+ fonctions.
+ Le calcul des fonctions se fait dans la classe Program qui a une vue d'ensemble
+ de tout le code assembleur, donc de toutes les fonctions définies.
+ On conserve ces fonctions dans une liste stockée dans le programme correspondan
+t.
+ La classe Function représente une fonction du programme.
+ Elle contient un pointeur sur la ligne de début et la ligne de fin de la
+ fonction.
+ La classe offre la possibilité d'afficher le contenu de la fonction, de
+ restituer le code lui correspondant dans un fichier et de calculer sa taille.
+\end_layout
+
+\begin_layout Standard
+Voici l'algorithme en pseudo code du calcul des fonctions d'un programme
+ :
+>>>>>>> 8f7fecf42732ccc4b2f1f53c27f66bf1f3d5b130:rapport_final/rapport_projet_karine.lyx~
 \end_layout
 
 \begin_layout Standard
@@ -966,9 +1137,13 @@ compute_function()
 
 \begin_layout Plain Layout
 
+<<<<<<< HEAD:rapport_final/rapport_projet_karine.lyx~
 begin
 Function function
 
+=======
+beginFunction function
+>>>>>>> 8f7fecf42732ccc4b2f1f53c27f66bf1f3d5b130:rapport_final/rapport_projet_karine.lyx~
 \end_layout
 
 \begin_layout Plain Layout
@@ -976,11 +1151,17 @@ Function function
  if (program.is_not_Empty()) then
 \end_layout
 
+<<<<<<< HEAD:rapport_final/rapport_projet_karine.lyx~
 
 \begin_layout Plain Layout
 	Node current_node<-program.head
 	while (current_node) then
 
+=======
+\begin_layout Plain Layout
+
+	Node current_node<-program.head	while (current_node) then
+>>>>>>> 8f7fecf42732ccc4b2f1f53c27f66bf1f3d5b130:rapport_final/rapport_projet_karine.lyx~
 \end_layout
 
 \begin_layout Plain Layout
@@ -1001,7 +1182,10 @@ Function function
 \begin_layout Plain Layout
 
 		end if
+<<<<<<< HEAD:rapport_final/rapport_projet_karine.lyx~
 
+=======
+>>>>>>> 8f7fecf42732ccc4b2f1f53c27f66bf1f3d5b130:rapport_final/rapport_projet_karine.lyx~
 \end_layout
 
 \begin_layout Plain Layout
@@ -1017,10 +1201,15 @@ Function function
 \begin_layout Plain Layout
 
 		end if
+<<<<<<< HEAD:rapport_final/rapport_projet_karine.lyx~
 
 \end_layout
 
 
+=======
+\end_layout
+
+>>>>>>> 8f7fecf42732ccc4b2f1f53c27f66bf1f3d5b130:rapport_final/rapport_projet_karine.lyx~
 \begin_layout Plain Layout
 
 		if (current_node.next_node = program.end) then		
@@ -1029,19 +1218,28 @@ Function function
 \begin_layout Plain Layout
 
 			break
+<<<<<<< HEAD:rapport_final/rapport_projet_karine.lyx~
 
+=======
+>>>>>>> 8f7fecf42732ccc4b2f1f53c27f66bf1f3d5b130:rapport_final/rapport_projet_karine.lyx~
 \end_layout
 
 \begin_layout Plain Layout
 
 		else current_node <- current_node.next_node	
+<<<<<<< HEAD:rapport_final/rapport_projet_karine.lyx~
 
+=======
+>>>>>>> 8f7fecf42732ccc4b2f1f53c27f66bf1f3d5b130:rapport_final/rapport_projet_karine.lyx~
 \end_layout
 
 \begin_layout Plain Layout
 
 		end if
+<<<<<<< HEAD:rapport_final/rapport_projet_karine.lyx~
 
+=======
+>>>>>>> 8f7fecf42732ccc4b2f1f53c27f66bf1f3d5b130:rapport_final/rapport_projet_karine.lyx~
 \end_layout
 
 \begin_layout Plain Layout
@@ -1068,6 +1266,7 @@ fin
 Bloc de base
 \end_layout
 
+<<<<<<< HEAD:rapport_final/rapport_projet_karine.lyx~
 
 \begin_layout Standard
 Dans chacune des fonctions d'un programme il y a plusieurs blocs de bases. 
@@ -1077,16 +1276,33 @@ La classe Basic_block représente un bloc de base.
  et la ligne de fin du bloc. 
 Cette classe offre la possibilité d'afficher le contenu du bloc, le restituer dans un fichier
  et calculer sa taille.
+=======
+\begin_layout Standard
+Dans chacune des fonctions d'un programme il y a plusieurs blocs de bases.
+ Ces blocs de bases sont des séquences d'instructions contenant un seul
+ point d'entré et un seul point de sortie.
+ La classe Basic_block représente un bloc de base.
+ Elle contient un pointeur sur la ligne de début (une instruction ou un
+ label) et la ligne de fin du bloc.
+ Cette classe offre la possibilité d'afficher le contenu du bloc, le restituer
+ dans un fichier et calculer sa taille.
+>>>>>>> 8f7fecf42732ccc4b2f1f53c27f66bf1f3d5b130:rapport_final/rapport_projet_karine.lyx~
  Le calcul des blocs de bases se fait dans la classe Function, qui va conserver
  ces blocs dans une liste.
 \end_layout
 
+<<<<<<< HEAD:rapport_final/rapport_projet_karine.lyx~
 \begin_layout Abstract
 \begin_inset Newpage pagebreak
 \end_inset
 
 \begin_layout Standard
 Voici l'algorithme en pseudo code du calcule des blocs de bases dans une fonction:
+=======
+\begin_layout Standard
+Voici l'algorithme en pseudo code du calcule des blocs de bases dans une
+ fonction:
+>>>>>>> 8f7fecf42732ccc4b2f1f53c27f66bf1f3d5b130:rapport_final/rapport_projet_karine.lyx~
 \end_layout
 
 \begin_layout Standard
@@ -1109,7 +1325,10 @@ begin
 	Node current_node <- function.head 
 \end_layout
 
+<<<<<<< HEAD:rapport_final/rapport_projet_karine.lyx~
 
+=======
+>>>>>>> 8f7fecf42732ccc4b2f1f53c27f66bf1f3d5b130:rapport_final/rapport_projet_karine.lyx~
 \begin_layout Plain Layout
 
 	block.head <- function.first_node_label_or_instruction
@@ -1144,12 +1363,17 @@ begin
 
 				if (current_node.next_node != function.end && 
 \end_layout
+<<<<<<< HEAD:rapport_final/rapport_projet_karine.lyx~
+=======
+
+>>>>>>> 8f7fecf42732ccc4b2f1f53c27f66bf1f3d5b130:rapport_final/rapport_projet_karine.lyx~
 \begin_layout Plain Layout
 
 				 current_node.next_node._next_node != function.end)
 \end_layout
 
 \begin_layout Plain Layout
+<<<<<<< HEAD:rapport_final/rapport_projet_karine.lyx~
 					
 	block.head <- current_node.next_Nem_node
 \end_layout
@@ -1162,12 +1386,30 @@ begin
 \begin_layout Plain Layout
 			
               current_node <-  current_node.next(block.head)
+=======
+
+						block.head <- current_node.next_Nem_node
 \end_layout
 
 \begin_layout Plain Layout
 
+						(the node next the Nth delayed slot)
+\end_layout
+
+\begin_layout Plain Layout
+
+			              current_node <-  current_node.next(block.head)
+>>>>>>> 8f7fecf42732ccc4b2f1f53c27f66bf1f3d5b130:rapport_final/rapport_projet_karine.lyx~
+\end_layout
+
+\begin_layout Plain Layout
+
+<<<<<<< HEAD:rapport_final/rapport_projet_karine.lyx~
 				
 		else break
+=======
+						else break
+>>>>>>> 8f7fecf42732ccc4b2f1f53c27f66bf1f3d5b130:rapport_final/rapport_projet_karine.lyx~
 \end_layout
 
 \begin_layout Plain Layout
@@ -1306,6 +1548,7 @@ Nous avons réalisé la fonctionnalité qui permet de calculer la dépendance
 \end_layout
 
 \begin_layout Itemize
+<<<<<<< HEAD:rapport_final/rapport_projet_karine.lyx~
 RAW: détéction des dépendances lecture après écriture entre deux instructions i1 et i2, c'est à dire la lecture d'un registre par i2 après son écriture par i1.
 \end_layout
 
@@ -1315,6 +1558,23 @@ WAR: détéction des dépendances écriture après lecture entre deux instructio
 
 \begin_layout Itemize
 WAW: détéction des dépendances écriture après écriture entre deux instructions i1 et i2, c'est à dire l'écriture d'un registre par i2 après l'écriture par i1.
+=======
+RAW: détéction des dépendances lecture après écriture entre deux instructions
+ i1 et i2, c'est à dire la lecture d'un registre par i2 après son écriture
+ par i1.
+\end_layout
+
+\begin_layout Itemize
+WAR: détéction des dépendances écriture après lecture entre deux instructions
+ i1 et i2, c'est à dire l'écriture dans un registre par i2 après sa lecture
+ par i1.
+\end_layout
+
+\begin_layout Itemize
+WAW: détéction des dépendances écriture après écriture entre deux instructions
+ i1 et i2, c'est à dire l'écriture d'un registre par i2 après l'écriture
+ par i1.
+>>>>>>> 8f7fecf42732ccc4b2f1f53c27f66bf1f3d5b130:rapport_final/rapport_projet_karine.lyx~
 \end_layout
 
 \begin_layout Standard
@@ -1325,7 +1585,10 @@ WAW: détéction des dépendances écriture après écriture entre deux instruct
 \end_layout
 
 \begin_layout Standard
+<<<<<<< HEAD:rapport_final/rapport_projet_karine.lyx~
 
+=======
+>>>>>>> 8f7fecf42732ccc4b2f1f53c27f66bf1f3d5b130:rapport_final/rapport_projet_karine.lyx~
 Voici les algorithmes pour chacun des types de calcul des dépendances :
 \end_layout
 
@@ -1334,7 +1597,12 @@ Read after Write
 \end_layout
 
 \begin_layout Standard
+<<<<<<< HEAD:rapport_final/rapport_projet_karine.lyx~
 Cette fonction renvoie vrai si il y a une dépendance de type WAR entre l'instruction courante et i2 passé en paramètre, sinon retourne faux.
+=======
+Cette fonction renvoie vrai si il y a une dépendance de type WAR entre l'instruc
+tion courante et i2 passé en paramètre, sinon retourne faux.
+>>>>>>> 8f7fecf42732ccc4b2f1f53c27f66bf1f3d5b130:rapport_final/rapport_projet_karine.lyx~
 \end_layout
 
 \begin_layout Standard
@@ -1342,7 +1610,10 @@ Cette fonction renvoie vrai si il y a une dépendance de type WAR entre l'instru
 inline false
 status open
 
+<<<<<<< HEAD:rapport_final/rapport_projet_karine.lyx~
 
+=======
+>>>>>>> 8f7fecf42732ccc4b2f1f53c27f66bf1f3d5b130:rapport_final/rapport_projet_karine.lyx~
 \begin_layout Plain Layout
 
 begin
@@ -1358,7 +1629,10 @@ begin
 	if (self.RegDest && i2.RegSrc2 && self.RegDest==i2.RegSrc2)	return true
 \end_layout
 
+<<<<<<< HEAD:rapport_final/rapport_projet_karine.lyx~
 
+=======
+>>>>>>> 8f7fecf42732ccc4b2f1f53c27f66bf1f3d5b130:rapport_final/rapport_projet_karine.lyx~
 \begin_layout Plain Layout
 
 	return false
@@ -1379,7 +1653,12 @@ Write after Read
 \end_layout
 
 \begin_layout Standard
+<<<<<<< HEAD:rapport_final/rapport_projet_karine.lyx~
 Cette fonction renvoie vrai si il y a une dépendance de type WAR entre l'instruction courante et i2 passé en paramètre, sinon retourne faux.
+=======
+Cette fonction renvoie vrai si il y a une dépendance de type WAR entre l'instruc
+tion courante et i2 passé en paramètre, sinon retourne faux.
+>>>>>>> 8f7fecf42732ccc4b2f1f53c27f66bf1f3d5b130:rapport_final/rapport_projet_karine.lyx~
 \end_layout
 
 \begin_layout Standard
@@ -1407,7 +1686,10 @@ begin
 	if (i2.RegDest && self.RegSrc2 && i2.RegDest==self.RegSrc2)	return true
 \end_layout
 
+<<<<<<< HEAD:rapport_final/rapport_projet_karine.lyx~
 
+=======
+>>>>>>> 8f7fecf42732ccc4b2f1f53c27f66bf1f3d5b130:rapport_final/rapport_projet_karine.lyx~
 \begin_layout Plain Layout
 
 	return false
@@ -1428,10 +1710,17 @@ Write after Write
 \end_layout
 
 \begin_layout Standard
+<<<<<<< HEAD:rapport_final/rapport_projet_karine.lyx~
 Cette fonction renvoie vrai si il y a une dépendance de type WAW entre l'instruction courante et i2 passé en paramètre, sinon retourne faux.
 \end_layout
 
 
+=======
+Cette fonction renvoie vrai si il y a une dépendance de type WAW entre l'instruc
+tion courante et i2 passé en paramètre, sinon retourne faux.
+\end_layout
+
+>>>>>>> 8f7fecf42732ccc4b2f1f53c27f66bf1f3d5b130:rapport_final/rapport_projet_karine.lyx~
 \begin_layout Standard
 \begin_inset listings
 inline false
@@ -1475,9 +1764,17 @@ Restitution
 Nous avons réalisé la fonctionnalité qui permet de restituer un programme,
  une fonction ou un bloc de base sous forme d'un fichier d'instruction asssemble
 ur.
+<<<<<<< HEAD:rapport_final/rapport_projet_karine.lyx~
  La restitution se fait dans une méthode de chacune des classes associée. Ces méthodes 
 prennent en parametre le nom du fichier dans lequel on veux écrire. On parcour la 
 structure, récupère la chaîne de caractère de chaque ligne et on l'écrit dans le fichier.
+=======
+ La restitution se fait dans une méthode de chacune des classes associée.
+ Ces méthodes prennent en parametre le nom du fichier dans lequel on veux
+ écrire.
+ On parcour la structure, récupère la chaîne de caractère de chaque ligne
+ et on l'écrit dans le fichier.
+>>>>>>> 8f7fecf42732ccc4b2f1f53c27f66bf1f3d5b130:rapport_final/rapport_projet_karine.lyx~
 \end_layout
 
 \begin_layout Section
@@ -1489,6 +1786,7 @@ Départ d'un parseur existant
 \end_layout
 
 \begin_layout Standard
+<<<<<<< HEAD:rapport_final/rapport_projet_karine.lyx~
 Nous sommes partis sur un simulateur déjà existant écrit par Mr Pirouz utilisant
  un parseur pour interprêter un code assembleur mips.
  La partie parsing était basée sur lex comme analyseur lexical et yacc comme
@@ -1497,16 +1795,38 @@ Nous sommes partis sur un simulateur déjà existant écrit par Mr Pirouz utilis
  la grammaire et remplacer tous les actions du parseur par des appels aux
  constructeurs de notre bibliothèque de base.
  
+=======
+Nous sommes partis d'un outil existant écrit par Mr Bazargan Sabet utilisant
+ un parseur pour construire une représentation en mémoire d'un programme
+ assembleur mips.
+ La partie parsing était basée sur 
+\emph on
+lex
+\emph default
+ comme analyseur lexical et 
+\emph on
+yacc
+\emph default
+ comme analyseur syntaxique.
+ Nous souhaitions récupérer les règles de découpage en mots clés ainsi que
+ la grammaire et remplacer tous les actions du parseur par des appels aux
+ constructeurs de notre bibliothèque de base.
+>>>>>>> 8f7fecf42732ccc4b2f1f53c27f66bf1f3d5b130:rapport_final/rapport_projet_karine.lyx~
 \end_layout
 
 \begin_layout Standard
 Dans un premier temps nous avons cherché à isoler le code de ce parseur
+<<<<<<< HEAD:rapport_final/rapport_projet_karine.lyx~
  du reste du simulateur afin de le compiler dans un premier temps, puis
  l'adapter à notre besoin.
+=======
+ du reste du simulateur afin de le compiler avant de l'adapter à notre besoin.
+>>>>>>> 8f7fecf42732ccc4b2f1f53c27f66bf1f3d5b130:rapport_final/rapport_projet_karine.lyx~
  Cette étape nous a fait conserver uniquement 3 élements :
 \end_layout
 
 \begin_layout Itemize
+<<<<<<< HEAD:rapport_final/rapport_projet_karine.lyx~
 Les règles dans deux fichiers lex et yacc,
 \end_layout
 
@@ -1524,6 +1844,48 @@ Dans un premier temps nous avons commenté les actions existantes pour n'avoir
  qu'un simple affichage du nom de la règle parcourue afin de tester la seule
  compilation du code.
  Cette étape s'étant bien passée, nous avons pensé 
+=======
+les règles dans deux fichiers 
+\emph on
+lex
+\emph default
+ et 
+\emph on
+yacc
+\emph default
+,
+\end_layout
+
+\begin_layout Itemize
+une bibliothèque asm contenant les fonctions utiles pour les actions 
+\emph on
+yacc
+\emph default
+,
+\end_layout
+
+\begin_layout Itemize
+une bibliothèque utl de fonctions de manipulations de données pour le passage
+ de données entre 
+\emph on
+lex
+\emph default
+ et 
+\emph on
+yacc
+\emph default
+, ou entre actions 
+\emph on
+yacc
+\emph default
+.
+\end_layout
+
+\begin_layout Standard
+Dans un premier temps nous avons donc commenté les actions existantes pour
+ n'avoir qu'un simple affichage du nom de la règle parcourue afin de tester
+ la seule compilation du code et comprendre les différentes règles de parsing.
+>>>>>>> 8f7fecf42732ccc4b2f1f53c27f66bf1f3d5b130:rapport_final/rapport_projet_karine.lyx~
 \end_layout
 
 \begin_layout Subsection
@@ -1532,16 +1894,44 @@ Le passage au C++
 
 \begin_layout Standard
 Pour que notre parseur fasse appel à des constructeur C++ dans les actions
+<<<<<<< HEAD:rapport_final/rapport_projet_karine.lyx~
  nous avons besoin de compiler le fichier yacc avec g++.
  A priori g++ pouvant compiler du C nous avons d'abord cherché à lui faire
  compiler le code passant avec gcc.
+=======
+ nous avons eu besoin de compiler le fichier yacc avec 
+\emph on
+g++
+\emph default
+.
+ A priori 
+\emph on
+g++
+\emph default
+ pouvant compiler du C nous avons d'abord cherché à lui faire compiler le
+ code passant avec 
+\emph on
+gcc
+\emph default
+.
+>>>>>>> 8f7fecf42732ccc4b2f1f53c27f66bf1f3d5b130:rapport_final/rapport_projet_karine.lyx~
  Avant d'y arriver nous avons rencontré deux types de problèmes :
 \end_layout
 
 \begin_layout Itemize
+<<<<<<< HEAD:rapport_final/rapport_projet_karine.lyx~
 g++ est plus exigeant sur les types et n'accepte pas l'ancienne syntaxe
  C pour déclarer les paramètres des fonctions.
  Nous avons donc mis à jour les headers et les corps des fonctions des bibliothè
+=======
+
+\emph on
+g++
+\emph default
+ est plus exigeant sur les types et n'accepte pas l'ancienne syntaxe C pour
+ déclarer les paramètres des fonctions.
+ Nous avons donc mis à jour les entêtes et les corps des fonctions des bibliothè
+>>>>>>> 8f7fecf42732ccc4b2f1f53c27f66bf1f3d5b130:rapport_final/rapport_projet_karine.lyx~
 ques et corrigé les incohérences de type dans le code.
 \end_layout
 
@@ -1550,12 +1940,24 @@ L'usage de C++ dans le fichier yacc a posé un problème long à résoudre :
  le mécanisme de dialogue entre Lex et Yacc ne marchait plus.
  Les deux logiciels étant des projets différents, et le support du C++ évoluant
  suivant les versions, l'information ne fut pas facile à trouver.
+<<<<<<< HEAD:rapport_final/rapport_projet_karine.lyx~
  Lors de cette étape git fut très utile pour créer une branche par solution
  essayée.
 \end_layout
 
 \begin_layout Standard
 Une fois ces deux points résolus, nous avons put utiliser C++ librement.
+=======
+ Lors de cette étape 
+\emph on
+git
+\emph default
+ fut très utile pour créer une branche par solution essayée.
+\end_layout
+
+\begin_layout Standard
+Une fois ces deux points résolus, nous avons pu utiliser C++ librement.
+>>>>>>> 8f7fecf42732ccc4b2f1f53c27f66bf1f3d5b130:rapport_final/rapport_projet_karine.lyx~
 \end_layout
 
 \begin_layout Subsection
@@ -1586,6 +1988,7 @@ Les règles initiales transformaient les données au plus tôt pour les mettre
 
 \begin_layout Itemize
 Les expressions étant évaluées, il aurait été long de chercher à les conserver
+<<<<<<< HEAD:rapport_final/rapport_projet_karine.lyx~
  sous forme de chaine de caractère, nous les avons donc conservé sous leur
  forme numérique, perdant en lisibilité sur le code final.
 \end_layout
@@ -1601,6 +2004,55 @@ Comme les règles utilisent tous les constructeurs, nous en avons profité
  pour nous questionner sur les interfaces de nos fonctions.
  Nous avons ainsi put trouver des améliorations pour que notre bibliothèque
  gagne en sûreté et en simplicité.
+=======
+ sous forme de chaîne de caractères, nous les avons donc conservées sous
+ leur forme numérique, perdant en lisibilité sur le code final.
+ Par exemple 
+\emph on
+.mask 0x40000000,-4
+\emph default
+ sera transformé en 
+\emph on
+.mask 1073741824,-4
+\emph default
+ car la notation héxadécimale est évaluée au plus tôt comme sa valeur numérique
+ décimale.
+\end_layout
+
+\begin_layout Itemize
+L'analyseur lexical gérait plusieurs versions du jeu MIPS.
+ Nous avons décidé de tout accepter dans notre parseur afin de simplifier
+ le test des règles et de reconnaître le plus de codes possibles.
+\end_layout
+
+\begin_layout Itemize
+Afin d'éviter d'avoir à gérer les pseudos-instructions qui auraient complexifié
+ la bibliothèque, par exemple pour le cacul de dépendance, nous avons choisi
+ d'étendre les macros.
+ Par exemple, la macro 
+\emph on
+li $2,2
+\emph default
+ sera transformé en la suite d'instructions 
+\emph on
+lui $1,0 ; ori $2,$1,2
+\emph default
+ par le parseur.
+\end_layout
+
+\begin_layout Standard
+Comme tous les constructeurs de la classe Line sont utilisés dans les actions
+ du parseur nous avons ainsi bénéficié d'un premier retour critique sur
+ leurs signatures.
+ Dans certains cas nous avons modifié nos constructeurs pour gagner en simplicit
+é et en sûreté d'utilisation.
+ Par exemple au départ nous n'avions qu'un seul constructeur pour la classe
+ Instruction et l'on passait plusieurs paramètres comme le type d'instruction
+ ou le nombre d'operandes.
+ Afin de gagner en sûreté et en lisibilité nous avons préféré utiliser plusieurs
+ constructeurs, un pour chaque nombre d'opérandes possible et déduire les
+ autres informations à partir de l'opérateur ou des opérandes.
+>>>>>>> 8f7fecf42732ccc4b2f1f53c27f66bf1f3d5b130:rapport_final/rapport_projet_karine.lyx~
 \end_layout
 
 \begin_layout Subsubsection
@@ -1608,6 +2060,7 @@ Tests
 \end_layout
 
 \begin_layout Standard
+<<<<<<< HEAD:rapport_final/rapport_projet_karine.lyx~
 Afin de vérifier le bon fonctionnement du programme, nous avons créé un
  code complete.s contenant pour chaque règle le code permettant de tester
  tous les cas qu'elle couvre (par exemple, toutes les instructions d'un
@@ -1637,17 +2090,75 @@ Les macros sont expansées dans le programme par leur suite d'instructions.
 \begin_layout Standard
 Une fois le code parsé, on copie les instructions du Program local vers
  le Program appelant.
+=======
+En parallèle de l'écriture d'une action pour une règle du parseur, nous
+ avons complété un fichier 
+\emph on
+complete.s
+\emph default
+ permettant de tester tous les cas couverts par la règle.
+ Ceci nous a permis de vérifier exhaustivement qu'entre l'acquisition du
+ programme par le parseur, sa représentation dans les classes de base et
+ sa restitution vers un fichier assembleur il n'y avait aucune erreur ou
+ altération parasite.
+\end_layout
+
+\begin_layout Standard
+Une fois ceci validé nous avons testé le parseur avec le fichier assembleur
+ primes.s produit pour le premier test de la recette.
+ Nous avons relevé de nombreuses erreurs venant d'une mauvaise utilisation
+ des instructions par 
+\emph on
+gcc
+\emph default
+, par exemple, un opérateur au format R utilisé au format I (slt rd, rs,
+ imm).
+ Dans un premier temps nous avons cherché comment désactiver ce comportement
+ mais la chaîne 
+\emph on
+gcc
+\emph default
+ dispose de peu d'options pour modifier l'assembleur produit par son compilateur.
+ Afin de pouvoir lancer les tests, nous avons donc ajouté de nouvelles règles
+ reconnaissant ces formats invalides et mais construisant l'instruction
+ valide correspondante (slti à la place de slt pour notre exemple).
+\end_layout
+
+\begin_layout Standard
+Nous avons également eu besoin de nouveau tokens dans le fichier 
+\emph on
+lex
+\emph default
+ pour gérer de manière plus générique les directives, les labels ou des
+ syntaxe de gcc pour les expressions comme le %hi(imm).
+ En créant de nouveaux tokens nous avons pu les récupérer comme du texte
+ sans toucher aux tokens déjà existants pour éviter les effets de bord.
+\end_layout
+
+\begin_layout Subsubsection
+Fonctionnement final
+\end_layout
+
+\begin_layout Standard
+Le parseur est utilisé par un des constructeurs de la classe Program qui
+ lui permet de s'initialiser à partir d'un fichier.
+>>>>>>> 8f7fecf42732ccc4b2f1f53c27f66bf1f3d5b130:rapport_final/rapport_projet_karine.lyx~
 \end_layout
 
 \begin_layout Part
 Recette 
 \end_layout
 
+<<<<<<< HEAD:rapport_final/rapport_projet_karine.lyx~
 \begin_layout Subsection
+=======
+\begin_layout Section
+>>>>>>> 8f7fecf42732ccc4b2f1f53c27f66bf1f3d5b130:rapport_final/rapport_projet_karine.lyx~
 Planning
 \end_layout
 
 \begin_layout Standard
+<<<<<<< HEAD:rapport_final/rapport_projet_karine.lyx~
 Nos tâches sont assez dépendantes entre elles, nous nous sommes répartis
  le travail pour le démarrage du projet. Ensuite, les tâches ont été attribué en fonction de l'avancement de
 chacun.
@@ -1657,12 +2168,24 @@ Voici le schéma représentant la répartion des tâches.
 
 \begin_layout Standard
 \begin_inset Float figure
+=======
+Nos tâches étant assez dépendantes entre elles, nous nous sommes donc répartis
+ le travail pour le démarrage du projet.
+ Ensuite, les tâches ont été attribuées en fonction de l'avancement de chacun.
+ Voici le schéma représentant la répartion des tâches.
+\end_layout
+
+\begin_layout Standard
+\begin_inset Float figure
+placement H
+>>>>>>> 8f7fecf42732ccc4b2f1f53c27f66bf1f3d5b130:rapport_final/rapport_projet_karine.lyx~
 wide false
 sideways false
 status open
 
 \begin_layout Plain Layout
 \begin_inset Graphics
+<<<<<<< HEAD:rapport_final/rapport_projet_karine.lyx~
 	filename images/planning.png
 
 \end_inset
@@ -1671,6 +2194,14 @@ status open
 \end_layout
 
 \begin_layout Plain Layout
+=======
+	filename images/repartition.png
+	width 70text%
+
+\end_inset
+
+
+>>>>>>> 8f7fecf42732ccc4b2f1f53c27f66bf1f3d5b130:rapport_final/rapport_projet_karine.lyx~
 \begin_inset Caption
 
 \begin_layout Plain Layout
@@ -1682,21 +2213,45 @@ Planning final
 
 \end_layout
 
+<<<<<<< HEAD:rapport_final/rapport_projet_karine.lyx~
 \begin_layout Plain Layout
 
 \end_layout
 
+=======
+>>>>>>> 8f7fecf42732ccc4b2f1f53c27f66bf1f3d5b130:rapport_final/rapport_projet_karine.lyx~
 \end_inset
 
 
 \end_layout
 
+<<<<<<< HEAD:rapport_final/rapport_projet_karine.lyx~
+=======
+\begin_layout Standard
+Par rapport à la répartition initiale nous avions mal évalué la charge de
+ travail de la partie parsing qui s'est avérée bien plus importante que
+ prévue alors que nous pensions la terminer en quelques semaines.
+ Suivant notre principe d'attribuer le travail à faire suivant ce qui est
+ déjà fini Emel s'est retrouvé à réaliser toutes les fonctionalités de la
+ bibliothèque de base tandis que Victor a essentiellement travaillé sur
+ le parsing, modifiant les classes de bases pour le besoin du parseur.
+ Nous avons toutefois travaillé en équipe, en particulier pour la détection
+ de bugs, l'évolution des fonctionalités, la définition des classes et leur
+ agencement.
+\end_layout
+
+>>>>>>> 8f7fecf42732ccc4b2f1f53c27f66bf1f3d5b130:rapport_final/rapport_projet_karine.lyx~
 \begin_layout Section
 Documents fournis
 \end_layout
 
 \begin_layout Standard
+<<<<<<< HEAD:rapport_final/rapport_projet_karine.lyx~
 A la fin de notre projet, nous avons produit les documents suivants.
+=======
+A la fin de notre projet, nous avons fourni les documents suivants à notre
+ encadrante.
+>>>>>>> 8f7fecf42732ccc4b2f1f53c27f66bf1f3d5b130:rapport_final/rapport_projet_karine.lyx~
 \end_layout
 
 \begin_layout Itemize
@@ -1708,7 +2263,15 @@ Le code de la bibliothèque de base.
 \end_layout
 
 \begin_layout Itemize
+<<<<<<< HEAD:rapport_final/rapport_projet_karine.lyx~
 La documentation de la bibliothèque générée par Doxygen.
+=======
+La documentation de la bibliothèque générée par 
+\emph on
+Doxygen
+\emph default
+.
+>>>>>>> 8f7fecf42732ccc4b2f1f53c27f66bf1f3d5b130:rapport_final/rapport_projet_karine.lyx~
 \end_layout
 
 \begin_layout Section
@@ -1717,8 +2280,13 @@ Procédure de recette
 
 \begin_layout Standard
 La librairie produite a été validée par deux procédures de recette.
+<<<<<<< HEAD:rapport_final/rapport_projet_karine.lyx~
  Tout d'abord une recette continue composée  de nos revues
  de code et de la validation des étapes par notre encadrante.
+=======
+ Tout d'abord une recette continue composée  de nos revues de code et de
+ la validation des étapes par notre encadrante.
+>>>>>>> 8f7fecf42732ccc4b2f1f53c27f66bf1f3d5b130:rapport_final/rapport_projet_karine.lyx~
 \end_layout
 
 \begin_layout Standard
@@ -1730,6 +2298,7 @@ La seconde partie de la recette est basée sur des scénarios testant chacun
 Acquisition d'un programme avec le parseur et restitution
 \end_layout
 
+<<<<<<< HEAD:rapport_final/rapport_projet_karine.lyx~
 \begin_layout Standard
 Nous avons écrit trois petits programmes en langage C, typiquement de
  parcours de tableau, de multiplication de matrices ou de tri rapide.
@@ -1753,13 +2322,166 @@ A partir de ces trois même programmes d'exemple, nous avons executé les opéra
 \begin_layout Itemize
 Affichage du programme et du nombre de lignes que contient celui-ci. 
 \end_layout 
+=======
+\begin_layout Subsubsection
+Méthode de test
+\end_layout
+
+\begin_layout Standard
+Le but de ce test est de mesurer les changements produits par notre outils
+ sur un programme entre son acquisition par le parseur et sa restitution.
+ La comparaison des deux codes sources assembleurs en entrée et en sortie
+ n'est pas un test pertinent à cause des changements de noms des registres
+ et des changements de mise en page.
+ La solution retenue consiste donc à comparer les codes objets produits
+ par la compilation de ces deux codes sources.
+\end_layout
+
+\begin_layout Standard
+Pour cette comparaison nous avons écrit un outil dédié :
+\end_layout
+
+\begin_layout Itemize
+Dans un premier temps on utilise 
+\emph on
+od
+\emph default
+ pour convertir le fichier binaire en un fichier texte code ou chaque ligne
+ représente un mot de 32 bits sous sa forme héxadécimale.
+ L'adresse n'est pas conservée afin de ne comparer que le code produit.
+\end_layout
+
+\begin_layout Itemize
+Ensuite nous faisons appel à 
+\emph on
+objdump
+\emph default
+ pour mips afin de construire un dictionnaire contenant la correspondance
+ entre un code objet et sa traduction assembleur.
+\end_layout
+
+\begin_layout Itemize
+
+\emph on
+diff
+\emph default
+ est enfin appelé sur les deux fichiers de code.
+ Afin de rendre les différences visibles par l'humain, on récupère la traduction
+ de chaque mot pour voir la différence sous forme assembleur.
+\end_layout
+
+\begin_layout Standard
+Voici les 3 programmes que nous avons choisi pour notre échantillon :
+\end_layout
+
+\begin_layout Itemize
+
+\emph on
+test1a.c
+\emph default
+ : Un programme de quelques lignes sans appels de fonctions pour échantillon,
+\end_layout
+
+\begin_layout Itemize
+
+\emph on
+test1b.c
+\emph default
+ : Ce programme comporte une boucle et qui compte les nombres premiers via
+ un appel de fonction,
+\end_layout
+
+\begin_layout Itemize
+
+\emph on
+primes.c
+\emph default
+ : Ce programme affiche les nombres premiers dans un intervalle et utilise
+ des appels à la bibliothèque standard.
+\end_layout
+
+\begin_layout Standard
+Ces programmes sont compilés avec 
+\emph on
+mipsel-linux-gnu-gcc
+\emph default
+ version 4.5.2 pour le 
+\emph on
+MIPS R3000
+\emph default
+.
+\end_layout
+
+\begin_layout Subsubsection
+Résultats
+\end_layout
+
+\begin_layout Standard
+Le lancement des test s'effectue via la commande make test1.
+ Cette règle construit les fichiers assembleurs puis appelle le script diffobj.sh
+ pour effectuer la comparaison.
+ Le premier succès est que les codes restitués se compilent sans problèmes
+ majeurs.
+ La comparaison des codes objets montre par contre des différences dont
+ voici les causes :
+\end_layout
+
+\begin_layout Itemize
+Nous avons choisi d'étendre les macros dans le parseur, mais gcc ne choisi
+ pas forcément les mêmes instructions.
+ Par exemple pour le li gcc optimise dans le cas d'un immédiat de 16 bits
+ en n'utilisant qu'une seule instruction ce que nous n'avons pas fait dans
+ le parseur.
+\end_layout
+
+\begin_layout Itemize
+Ce nombre différent d'instructions implique un décallage des adresses pour
+ les sauts.
+\end_layout
+
+\begin_layout Standard
+D'après nos tests nous pouvons donc dire que si nous n'avons pas une égalité
+ des fichiers binaires produits ceux-ci sont par contre équivalents.
+\end_layout
+
+\begin_layout Section
+Manipulation d'un programme 
+\end_layout
+
+\begin_layout Standard
+A partir de ces trois même programmes d'exemple, nous avons executé les
+ opérations suivantes dans 
+\emph on
+test1.cpp
+\emph default
+: 
+\end_layout
+
+\begin_layout Itemize
+Affichage du programme et du nombre de lignes que contient celui-ci.
+ 
+\end_layout
+>>>>>>> 8f7fecf42732ccc4b2f1f53c27f66bf1f3d5b130:rapport_final/rapport_projet_karine.lyx~
 
 \begin_layout Itemize
 Calcul du découpage en blocs de base et en fonctions.
 \end_layout
 
 \begin_layout Itemize
+<<<<<<< HEAD:rapport_final/rapport_projet_karine.lyx~
 Écriture des séquences de lignes de ces blocs de base et fonctions dans les fichiers test1.txt et test2.txt.
+=======
+Écriture des séquences de lignes de ces blocs de base et fonctions dans
+ les fichiers 
+\emph on
+test1.txt
+\emph default
+ et 
+\emph on
+test2.txt
+\emph default
+.
+>>>>>>> 8f7fecf42732ccc4b2f1f53c27f66bf1f3d5b130:rapport_final/rapport_projet_karine.lyx~
 \end_layout
 
 \begin_layout Section
@@ -1767,8 +2489,18 @@ Calcul du découpage en blocs de base et en fonctions.
 \end_layout
 
 \begin_layout Standard
+<<<<<<< HEAD:rapport_final/rapport_projet_karine.lyx~
 Nous démontrons les possibilités de manipulation, insertion et suppression de lignes en transformant la séquence
 d'instructions suivante qui est implémenté dans le fichier test2.cpp :
+=======
+Nous démontrons les possibilités de manipulation, insertion et suppression
+ de lignes en transformant la séquence d'instructions suivante qui est implément
+é dans le fichier 
+\emph on
+test2.cpp
+\emph default
+ :
+>>>>>>> 8f7fecf42732ccc4b2f1f53c27f66bf1f3d5b130:rapport_final/rapport_projet_karine.lyx~
 \end_layout
 
 \begin_layout Standard
@@ -1847,6 +2579,7 @@ and $4, $5, $6 # ligne g
 
 \end_inset
 
+<<<<<<< HEAD:rapport_final/rapport_projet_karine.lyx~
 \begin_layout Standard
      En particulier :
 \end_layout
@@ -1857,6 +2590,18 @@ and $4, $5, $6 # ligne g
 
 \begin_layout Itemize
 le contenu du commentaire de la ligne 1 est supprimé automatiquement par le parseur,
+=======
+
+\end_layout
+
+\begin_layout Standard
+En particulier :
+\end_layout
+
+\begin_layout Itemize
+le contenu du commentaire de la ligne 1 est supprimé automatiquement par
+ le parseur,
+>>>>>>> 8f7fecf42732ccc4b2f1f53c27f66bf1f3d5b130:rapport_final/rapport_projet_karine.lyx~
 \end_layout
 
 \begin_layout Itemize
@@ -1864,7 +2609,12 @@ la ligne 2 est supprimée,
 \end_layout
 
 \begin_layout Itemize
+<<<<<<< HEAD:rapport_final/rapport_projet_karine.lyx~
 les opérandes et l'opérateur de la ligne 3 sont modifés pour obtenir la ligne c,
+=======
+les opérandes et l'opérateur de la ligne 3 sont modifés pour obtenir la
+ ligne c,
+>>>>>>> 8f7fecf42732ccc4b2f1f53c27f66bf1f3d5b130:rapport_final/rapport_projet_karine.lyx~
 \end_layout
 
 \begin_layout Itemize
@@ -1875,6 +2625,7 @@ l'opérateur de la ligne 4 est modifié pour obtenir la ligne g,
 les autres lignes sont ensuite insérées dans le programme.
 \end_layout
 
+<<<<<<< HEAD:rapport_final/rapport_projet_karine.lyx~
 
 
 
@@ -1884,12 +2635,136 @@ Calcul de dépendance entre instructions
 
 ##############################Victor_remplir################################
 
+=======
+\begin_layout Subsection
+Calcul de dépendance entre instructions
+\end_layout
+
+\begin_layout Standard
+Ce test est réalisé par le fichier 
+\emph on
+test_04.cpp
+\emph default
+.
+ Le programme initialise un programme à partir du fichier 
+\emph on
+test4.s
+\emph default
+, puis affiche l'ensemble des dépendances entres les instructions.
+ Une vérification manuelle nous confirme que les calculs sont corrects.
+\end_layout
+
+\begin_layout Standard
+\begin_inset listings
+inline false
+status open
+
+\begin_layout Plain Layout
+
+        : 0   1   2   3   4   5    
+\end_layout
+
+\begin_layout Plain Layout
+
+Ligne 0 : -----WAW-RAW-RAW-WAWnone
+\end_layout
+
+\begin_layout Plain Layout
+
+Ligne 1 : -WAW-----RAW-RAW-WAWnone
+\end_layout
+
+\begin_layout Plain Layout
+
+Ligne 2 : -WAR-WAR----none-WARnone
+\end_layout
+
+\begin_layout Plain Layout
+
+Ligne 3 : -WAR-WARnone-----WARnone
+\end_layout
+
+\begin_layout Plain Layout
+
+Ligne 4 : -WAW-WAW-RAW-RAW----none
+\end_layout
+
+\begin_layout Plain Layout
+
+Ligne 5 : nonenonenonenonenone----
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+Nous échangeons ensuite la première et la dernière instruction puis nous
+ affichons de nouveau l'ensemble des dépendances.
+ La vérification manuelle ne permet pas de relever d'incohérences.
+\end_layout
+
+\begin_layout Standard
+\begin_inset listings
+inline false
+status open
+
+\begin_layout Plain Layout
+
+        : 0   1   2   3   4   5
+\end_layout
+
+\begin_layout Plain Layout
+
+Ligne 0 : ----nonenonenonenonenone
+\end_layout
+
+\begin_layout Plain Layout
+
+Ligne 1 : none-----RAW-RAW-WAW-WAW
+\end_layout
+
+\begin_layout Plain Layout
+
+Ligne 2 : none-WAR----none-WAR-WAR
+\end_layout
+
+\begin_layout Plain Layout
+
+Ligne 3 : none-WARnone-----WAR-WAR
+\end_layout
+
+\begin_layout Plain Layout
+
+Ligne 4 : none-WAW-RAW-RAW-----WAW
+\end_layout
+
+\begin_layout Plain Layout
+
+Ligne 5 : none-WAW-RAW-RAW-WAW----
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+Le programme est restitué dans 
+\emph on
+tmp/test4.s
+\emph default
+, les deux instructions sont bien échangées.
+\end_layout
+>>>>>>> 8f7fecf42732ccc4b2f1f53c27f66bf1f3d5b130:rapport_final/rapport_projet_karine.lyx~
 
 \begin_layout Section
 Conformité à la spécification
 \end_layout
 
 \begin_layout Standard
+<<<<<<< HEAD:rapport_final/rapport_projet_karine.lyx~
 Malheureusement, lors de la réalisation de la bibliothèque certains problèmes ont ralenti l'implémentation 
 et ont provoqué des changement par rapport aux sépcifications fournis.
 \end_layout
@@ -1910,6 +2785,76 @@ Extension possible
 
 ###################Victor_remplir#####################################
 
+=======
+Malheureusement, lors de la réalisation de la bibliothèque certains problèmes
+ ont ralenti l'implémentation et ont provoqué des changements par rapport
+ aux sépcifications fournis.
+\end_layout
+
+\begin_layout Itemize
+Fonctionnalité d'indexation: l'indexation sur les labels n'a pas été fait.
+ Mais, cela dis, nous pouvons récupérer les labels grace au blocs de bases
+ en testant si le bloc commence par un label ou pas.
+\end_layout
+
+\begin_layout Itemize
+Du fait du temps passé sur le parseur nous n'avons pas pu écrire des tests
+ unitaires prévus pour les classes de base, qui furent remplacés par des
+ tests fonctionnels et une vérification humaine moins chronophage.
+\end_layout
+
+\begin_layout Section
+Extensions possibles
+\end_layout
+
+\begin_layout Standard
+Si notre bibliothèque est parfaitement utilisable en l'état, nous avons
+ trouvé des axes d'améliorations possibles pour des développements ultérieurs
+ :
+\end_layout
+
+\begin_layout Itemize
+Gérer les opérateurs d'instruction avec une classe ce qui permettrait de
+ gagner en facilité d'utilisation et d'extension par les utilisateurs.
+\end_layout
+
+\begin_layout Itemize
+Être capable de gérer différentes architectures MIPS avec un parseur paramétrabl
+e et un moyen de décrire une architecture pour le reste de la bibliothèque.
+\end_layout
+
+\begin_layout Itemize
+Supprimer les bibliothèques asm et utl qui rendaient des services utiles
+ au parseur d'origine écrit en C mais perdent en intérêt pour notre bibliothèque
+ qui peut les obtenir plus facilement par la bibliothèque standard C++ ou
+ s'en passer.
+ Plus globalement, reprendre le parseur pour lui faire manipuler uniquement
+ du texte afin de rendre la restitution de programme plus fidèle à l'original.
+\end_layout
+
+\begin_layout Part
+Conclusion 
+\end_layout
+
+\begin_layout Standard
+L'objectif de notre bibliothèque est rempli : un utilisateur récupérer notre
+ bibliothèque sur la page du projet 
+\emph on
+https://github.com/VLambret/libASM
+\emph default
+ et en installant uniquement des logiciels libres standards la compiler
+ et l'utiliser pour son usage.
+ La conception objet permet d'adapter ou d'étendre facilement les services
+ rendus par notre bibliothèque et de l'utiliser facilement pour concevoir
+ un nouvel outil s'appuyant sur nos Classes.
+\end_layout
+
+\begin_layout Standard
+Ce projet fut l'occasion de travailler en équipe sur un projet de développement
+ concret tout en approfondissant nos connaissances sur le MIPS, le fonctionnemen
+t des outils de compilation comme sur l'usage d'outils collaboratifs.
+\end_layout
+>>>>>>> 8f7fecf42732ccc4b2f1f53c27f66bf1f3d5b130:rapport_final/rapport_projet_karine.lyx~
 
 \end_body
 \end_document
