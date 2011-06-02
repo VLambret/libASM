@@ -688,11 +688,32 @@ nor	$4, $5, $6 # ligne 4
 
 \end_inset
 
+\begin_layout Standard
+en effectuant les opérations suivante : 
+\end_layout 
+
+
+\begin_layout Itemize
+les lignes 1 et 2 seront supprimées,
+\end_layout
+
+\begin_layout Itemize
+les opérandes et l'opérateur de la ligne 3 seront modifiés pour obtenir
+ la ligne 1bis,
+\end_layout
+
+\begin_layout Itemize
+l'opérateur de la ligne 4 sera modifié pour obtenir la ligne 5bis,
+\end_layout
+
+\begin_layout Itemize
+les lignes 2, 3, et 4bis seront ensuite insérées dans le programme.
+\end_layout
 
 \end_layout
 
 \begin_layout Standard
-Pour obtenir le programme suivant :
+et nous obtiendrons le programme suivant :
 \end_layout
 
 \begin_layout Standard
@@ -702,37 +723,27 @@ status open
 
 \begin_layout Plain Layout
 
-# Equivalence en plusieurs instructions # ligne a
+lui $4, 0xFFFF # ligne 1
 \end_layout
 
 \begin_layout Plain Layout
 
-# ligne b
+ori $4, $4, 0XFFFF # ligne 2
 \end_layout
 
 \begin_layout Plain Layout
 
-lui $4, 0xFFFF # ligne c
+xor $5, $4, $0 # ligne 3
 \end_layout
 
 \begin_layout Plain Layout
 
-ori $4, $4, 0XFFFF # ligne d
+xor $6, $4, $0 # ligne 4
 \end_layout
 
 \begin_layout Plain Layout
 
-xor $5, $4, $0 # ligne e
-\end_layout
-
-\begin_layout Plain Layout
-
-xor $6, $4, $0 # ligne f
-\end_layout
-
-\begin_layout Plain Layout
-
-and $4, $5, $6 # ligne g
+and $4, $5, $6 # ligne 5
 \end_layout
 
 \end_inset
@@ -740,30 +751,6 @@ and $4, $5, $6 # ligne g
 
 \end_layout
 
-\begin_layout Standard
-En particulier :
-\end_layout
-
-\begin_layout Itemize
-le contenu du commentaire de la ligne 1 sera modifié,
-\end_layout
-
-\begin_layout Itemize
-la ligne 2 sera supprimée,
-\end_layout
-
-\begin_layout Itemize
-les opérandes et l'opérateur de la ligne 3 seront modifiés pour obtenir
- la ligne c,
-\end_layout
-
-\begin_layout Itemize
-l'opérateur de la ligne 4 sera modifié pour obtenir la ligne g,
-\end_layout
-
-\begin_layout Itemize
-les autres lignes seront ensuite insérées dans le programme.
-\end_layout
 
 \begin_layout Subsubsection
 Calcul de dépendance entre instructions
@@ -842,11 +829,14 @@ Réalisation
 Une fois les spécifications établies, nous sommes donc passés à la réalisation
  de notre bibliothèque.
  L'objectif du projet étant de lire un code assembleur MIPS écrit à la main
- ou produit par un compilateur de type gcc, via un parseur, de le représenter
+ ou produit par gcc, via un parseur, de le représenter
  en mémoire et d'effectuer dessus des manipulations, nous avions défini
- trois grandes tâches : définition et implantation des structures de données,
+ trois grandes 
+\end_layout
+\begin_layout Standard
+tâches : définition et implantation des structures de données,
  l'implémentation des fonctionnalités de manipulation et le parsing.
- Nous allons donc vous présenter dans cette partie la réalisations de ces
+ Nous vous présentons dans cette partie la réalisations de ces
  tâches.
 \end_layout
 
@@ -891,15 +881,19 @@ Diagramme UML
 \begin_layout Standard
 Les structures de données représentent le programme contenu dans un fichier
  assembleur (données, code).
- Ces structures vont être répariti en classes représentant les différents
+ Ces structures vont être réparti en classes représentant les différents
  objets qui caractérisent un code assembleur.
- Nous avons donc construit nos classes de bases de manière hiérarchique.
+ Nous avons donc construit nos classes de bases de manière hiérarchique. 
+Afin de mieux visualiser cette hierarchie, nous avons établi le diagramme UML ci-dessous qui représente
+l'imbrication des classes. 
+\end_layout
+\begin_layout Standard
  Tout d'abord nous avons le programme  que nous avons choisi de voir comme
  une suite de lignes qui peuvent être de différents types : labels, instructions
  et directives.
- Ce sont les instructions qui sont, pour nous, les plus importantes, elles
- ont chacunes un code opérateur, des opérandes, un format de codage(R, I,
- J, O) et une nature (BR, MEM, ALU, OTHER).
+ Les instructions sont des lignes particulières, elles
+ ont chacunes un code opérateur, des opérandes, un format de codage (R : Register, I : Immediat, J : Jump, O : Other)  
+et un type (BR : Branchement, MEM : Mémoire, ALU : Arithmétique et logique, OTHER : autre correspondant aux instructions relative au système. )
 \end_layout
 
 \begin_layout Itemize
@@ -936,7 +930,8 @@ ns dans le code.
 \end_layout
 
 \begin_layout Itemize
-Les instructions correspondent au code proprement dit.
+Les instructions correspondent au code proprement dit. Ce sont, pour nous, les plus
+importantes.
  Une instruction contient un code opérateur, des opérandes, son type et
  son format.
  Dans cette classe nous pouvons récupérer ses caractéristiques mais nous
@@ -946,7 +941,7 @@ Les instructions correspondent au code proprement dit.
 
 \begin_layout Itemize
 Le code opérateur est représenté par un type énuméré, qui lui même représente
- toutes les mémoniques asm.
+ toutes les mémoniques assembleur.
 \end_layout
 
 \begin_layout Itemize
@@ -954,7 +949,7 @@ Les opérandes sont des objets dérivant de la classe abstraite Operand.
  Il y a une classe par type d'opérandes possibles : registre, immediat,
  expression ou label.
  Pour toutes ces classes nous pouvons modifier l'opérande et la récupérer,
- elle et son type(registre, label...).
+ elle et son type (registre, label, expression ou immediat).
  
 \end_layout
 
@@ -1021,12 +1016,17 @@ t.
  Elle contient un pointeur sur la ligne de début et la ligne de fin de la
  fonction.
  La classe offre la possibilité d'afficher le contenu de la fonction, de
- restituer le code lui correspondant dans un fichier et de calculer sa taille.
+ restituer le code lui correspondant dans un fichier et de calculer le nombre de lignes qu'elle contient.
 \end_layout
 
 \begin_layout Standard
-Voici l'algorithme en pseudo code du calcul des fonctions d'un programme
- :
+La méthode permettant de calculer les fonctions parcours la liste chaînée, correspondant au programme,
+ affecte au noeud de début de la fonction le noeud du programme contenant la directive d'entrée à la fonction .ent 
+et affecte au noeud de fin de la fonction le noeud du programme contenant la directive de sortie de la fonction .end.  
+Ensuite, elle rajoute cette fonction à la liste des fonctions du programme, et continue pour trouver la prochaine fonction. 
+\end_layout
+\begin_layout Standard
+Voici l'algorithme en pseudo code du calcul des fonctions d'un programme :
 \end_layout
 
 \begin_layout Standard
@@ -1041,7 +1041,12 @@ compute_function()
 
 \begin_layout Plain Layout
 
-beginFunction function
+begin
+\end_layout
+
+\begin_layout Plain Layout
+
+Function function
 \end_layout
 
 \begin_layout Plain Layout
@@ -1052,6 +1057,11 @@ beginFunction function
 \begin_layout Plain Layout
 
 	Node current_node<-program.head	while (current_node) then
+\end_layout
+
+\begin_layout Plain Layout
+
+		 /* la directive de fin correspondante est .end*/
 \end_layout
 
 \begin_layout Plain Layout
@@ -1074,9 +1084,15 @@ beginFunction function
 		end if
 \end_layout
 
+
 \begin_layout Plain Layout
 
-		if (current_node = directive_of_begining_function) then
+		/* la directive de début correspondante est .ent*/
+\end_layout
+
+\begin_layout Plain Layout
+
+		if (current_node = directive_of_begining_function) then 
 \end_layout
 
 \begin_layout Plain Layout
@@ -1141,11 +1157,18 @@ Dans chacune des fonctions d'un programme il y a plusieurs blocs de bases.
  Elle contient un pointeur sur la ligne de début (une instruction ou un
  label) et la ligne de fin du bloc.
  Cette classe offre la possibilité d'afficher le contenu du bloc, le restituer
- dans un fichier et calculer sa taille.
+ dans un fichier et calculer le nombre de lignes qu'il contient.
  Le calcul des blocs de bases se fait dans la classe Function, qui va conserver
  ces blocs dans une liste.
 \end_layout
 
+\begin_layout Standard
+La méthode qui permet de calculer les blocs de base va chercher dans la fonction les noeuds
+correspondant au point d'entrée et de sortie d'un bloc. Le point d'entrée d'un bloc est soit un label, soit 
+la ligne suivant un delayed slot. Le point de sortie est soit l'instruction précédant un label, soit le delayed slot suivant
+ un branchement. Dans notre cas le delayed slot est de 1. Après avoir trouvé le point de sortie d'un bloc on ajoute 
+le bloc à la liste des blocs contenu dans la classe Function.
+\end_layout
 \begin_layout Standard
 Voici l'algorithme en pseudo code du calcule des blocs de bases dans une
  fonction:
@@ -1193,7 +1216,12 @@ begin
 
 \begin_layout Plain Layout
 
-				block.end <- current_node.Nem_next_node(N delayed slot)
+				current_node <- current.Nem_next_node /*N delayed slot*/
+\end_layout
+
+\begin_layout Plain Layout
+
+				block.end <- current_node
 \end_layout
 
 \begin_layout Plain Layout
@@ -1213,22 +1241,22 @@ begin
 
 \begin_layout Plain Layout
 
-						block.head <- current_node.next_Nem_node
+					block.head <- current_node.next_node
 \end_layout
 
 \begin_layout Plain Layout
 
-						(the node next the Nth delayed slot)
+					/*the node next the Nth delayed slot*/
 \end_layout
 
 \begin_layout Plain Layout
 
-			              current_node <-  current_node.next(block.head)
+			              current_node <-  current_node.next_node  /*block.head*/
 \end_layout
 
 \begin_layout Plain Layout
 
-						else break
+				    else break
 \end_layout
 
 \begin_layout Plain Layout
@@ -1281,30 +1309,6 @@ begin
 	
 \end_layout
 
-\begin_layout Plain Layout
-
-		if (current_node.next_node = directive) then
-\end_layout
-
-\begin_layout Plain Layout
-
-			block.end <- current_node
-\end_layout
-
-\begin_layout Plain Layout
-
-			function.add_list_block ( block )
-\end_layout
-
-\begin_layout Plain Layout
-
-			break
-\end_layout
-
-\begin_layout Plain Layout
-
-		end if
-\end_layout
 
 \begin_layout Plain Layout
 
@@ -1367,19 +1371,19 @@ Nous avons réalisé la fonctionnalité qui permet de calculer la dépendance
 \end_layout
 
 \begin_layout Itemize
-RAW: détéction des dépendances lecture après écriture entre deux instructions
+RAW: détection des dépendances lecture après écriture entre deux instructions
  i1 et i2, c'est à dire la lecture d'un registre par i2 après son écriture
  par i1.
 \end_layout
 
 \begin_layout Itemize
-WAR: détéction des dépendances écriture après lecture entre deux instructions
+WAR: détection des dépendances écriture après lecture entre deux instructions
  i1 et i2, c'est à dire l'écriture dans un registre par i2 après sa lecture
  par i1.
 \end_layout
 
 \begin_layout Itemize
-WAW: détéction des dépendances écriture après écriture entre deux instructions
+WAW: détection des dépendances écriture après écriture entre deux instructions
  i1 et i2, c'est à dire l'écriture d'un registre par i2 après l'écriture
  par i1.
 \end_layout
@@ -1392,7 +1396,7 @@ WAW: détéction des dépendances écriture après écriture entre deux instruct
 \end_layout
 
 \begin_layout Standard
-Voici les algorithmes pour chacun des types de calcul des dépendances :
+Voici les algorithmes pour chacun des types de calcul des dépendances dans la classe instruction:
 \end_layout
 
 \begin_layout Subsection
@@ -1409,6 +1413,10 @@ tion courante et i2 passé en paramètre, sinon retourne faux.
 inline false
 status open
 
+\begin_layout Plain Layout
+
+RAW(Instruction i2)
+\end_layout
 \begin_layout Plain Layout
 
 begin
@@ -1538,12 +1546,12 @@ Restitution
 
 \begin_layout Standard
 Nous avons réalisé la fonctionnalité qui permet de restituer un programme,
- une fonction ou un bloc de base sous forme d'un fichier d'instruction asssemble
+ une fonction ou un bloc de base sous forme d'un fichier d'instruction assemble
 ur.
  La restitution se fait dans une méthode de chacune des classes associée.
  Ces méthodes prennent en parametre le nom du fichier dans lequel on veux
  écrire.
- On parcour la structure, récupère la chaîne de caractère de chaque ligne
+ On parcours la structure, récupère la chaîne de caractère de chaque ligne
  et on l'écrit dans le fichier.
 \end_layout
 
@@ -2061,12 +2069,13 @@ Manipulation d'un programme
 \end_layout
 
 \begin_layout Standard
-A partir de ces trois même programmes d'exemple, nous avons executé les
- opérations suivantes dans 
+Nous avons écrit un programme 
 \emph on
-test1.cpp
+test1.cpp 
 \emph default
-: 
+qui prend en entrée un fichier assembleur et qui 
+effectue avec succès les opérations suivantes sur les trois fichiers assembleur produit précedement :
+ 
 \end_layout
 
 \begin_layout Itemize
@@ -2097,13 +2106,13 @@ test2.txt
 
 \begin_layout Standard
 Nous démontrons les possibilités de manipulation, insertion et suppression
- de lignes en transformant la séquence d'instructions suivante qui est implément
-é dans le fichier 
+ de lignes en transformant la séquence d'instructions suivante présente dans le fichier  
 \emph on
-test2.cpp
+recette.s
 \emph default
  :
 \end_layout
+
 
 \begin_layout Standard
 \begin_inset listings
@@ -2117,26 +2126,58 @@ status open
 
 \begin_layout Plain Layout
 
-add $5, $0, $0 # ligne 2
+add	$5, $0, $0 # ligne 2
 \end_layout
 
 \begin_layout Plain Layout
 
-or $6, $5, $0 # ligne 3
+or	$6, $5, $0 # ligne 3
 \end_layout
 
 \begin_layout Plain Layout
 
-nor $4, $5, $6 # ligne 4
+nor	$4, $5, $6 # ligne 4
 \end_layout
 
 \end_inset
 
+\begin_layout Standard
+Le programme 
+\emph on
+test2.cpp
+\emph default
+effectue les opérations suivante pour modifier le code : 
+\end_layout 
+
+\begin_layout Itemize
+parse le fichier 
+\emph on
+recette.s
+\emph default
+et affiche le code ci-dessus,
+\end_layout
+
+\begin_layout Itemize
+supprime les lignes 1 et 2 ,
+\end_layout
+
+\begin_layout Itemize
+modifie les opérandes et l'opérateur de la ligne 3 pour obtenir
+ la ligne 1bis,
+\end_layout
+
+\begin_layout Itemize
+modifie l'opérateur de la ligne 4 pour obtenir la ligne 5bis,
+\end_layout
+
+\begin_layout Itemize
+insère les lignes 2, 3, et 4bis dans le programme.
+\end_layout
 
 \end_layout
 
 \begin_layout Standard
-Pour obtenir le programme suivant :
+nous obtenons le programme suivant qui est l'affiché avec succès dans la console:
 \end_layout
 
 \begin_layout Standard
@@ -2146,68 +2187,32 @@ status open
 
 \begin_layout Plain Layout
 
-# Equivalence en plusieurs instructions # ligne a
+lui $4, 0xFFFF # ligne 1
 \end_layout
 
 \begin_layout Plain Layout
 
-# ligne b
+ori $4, $4, 0XFFFF # ligne 2
 \end_layout
 
 \begin_layout Plain Layout
 
-lui $4, 0xFFFF # ligne c
+xor $5, $4, $0 # ligne 3
 \end_layout
 
 \begin_layout Plain Layout
 
-ori $4, $4, 0XFFFF # ligne d
+xor $6, $4, $0 # ligne 4
 \end_layout
 
 \begin_layout Plain Layout
 
-xor $5, $4, $0 # ligne e
-\end_layout
-
-\begin_layout Plain Layout
-
-xor $6, $4, $0 # ligne f
-\end_layout
-
-\begin_layout Plain Layout
-
-and $4, $5, $6 # ligne g
+and $4, $5, $6 # ligne 5
 \end_layout
 
 \end_inset
 
 
-\end_layout
-
-\begin_layout Standard
-En particulier :
-\end_layout
-
-\begin_layout Itemize
-le contenu du commentaire de la ligne 1 est supprimé automatiquement par
- le parseur,
-\end_layout
-
-\begin_layout Itemize
-la ligne 2 est supprimée,
-\end_layout
-
-\begin_layout Itemize
-les opérandes et l'opérateur de la ligne 3 sont modifés pour obtenir la
- ligne c,
-\end_layout
-
-\begin_layout Itemize
-l'opérateur de la ligne 4 est modifié pour obtenir la ligne g,
-\end_layout
-
-\begin_layout Itemize
-les autres lignes sont ensuite insérées dans le programme.
 \end_layout
 
 \begin_layout Subsection
