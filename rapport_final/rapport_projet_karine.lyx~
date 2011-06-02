@@ -930,8 +930,12 @@ ns dans le code.
 \end_layout
 
 \begin_layout Itemize
+<<<<<<< HEAD:rapport_final/rapport_projet_karine.lyx~
 Les instructions correspondent au code proprement dit. Ce sont, pour nous, les plus
 importantes.
+=======
+Les instructions correspondent au code proprement dit.
+>>>>>>> e1566800437d1cfa17f676c90927cdb496831841:rapport_final/rapport_projet_karine.lyx~
  Une instruction contient un code opérateur, des opérandes, son type et
  son format.
  Dans cette classe nous pouvons récupérer ses caractéristiques mais nous
@@ -941,7 +945,11 @@ importantes.
 
 \begin_layout Itemize
 Le code opérateur est représenté par un type énuméré, qui lui même représente
+<<<<<<< HEAD:rapport_final/rapport_projet_karine.lyx~
  toutes les mémoniques assembleur.
+=======
+ toutes les mémoniques asm.
+>>>>>>> e1566800437d1cfa17f676c90927cdb496831841:rapport_final/rapport_projet_karine.lyx~
 \end_layout
 
 \begin_layout Itemize
@@ -1020,6 +1028,7 @@ t.
 \end_layout
 
 \begin_layout Standard
+<<<<<<< HEAD:rapport_final/rapport_projet_karine.lyx~
 La méthode permettant de calculer les fonctions parcours la liste chaînée, correspondant au programme,
  affecte au noeud de début de la fonction le noeud du programme contenant la directive d'entrée à la fonction .ent 
 et affecte au noeud de fin de la fonction le noeud du programme contenant la directive de sortie de la fonction .end.  
@@ -1027,6 +1036,10 @@ Ensuite, elle rajoute cette fonction à la liste des fonctions du programme, et 
 \end_layout
 \begin_layout Standard
 Voici l'algorithme en pseudo code du calcul des fonctions d'un programme :
+=======
+Voici l'algorithme en pseudo code du calcul des fonctions d'un programme
+ :
+>>>>>>> e1566800437d1cfa17f676c90927cdb496831841:rapport_final/rapport_projet_karine.lyx~
 \end_layout
 
 \begin_layout Standard
@@ -1041,12 +1054,16 @@ compute_function()
 
 \begin_layout Plain Layout
 
+<<<<<<< HEAD:rapport_final/rapport_projet_karine.lyx~
 begin
 \end_layout
 
 \begin_layout Plain Layout
 
 Function function
+=======
+beginFunction function
+>>>>>>> e1566800437d1cfa17f676c90927cdb496831841:rapport_final/rapport_projet_karine.lyx~
 \end_layout
 
 \begin_layout Plain Layout
@@ -1054,6 +1071,7 @@ Function function
  if (program.is_not_Empty()) then
 \end_layout
 
+<<<<<<< HEAD:rapport_final/rapport_projet_karine.lyx~
 \begin_layout Plain Layout
 
 	Node current_node<-program.head	while (current_node) then
@@ -1062,6 +1080,11 @@ Function function
 \begin_layout Plain Layout
 
 		 /* la directive de fin correspondante est .end*/
+=======
+\begin_layout Plain Layout
+
+	Node current_node<-program.head	while (current_node) then
+>>>>>>> e1566800437d1cfa17f676c90927cdb496831841:rapport_final/rapport_projet_karine.lyx~
 \end_layout
 
 \begin_layout Plain Layout
@@ -1097,11 +1120,14 @@ Function function
 
 \begin_layout Plain Layout
 
+<<<<<<< HEAD:rapport_final/rapport_projet_karine.lyx~
 			function.head <- current_node
 \end_layout
 
 \begin_layout Plain Layout
 
+=======
+>>>>>>> e1566800437d1cfa17f676c90927cdb496831841:rapport_final/rapport_projet_karine.lyx~
 		end if
 \end_layout
 
@@ -1157,11 +1183,16 @@ Dans chacune des fonctions d'un programme il y a plusieurs blocs de bases.
  Elle contient un pointeur sur la ligne de début (une instruction ou un
  label) et la ligne de fin du bloc.
  Cette classe offre la possibilité d'afficher le contenu du bloc, le restituer
+<<<<<<< HEAD:rapport_final/rapport_projet_karine.lyx~
  dans un fichier et calculer le nombre de lignes qu'il contient.
+=======
+ dans un fichier et calculer sa taille.
+>>>>>>> e1566800437d1cfa17f676c90927cdb496831841:rapport_final/rapport_projet_karine.lyx~
  Le calcul des blocs de bases se fait dans la classe Function, qui va conserver
  ces blocs dans une liste.
 \end_layout
 
+<<<<<<< HEAD:rapport_final/rapport_projet_karine.lyx~
 \begin_layout Standard
 La méthode qui permet de calculer les blocs de base va chercher dans la fonction les noeuds
 correspondant au point d'entrée et de sortie d'un bloc. Le point d'entrée d'un bloc est soit un label, soit 
@@ -1169,6 +1200,8 @@ la ligne suivant un delayed slot. Le point de sortie est soit l'instruction pré
  un branchement. Dans notre cas le delayed slot est de 1. Après avoir trouvé le point de sortie d'un bloc on ajoute 
 le bloc à la liste des blocs contenu dans la classe Function.
 \end_layout
+=======
+>>>>>>> e1566800437d1cfa17f676c90927cdb496831841:rapport_final/rapport_projet_karine.lyx~
 \begin_layout Standard
 Voici l'algorithme en pseudo code du calcule des blocs de bases dans une
  fonction:
@@ -1235,11 +1268,14 @@ begin
 \end_layout
 
 \begin_layout Plain Layout
+<<<<<<< HEAD:rapport_final/rapport_projet_karine.lyx~
 
 				 current_node.next_node._next_node != function.end)
 \end_layout
 
 \begin_layout Plain Layout
+=======
+>>>>>>> e1566800437d1cfa17f676c90927cdb496831841:rapport_final/rapport_projet_karine.lyx~
 
 					block.head <- current_node.next_node
 \end_layout
@@ -1251,12 +1287,20 @@ begin
 
 \begin_layout Plain Layout
 
+<<<<<<< HEAD:rapport_final/rapport_projet_karine.lyx~
 			              current_node <-  current_node.next_node  /*block.head*/
+=======
+			              current_node <-  current_node.next(block.head)
+>>>>>>> e1566800437d1cfa17f676c90927cdb496831841:rapport_final/rapport_projet_karine.lyx~
 \end_layout
 
 \begin_layout Plain Layout
 
+<<<<<<< HEAD:rapport_final/rapport_projet_karine.lyx~
 				    else break
+=======
+						else break
+>>>>>>> e1566800437d1cfa17f676c90927cdb496831841:rapport_final/rapport_projet_karine.lyx~
 \end_layout
 
 \begin_layout Plain Layout
@@ -1371,7 +1415,11 @@ Nous avons réalisé la fonctionnalité qui permet de calculer la dépendance
 \end_layout
 
 \begin_layout Itemize
+<<<<<<< HEAD:rapport_final/rapport_projet_karine.lyx~
 RAW: détection des dépendances lecture après écriture entre deux instructions
+=======
+RAW: détéction des dépendances lecture après écriture entre deux instructions
+>>>>>>> e1566800437d1cfa17f676c90927cdb496831841:rapport_final/rapport_projet_karine.lyx~
  i1 et i2, c'est à dire la lecture d'un registre par i2 après son écriture
  par i1.
 \end_layout
@@ -1396,7 +1444,11 @@ WAW: détection des dépendances écriture après écriture entre deux instructi
 \end_layout
 
 \begin_layout Standard
+<<<<<<< HEAD:rapport_final/rapport_projet_karine.lyx~
 Voici les algorithmes pour chacun des types de calcul des dépendances dans la classe instruction:
+=======
+Voici les algorithmes pour chacun des types de calcul des dépendances :
+>>>>>>> e1566800437d1cfa17f676c90927cdb496831841:rapport_final/rapport_projet_karine.lyx~
 \end_layout
 
 \begin_layout Subsection
@@ -1413,10 +1465,13 @@ tion courante et i2 passé en paramètre, sinon retourne faux.
 inline false
 status open
 
+<<<<<<< HEAD:rapport_final/rapport_projet_karine.lyx~
 \begin_layout Plain Layout
 
 RAW(Instruction i2)
 \end_layout
+=======
+>>>>>>> e1566800437d1cfa17f676c90927cdb496831841:rapport_final/rapport_projet_karine.lyx~
 \begin_layout Plain Layout
 
 begin
@@ -1959,7 +2014,11 @@ $0
 \end_layout
 
 \begin_layout Standard
-Pour cela nous avons écrit un script qui effectue cette comparaison binaire.
+Pour cela nous avons écrit un script 
+\emph on
+diffobj.sh
+\emph default
+ qui effectue cette comparaison binaire.
  Voici son fonctionnement :
 \end_layout
 
@@ -2037,8 +2096,15 @@ Résultats
 \end_layout
 
 \begin_layout Standard
-Le lancement des test s'effectue via la commande make test1.
- Cette règle construit les fichiers assembleurs puis appelle le script diffobj.sh
+Le lancement des test s'effectue via la commande 
+\emph on
+make test1
+\emph default
+.
+ Cette règle construit les fichiers assembleurs puis appelle le script 
+\emph on
+diffobj.sh
+\emph default
  pour effectuer la comparaison.
  Le premier succès est que les codes restitués se compilent sans problèmes
  majeurs.
@@ -2176,6 +2242,7 @@ insère les lignes 2, 3, et 4bis dans le programme.
 
 \end_layout
 
+<<<<<<< HEAD:rapport_final/rapport_projet_karine.lyx~
 \begin_layout Standard
 nous obtenons le programme suivant et l'affiche avec succès dans la console:
 \end_layout
@@ -2191,18 +2258,34 @@ lui $4, 0xFFFF # ligne 1
 \end_layout
 
 \begin_layout Plain Layout
+=======
+\end_inset
+
+>>>>>>> e1566800437d1cfa17f676c90927cdb496831841:rapport_final/rapport_projet_karine.lyx~
 
 ori $4, $4, 0XFFFF # ligne 2
 \end_layout
 
 \begin_layout Plain Layout
 
+<<<<<<< HEAD:rapport_final/rapport_projet_karine.lyx~
 xor $5, $4, $0 # ligne 3
+=======
+\begin_layout Itemize
+le contenu du commentaire de la ligne 1 est supprimé automatiquement par
+ le parseur,
+>>>>>>> e1566800437d1cfa17f676c90927cdb496831841:rapport_final/rapport_projet_karine.lyx~
 \end_layout
 
 \begin_layout Plain Layout
 
+<<<<<<< HEAD:rapport_final/rapport_projet_karine.lyx~
 xor $6, $4, $0 # ligne 4
+=======
+\begin_layout Itemize
+les opérandes et l'opérateur de la ligne 3 sont modifés pour obtenir la
+ ligne c,
+>>>>>>> e1566800437d1cfa17f676c90927cdb496831841:rapport_final/rapport_projet_karine.lyx~
 \end_layout
 
 \begin_layout Plain Layout
@@ -2210,11 +2293,14 @@ xor $6, $4, $0 # ligne 4
 and $4, $5, $6 # ligne 5
 \end_layout
 
+<<<<<<< HEAD:rapport_final/rapport_projet_karine.lyx~
 \end_inset
 
 
 \end_layout
 
+=======
+>>>>>>> e1566800437d1cfa17f676c90927cdb496831841:rapport_final/rapport_projet_karine.lyx~
 \begin_layout Subsection
 Calcul de dépendance entre instructions
 \end_layout
@@ -2229,7 +2315,56 @@ test_04.cpp
 \emph on
 test4.s
 \emph default
-, puis affiche l'ensemble des dépendances entres les instructions.
+ que voici :
+\end_layout
+
+\begin_layout Standard
+\begin_inset listings
+inline false
+status open
+
+\begin_layout Plain Layout
+
+# Exemple de programme utilisé pour la recette 
+\end_layout
+
+\begin_layout Plain Layout
+
+1 lw	$4,	0($0)
+\end_layout
+
+\begin_layout Plain Layout
+
+2 lw	$4,	0($8)	# Write after Write avec 1
+\end_layout
+
+\begin_layout Plain Layout
+
+3 addi	$5,	$4,10	# Read after Write avec 2
+\end_layout
+
+\begin_layout Plain Layout
+
+4 sw	$4,	0($8)
+\end_layout
+
+\begin_layout Plain Layout
+
+5 sub	$4,	$10,$5	# Write after Read avec 4 et 3
+\end_layout
+
+\begin_layout Plain Layout
+
+6 addi	$31,	$31,4	# instruction indépendante
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+puis affiche l'ensemble des dépendances entres les instructions.
  Une vérification manuelle nous confirme que les calculs sont corrects.
 \end_layout
 
@@ -2348,15 +2483,14 @@ Malheureusement, lors de la réalisation de la bibliothèque certains problèmes
 \end_layout
 
 \begin_layout Itemize
-Fonctionnalité d'indexation: l'indexation sur les labels n'a pas été fait.
- Mais, cela dis, nous pouvons récupérer les labels grace au blocs de bases
- en testant si le bloc commence par un label ou pas.
+Fonctionnalité d'indexation: l'indexation sur les labels fut écartée volontairem
+ent car jugée inutile par notre encadrante.
 \end_layout
 
 \begin_layout Itemize
-Du fait du temps passé sur le parseur nous n'avons pas pu écrire des tests
- unitaires prévus pour les classes de base, qui furent remplacés par des
- tests fonctionnels et une vérification humaine moins chronophage.
+Du fait du temps passé sur le parseur nous n'avons pas écrit les tests unitaires
+ prévus pour les classes de base, qui furent remplacés par des tests fonctionnel
+s et une vérification humaine moins chronophage.
 \end_layout
 
 \begin_layout Section
@@ -2370,13 +2504,16 @@ Si notre bibliothèque est parfaitement utilisable en l'état, nous avons
 \end_layout
 
 \begin_layout Itemize
-Gérer les opérateurs d'instruction avec une classe ce qui permettrait de
- gagner en facilité d'utilisation et d'extension par les utilisateurs.
+Rendre la bibliothèque paramétrable, par exemple sur le nombre de delayed
+ slot ou sur les instructions acceptées.
 \end_layout
 
 \begin_layout Itemize
-Être capable de gérer différentes architectures MIPS avec un parseur paramétrabl
-e et un moyen de décrire une architecture pour le reste de la bibliothèque.
+Actuellement l'opérateur d'une instruction est géré via un type énuméré
+ et un tableau de caractéristiques associé.
+ En gérant ces informations dans une classe, on aurait une manière uniforme
+ de manipuler les opérateurs et le reste de la bibliothèque et plus de facilité
+ à ajouter des informations grâce à l'objet.
 \end_layout
 
 \begin_layout Itemize
@@ -2394,12 +2531,8 @@ Conclusion
 
 \begin_layout Standard
 L'objectif de notre bibliothèque est rempli : un utilisateur récupérer notre
- bibliothèque sur la page du projet 
-\emph on
-https://github.com/VLambret/libASM
-\emph default
- et en installant uniquement des logiciels libres standards la compiler
- et l'utiliser pour son usage.
+ bibliothèque et en installant uniquement des logiciels libres standards
+ la compiler et l'utiliser pour son usage.
  La conception objet permet d'adapter ou d'étendre facilement les services
  rendus par notre bibliothèque et de l'utiliser facilement pour concevoir
  un nouvel outil s'appuyant sur nos Classes.

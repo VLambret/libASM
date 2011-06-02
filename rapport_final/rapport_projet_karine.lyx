@@ -1959,7 +1959,11 @@ $0
 \end_layout
 
 \begin_layout Standard
-Pour cela nous avons écrit un script qui effectue cette comparaison binaire.
+Pour cela nous avons écrit un script 
+\emph on
+diffobj.sh
+\emph default
+ qui effectue cette comparaison binaire.
  Voici son fonctionnement :
 \end_layout
 
@@ -2037,8 +2041,15 @@ Résultats
 \end_layout
 
 \begin_layout Standard
-Le lancement des test s'effectue via la commande make test1.
- Cette règle construit les fichiers assembleurs puis appelle le script diffobj.sh
+Le lancement des test s'effectue via la commande 
+\emph on
+make test1
+\emph default
+.
+ Cette règle construit les fichiers assembleurs puis appelle le script 
+\emph on
+diffobj.sh
+\emph default
  pour effectuer la comparaison.
  Le premier succès est que les codes restitués se compilent sans problèmes
  majeurs.
@@ -2229,7 +2240,56 @@ test_04.cpp
 \emph on
 test4.s
 \emph default
-, puis affiche l'ensemble des dépendances entres les instructions.
+ que voici :
+\end_layout
+
+\begin_layout Standard
+\begin_inset listings
+inline false
+status open
+
+\begin_layout Plain Layout
+
+# Exemple de programme utilisé pour la recette 
+\end_layout
+
+\begin_layout Plain Layout
+
+1 lw	$4,	0($0)
+\end_layout
+
+\begin_layout Plain Layout
+
+2 lw	$4,	0($8)	# Write after Write avec 1
+\end_layout
+
+\begin_layout Plain Layout
+
+3 addi	$5,	$4,10	# Read after Write avec 2
+\end_layout
+
+\begin_layout Plain Layout
+
+4 sw	$4,	0($8)
+\end_layout
+
+\begin_layout Plain Layout
+
+5 sub	$4,	$10,$5	# Write after Read avec 4 et 3
+\end_layout
+
+\begin_layout Plain Layout
+
+6 addi	$31,	$31,4	# instruction indépendante
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+puis affiche l'ensemble des dépendances entres les instructions.
  Une vérification manuelle nous confirme que les calculs sont corrects.
 \end_layout
 
@@ -2348,15 +2408,14 @@ Malheureusement, lors de la réalisation de la bibliothèque certains problèmes
 \end_layout
 
 \begin_layout Itemize
-Fonctionnalité d'indexation: l'indexation sur les labels n'a pas été fait.
- Mais, cela dis, nous pouvons récupérer les labels grace au blocs de bases
- en testant si le bloc commence par un label ou pas.
+Fonctionnalité d'indexation: l'indexation sur les labels fut écartée volontairem
+ent car jugée inutile par notre encadrante.
 \end_layout
 
 \begin_layout Itemize
-Du fait du temps passé sur le parseur nous n'avons pas pu écrire des tests
- unitaires prévus pour les classes de base, qui furent remplacés par des
- tests fonctionnels et une vérification humaine moins chronophage.
+Du fait du temps passé sur le parseur nous n'avons pas écrit les tests unitaires
+ prévus pour les classes de base, qui furent remplacés par des tests fonctionnel
+s et une vérification humaine moins chronophage.
 \end_layout
 
 \begin_layout Section
@@ -2370,13 +2429,16 @@ Si notre bibliothèque est parfaitement utilisable en l'état, nous avons
 \end_layout
 
 \begin_layout Itemize
-Gérer les opérateurs d'instruction avec une classe ce qui permettrait de
- gagner en facilité d'utilisation et d'extension par les utilisateurs.
+Rendre la bibliothèque paramétrable, par exemple sur le nombre de delayed
+ slot ou sur les instructions acceptées.
 \end_layout
 
 \begin_layout Itemize
-Être capable de gérer différentes architectures MIPS avec un parseur paramétrabl
-e et un moyen de décrire une architecture pour le reste de la bibliothèque.
+Actuellement l'opérateur d'une instruction est géré via un type énuméré
+ et un tableau de caractéristiques associé.
+ En gérant ces informations dans une classe, on aurait une manière uniforme
+ de manipuler les opérateurs et le reste de la bibliothèque et plus de facilité
+ à ajouter des informations grâce à l'objet.
 \end_layout
 
 \begin_layout Itemize
@@ -2393,16 +2455,12 @@ Conclusion
 \end_layout
 
 \begin_layout Standard
-L'objectif de notre bibliothèque est rempli : un utilisateur récupérer notre
- bibliothèque sur la page du projet 
-\emph on
-https://github.com/VLambret/libASM
-\emph default
- et en installant uniquement des logiciels libres standards la compiler
- et l'utiliser pour son usage.
+L'objectif de notre bibliothèque est rempli : un utilisateur peut récupérer
+ notre bibliothèque et en installant uniquement des logiciels libres standards
+ la compiler et l'utiliser pour son usage.
  La conception objet permet d'adapter ou d'étendre facilement les services
  rendus par notre bibliothèque et de l'utiliser facilement pour concevoir
- un nouvel outil s'appuyant sur nos Classes.
+ un nouvel outil s'appuyant sur nos classes.
 \end_layout
 
 \begin_layout Standard
