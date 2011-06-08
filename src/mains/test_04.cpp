@@ -10,7 +10,7 @@ int main(){
 	int size, i, j ;
 	Program p("src/examples/test/test4.s") ;
 	p.display() ;
-	Line *l ;
+	Line *l, *ligne ;
 	Instruction *i1, *i2 ;
 	t_Dep t ;
 
@@ -23,11 +23,12 @@ int main(){
 	for (i=0 ; i<size ; i++) {
 		l = p.findLine(i) ;
 	//	std::cout << "Ligne " << i << " : " << l->getContent() << std::endl ;
-		i1 = l ;
+		i1 = dynamic_cast< Instruction * > (l);
 		std::cout << "Ligne " << i << " : "; 
 		for (j=0 ; j<size ; j++) {
 			if (j != i) {
-				i2 = p.findLine(j) ;
+				ligne = p.findLine(j) ;
+				i2 = dynamic_cast< Instruction * > (ligne);
 				t = i1->is_dependant(*i2);
 				if (t == RAW) {
 					std::cout << "-RAW" ;
@@ -59,11 +60,12 @@ int main(){
 	for (i=0 ; i<size ; i++) {
 		l = p.findLine(i) ;
 	//	std::cout << "Ligne " << i << " : " << l->getContent() << std::endl ;
-		i1 = l ;
+		i1 = dynamic_cast< Instruction * > (l);
 		std::cout << "Ligne " << i << " : "; 
 		for (j=0 ; j<size ; j++) {
 			if (j != i) {
-				i2 = p.findLine(j) ;
+				ligne = p.findLine(j) ;
+				i2 = dynamic_cast< Instruction * > (ligne);
 				t = i1->is_dependant(*i2);
 				if (t == RAW) {
 					std::cout << "-RAW" ;
