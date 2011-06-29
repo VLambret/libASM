@@ -19,7 +19,7 @@
 	enum t_Operator{
 	b,		beqz,	bnez,	beq,	bgez,	bgezal,
 	bgtz,	blez,	bltz,	bltzal,	bne,	j,
-	jal,	jalr,	jr,		la,		li,		 		loadi,	sb,	sh,	lb,	lbu,	lh,		
+	jal,	jalr,	jr,		la,	li,	loadi,	sb,	sh,	lb,	lbu,	lh,		
 	lhu,	lui,	lw,	lwl,		
 	lwr,	ll,	pref,sw,	add,
 	addu,	addi,	addiu,	and_,	andi,	mul,
@@ -47,7 +47,7 @@
 	} ;
 
 	static s_Profile op_profile[maxop] = {
-			{b,			B,		BAD},
+			{b,		B,		BAD},
 			{beqz,		I,		BR},
 			{bnez,		I,		BR},
 			{beq,		I,		BR},
@@ -58,7 +58,7 @@
 			{bltz,		I,		BR},
 			{bltzal,	I,		BR},
 			{bne,		I,		BR},
-			{j,			J,		BR},
+			{j,		J,		BR},
 			{jal,		J,		BR},
 			{jalr,		R,		BR},
 			{jr,		R,		BR},
@@ -149,29 +149,6 @@
 			{waitn,		B,		BAD},
 			{rfe,		B,		BAD}
 		};
-
-	/** brief function that return the type of an operator*/
-	static t_Inst op2type(t_Operator op) {
-		if ((op < 0) || (op >= maxop)) {
-			std::cerr << "op2type() : Invalid operator " << op << std::endl ;
-			return BAD ;
-		} else {
-			return op_profile[op].type ;
-		}		
-	}
-
-	/** brief function that return the format of an operator*/
-	static t_Format op2format(t_Operator op) {
-		if ((op < 0) || (op >= maxop)) {
-			std::cerr << "op2format() : Invalid operator " << op << std::endl ;
-			return B ;
-		} else {
-			return op_profile[op].format ;
-		}		
-	}
-	
-
-
 
 
 /**	\brief	Type enum which take the type of the line			

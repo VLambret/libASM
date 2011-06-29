@@ -8,8 +8,8 @@
 
 #include <iostream>
 #include <string>
-#include "Operand.h"
-#include "Enum_type.h"
+#include <Operand.h>
+#include <Enum_type.h>
 using namespace std;
 
 /**	\class	OPRegister

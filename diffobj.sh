@@ -15,8 +15,8 @@ od -w4 -x -v $2  | cut -f2- -d' ' |
 	sed -e 's/\(....\) \(....\)/\2\1/' |
 	cat > ${TMP}/$2.code.txt
 
-mipsel-linux-gnu-objdump --show-raw-insn -s -D $1 > ${TMP}/$1.objdump.txt
-mipsel-linux-gnu-objdump --show-raw-insn -s -D $2 > ${TMP}/$2.objdump.txt
+mipsel-unknown-elf-objdump --show-raw-insn -s -D $1 > ${TMP}/$1.objdump.txt
+mipsel-unknown-elf-objdump --show-raw-insn -s -D $2 > ${TMP}/$2.objdump.txt
 
 cat ${TMP}/$1.objdump.txt ${TMP}/$2.objdump.txt |
 	grep ":	" |

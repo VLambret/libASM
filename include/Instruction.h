@@ -6,14 +6,14 @@
 	\author	Hajjem
 */
 
-#include "Operand.h"
+#include <Operand.h>
 #include <string>
-#include "OPExpression.h"
-#include "OPImmediate.h"
-#include "OPLabel.h"
-#include "Line.h"
-#include "OPRegister.h"
-#include "Enum_type.h"
+#include <OPExpression.h>
+#include <OPImmediate.h>
+#include <OPLabel.h>
+#include <Line.h>
+#include <OPRegister.h>
+#include <Enum_type.h>
 
 using namespace std;
 

@@ -1,4 +1,4 @@
-#include "OPLabel.h"
+#include <OPLabel.h>
 
 OPLabel::OPLabel(string op){
 

@@ -104,28 +104,28 @@ void Instruction::setOPcode(t_Operator newop)
 
 t_Format Instruction::getFormat(){
 
-if(_op1->getOptype()==Lab) _format=J;
+/*if(_op1->getOptype()==Lab) _format=J;
 else if((_op1->getOptype()==Imm) || (_op2->getOptype()==Lab) || (_op2->getOptype()==Imm) ||(_op3->getOptype()==Lab) || (_op3->getOptype()==Imm))
 			_format=I;
 else if ((_op1->getOptype()==Reg) && (_op2->getOptype()==Reg) && (_op3->getOptype()==Reg))	_format=R;
-else return _format=O;
-
+else return _format=O;*/
+_format = op_profile[_op].format;
 return _format;
 }
 
 
 string Instruction::stringForm(){
-string form[]={"J", "I", "R", "O"};
+string form[]={"J", "I", "R", "O", "B"};
 
-return form[_format];
+return form[getFormat()];
 }
 
 t_Inst  Instruction::getType(){
-if (_op<15) _type= BR;
+/*if (_op<15) _type= BR;
 else if ((14<_op) && (_op<31)) _type= MEM;
 else if ((28<_op)&& (_op<61))  _type= ALU;
-else _type= OTHER;
-
+else _type= OTHER;*/
+	_type=op_profile[_op].type;
 return _type;
 
 }
@@ -276,7 +276,7 @@ Operand * Instruction::getRegSrc1(){
 }
 
 Operand * Instruction::getRegSrc2(){
-	OPRegister *op1 = dynamic_cast< OPRegister * > (_op1);
+	OPRegister *op3 = dynamic_cast< OPRegister * > (_op3);
 	OPRegister *op2 = dynamic_cast< OPRegister * > (_op2);
 	if(_op2->getOptype()==Reg && op2->getType() == Src && _op2!=NULL && _op2->getOp().compare("$0"))
 		return _op2;

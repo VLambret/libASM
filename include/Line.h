@@ -7,7 +7,7 @@
 
 #include <iostream>
 #include <string>
-#include "Enum_type.h"
+#include <Enum_type.h>
 using namespace std;
 
 /**	\class	Line

@@ -7,8 +7,8 @@
 
 #include <iostream>
 #include <string>
-#include "Enum_type.h"
-#include "Line.h"
+#include <Enum_type.h>
+#include <Line.h>
 using namespace std;
 
 /**	\class	Directive

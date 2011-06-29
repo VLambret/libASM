@@ -12,8 +12,10 @@
 #include <Instruction.h>
 #include <string>
 #include <stdio.h>
+#include <Label.h>
 #include <Enum_type.h>
 #include <list>
+#include <Cfg.h>
 #include <fstream>
 using namespace std;
 
@@ -58,7 +60,7 @@ public:
 
 /**	\brief	restitute the function in a file
 */
-	void restitution(ofstream );
+	void restitution(string const);
 
 /**	\brief	Calculate the basics bolck of the function
 */
@@ -72,11 +74,34 @@ public:
 */
 	Basic_block get_BB(int);
 
+/**	\brief	comput labels of the function in list
+*/
+	void comput_Label();
+
+/**	\brief	get all labels of the function
+*/
+	Label* get_Label(int);
+
+/**	\brief	get the size of the list label
+*/
+	int nbr_Label();
+
+/**	\brief	Get the basic block corresponding to the label
+*/
+	Basic_block find_Label_BB(OPLabel*);
+
+/**	\brief	Associate for each Basic block its successors
+*/
+	void comput_successor_BB();
+
+	void test();
+
 private:
 
 	Node *_head;
 	Node *_end;
-	list <Basic_block> myBB;
+	list <Basic_block> _myBB;
+	list <Label*> _list_lab;
 };
 
 #endif

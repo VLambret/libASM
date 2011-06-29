@@ -13,6 +13,7 @@
 #include <stdio.h>
 #include <Enum_type.h>
 #include <fstream>
+#include <list>
 
 using namespace std;
 
@@ -47,6 +48,15 @@ public:
 */
 	Node* get_end();
 
+/**	\brief	setter of Node corresponding to the branch
+*/
+	void set_Branch(Node *);
+
+/**	\brief	get the Node corresponding to the branch
+*/
+	Node* get_Branch();
+
+
 /**	\brief	display the basic block
 */
 	void display();
@@ -63,10 +73,43 @@ public:
 */
 	bool isLabeled();
 
+/**	\brief	setter of the successor of the basic block
+*/
+	void set_successor1(Basic_block *BB);
+
+/**	\brief	get the successor of the basic block
+*/
+	Basic_block *get_successor1();
+
+/**	\brief	setter of the successor of the basic block
+*/
+	void set_successor2(Basic_block *BB);
+
+/**	\brief	get the successor of the basic block
+*/
+	Basic_block *get_successor2();
+
+/**	\brief	get the number of successor of the basic block
+*/
+	int get_nbr_succ();
+
+/**	\brief	set the index of the basic block
+*/
+	void set_index(int i);
+
+/**	\brief	get the index of the basic block
+*/
+	int get_index();
+
 private:
 
 	Node *_head;
 	Node *_end;
+	Node *_branch;
+	int _index;
+	int _nbr_succ;
+	list <Basic_block *> _successor;
+	list <Basic_block *> _predecessor;
 };
 
 #endif

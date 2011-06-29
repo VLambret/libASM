@@ -6,8 +6,8 @@
 */
 
 #include <iostream>
-#include "Operand.h"
-#include "Enum_type.h"
+#include <Operand.h>
+#include <Enum_type.h>
 #include <string>
 using namespace std;
 

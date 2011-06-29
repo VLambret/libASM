@@ -162,10 +162,6 @@ public:
 /**	\brief	set the number of operand*/
 	void setNumberOper(int);
 
-	/**	\brief	return true if the directive indicate a function
-*/
-	virtual bool isFunction();
-
 	/**	\brief	get the regiter destination of the instruction
 */
 	Operand * getRegDst();

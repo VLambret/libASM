@@ -30,7 +30,8 @@ ASM_H=asm200.h
 CC=gcc
 CCMIPS=mips-gcc
 CPP=g++
-YACC=yacc
+YACC=bison -y
+LEX = flex
 #YACC=bison
 
 CFLAGS=	-Wall \
@@ -47,7 +48,7 @@ LOCAL_OBJECTS   = asm_mipslex.o                \
                   asm_ReadMipsAsmFiles.o       \
 
 MAIN_CFILES		= $(foreach d,$(SRC)/$(MAIN)/,$(wildcard $(d)/*.c))
-MAIN_CPPFILES	= $(foreach d,$(SRC)/$(MAIN)/,$(wildcard $(d)/*.cpp))
+MAIN_CPPFILES		= $(foreach d,$(SRC)/$(MAIN)/,$(wildcard $(d)/*.cpp))
 MAIN_CBIN		= $(addprefix $(BIN)/$(C)/,$(notdir $(MAIN_CFILES:%.c=%)))
 MAIN_CPPBIN		= $(addprefix $(BIN)/$(CP)/,$(notdir $(MAIN_CPPFILES:%.cpp=%)))
 
@@ -76,7 +77,7 @@ LIB=$(UTL_OBJECTS) $(ASM_OBJECTS) $(BASE_OBJECTS) $(PARSE_OBJECTS)
 
 lib : $(LIB)
 
-# Build all mains
+# Build all mainsex -Pasm_mips -o src/parsing/asm_mips.lex
 
 $(BIN)/$(C)/% : $(SRC)/$(MAIN)/%.c $(LIB)
 	@mkdir -p $(BIN)/$(C)/
@@ -88,7 +89,7 @@ $(BIN)/$(CP)/% : $(SRC)/$(MAIN)/%.cpp $(LIB)
 	@mkdir -p $(TMP)
 	$(CPP) $(CFLAGS) -o $@ $^
 
-#	$(CPP) $(CFLAGS) -o $(BIN)/$@ $^
+#	$(CPP) $(CFLAGS)mv $(SRC_PARSE)/asm_mips.lex.c asm_mipslex.c -o $(BIN)/$@ $^
 
 $(OBJ)/$(BASE)/%.o : $(SRC_BASE)/%.cpp
 	@mkdir -p  $(OBJ)/$(BASE)
@@ -119,7 +120,9 @@ $(SRC_PARSE)/asm_mipsyac.cpp $(INCLUDE)/asm_mipsyac.h : $(SRC_PARSE)/asm_mips.ya
 	mv $(SRC_PARSE)/y.tab.h $(INCLUDE)/asm_mipsyac.h
 
 $(SRC_PARSE)/asm_mipslex.c : $(INCLUDE)/asm_mipsyac.h $(SRC_PARSE)/asm_mips.lex
-	$(LEX) -Pasm_mips -o $@ $(SRC_PARSE)/asm_mips.lex
+	$(LEX) -Pasm_mips -o$@ $(SRC_PARSE)/asm_mips.lex
+	#mv asm_mips.lex.c asm_mipslex.c
+
 
 # Tests
 
@@ -136,7 +139,8 @@ TEST1a=test_01a
 TEST1b=test_01b
 TEST1c=test_01c
 GCCMIPS=mipsel-linux-gnu-gcc
-ODMIPS=mipsel-linux-gnu-objdump
+GCCMIPS=mipsel-unknown-elf-gcc
+ODMIPS=mipsel-unknown-elf-objdump
 DIFF=./diffobj.sh
 
 $(SRC)/$(EX)/test/%.s:$(SRC)/$(EX)/test/%.c
@@ -158,7 +162,7 @@ test1b:$(BIN)/$(CP)/$(TEST1b) $(SRC)/$(EX)/test/$(TEST1b).s
 test1c:$(BIN)/$(CP)/$(TEST1c) $(SRC)/$(EX)/primes.s
 	./$<
 	$(GCCMIPS) -march=r3000 -c -o $(TMP)/$(TEST1c)_source.o  $(SRC)/$(EX)/primes.s
-	$(GCCMIPS) -march=r3000 -c -o $(TMP)/$(TEST1c)_parsed.o  $(TMP)/primest-pull.s
+	$(GCCMIPS) -march=r3000 -c -o $(TMP)/$(TEST1c)_parsed.o  $(TMP)/primes.s
 	$(DIFF) $(TMP)/$(TEST1c)_source.o $(TMP)/$(TEST1c)_parsed.o > $(TMP)/$(TEST1c)_source.objdiff.txt
 
 # Show tokens

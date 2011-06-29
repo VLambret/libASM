@@ -1,4 +1,4 @@
-#include "Directive.h"
+#include <Directive.h>
 
 Directive::Directive( string direct)
 {

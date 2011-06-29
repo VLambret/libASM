@@ -3,10 +3,21 @@
 Basic_block::Basic_block(){
 	_head = NULL;
 	_end = NULL;
+	_branch = NULL;
+	_index = 0;
+	_nbr_succ=0;
 }
 
 
 Basic_block::~Basic_block(){}
+
+void Basic_block::set_index(int i){
+	_index = i;
+}
+
+int Basic_block::get_index(){
+	return _index;
+}
 
 void Basic_block::set_head(Node *head){
 	_head = head;
@@ -24,6 +35,35 @@ Node* Basic_block::get_end(){
 	return _end;
 }
 
+void Basic_block::set_successor1(Basic_block *BB){
+	_nbr_succ++;
+	_successor.push_front(BB);
+}
+
+Basic_block *Basic_block::get_successor1(){
+	return _successor.front();
+}
+
+void Basic_block::set_successor2(Basic_block *BB){
+	_nbr_succ++;
+	_successor.push_back(BB);
+}
+
+Basic_block *Basic_block::get_successor2(){
+	return _successor.back();
+}
+
+int Basic_block::get_nbr_succ(){
+	return _nbr_succ;
+}
+
+void Basic_block::set_Branch(Node * br){
+	_branch=br;
+}
+
+Node* Basic_block::get_Branch(){
+	return _branch;
+}
 
 void Basic_block::display(){
 

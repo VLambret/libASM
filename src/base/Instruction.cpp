@@ -104,28 +104,19 @@ void Instruction::setOPcode(t_Operator newop)
 
 t_Format Instruction::getFormat(){
 
-if(_op1->getOptype()==Lab) _format=J;
-else if((_op1->getOptype()==Imm) || (_op2->getOptype()==Lab) || (_op2->getOptype()==Imm) ||(_op3->getOptype()==Lab) || (_op3->getOptype()==Imm))
-			_format=I;
-else if ((_op1->getOptype()==Reg) && (_op2->getOptype()==Reg) && (_op3->getOptype()==Reg))	_format=R;
-else return _format=O;
-
+_format = op_profile[_op].format;
 return _format;
 }
 
 
 string Instruction::stringForm(){
-string form[]={"J", "I", "R", "O"};
+string form[]={"J", "I", "R", "O", "B"};
 
-return form[_format];
+return form[getFormat()];
 }
 
 t_Inst  Instruction::getType(){
-if (_op<15) _type= BR;
-else if ((14<_op) && (_op<31)) _type= MEM;
-else if ((28<_op)&& (_op<61))  _type= ALU;
-else _type= OTHER;
-
+	_type=op_profile[_op].type;
 return _type;
 
 }
@@ -184,8 +175,8 @@ _line =line;
 }
 
 string Instruction::stringType(){
-	string typ[]={"ALU", "MEM", "BR", "OTHER"};
-	return typ[_type];
+	string typ[]={"ALU", "MEM", "BR", "OTHER","BAD"};
+	return typ[getType()];
 }
 
 

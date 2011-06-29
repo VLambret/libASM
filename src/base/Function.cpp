@@ -91,8 +91,63 @@ void Function::restitution(string const filename){
 	monflux.close();
 }
 
+void Function::comput_Label(){
+	Node* element = _head;
+
+	if(element == _end && element->getLine()->typeLine()==line_Lab)	
+					_list_lab.push_back(dynamic_cast< Label *> (element->getLine()));
+	while(element != _end)
+	{
+
+		if(element->getLine()->typeLine()==line_Lab)	
+					_list_lab.push_back(dynamic_cast< Label * > (element->getLine()));
+
+		if(element->getnext()==_end){
+			if(element->getLine()->typeLine()==line_Lab)	
+					_list_lab.push_back(dynamic_cast< Label * > (element->getLine()));
+			break;
+		}
+		else element = element->getnext();
+
+	}
+
+}
+
+int Function::nbr_Label(){
+	return _list_lab.size();
+
+}
+
+Label* Function::get_Label(int index){
+
+	list<Label*>::iterator it;
+	it=_list_lab.begin();
+
+  	if(index< _list_lab.size()){
+  		for (int i=0; i<index;i++ ) it++;
+		return *it;	
+	}
+	else cout<<"Error: index is bigger than the size of the list"<<endl; 
+	
+	return _list_lab.back();
+}
+
+Basic_block Function::find_Label_BB(OPLabel* label){
+	Basic_block BB;
+	for(int i=0; i<_myBB.size(); i++){		
+		if(get_BB(i).get_head()->getLine()->typeLine()==line_Lab){
+			
+			if(!get_BB(i).get_head()->getLine()->getContent().compare(0,
+				(get_BB(i).get_head()->getLine()->getContent().size()-1),label->getOp())){
+				return get_BB(i);}
+		}
+	}
+	return BB;
+}
+
 void Function::comput_basic_block(){
 	Basic_block BB;	
+	int i=0;
 	int begin=0;
 
 		Node* element = _head;
@@ -108,14 +163,19 @@ void Function::comput_basic_block(){
 			else	element= element->getnext();
 
 		}
+
 		while(element != _end)
 		{ 		/*si l'instruction est un branchement alors on prend le delay sot comme
 				dernier element du BB et comme tete l'element qui suit*/
 			if(element->getLine()->typeLine()==line_Instru && element->getnext()->getLine()->typeLine()==line_Instru){
 				if(element->getLine()->getType()==BR){
 					//cout<<"fin1 "<<element->getnext()->getLine()->getContent() <<endl;
+					BB.set_Branch(element);
 					BB.set_end(element->getnext());
-					myBB.push_back(BB);
+					BB.set_index(i);
+					i++;
+					_myBB.push_back(BB);
+					BB.set_Branch(NULL);
 					if(element->getnext()->getnext()!=_end && element->getnext()!=_end){
 						//cout<<"tÃªte2 "<<element->getnext()->getnext()->getLine()->getContent() <<endl;
 						BB.set_head(element->getnext()->getnext());
@@ -129,42 +189,140 @@ void Function::comput_basic_block(){
 			else if(element->getnext()->getLine()->typeLine()==line_Lab){
 				//cout<<"fin3 "<<element->getLine()->getContent() <<endl;
 				BB.set_end(element);
-					myBB.push_back(BB);
-					//cout<<"tÃªte3 "<<element->getnext()->getLine()->getContent() <<endl;
-					BB.set_head(element->getnext());
+				BB.set_index(i);
+				i++;
+				_myBB.push_back(BB);
+				//cout<<"tÃªte3 "<<element->getnext()->getLine()->getContent() <<endl;
+				BB.set_head(element->getnext());
 
 			}
-			/*if(element->getnext()->getLine()->typeLine()==line_Direct){
-				cout<<"fin "<<element->getLine()->getContent() <<endl;
-				BB.set_end(element);
-				break;
-			}*/
 			if(element->getnext()==_end){
 				BB.set_end(element);
+				BB.set_index(i);
+				i++;
 				//cout<<"fin4"<<element->getLine()->getContent() <<endl;
-				myBB.push_back(BB);
+				_myBB.push_back(BB);
 				break;
 			}
 			else element = element->getnext();
 
-		}		
+		}	
+
+		
 }
 
 int Function::nbr_BB(){
-	return myBB.size();
+	return _myBB.size();
 }
 
 Basic_block Function::get_BB(int index){
 
 	list<Basic_block>::iterator it;
-	it=myBB.begin();
+	it=_myBB.begin();
 
-  	if(index< myBB.size()){
+  	if(index< _myBB.size()){
   		for (int i=0; i<index;i++ ) it++;
 		return *it;	
 	}
 	else cout<<"Error: index is bigger than the size of the list"<<endl; 
 	
-	return myBB.back();
+	return _myBB.back();
 }
 
+
+void Function::comput_successor_BB(){
+	list <Basic_block> BBtmp;
+	Basic_block BB;
+	
+	for(int i=0; i<_myBB.size(); i++){
+		BB = get_BB(i);
+		if(get_BB(i).get_end()->getLine()->typeLine()==line_Instru){
+			//si l'instru n'est pas un br alors 1 successeur le BB suivant
+			if(get_BB(i).get_Branch()==NULL && ((i+1) < _myBB.size()) ){
+				BB.set_successor1(& get_BB(i+1)); 
+				}
+	
+			//si l'instru est un BR inconditiennel 1 successeur le BB pointé par le label
+			else if(dynamic_cast< Instruction *> (get_BB(i).get_Branch()->getLine())->getOPcode()==j){ 
+				if(find_Label_BB(dynamic_cast< Instruction *> (get_BB(i).get_Branch()->getLine())->getOp1()).get_head()){
+					//cout<<"coucou1"<<endl;
+					BB.set_successor1(&find_Label_BB(
+					  dynamic_cast< Instruction *> (get_BB(i).get_Branch()->getLine())->getOp1()));
+				}
+			}//cout<<"here too\n";}
+	
+			//si l'instru est un BR conditionnel 2 successeur le BB pointé et le BB suivant
+			else if((dynamic_cast< Instruction *> (get_BB(i).get_Branch()->getLine())->getOPcode()==beq ||
+				dynamic_cast< Instruction *> (get_BB(i).get_Branch()->getLine())->getOPcode()==bne)
+				&& ((i+1)< _myBB.size())){
+			
+				if(find_Label_BB(
+					dynamic_cast< Instruction *> (get_BB(i).get_Branch()->getLine())->getOp3()).get_head()){	
+					
+					BB.set_successor1(&find_Label_BB( dynamic_cast< Instruction *> (get_BB(i).get_Branch()->getLine())->getOp3()));
+				}
+				BB.set_successor2(&get_BB(i+1));
+				//cout<<"here too too\n";
+			}
+	
+			else if((dynamic_cast< Instruction *> (get_BB(i).get_Branch()->getLine())->getOPcode()!=jal &&
+					dynamic_cast< Instruction *> (get_BB(i).get_Branch()->getLine())->getOPcode()!=jalr &&
+					dynamic_cast< Instruction *> (get_BB(i).get_Branch()->getLine())->getOPcode()!=jr)
+					&& ((i+1)< _myBB.size())){
+
+				if(find_Label_BB(
+					dynamic_cast< Instruction *> (get_BB(i).get_Branch()->getLine())->getOp2()).get_head()){
+					
+					BB.set_successor1(&find_Label_BB(
+					dynamic_cast< Instruction *> (get_BB(i).get_Branch()->getLine())->getOp2()));
+				}
+				BB.set_successor2(&get_BB(i+1));
+				//cout<<"and finaly here too\n";
+			}
+
+			//sinon pas de successeur
+			else ;
+
+			BBtmp.push_back(BB);
+		}
+		
+
+	}
+	_myBB.clear();
+
+	list<Basic_block>::iterator it;
+	it=BBtmp.begin();
+
+	for (int i=0; i< BBtmp.size();i++ ){ 
+		_myBB.push_back(*it);
+		it++;
+	}	
+	
+}
+
+void Function::test(){
+	comput_successor_BB();
+	Cfg graph(&get_BB(0));
+	
+
+ 	for(int i=0;i<_myBB.size(); i++){
+ 	
+ 		graph.add_Node(&get_BB(i), NULL);
+ 		
+ 	}
+	graph.display(&get_BB(0));
+	
+	
+	
+	
+
+
+	/*for(int i=0;i<_myBB.size(); i++){
+		cout<<"voici les tete de bb successeur de "<<i<<endl;
+		if(get_BB(i).get_nbr_succ()){
+		cout<<get_BB(i).get_successor1().get_head()->getLine()->getContent()<<endl;
+			if(get_BB(i).get_nbr_succ()==2)
+			cout<<get_BB(i).get_successor2().get_head()->getLine()->getContent()<<endl;
+		}
+	}*/
+}
