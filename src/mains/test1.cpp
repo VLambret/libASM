@@ -20,6 +20,7 @@ int main(int argc, char * argv[]){
 
 	remove("tmp/test1.txt");
 	remove("tmp/test2.txt");
+	remove("./tmp/graph.dot");
 
 	Program prog(argv[1]);
 	Function functmp;
@@ -53,13 +54,21 @@ int main(int argc, char * argv[]){
 		functmp.comput_basic_block();
 
 		functmp.comput_Label();
+		
+		functmp.comput_succ_pred_BB();
 		functmp.test();
+		Cfg graph(functmp.get_BB(0),functmp.nbr_BB());
 	
+		graph.display(NULL);
+		graph.restitution(NULL,"./tmp/graph.dot");
+			
+
 		//cout<<"le label: "<<functmp.get_Label(3)->getContent()<<" se trouve dans le "<<functmp.find_Label_BB(&label)<<" block de base"<<endl;		
 
 		cout<<"nombre block de base:" <<functmp.nbr_BB()<<endl;
 		for(int j=0; j<functmp.nbr_BB(); j++)
-			myBB.push_back(functmp.get_BB(j));
+			myBB.push_back(*functmp.get_BB(j));
+
 
 		it1=myBB.begin();
 

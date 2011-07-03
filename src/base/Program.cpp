@@ -9,6 +9,8 @@ Program::Program(){
 	_length=0;
 }
 
+
+//constructeur de copie
 Program::Program(Program const&  otherprogram){
 	//On initialise la liste.
 
@@ -26,7 +28,7 @@ Program::Program(Program const&  otherprogram){
 	}
 }
 
-
+//constructeur qui vas permettre de parser un fichier
 Program::Program (string const file){
 	_head = NULL ;
 	_length = 0 ;
@@ -175,6 +177,7 @@ void Program::flush()
 
 t_Dep Program::dependance(Instruction i1, Instruction i2){
 	
+	//Calcul des depandance dans les deux sens
 	string dep[]={"NONE","RAW","WAR","WAW"};
 	t_Dep dep1= i1.is_dependant(i2);
 	t_Dep dep2= i2.is_dependant(i1);
@@ -262,11 +265,15 @@ void Program::comput_Function(){
 		
 		while(element != NULL)
 		{
-			
+			//Si la ligne correspond à la directive d'entrée
+			//Alors la ligne sera affectée à la tête de la fonction
 			if(!element->getLine()->getContent().compare(0,4,".ent")){
 				func.set_head(element->getnext());
 				//cout<<func.get_head()->getLine()->getContent()<<endl;
 			}
+
+			//Si la ligne correspond à la directive de sortie
+			//Alors la ligne sera affectée à la fin de la fonction
 			if(!element->getLine()->getContent().compare(0,4,".end")){
 				func.set_end(element);
 				//cout<<func.get_end()->getLine()->getContent()<<endl;
@@ -274,9 +281,7 @@ void Program::comput_Function(){
 			}
 			
 			if(element->getnext()==NULL){
-				//func.set_end(element);
 				//cout<<func.get_end()->getLine()->getContent()<<endl;
-				//myfunc.push_back(func);
 				break;
 			}
 			else element = element->getnext();

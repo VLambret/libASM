@@ -72,7 +72,7 @@ public:
 
 /**	\brief	get the Basic Block in the list
 */
-	Basic_block get_BB(int);
+	Basic_block *get_BB(int);
 
 /**	\brief	comput labels of the function in list
 */
@@ -88,19 +88,19 @@ public:
 
 /**	\brief	Get the basic block corresponding to the label
 */
-	Basic_block find_Label_BB(OPLabel*);
+	Basic_block *find_Label_BB(OPLabel*);
 
 /**	\brief	Associate for each Basic block its successors
 */
-	void comput_successor_BB();
-
+	void comput_succ_pred_BB();
+jsdhfv
 	void test();
 
 private:
 
 	Node *_head;
 	Node *_end;
-	list <Basic_block> _myBB;
+	list <Basic_block*> _myBB;
 	list <Label*> _list_lab;
 };
 

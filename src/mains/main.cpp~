@@ -26,7 +26,7 @@ int main(){
 	Directive dir(".ent");
 	Directive dir1(".end");
 	Label lab("Loop");
-	Instruction ins("waitn )",waitn,I, MEM,Op2,NULL,Op2,3);
+	Instruction ins("sw $5,43($6)",sw,I, MEM,Op2,NULL,Op2,3);
 	Instruction ins1("add $8,$6,$7",add,R, ALU,Op4,Op3,Op3,3);
 	Instruction ins5("j Loop",j,J, BR,&label,NULL,NULL,1);
 	string tlin[]={"line_Instru","line_Lab","line_Direct"};
@@ -108,14 +108,14 @@ int main(){
 	prog1.inFile("src/examples/file.txt");*/
 
 	Function unc;
-	/*Basic_block bb;
+	Basic_block bb;
 	cout<<"\n TEST OPTION"<<endl;
 	prog.comput_Function();
 	prog.get_Function(0).display();
 	cout<<prog.nbr_Func()<<endl;
 	cout<<"\n";
 	/*cout<<*/
-	/*unc=prog.get_Function(0);
+	unc=prog.get_Function(0);
 	unc.display();
 	cout<<unc.size()<<endl;
 	unc.restitution("./tmp/ex1.txt");
@@ -125,7 +125,7 @@ int main(){
 	bb.get_head();
 	bb.display();
 	bb.restitution("./tmp/ex12.txt");
-	cout<<endl;*/
+	cout<<endl;
 
 	prog.flush();
 	cout<<"affichage du prog après vidage"<<endl;

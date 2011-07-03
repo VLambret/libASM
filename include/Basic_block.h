@@ -15,7 +15,7 @@
 #include <fstream>
 #include <list>
 
-using namespace std;
+
 
 /**	\class	Basic_block
 	\brief	class representing a Basic_block of a fonction
@@ -89,9 +89,22 @@ public:
 */
 	Basic_block *get_successor2();
 
+/**	\brief	setter of the predecessor of the basic block
+*/
+	void set_predecessor(Basic_block *BB);
+
+/**	\brief	get the predecessor of the basic block
+*/
+	Basic_block *get_predecessor(int );
+
+
 /**	\brief	get the number of successor of the basic block
 */
 	int get_nbr_succ();
+
+/**	\brief	get the number of predecessor of the basic block
+*/
+	int get_nbr_pred();
 
 /**	\brief	set the index of the basic block
 */
@@ -108,6 +121,7 @@ private:
 	Node *_branch;
 	int _index;
 	int _nbr_succ;
+	int _nbr_pred;
 	list <Basic_block *> _successor;
 	list <Basic_block *> _predecessor;
 };

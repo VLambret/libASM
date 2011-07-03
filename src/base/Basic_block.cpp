@@ -1,11 +1,14 @@
 #include <Basic_block.h>
 
+
+
 Basic_block::Basic_block(){
 	_head = NULL;
 	_end = NULL;
 	_branch = NULL;
 	_index = 0;
-	_nbr_succ=0;
+	_nbr_succ = 0;
+	_nbr_pred = 0;
 }
 
 
@@ -44,7 +47,7 @@ Basic_block *Basic_block::get_successor1(){
 	return _successor.front();
 }
 
-void Basic_block::set_successor2(Basic_block *BB){
+void Basic_block::set_successor2(Basic_block *BB){	
 	_nbr_succ++;
 	_successor.push_back(BB);
 }
@@ -53,8 +56,32 @@ Basic_block *Basic_block::get_successor2(){
 	return _successor.back();
 }
 
+void Basic_block::set_predecessor(Basic_block *BB){
+	_nbr_pred++;
+	_predecessor.push_back(BB);
+}
+
+Basic_block *Basic_block::get_predecessor(int index){
+
+	list<Basic_block*>::iterator it;
+	it=_predecessor.begin();
+
+  	if(index< _predecessor.size()){
+  		for (int i=0; i<index;i++ ) it++;
+		return *it;	
+	}
+	else cout<<"Error: index is bigger than the size of the list"<<endl; 
+	
+	return _predecessor.back();
+	
+}
+
 int Basic_block::get_nbr_succ(){
 	return _nbr_succ;
+}
+
+int Basic_block::get_nbr_pred(){
+	return _nbr_pred;
 }
 
 void Basic_block::set_Branch(Node * br){

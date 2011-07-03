@@ -26,7 +26,7 @@ int main(){
 	Directive dir(".ent");
 	Directive dir1(".end");
 	Label lab("Loop");
-	Instruction ins("waitn )",waitn,I, MEM,Op2,NULL,Op2,3);
+	Instruction ins("sw $5,43($6)",sw,I, MEM,Op2,NULL,Op2,3);
 	Instruction ins1("add $8,$6,$7",add,R, ALU,Op4,Op3,Op3,3);
 	Instruction ins5("j Loop",j,J, BR,&label,NULL,NULL,1);
 	string tlin[]={"line_Instru","line_Lab","line_Direct"};
@@ -120,7 +120,7 @@ int main(){
 	cout<<unc.size()<<endl;
 	unc.restitution("./tmp/ex1.txt");
 	unc.comput_basic_block();
-	bb=unc.get_BB(0);
+	bb=*unc.get_BB(0);
 	cout<<endl;
 	bb.get_head();
 	bb.display();
