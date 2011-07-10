@@ -17,11 +17,12 @@
 */
 	// !!WARNING!! :If you add new Operators, dont forget to report their caracteristics in op_profile with the same order !!
 	enum t_Operator{
-	b,		beqz,	bnez,	beq,	bgez,	bgezal,
+	b,	beqz,	bnez,	beq,	bgez,	bgezal,
 	bgtz,	blez,	bltz,	bltzal,	bne,	j,
-	jal,	jalr,	jr,		la,	li,	loadi,	sb,	sh,	lb,	lbu,	lh,		
-	lhu,	lui,	lw,	lwl,		
-	lwr,	ll,	pref,sw,	add,
+	jal,	jalr,	jr,	la,	li,	loadi,	
+	sb,	sh,	lb,	lbu,	lh,	lhu,	
+	lui,	lw,	lwl,	lwr,	ll,	pref,
+	sw,	add,
 	addu,	addi,	addiu,	and_,	andi,	mul,
 	mult,	multu,	nor,	or_,	ori,	srl,
 	srlv,	sub,	subu,	sll,	sllv,	slt,
@@ -75,6 +76,8 @@
 			{lw,		I,		MEM},
 			{lwl,		B,		BAD},
 			{lwr,		B,		BAD},
+			{ll,		B,		BAD},
+			{pref,		O,		MEM},
 			{sw,		I,		MEM},
 			{add,		R,		ALU},
 			{addu,		R,		ALU},
@@ -121,7 +124,6 @@
 			{ebase,		B,		BAD},
 			{eepc,		B,		BAD},
 			{eret,		B,		BAD},
-			{ll,		B,		BAD},
 			{madd,		B,		BAD},
 			{maddu,		B,		BAD},
 			{mfc2,		B,		BAD},
@@ -130,7 +132,6 @@
 			{msub,		B,		BAD},
 			{msubu,		B,		BAD},
 			{mtc2,		B,		BAD},
-			{pref,		O,		MEM},
 			{sc,		B,		BAD},
 			{sync_,		B,		BAD},
 			{tccontext,	B,		BAD},
@@ -150,6 +151,12 @@
 			{rfe,		B,		BAD}
 		};
 
+
+	int t_delay[5][5]={{0,0,1,-1,-1},
+			 {1,1,2,-1,-1},
+			 {0,0,1,-1,-1},
+			 {-1,-1,-1,-1,-1},
+			 {-1,-1,-1,-1,-1}};
 
 /**	\brief	Type enum which take the type of the line			
 */

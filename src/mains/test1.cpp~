@@ -55,12 +55,12 @@ int main(int argc, char * argv[]){
 
 		functmp.comput_Label();
 		
-		//functmp.comput_successor_BB();
-		functmp.test();
-		Cfg graph(functmp.get_BB(0),functmp.nbr_BB());
+		functmp.comput_succ_pred_BB();
+		if(!i)functmp.test();
+		/*Cfg graph(functmp.get_BB(0),functmp.nbr_BB());
 	
-		//graph.display(NULL);
-		//graph.restitution(NULL,"./tmp/graph.dot");
+		graph.display(NULL);
+		graph.restitution(NULL,"./tmp/graph.dot");*/
 			
 
 		//cout<<"le label: "<<functmp.get_Label(3)->getContent()<<" se trouve dans le "<<functmp.find_Label_BB(&label)<<" block de base"<<endl;		

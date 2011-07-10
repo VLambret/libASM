@@ -11,6 +11,9 @@ Instruction::Instruction(string instr, t_Operator oper, t_Format form, t_Inst ty
 	_op2= Op2;
 	_op3= Op3;
 	_nbrOper=nbr;
+	_index = 0;
+	_nbr_succ = 0;
+	_nbr_pred = 0;
 
 }
 
@@ -19,6 +22,9 @@ Instruction::Instruction(t_Operator oper, Operand *Op1, Operand *Op2, Operand *O
 	_op1= Op1;
 	_op2= Op2;
 	_op3= Op3;
+	_index = 0;
+	_nbr_succ = 0;
+	_nbr_pred = 0;
 }
 
 Instruction::Instruction(t_Operator oper, Operand *Op1, Operand *Op2){
@@ -26,6 +32,9 @@ Instruction::Instruction(t_Operator oper, Operand *Op1, Operand *Op2){
 	_op1= Op1;
 	_op2= Op2;
 	_op3= (Operand*)0;
+	_index = 0;
+	_nbr_succ = 0;
+	_nbr_pred = 0;
 }
 
 Instruction::Instruction(t_Operator oper, Operand *Op1){
@@ -33,6 +42,9 @@ Instruction::Instruction(t_Operator oper, Operand *Op1){
 	_op1= Op1;
 	_op2= (Operand*)0;
 	_op3= (Operand*)0;
+	_index = 0;
+	_nbr_succ = 0;
+	_nbr_pred = 0;
 }
 
 Instruction::Instruction(t_Operator oper){
@@ -40,6 +52,9 @@ Instruction::Instruction(t_Operator oper){
 	_op1= (Operand*)0;
 	_op2= (Operand*)0;
 	_op3= (Operand*)0;
+	_index = 0;
+	_nbr_succ = 0;
+	_nbr_pred = 0;
 }
 Instruction::~Instruction(){}
 
@@ -248,9 +263,9 @@ void Instruction::setNumberOper(int nbr){
 
 Operand * Instruction::getRegDst(){
 	OPRegister *op1 = dynamic_cast< OPRegister * > (_op1);
-	
-	if(_op1->getOptype()==Reg && op1->getType() == Dst && _op1!=NULL && _op1->getOp().compare("$0"))
-		return _op1;
+	if(_op1!=NULL )
+		if(_op1->getOptype()==Reg && op1->getType() == Dst &&  _op1->getOp().compare("$0"))
+			return _op1;
 
 	return NULL;
 }
@@ -258,10 +273,13 @@ Operand * Instruction::getRegDst(){
 Operand * Instruction::getRegSrc1(){
 	OPRegister *op1 = dynamic_cast< OPRegister * > (_op1);
 	OPRegister *op2 = dynamic_cast< OPRegister * > (_op2);
-	if(_op1->getOptype()==Reg && op1->getType() == Src && _op1!=NULL && _op1->getOp().compare("$0"))
-		return _op1;
-	if(_op2->getOptype()==Reg && op2->getType() == Src && _op2!=NULL && _op2->getOp().compare("$0"))
-		return _op2;
+
+	if(_op1!=NULL) 
+		if(_op1->getOptype()==Reg && op1->getType() == Src && _op1->getOp().compare("$0"))
+			return _op1;
+	if(_op2!=NULL) 
+		if(_op2->getOptype()==Reg && op2->getType() == Src  && _op2->getOp().compare("$0"))
+			return _op2;
 
 	return NULL;
 }
@@ -269,10 +287,66 @@ Operand * Instruction::getRegSrc1(){
 Operand * Instruction::getRegSrc2(){
 	OPRegister *op3 = dynamic_cast< OPRegister * > (_op3);
 	OPRegister *op2 = dynamic_cast< OPRegister * > (_op2);
-	if(_op2->getOptype()==Reg && op2->getType() == Src && _op2!=NULL && _op2->getOp().compare("$0"))
+
+	if(_op2!=NULL) if( _op2->getOptype()==Reg && op2->getType() == Src && _op2->getOp().compare("$0"))
 		return _op2;
-	if(_op3->getOptype()==Reg && op3->getType() == Src && _op3!=NULL && _op3->getOp().compare("$0"))
+	if(_op3!=NULL) if( _op3->getOptype()==Reg && op3->getType() == Src && _op3->getOp().compare("$0"))
 		return _op3;
 
 	return NULL;
+}
+
+
+void Instruction::set_successor(Instruction* inst){	
+	_nbr_succ++;
+	_successor.push_back(inst);
+}
+
+Instruction *Instruction::get_successor(int index){
+	list<Instruction*>::iterator it;
+	it=_successor.begin();
+
+  	if(index< _successor.size()){
+  		for (int i=0; i<index;i++ ) it++;
+		return *it;	
+	}
+	else cout<<"Error: index is bigger than the size of the list"<<endl; 
+	
+	return _successor.back();
+}
+
+void Instruction::set_predecessor(Instruction * inst){
+	_nbr_pred++;
+	_predecessor.push_back(inst);
+}
+
+
+Instruction *Instruction::get_predecessor(int index){
+	list<Instruction*>::iterator it;
+	it=_predecessor.begin();
+
+  	if(index< _predecessor.size()){
+  		for (int i=0; i<index;i++ ) it++;
+		return *it;	
+	}
+	else cout<<"Error: index is bigger than the size of the list"<<endl; 
+	
+	return _predecessor.back();
+
+}
+
+int Instruction::get_nbr_succ(){
+	return _nbr_succ;
+}
+
+int Instruction::get_nbr_pred(){
+	return _nbr_pred;
+}
+
+int Instruction::get_index(){
+	return _index;
+}
+
+void Instruction::set_index(int id){
+	_index = id;
 }

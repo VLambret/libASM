@@ -6,14 +6,15 @@
 	\author	Hajjem
 */
 
-#include "Operand.h"
+#include <Operand.h>
 #include <string>
-#include "OPExpression.h"
-#include "OPImmediate.h"
-#include "OPLabel.h"
-#include "Line.h"
-#include "OPRegister.h"
-#include "Enum_type.h"
+#include <OPExpression.h>
+#include <OPImmediate.h>
+#include <OPLabel.h>
+#include <Line.h>
+#include <OPRegister.h>
+#include <Enum_type.h>
+#include <list>
 
 using namespace std;
 
@@ -32,6 +33,11 @@ private:
 	Operand *_op2;
 	Operand *_op3;
 	int _nbrOper;
+	int _index;
+	int _nbr_succ;
+	int _nbr_pred;
+	list <Instruction *> _successor;
+	list <Instruction *> _predecessor;
 
 public:
 
@@ -174,6 +180,38 @@ public:
 */
 	Operand * getRegSrc2();
 
+/**	\brief	get the successor of the Instruction
+*/
+	void set_successor(Instruction*);
+
+/**	\brief	get the successor of the Instruction
+*/
+	Instruction *get_successor( int);
+
+/**	\brief	setter of the predecessor of the Instruction
+*/
+	void set_predecessor(Instruction *);
+
+/**	\brief	get the predecessor of the Instruction
+*/
+	Instruction *get_predecessor(int );
+
+
+/**	\brief	get the number of successor of the Instruction
+*/
+	int get_nbr_succ();
+
+/**	\brief	get the number of predecessor of the Instruction
+*/
+	int get_nbr_pred();
+
+/**	\brief	get the index of instruction
+*/
+	int get_index();
+
+/**	\brief	set the index of instruction
+*/
+	void set_index(int);
 
 };
 

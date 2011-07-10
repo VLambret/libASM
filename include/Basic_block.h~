@@ -14,8 +14,8 @@
 #include <Enum_type.h>
 #include <fstream>
 #include <list>
-#include <boost/graph/adjacency_list.hpp>
-#include <boost/graph/astar_search.hpp>
+#include <Dfg.h>
+
 
 
 /**	\class	Basic_block
@@ -114,6 +114,16 @@ public:
 /**	\brief	get the index of the basic block
 */
 	int get_index();
+
+/**	\brief	comput predecessors and successors of each instructions in the BB
+*/
+	void comput_pred_succ();
+
+/**	\brief	set index of instruction
+*/
+	void set_index_instruction();
+
+void test();
 
 private:
 

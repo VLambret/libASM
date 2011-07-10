@@ -14,6 +14,7 @@
 #include <Enum_type.h>
 #include <fstream>
 #include <list>
+#include <Dfg.h>
 
 
 
@@ -114,6 +115,16 @@ public:
 */
 	int get_index();
 
+/**	\brief	comput predecessors and successors of each instructions in the BB
+*/
+	void comput_pred_succ();
+
+/**	\brief	set index of instruction
+*/
+	void set_index_instruction();
+
+void test();
+
 private:
 
 	Node *_head;
@@ -122,6 +133,7 @@ private:
 	int _index;
 	int _nbr_succ;
 	int _nbr_pred;
+	int _nbr_instru;
 	list <Basic_block *> _successor;
 	list <Basic_block *> _predecessor;
 };

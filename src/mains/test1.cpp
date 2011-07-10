@@ -21,6 +21,7 @@ int main(int argc, char * argv[]){
 	remove("tmp/test1.txt");
 	remove("tmp/test2.txt");
 	remove("./tmp/graph.dot");
+	remove("./tmp/graph_dfg.dot");
 
 	Program prog(argv[1]);
 	Function functmp;
@@ -56,11 +57,11 @@ int main(int argc, char * argv[]){
 		functmp.comput_Label();
 		
 		functmp.comput_succ_pred_BB();
-		functmp.test();
-		Cfg graph(functmp.get_BB(0),functmp.nbr_BB());
+		if(!i)functmp.test();
+		/*Cfg graph(functmp.get_BB(0),functmp.nbr_BB());
 	
 		graph.display(NULL);
-		graph.restitution(NULL,"./tmp/graph.dot");
+		graph.restitution(NULL,"./tmp/graph.dot");*/
 			
 
 		//cout<<"le label: "<<functmp.get_Label(3)->getContent()<<" se trouve dans le "<<functmp.find_Label_BB(&label)<<" block de base"<<endl;		

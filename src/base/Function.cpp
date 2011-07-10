@@ -327,14 +327,8 @@ void Function::comput_succ_pred_BB(){
 
 
 void Function::test(){
-	/*comput_successor_BB();
-	Cfg graph(get_BB(0),_myBB.size());
 	
-	graph.display(NULL);
-	graph.restitution(NULL,"./tmp/graph.dot");
-
 	for(int i=0;i<_myBB.size(); i++){
-		for(int j=0; j<get_BB(i)->get_nbr_pred();j++)
-		cout<<"BB"<<get_BB(i)->get_predecessor(j)->get_index()<<" predecesseur de BB"<<i<<endl;
-			}*/
+		get_BB(i)->test();
+	}
 }

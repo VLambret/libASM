@@ -234,10 +234,12 @@ Basic_block *Function::get_BB(int index){
 }
 
 
-void Function::comput_successor_BB(){
+void Function::comput_succ_pred_BB(){
 	list <Basic_block*> BBtmp;
 	Basic_block * BB = new Basic_block();
 	
+
+	/*Calcul des successeurs*/
 	for(int i=0; i<_myBB.size(); i++){
 		BB = get_BB(i);
 		if(get_BB(i)->get_end()->getLine()->typeLine()==line_Instru){
@@ -302,6 +304,7 @@ void Function::comput_successor_BB(){
 		it++;
 	}
 
+	/*Calcul des predecesseur*/
 	for(int i=0;i<_myBB.size(); i++){
 		for(int j=0; j<_myBB.size(); j++){
 			//cout<<"nbr de succ de BB"<<j<<" "<<get_BB(j)->get_nbr_succ()<<endl;
@@ -321,41 +324,11 @@ void Function::comput_successor_BB(){
 }
 
 
-void Function::comput_predecessor_BB(){
-	
-	/*comput_successor_BB();
 
-	for(int i=0;i<_myBB.size(); i++){
-		for(int j=0; j<_myBB.size(); j++){
-			//cout<<"nbr de succ de BB"<<j<<" "<<get_BB(j)->get_nbr_succ()<<endl;
-			if(get_BB(j)->get_nbr_succ()){
-				if(get_BB(i)->get_index() == get_BB(j)->get_successor1()->get_index()){
-					get_BB(i)->set_predecessor(get_BB(j));
-				}
-			}
-			if(get_BB(j)->get_nbr_succ()==2){
-				if(get_BB(i)->get_index() == get_BB(j)->get_successor2()->get_index()){
-						get_BB(i)->set_predecessor(get_BB(j));	
-				}
-			}
-		}		
-	}*/
-
-	
-	
-	
-}
 
 void Function::test(){
-	/*comput_successor_BB();
-	Cfg graph(get_BB(0),_myBB.size());
 	
-	graph.display(NULL);
-	graph.restitution(NULL,"./tmp/graph.dot");*/
-	//comput_predecessor_BB();
-comput_successor_BB();
 	for(int i=0;i<_myBB.size(); i++){
-		for(int j=0; j<get_BB(i)->get_nbr_pred();j++)
-		cout<<"BB"<<get_BB(i)->get_predecessor(j)->get_index()<<" predecesseur de BB"<<i<<endl;
-			}
+		get_BB(1)->test();
+	}
 }
