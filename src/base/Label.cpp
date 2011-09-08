@@ -7,27 +7,27 @@ Label::Label( string lab){
 Label::~Label(){
 }
 
-string Label::toString(){
+string Label::to_string(){
 	return _line;
 
 }
 
 
-t_Line Label::typeLine(){
+t_Line Label::type_line(){
 	return line_Lab;
 }
 
-string Label::getContent(){
+string Label::get_content(){
 
 	return _line + ":";
 
 }
 
-void Label::setContent(string line){
+void Label::set_content(string line){
 	_line =line;
 }
 
 
-t_Inst  Label::getType(){
+t_Inst  Label::get_type(){
 	return OTHER;
 }

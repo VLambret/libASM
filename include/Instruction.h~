@@ -61,7 +61,7 @@ public:
 /**	\brief	Get the first operand value
 	accessor of the operand
 */
-	Operand* getOp1();
+	Operand* get_op1();
 
 /**	\brief	set the first operand value
 	setter of the operand
@@ -71,7 +71,7 @@ public:
 /**	\brief	Get the second operand value
 	accessor of the operand
 */
-	Operand* getOp2();
+	Operand* get_op2();
 
 /**	\brief	set the second operand value
 	setter of the operand
@@ -81,7 +81,7 @@ public:
 /**	\brief	Get the third operand value
 	accessor of the operand
 */
-	Operand* getOp3();
+	Operand* get_op3();
 
 /**	\brief	set the third operand value
 	setter of the operand
@@ -117,7 +117,7 @@ public:
 
 	/**	\brief	get the type of the line
 */
-	virtual t_Line typeLine();
+	virtual t_Line type_line();
 
 	/**	\brief	get the name string instruction
 */
@@ -214,5 +214,8 @@ public:
 	void set_index(int);
 
 };
+
+
+
 
 #endif

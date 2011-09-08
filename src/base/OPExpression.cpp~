@@ -1,4 +1,4 @@
-#include "OPExpression.h"
+#include <OPExpression.h>
 
 OPExpression::OPExpression(string op){
 
@@ -8,12 +8,12 @@ OPExpression::OPExpression(string op){
 
 OPExpression::~OPExpression(){}
 
-string OPExpression::getOp(){
+string OPExpression::get_op(){
 
     return _oper;
     }
 
-t_OpType OPExpression::getOptype(){
+t_OpType OPExpression::get_optype(){
    return Exp;
     }
 

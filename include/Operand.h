@@ -27,24 +27,24 @@ public	:
 /**	\brief	Get the operand value
 	virtual accessor of the operand
 */
-	virtual string getOp()=0;
+	virtual string get_op()=0;
 
 /**	\brief	set the operand value
 	virtual setter of the operand
 */
-	virtual void setOp(string)=0;
+	virtual void set_op(string)=0;
 
 /**	\brief	get the operator type
 	virtual accessor of accessor
 	\return return the Operand type as enum	
 */
-	virtual  t_OpType getOptype()=0;
+	virtual  t_OpType get_op_type()=0;
 
 
 /**	\brief	virtual tostring
 	\return	return the Object as string
 */
-	virtual string toString()=0;
+	virtual string to_string()=0;
 
 
 protected :

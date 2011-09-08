@@ -8,20 +8,20 @@ OPExpression::OPExpression(string op){
 
 OPExpression::~OPExpression(){}
 
-string OPExpression::getOp(){
+string OPExpression::get_op(){
 
     return _oper;
     }
 
-t_OpType OPExpression::getOptype(){
+t_OpType OPExpression::get_op_type(){
    return Exp;
     }
 
-string OPExpression::toString(){
+string OPExpression::to_string(){
     return _oper;
     }
 
-void OPExpression::setOp( string op){
+void OPExpression::set_op( string op){
     _oper=op;
     }
 

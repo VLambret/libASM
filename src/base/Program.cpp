@@ -23,8 +23,8 @@ Program::Program(Program const&  otherprogram){
 
     	while (tmp != NULL){
 
-       		addLine(tmp->getLine());
-       		tmp = tmp->getnext();
+       		add_line(tmp->get_line());
+       		tmp = tmp->get_next();
 	}
 }
 
@@ -38,8 +38,8 @@ Program::Program (string const file){
 
     	while (tmp != NULL){
 
-       		addLine(tmp->getLine());
-       		tmp = tmp->getnext();
+       		add_line(tmp->get_line());
+       		tmp = tmp->get_next();
 	}
 
 }
@@ -53,7 +53,7 @@ Program::~Program(){
 
 
 
-void Program::addLine(Line * newline){
+void Program::add_line(Line * newline){
 
 	Node *nod = new Node(newline);
 
@@ -63,11 +63,11 @@ void Program::addLine(Line * newline){
 
 	else{
 		Node *n = _head;
-		while (n->getnext()){
-			n= n->getnext();
+		while (n->get_next()){
+			n= n->get_next();
 		}
 
-		n->setNext(nod);
+		n->set_next(nod);
 	}
 
 	_length++;
@@ -75,7 +75,7 @@ void Program::addLine(Line * newline){
 }
 
 
-void Program::delLine(int index){
+void Program::del_line(int index){
 	Node * to_delete;
 	Node * prec;
 	
@@ -85,7 +85,7 @@ void Program::delLine(int index){
 			if (_length > 0){
 				// On efface le maillon.
       			 	to_delete = _head;
-			 	_head = _head->getnext();
+			 	_head = _head->get_next();
 
 				
     			}
@@ -93,12 +93,12 @@ void Program::delLine(int index){
            		prec = _head;
 
 			for (int i = 0; i < index-1; ++i){
-				prec = prec->getnext();
+				prec = prec->get_next();
 			}
 
  			// On retire le maillon.
-			to_delete = prec->getnext();
-			prec->setNext( to_delete->getnext() );
+			to_delete = prec->get_next();
+			prec->set_next( to_delete->get_next() );
 
        		}
 		delete to_delete;
@@ -106,7 +106,7 @@ void Program::delLine(int index){
     	}
 }
 
-int Program::add_Line_at(Line *newline, int position)
+int Program::add_line_at(Line *newline, int position)
 {
     if (position <= 0){
        	Node * new_nod = new Node(newline);
@@ -114,7 +114,7 @@ int Program::add_Line_at(Line *newline, int position)
     	if (new_nod == NULL)  // Y avait-il assez de m√©moire ?
 		return 0;
 
-	new_nod->setNext(_head); // new_nod pointe sur le premier.
+	new_nod->set_next(_head); // new_nod pointe sur le premier.
 	_head = new_nod;       // new_nod est maintenant premier.
 
 
@@ -123,7 +123,7 @@ int Program::add_Line_at(Line *newline, int position)
 	}
 
     else if (position >= _length)
-	addLine(newline);
+	add_line(newline);
 
     else
     {
@@ -134,12 +134,12 @@ int Program::add_Line_at(Line *newline, int position)
 
        // On se place sur le pr√©c√©dent.
        for (int i = 0; i < position - 1; ++i){
-		prec = prec->getnext();
+		prec = prec->get_next();
 	}
 
        // On ajuste les pointeurs.
-       new_nod->setNext(prec->getnext());
-       prec->setNext(new_nod);
+       new_nod->set_next(prec->get_next());
+       prec->set_next(new_nod);
        ++_length;
        return 1;
     }
@@ -152,13 +152,13 @@ void Program::display()
 	Node* element = _head;
 	while(element != NULL)
 	{
-		cout << element->getLine()-> getContent() <<endl;
+		cout << element->get_line()-> get_content() <<endl;
 		
-		if(element->getnext()==NULL)	break;
-		else element = element->getnext();
+		if(element->get_next()==NULL)	break;
+		else element = element->get_next();
 
 	}
-	if(isEmpty())	cout<<"The program is empty"<<endl;
+	if(is_empty())	cout<<"The program is empty"<<endl;
 	cout << endl;
 }
 
@@ -167,9 +167,9 @@ void Program::flush()
 	Node* element = _head;
 	int i=0;
 
-	while(!isEmpty())
+	while(!is_empty())
 	{
-		delLine(0);		
+		del_line(0);		
 	
 	}
 }
@@ -187,21 +187,21 @@ t_Dep Program::dependance(Instruction i1, Instruction i2){
 	return dep1;
 }
 
-void Program::Exchange_Line(int line1, int line2){
+void Program::exchange_line(int line1, int line2){
 	Line * lg1,*lg2;
 	
-	lg1=findLine(line1);
-	lg2=findLine(line2);
+	lg1=find_line(line1);
+	lg2=find_line(line2);
 
-	delLine(line1);
-	add_Line_at(lg2,line1);
-	delLine(line2);
-	add_Line_at(lg1,line2);
+	del_line(line1);
+	add_line_at(lg2,line1);
+	del_line(line2);
+	add_line_at(lg1,line2);
 	
 
 }
 
-Line* Program::findLine(int index){
+Line* Program::find_line(int index){
 
     int j;
     Node *e = _head;
@@ -209,9 +209,9 @@ Line* Program::findLine(int index){
 	for (j=0; j< _length ;j++)
 	{
 	    if(j==index)
-	    { return e->getLine();}
+	    { return e->get_line();}
 	   
-	    e= e->getnext();
+	    e= e->get_next();
 
 	}
 	return NULL;
@@ -222,12 +222,12 @@ int Program::size(){
 	return _length;
 }
 
-bool Program::isEmpty(){
+bool Program::is_empty(){
 	if(!_head)	return true;
 	return false;
 }
 
-void Program::inFile(string const filename){
+void Program::in_file(string const filename){
 
 	Node* element = _head;
 	ofstream monflux(filename.c_str());
@@ -235,13 +235,13 @@ void Program::inFile(string const filename){
 	if(monflux){
 		while(element != NULL)
 		{
-			if(element->getLine()->typeLine()==line_Instru || element->getLine()->typeLine()== line_Direct) monflux<<"\t";
-			monflux << element->getLine()-> getContent();
+			if(element->get_line()->type_line()==line_Instru || element->get_line()->type_line()== line_Direct) monflux<<"\t";
+			monflux << element->get_line()-> get_content();
 		
-			if(element->getnext()==NULL)	break;
+			if(element->get_next()==NULL)	break;
 			else {
-				if(element->getLine()->getContent().compare("nop")) monflux<<endl;
-				element = element->getnext();
+				if(element->get_line()->get_content().compare("nop")) monflux<<endl;
+				element = element->get_next();
 			}			
 		}
 		
@@ -255,10 +255,10 @@ void Program::inFile(string const filename){
 }
 
 
-void Program::comput_Function(){
+void Program::comput_function(){
 	Function func;
 	
-	if (!isEmpty()){	
+	if (!is_empty()){	
 
 		Node* element = _head;
 		
@@ -267,34 +267,34 @@ void Program::comput_Function(){
 		{
 			//Si la ligne correspond ‡ la directive d'entrÈe
 			//Alors la ligne sera affectÈe ‡ la tÍte de la fonction
-			if(!element->getLine()->getContent().compare(0,4,".ent")){
-				func.set_head(element->getnext());
-				//cout<<func.get_head()->getLine()->getContent()<<endl;
+			if(!element->get_line()->get_content().compare(0,4,".ent")){
+				func.set_head(element->get_next());
+				//cout<<func.get_head()->get_line()->get_content()<<endl;
 			}
 
 			//Si la ligne correspond ‡ la directive de sortie
 			//Alors la ligne sera affectÈe ‡ la fin de la fonction
-			if(!element->getLine()->getContent().compare(0,4,".end")){
+			if(!element->get_line()->get_content().compare(0,4,".end")){
 				func.set_end(element);
-				//cout<<func.get_end()->getLine()->getContent()<<endl;
+				//cout<<func.get_end()->get_line()->get_content()<<endl;
 				myfunc.push_back(func);
 			}
 			
-			if(element->getnext()==NULL){
-				//cout<<func.get_end()->getLine()->getContent()<<endl;
+			if(element->get_next()==NULL){
+				//cout<<func.get_end()->get_line()->get_content()<<endl;
 				break;
 			}
-			else element = element->getnext();
+			else element = element->get_next();
 
 		}		
 	}
 }
 
-int Program::nbr_Func(){
+int Program::nbr_func(){
 	return myfunc.size();
 }
 
-Function  Program::get_Function(int index){
+Function  Program::get_function(int index){
 
 	list<Function>::iterator it;
 	it=myfunc.begin();

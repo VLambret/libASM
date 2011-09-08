@@ -61,83 +61,83 @@ public:
 /**	\brief	Get the first operand value
 	accessor of the operand
 */
-	Operand* getOp1();
+	Operand* get_op1();
 
 /**	\brief	set the first operand value
 	setter of the operand
 */
-	void setOp1(Operand * o);
+	void set_op1(Operand * o);
 
 /**	\brief	Get the second operand value
 	accessor of the operand
 */
-	Operand* getOp2();
+	Operand* get_op2();
 
 /**	\brief	set the second operand value
 	setter of the operand
 */
-	void setOp2(Operand * o);
+	void set_op2(Operand * o);
 
 /**	\brief	Get the third operand value
 	accessor of the operand
 */
-	Operand* getOp3();
+	Operand* get_op3();
 
 /**	\brief	set the third operand value
 	setter of the operand
 */
-	void setOp3(Operand * o);
+	void set_op3(Operand * o);
 
 /**	\brief	get the Opcode value
 	accessor of the opcode
 */
-	t_Operator getOPcode();
+	t_Operator get_opcode();
 
 /**	\brief	get the string Opcode value
 	accessor of the string opcode
 */
-	string stringOPcode();
+	string string_opcode();
 
 
 /**	\brief	set the opcode value
 	setter of the opcode
 */
-	void setOPcode(t_Operator newop);
+	void set_opcode(t_Operator newop);
 
 /**	\brief	get the format of the Instruction
 	accessor of the format
 */
-	t_Format getFormat();
+	t_Format get_format();
 
 /**	\brief	get the Type of the Instruction
 	accessor of the Type
 */
-	virtual t_Inst  getType();
+	virtual t_Inst  get_type();
 
 
 	/**	\brief	get the type of the line
 */
-	virtual t_Line typeLine();
+	virtual t_Line type_line();
 
 	/**	\brief	get the name string instruction
 */
-	virtual string toString();
+	virtual string to_string();
 
 	/**	\brief	get the string  of the instruction
 */
-	virtual string getContent();
+	virtual string get_content();
 
 	/**	\brief	set the string of the instruction
 */
-	virtual void setContent(string);
+	virtual void set_content(string);
 
 /**	\brief	set the string format
 */
-	string stringForm();
+	string string_form();
 
 /**	\brief	set the string Type of instruction
 */
-	string stringType();
+	string string_type();
 
 /**	\brief	get the dependance between the current instruction and i2
 	\return return "RAW", "WAR", "WAW" or "not dependant" in format enum
@@ -162,23 +162,23 @@ public:
 /**	\brief	get the number of operand	
 	\return return the number of operand
 */
-	int getNumberOper();
+	int get_number_oper();
 
 
 /**	\brief	set the number of operand*/
-	void setNumberOper(int);
+	void set_number_oper(int);
 
 	/**	\brief	get the regiter destination of the instruction
 */
-	Operand * getRegDst();
+	Operand * get_reg_dst();
 
 	/**	\brief	get the first register source of the instruction
 */
-	Operand * getRegSrc1();
+	Operand * get_reg_src1();
 	
 	/**	\brief	get the second register source of the instruction
 */
-	Operand * getRegSrc2();
+	Operand * get_reg_src2();
 
 /**	\brief	get the successor of the Instruction
 */

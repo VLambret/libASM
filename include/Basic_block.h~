@@ -133,6 +133,7 @@ private:
 	int _index;
 	int _nbr_succ;
 	int _nbr_pred;
+	int _nbr_instru;
 	list <Basic_block *> _successor;
 	list <Basic_block *> _predecessor;
 };

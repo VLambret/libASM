@@ -1,4 +1,4 @@
-#include "Directive.h"
+#include <Directive.h>
 
 Directive::Directive( string direct)
 {
@@ -32,7 +32,7 @@ string Directive::toString(){
 }
 
 
-t_Line Directive::typeLine(){
+t_Line Directive::type_line(){
 	return line_Direct;
 }
 

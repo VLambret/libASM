@@ -23,7 +23,7 @@ Program::Program(Program const&  otherprogram){
 
     	while (tmp != NULL){
 
-       		addLine(tmp->getLine());
+       		add_line(tmp->getLine());
        		tmp = tmp->getnext();
 	}
 }
@@ -38,7 +38,7 @@ Program::Program (string const file){
 
     	while (tmp != NULL){
 
-       		addLine(tmp->getLine());
+       		add_line(tmp->getLine());
        		tmp = tmp->getnext();
 	}
 
@@ -53,7 +53,7 @@ Program::~Program(){
 
 
 
-void Program::addLine(Line * newline){
+void Program::add_line(Line * newline){
 
 	Node *nod = new Node(newline);
 
@@ -123,7 +123,7 @@ int Program::add_Line_at(Line *newline, int position)
 	}
 
     else if (position >= _length)
-	addLine(newline);
+	add_line(newline);
 
     else
     {
@@ -235,7 +235,7 @@ void Program::inFile(string const filename){
 	if(monflux){
 		while(element != NULL)
 		{
-			if(element->getLine()->typeLine()==line_Instru || element->getLine()->typeLine()== line_Direct) monflux<<"\t";
+			if(element->getLine()->type_line()==line_Instru || element->getLine()->type_line()== line_Direct) monflux<<"\t";
 			monflux << element->getLine()-> getContent();
 		
 			if(element->getnext()==NULL)	break;
@@ -290,12 +290,11 @@ void Program::comput_Function(){
 	}
 }
 
-zaldk
 int Program::nbr_Func(){
 	return myfunc.size();
 }
 
-Function  Program::get_Function(int index){
+Function  Program::get_function(int index){
 
 	list<Function>::iterator it;
 	it=myfunc.begin();

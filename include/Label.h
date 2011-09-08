@@ -30,24 +30,24 @@ public	:
 
 		/**	\brief	get the type of the line
 */
-	virtual t_Line typeLine();
+	virtual t_Line type_line();
 
 	/**	\brief	get the string of Label
 */	
-	virtual string toString();
+	virtual string to_string();
 
 	/**	\brief	get the string  of the Label
 */	
-	virtual string getContent();
+	virtual string get_content();
 
 	/**	\brief	set the string of the Label
 */	
-	virtual void setContent(string);
+	virtual void set_content(string);
 
 
 	/**	\brief	return the type of the instruction
 */
-	virtual t_Inst  getType();
+	virtual t_Inst  get_type();
 
 
 

@@ -39,27 +39,27 @@ public	:
 	 
 		/**	\brief	get the type of the line
 */
-	virtual t_Line typeLine();
+	virtual t_Line type_line();
 
 	/**	\brief	get the string of the Directive
 */	
-	virtual string toString();
+	virtual string to_string();
 
 	/**	\brief	get the string  of the Directive
 */
-	virtual string getContent();
+	virtual string get_content();
 
 	/**	\brief	set the string of the Directive
 */	
-	virtual void setContent(string);
+	virtual void set_content(string);
 
 	/**	\brief	return true if the directive indicate a function
 */
-	bool isFunction();
+	bool is_function();
 
 	/**	\brief	return the type of the instruction
 */
-	virtual t_Inst  getType();
+	virtual t_Inst  get_type();
 
 
 };

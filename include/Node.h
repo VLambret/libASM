@@ -30,19 +30,19 @@ public:
 
 /**	\brief	get the next node
 */
-	Node * getnext();
+	Node * get_next();
 
 /**	\brief	set the next node
 */
-	void setNext(Node * newsuccessor);
+	void set_next(Node * newsuccessor);
 
 /**	\brief	get the currently line
 */
-	Line * getLine();
+	Line * get_line();
 
 /**	\brief	set the currently line
 */
-	void setLine(Line * newline);
+	void set_line(Line * newline);
 
 private:
 	Node * _next;

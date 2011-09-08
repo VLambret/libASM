@@ -45,15 +45,15 @@ public:
 
 /**	\brief	Add a line at the end of the program
 */
-	void addLine(Line * newline);
+	void add_line(Line * newline);
 
 /**	\brief	Add a line to the program with position as index
 */
-	int add_Line_at(Line *newline, int position);
+	int add_line_at(Line *newline, int position);
 
 /**	\brief	Reverse two lines which are at the index line1 and line2
 */
-	void Exchange_Line(int line1, int line2);
+	void exchange_line(int line1, int line2);
 
 /** \brief display the program
 */
@@ -62,11 +62,11 @@ public:
 
 /**	\brief	Delete a line in the program
 */
-	void delLine(int index);
+	void del_line(int index);
 
 /**	\brief	gives the line that corresponds to the index
 */
-	Line * findLine(int index);
+	Line * find_line(int index);
 
 /**	\brief	get the length of the program
 */
@@ -80,27 +80,26 @@ public:
 
 /**	\brief	write the programme in file
 */
-	void inFile(string const filename);
+	void in_file(string const filename);
 
 /**	\brief	return true if the program is Empty
 */
-	bool isEmpty();
+	bool is_empty();
 
 /**	\brief	calculate functions
 */
-	void  comput_Function();
+	void  comput_function();
 
 /**	\brief	get the number of functions in the program
 */
-	int nbr_Func();
+	int nbr_func();
 
 /**	\brief	get one fonction of the list myfunc
 */
-	Function  get_Function(int );
+	Function  get_function(int );
 
 /**	\brief	empty the program
 */
-
 	void flush();
 
 

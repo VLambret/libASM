@@ -13,13 +13,13 @@ OPImmediate::OPImmediate(int imm){
 
 OPImmediate::~OPImmediate(){}
 
-string OPImmediate::getOp(){
+string OPImmediate::get_op(){
 
     return _oper;
 }
 
 
-t_OpType OPImmediate::getOptype(){
+t_OpType OPImmediate::get_optype(){
     return Imm;
 }
 
@@ -31,6 +31,4 @@ string OPImmediate::toString(){
 void OPImmediate::setOp( string op){
     _oper=op;
    }
-t_Src_Dst OPImmediate::getType( ){
-	return Src;
-}
+

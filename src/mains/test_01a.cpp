@@ -8,5 +8,5 @@
 
 int main(){
 	Program p2("src/examples/test/test_01a.s") ;
-	p2.inFile("tmp/test_01a.s") ;
+	p2.in_file("tmp/test_01a.s") ;
 }

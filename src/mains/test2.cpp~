@@ -10,7 +10,6 @@ int main(){
 
 	Program prog("src/examples/recette.s");
 	Operand *Op1,*Op2, *Op3, *Op4, *Op5,*Op6;
-	Line *lg1,*lg2,*lg3,*lg4,*lg5,*lg6;
 	OPRegister registr("$5",5,Src);
 	OPRegister registr0("$5",5,Dst);
 	OPRegister registr1("$6",6,Dst);

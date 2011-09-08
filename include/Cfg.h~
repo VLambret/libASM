@@ -7,7 +7,6 @@
 */
 
 
-#include <Node_cfg.h>
 #include <Basic_block.h>
 #include <string>
 #include <stdio.h>
@@ -18,7 +17,7 @@
 using namespace std;
 
 /**	\class	Cfg
-	\brief	class representing control flot graph
+	\brief	class representing control flow graph
 */
 
 class Cfg{

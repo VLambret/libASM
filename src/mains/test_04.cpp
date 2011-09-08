@@ -23,13 +23,13 @@ int main(){
 	}
 	std::cout << std::endl ;
 	for (i=0 ; i<size ; i++) {
-		l = p.findLine(i) ;
+		l = p.find_line(i) ;
 	// std::cout << "Ligne " << i << " : " << l->getContent() << std::endl ;
 	i1 = dynamic_cast< Instruction * > (l);
 	std::cout << "Ligne " << i << " : ";
 	for (j=0 ; j<size ; j++) {
 		if (j != i) {
-			ligne = p.findLine(j) ;
+			ligne = p.find_line(j) ;
 			i2 = dynamic_cast< Instruction * > (ligne);
 			t = i1->is_dependant(*i2);
 			if (t == RAW) {
@@ -51,7 +51,7 @@ int main(){
 
 	// Inversion de 2 instructions
 	// dernière instruction à la première place
-	p.Exchange_Line(0,size-1) ;
+	p.exchange_line(0,size-1) ;
 
 	size = p.size() ;
 	std::cout << " : " ;
@@ -60,13 +60,13 @@ int main(){
 	}
 	std::cout << std::endl ;
 	for (i=0 ; i<size ; i++) {
-		l = p.findLine(i) ;
+		l = p.find_line(i) ;
 		// std::cout << "Ligne " << i << " : " << l->getContent() << std::endl ;
 		i1 = dynamic_cast< Instruction * > (l);
 		std::cout << "Ligne " << i << " : ";
 		for (j=0 ; j<size ; j++) {
 			if (j != i) {
-				ligne = p.findLine(j) ;
+				ligne = p.find_line(j) ;
 				i2 = dynamic_cast< Instruction * > (ligne);
 				t = i1->is_dependant(*i2);
 				if (t == RAW) {
@@ -84,5 +84,5 @@ int main(){
 		}
 		std::cout << std::endl ;
 	}
-	p.inFile("tmp/test4.s") ;
+	p.in_file("tmp/test4.s") ;
 }

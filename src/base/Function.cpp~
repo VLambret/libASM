@@ -67,13 +67,13 @@ void Function::restitution(string const filename){
 		if(element == _end)	monflux << _head->getLine()-> getContent() <<endl;
 		while(element != _end)
 		{
-			if(element->getLine()->typeLine()==line_Instru || element->getLine()->typeLine()== line_Direct) monflux<<"\t";
+			if(element->getLine()->type_line()==line_Instru || element->getLine()->type_line()== line_Direct) monflux<<"\t";
 			monflux << element->getLine()-> getContent() ;
 			if(element->getLine()->getContent().compare("nop")) monflux<<endl;
 		
 			if(element->getnext()==_end){
-				if(element->getnext()->getLine()->typeLine()==line_Instru || 
-							element->getnext()->getLine()->typeLine()==line_Direct) monflux<<"\t";
+				if(element->getnext()->getLine()->type_line()==line_Instru || 
+							element->getnext()->getLine()->type_line()==line_Direct) monflux<<"\t";
 				monflux << element->getnext()->getLine()-> getContent()<<endl;
 				break;
 			}
@@ -94,16 +94,16 @@ void Function::restitution(string const filename){
 void Function::comput_Label(){
 	Node* element = _head;
 
-	if(element == _end && element->getLine()->typeLine()==line_Lab)	
+	if(element == _end && element->getLine()->type_line()==line_Lab)	
 					_list_lab.push_back(dynamic_cast< Label *> (element->getLine()));
 	while(element != _end)
 	{
 
-		if(element->getLine()->typeLine()==line_Lab)	
+		if(element->getLine()->type_line()==line_Lab)	
 					_list_lab.push_back(dynamic_cast< Label * > (element->getLine()));
 
 		if(element->getnext()==_end){
-			if(element->getLine()->typeLine()==line_Lab)	
+			if(element->getLine()->type_line()==line_Lab)	
 					_list_lab.push_back(dynamic_cast< Label * > (element->getLine()));
 			break;
 		}
@@ -135,10 +135,10 @@ Label* Function::get_Label(int index){
 Basic_block *Function::find_Label_BB(OPLabel* label){
 	Basic_block *BB = new Basic_block();
 	for(int i=0; i<_myBB.size(); i++){		
-		if(get_BB(i)->get_head()->getLine()->typeLine()==line_Lab){
+		if(get_BB(i)->get_head()->getLine()->type_line()==line_Lab){
 			
 			if(!get_BB(i)->get_head()->getLine()->getContent().compare(0,
-				(get_BB(i)->get_head()->getLine()->getContent().size()-1),label->getOp())){
+				(get_BB(i)->get_head()->getLine()->getContent().size()-1),label->get_op())){
 				return get_BB(i);}
 		}
 	}
@@ -155,7 +155,7 @@ void Function::comput_basic_block(){
 		//cout<<"entrÃ©"<<endl;
 		/*supprime les directives precedent le premier BB*/
 		while(!begin){
-			if(element->getLine()->typeLine()!=line_Direct){
+			if(element->getLine()->type_line()!=line_Direct){
 				//cout<<"tete1 "<<element->getLine()->getContent() <<endl;
 				BB->set_head(element);
 				//cout<<BB->get_head()->getLine()->getContent()<<endl;
@@ -168,7 +168,7 @@ void Function::comput_basic_block(){
 		while(element != _end)
 		{ 		/*si l'instruction est un branchement alors on prend le delay sot comme
 				dernier element du BB et comme tete l'element qui suit*/
-			if(element->getLine()->typeLine()==line_Instru && element->getnext()->getLine()->typeLine()==line_Instru){
+			if(element->getLine()->type_line()==line_Instru && element->getnext()->getLine()->type_line()==line_Instru){
 				if(element->getLine()->getType()==BR){
 					//cout<<"fin1 "<<element->getnext()->getLine()->getContent() <<endl;
 					BB->set_Branch(element);
@@ -188,7 +188,7 @@ void Function::comput_basic_block(){
 			}
 			/*si l'instruction suivante est un label alors on prend l'instruction courante comme fin
 			du BB et on prens le suivant comme tete du prochain BB*/
-			else if(element->getnext()->getLine()->typeLine()==line_Lab){
+			else if(element->getnext()->getLine()->type_line()==line_Lab){
 				//cout<<"fin3 "<<element->getLine()->getContent() <<endl;
 				BB->set_end(element);
 				BB->set_index(i);
@@ -242,7 +242,7 @@ void Function::comput_succ_pred_BB(){
 	/*Calcul des successeurs*/
 	for(int i=0; i<_myBB.size(); i++){
 		BB = get_BB(i);
-		if(get_BB(i)->get_end()->getLine()->typeLine()==line_Instru){
+		if(get_BB(i)->get_end()->getLine()->type_line()==line_Instru){
 			//si l'instru n'est pas un br alors 1 successeur le BB suivant
 			if(get_BB(i)->get_Branch()==NULL && ((i+1) < _myBB.size()) ||
 				dynamic_cast< Instruction *> (get_BB(i)->get_Branch()->getLine())->getOPcode()==jal ||
@@ -252,10 +252,10 @@ void Function::comput_succ_pred_BB(){
 	
 			//si l'instru est un BR inconditiennel 1 successeur le BB pointé par le label
 			else if(dynamic_cast< Instruction *> (get_BB(i)->get_Branch()->getLine())->getOPcode()==j){ 
-				if(find_Label_BB(dynamic_cast< Instruction *> (get_BB(i)->get_Branch()->getLine())->getOp1())->get_head()){
+				if(find_Label_BB(dynamic_cast< Instruction *> (get_BB(i)->get_Branch()->getLine())->get_op1())->get_head()){
 					//cout<<"coucou1"<<endl;
 					BB->set_successor1(find_Label_BB(
-					  dynamic_cast< Instruction *> (get_BB(i)->get_Branch()->getLine())->getOp1()));
+					  dynamic_cast< Instruction *> (get_BB(i)->get_Branch()->getLine())->get_op1()));
 				}
 			}//cout<<"here too\n";}
 	
@@ -265,9 +265,9 @@ void Function::comput_succ_pred_BB(){
 				&& ((i+1)< _myBB.size())){
 			
 				if(find_Label_BB(
-					dynamic_cast< Instruction *> (get_BB(i)->get_Branch()->getLine())->getOp3())->get_head()){	
+					dynamic_cast< Instruction *> (get_BB(i)->get_Branch()->getLine())->get_op3())->get_head()){	
 					
-					BB->set_successor1(find_Label_BB( dynamic_cast< Instruction *> (get_BB(i)->get_Branch()->getLine())->getOp3()));
+					BB->set_successor1(find_Label_BB( dynamic_cast< Instruction *> (get_BB(i)->get_Branch()->getLine())->get_op3()));
 				}
 				BB->set_successor2(get_BB(i+1));
 				//cout<<"here too too\n";
@@ -277,10 +277,10 @@ void Function::comput_succ_pred_BB(){
 					&& ((i+1)< _myBB.size())){
 
 				if(find_Label_BB(
-					dynamic_cast< Instruction *> (get_BB(i)->get_Branch()->getLine())->getOp2())->get_head()){
+					dynamic_cast< Instruction *> (get_BB(i)->get_Branch()->getLine())->get_op2())->get_head()){
 					
 					BB->set_successor1(find_Label_BB(
-					dynamic_cast< Instruction *> (get_BB(i)->get_Branch()->getLine())->getOp2()));
+					dynamic_cast< Instruction *> (get_BB(i)->get_Branch()->getLine())->get_op2()));
 				}
 				BB->set_successor2(get_BB(i+1));
 				//cout<<"and finaly here too\n";
@@ -329,6 +329,6 @@ void Function::comput_succ_pred_BB(){
 void Function::test(){
 	
 	for(int i=0;i<_myBB.size(); i++){
-		get_BB(1)->test();
+		get_BB(i)->test();
 	}
 }

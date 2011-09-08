@@ -37,71 +37,71 @@ int main(){
 	lg5= &ins5;
 	lg6= &ins1;
 
-	cout<<label.getOp()<<endl;
-	//label.setOp("End");
-	cout<<label.getOp()<<endl;
-	cout<<label.toString()<<endl;
+	cout<<label.get_op()<<endl;
+	//label.set_op("End");
+	cout<<label.get_op()<<endl;
+	cout<<label.to_string()<<endl;
 
-	cout<<expr.getOp()<<endl;
-	expr.setOp("0($4)");
-	cout<<expr.getOp()<<endl;
-	cout<<expr.toString()<<endl;
+	cout<<expr.get_op()<<endl;
+	expr.set_op("0($4)");
+	cout<<expr.get_op()<<endl;
+	cout<<expr.to_string()<<endl;
 
 
-	/*cout<<registr.getOp()<<endl;
-	registr.setOp("$4");
-	cout<<registr.getOp()<<endl;
-	cout<<registr.toString()<<endl;
-	cout<<registr.getReg()<<endl;
-	registr.setReg(4);
-	cout<<registr.getReg()<<endl;*/
+	/*cout<<registr.get_op()<<endl;
+	registr.set_op("$4");
+	cout<<registr.get_op()<<endl;
+	cout<<registr.to_string()<<endl;
+	cout<<registr.get_reg()<<endl;
+	registr.set_reg(4);
+	cout<<registr.get_reg()<<endl;*/
 
-	cout<<imm.getOp()<<endl;
-	imm.setOp("12");
-	cout<<imm.getOp()<<endl;
-	cout<<imm.toString()<<endl;
+	cout<<imm.get_op()<<endl;
+	imm.set_op("12");
+	cout<<imm.get_op()<<endl;
+	cout<<imm.to_string()<<endl;
 
 	cout<<"TEST INSTRU"<<endl;
-	cout<<ins.getOp1()->getOp()<<endl;
-	//ins.setOp1(Op2);
-	//cout<<ins.getOp1()->getOp()<<endl;
-	cout<<ins.stringOPcode()<<endl;
-	//ins.setOPcode(sub);
-	cout<<ins.stringOPcode()<<endl;
-	cout<<ins.stringForm()<<endl;
-	cout<<ins.stringType()<<endl;
-	cout<<ins.toString()<<endl;
-	cout<<ins.getContent()<<endl;
-	cout<<tlin[ins.typeLine()]<<endl;
-	//ins.setContent("j loop");
-	cout<<ins.getContent()<<endl;
+	cout<<ins.get_op1()->get_op()<<endl;
+	//ins.set_op1(Op2);
+	//cout<<ins.get_op1()->get_op()<<endl;
+	cout<<ins.string_opcode()<<endl;
+	//ins.set_opcode(sub);
+	cout<<ins.string_opcode()<<endl;
+	cout<<ins.string_form()<<endl;
+	cout<<ins.string_type()<<endl;
+	cout<<ins.to_string()<<endl;
+	cout<<ins.get_content()<<endl;
+	cout<<tlin[ins.type_line()]<<endl;
+	//ins.set_content("j loop");
+	cout<<ins.get_content()<<endl;
 
 	cout<<ins.is_dependant(ins1)<<endl;
 
 
 	cout<<"TEST PROG"<<endl;
 	prog.display();
-	prog.add_Line_at(lg1,0);
+	prog.add_line_at(lg1,0);
 	prog.display();
-	prog.add_Line_at(lg2,1);
-	prog.addLine(lg3);
+	prog.add_line_at(lg2,1);
+	prog.add_line(lg3);
 	prog.display();
-	prog.addLine(lg6);
-	prog.addLine(lg5);
-	prog.addLine(lg3);
-	prog.addLine(lg4);	
+	prog.add_line(lg6);
+	prog.add_line(lg5);
+	prog.add_line(lg3);
+	prog.add_line(lg4);	
 	prog.display();
-	cout<<prog.findLine(1)-> getContent()<<"\n"<<endl;
+	cout<<prog.find_line(1)-> get_content()<<"\n"<<endl;
 
 	prog.dependance(ins,ins1);
-	//prog.delLine(3);
-	//cout<<prog.findLine(2)-> getContent()<<"\n"<<endl;
+	//prog.del_line(3);
+	//cout<<prog.find_line(2)-> get_content()<<"\n"<<endl;
 	prog.display();
 
 	/*cout<<"\n TEST Copie"<<endl;
 	Program prog1 (prog);
 	prog1.display();
-	prog1.addLine(lg1);
+	prog1.add_line(lg1);
 	prog1.display();
 	cout<<prog.size()<<endl;
 
@@ -110,12 +110,12 @@ int main(){
 	Function unc;
 	Basic_block bb;
 	cout<<"\n TEST OPTION"<<endl;
-	prog.comput_Function();
-	prog.get_Function(0).display();
-	cout<<prog.nbr_Func()<<endl;
+	prog.comput_function();
+	prog.get_function(0).display();
+	cout<<prog.nbr_func()<<endl;
 	cout<<"\n";
 	/*cout<<*/
-	unc=prog.get_Function(0);
+	unc=prog.get_function(0);
 	unc.display();
 	cout<<unc.size()<<endl;
 	unc.restitution("./tmp/ex1.txt");
@@ -130,10 +130,5 @@ int main(){
 	prog.flush();
 	cout<<"affichage du prog après vidage"<<endl;
 	prog.display();
-
-
-
-
-
 
 }

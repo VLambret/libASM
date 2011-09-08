@@ -76,24 +76,26 @@ public:
 
 /**	\brief	comput labels of the function in list
 */
-	void comput_Label();
+	void comput_label();
 
 /**	\brief	get all labels of the function
 */
-	Label* get_Label(int);
+	Label* get_label(int);
 
 /**	\brief	get the size of the list label
 */
-	int nbr_Label();
+	int nbr_label();
 
 /**	\brief	Get the basic block corresponding to the label
 */
-	Basic_block *find_Label_BB(OPLabel*);
+	Basic_block *find_label_BB(OPLabel*);
 
 /**	\brief	Associate for each Basic block its successors
 */
 	void comput_succ_pred_BB();
 
+/**	\brief	method to test other methods
+*/
 	void test();
 
 private:

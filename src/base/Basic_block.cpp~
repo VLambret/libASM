@@ -85,11 +85,11 @@ int Basic_block::get_nbr_pred(){
 	return _nbr_pred;
 }
 
-void Basic_block::set_Branch(Node * br){
+void Basic_block::set_branch(Node * br){
 	_branch=br;
 }
 
-Node* Basic_block::get_Branch(){
+Node* Basic_block::get_branch(){
 	return _branch;
 }
 
@@ -98,18 +98,18 @@ void Basic_block::display(){
 	cout<<"Begin"<<endl;
 	Node* element = _head;
 	
-	if(element == _end)	cout << _head->getLine()-> getContent() <<endl;
+	if(element == _end)	cout << _head->get_line()-> get_content() <<endl;
 	while(element != _end)
 	{
-		if(element->getLine()->typeLine()!=line_Direct)
-			cout << element->getLine()-> getContent() <<endl;
+		if(element->get_line()->type_line()!=line_Direct)
+			cout << element->get_line()-> get_content() <<endl;
 		
-		if(element->getnext()==_end){
-			if(element->getLine()->typeLine()!=line_Direct)
-				cout << element->getnext()->getLine()-> getContent() <<endl;
+		if(element->get_next()==_end){
+			if(element->get_line()->type_line()!=line_Direct)
+				cout << element->get_next()->get_line()-> get_content() <<endl;
 			break;
 		}
-		else element = element->getnext();
+		else element = element->get_next();
 
 	}
 
@@ -124,8 +124,8 @@ int Basic_block::size(){
 	{
 		lenght++;
 		
-		if(element->getnext()==_end)	break;
-		else element = element->getnext();
+		if(element->get_next()==_end)	break;
+		else element = element->get_next();
 
 	}
 	return lenght;
@@ -139,20 +139,20 @@ void Basic_block::restitution(string const filename){
 
 	if(monflux){
 		monflux<<"Begin"<<endl;
-		if(element == _end)	monflux << _head->getLine()-> getContent() <<endl;
+		if(element == _end)	monflux << _head->get_line()-> get_content() <<endl;
 		while(element != _end)
 		{
-			if(element->getLine()->typeLine()==line_Instru ) monflux<<"\t";
-				if(element->getLine()->typeLine()!=line_Direct)
-					monflux << element->getLine()-> getContent()<<endl ;
+			if(element->get_line()->type_line()==line_Instru ) monflux<<"\t";
+				if(element->get_line()->type_line()!=line_Direct)
+					monflux << element->get_line()-> get_content()<<endl ;
 		
-			if(element->getnext()==_end){
-				if(element->getnext()->getLine()->typeLine()==line_Instru ) monflux<<"\t";
-					if(element->getLine()->typeLine()!=line_Direct)
-						monflux << element->getnext()->getLine()-> getContent()<<endl;
+			if(element->get_next()==_end){
+				if(element->get_next()->get_line()->type_line()==line_Instru ) monflux<<"\t";
+					if(element->get_line()->type_line()!=line_Direct)
+						monflux << element->get_next()->get_line()-> get_content()<<endl;
 				break;
 			}
-			else element = element->getnext();
+			else element = element->get_next();
 
 		}
 		monflux<<"End\n\n"<<endl;
@@ -167,8 +167,8 @@ void Basic_block::restitution(string const filename){
 
 }
 
-bool Basic_block::isLabeled(){
-	if (_head->getLine()->typeLine()==line_Lab){
+bool Basic_block::is_labeled(){
+	if (_head->get_line()->type_line()==line_Lab){
 		return true;
 	}
 	else return false;
@@ -181,18 +181,21 @@ void Basic_block::set_index_instruction(){
 	Node* element = _head;
 	int i=0;
 	
-	if(element == _end)	dynamic_cast< Instruction *>(element->getLine())->set_index(0);
-	while(element != _end)
+	
+	while(element != _end->get_next())
 	{
-		if(element->getLine()->typeLine()==line_Instru)
-			dynamic_cast< Instruction *>(element->getLine())->set_index(i++);
+		if(element->get_line()->type_line()==line_Instru){
+			dynamic_cast< Instruction *>(element->get_line())->set_index(i);
+			i++;
+		}
 		
-		if(element->getnext()==_end){
-			if(element->getLine()->typeLine()==line_Instru)
-				dynamic_cast< Instruction *>(element->getLine())->set_index(i++);
+		if(element->get_next()==_end->get_next()){
 			break;
 		}
-		else element = element->getnext();
+		else {
+			element = element->get_next();			
+		}
+		
 
 	}
 	_nbr_instru = i;
@@ -203,78 +206,82 @@ void Basic_block::comput_pred_succ(){
 
 	Node* element = _head;
 	set_index_instruction();
+	int test_dep;
 	
 	//Calcul des successeurs
-	while(element != _end->getnext())
+	while(element != _end->get_next())
 	{
-		Node* elem_suiv = element->getnext();
-		
-		while(elem_suiv != _end->getnext())
+		Node* elem_suiv = element->get_next();
+		test_dep=0;
+		//tant qu'on est pas à la fin
+		while(elem_suiv != _end->get_next())
 		{
 		
-			if(element->getLine()->typeLine() == line_Instru && elem_suiv->getLine()->typeLine() == line_Instru){
+			//si les element sont des instructions
+			if(element->get_line()->type_line() == line_Instru && elem_suiv->get_line()->type_line() == line_Instru){
 
-				Instruction *inst = dynamic_cast< Instruction *> (elem_suiv->getLine());
-				//cout<<"element : "<<element->getLine()->getContent()<<endl;
+				Instruction *inst = dynamic_cast< Instruction *> (elem_suiv->get_line());
+				//cout<<"element : "<<element->get_line()->get_content()<<endl;
 
-				if(dynamic_cast< Instruction *> (element->getLine())->is_dependant(* inst) != NONE){
+				//on regarde s'il y a une dependance
+				if(dynamic_cast< Instruction *> (element->get_line())->is_dependant(* inst) != NONE){
 
-					dynamic_cast< Instruction *> (element->getLine())->set_successor(dynamic_cast< Instruction *> (elem_suiv->getLine()));
+					dynamic_cast< Instruction *> (element->get_line())->set_successor(dynamic_cast< Instruction *> (elem_suiv->get_line()));
+					test_dep=1;
 
 				}
-				else if(get_Branch() && elem_suiv->getnext()==_end){
-	
-					dynamic_cast< Instruction *> (element->getLine())->set_successor(dynamic_cast< Instruction *> (get_Branch()->getLine()));		
+				else if(get_branch() && elem_suiv->get_next()==_end && test_dep==0){
+					dynamic_cast< Instruction *> (element->get_line())->set_successor(dynamic_cast< Instruction *> (get_branch()->get_line()));		
 				}
 				else ;
 
 			}
 
-			if(elem_suiv->getnext()==_end->getnext()){
+			if(elem_suiv->get_next()==_end->get_next()){
 				break;
 			}
-			else elem_suiv = elem_suiv->getnext();
+			else elem_suiv = elem_suiv->get_next();
 
 		}
 		
-		if(element->getnext()==_end->getnext()){
+		if(element->get_next()==_end->get_next()){
 			break;
 		}
-		else element = element->getnext();
+		else element = element->get_next();
 
 	}
 
 	//Calcul des predecesseurs
 	element= _head;
-	while(element != _end->getnext())
+	while(element != _end->get_next())
 	{
 		Node* elem_suiv = _head;
 		
 		while(elem_suiv != element)
 		{
 
-			if(element->getLine()->typeLine() == line_Instru && elem_suiv->getLine()->typeLine() == line_Instru){
-				Instruction *inst = dynamic_cast< Instruction *> (elem_suiv->getLine());
+			if(element->get_line()->type_line() == line_Instru && elem_suiv->get_line()->type_line() == line_Instru){
+				Instruction *inst = dynamic_cast< Instruction *> (elem_suiv->get_line());
 				
 				for(int i=0; i<inst->get_nbr_succ(); i++){
 
-					if(! dynamic_cast< Instruction *> (element->getLine())->getContent().compare(inst->get_successor(i)->getContent()))
-						dynamic_cast< Instruction *> (element->getLine())->set_predecessor(inst);
+					if(! dynamic_cast< Instruction *> (element->get_line())->get_content().compare(inst->get_successor(i)->get_content()))
+						dynamic_cast< Instruction *> (element->get_line())->set_predecessor(inst);
 			
 				}
 			}
 
-			if(elem_suiv->getnext()==_end->getnext()){
+			if(elem_suiv->get_next()==_end->get_next()){
 				break;
 			}
-			else elem_suiv = elem_suiv->getnext();
+			else elem_suiv = elem_suiv->get_next();
 
 		}
 		
-		if(element->getnext()==_end->getnext()){
+		if(element->get_next()==_end->get_next()){
 			break;
 		}
-		else element = element->getnext();
+		else element = element->get_next();
 
 	}
 
@@ -288,76 +295,21 @@ void Basic_block::test(){
 	
 	Dfg graph(_nbr_instru);
 
-	while(element != _end->getnext())
+	while(element != _end->get_next())
 	{
-		Node_dfg *node = new Node_dfg(dynamic_cast< Instruction *> (element->getLine()));
-		if(element->getLine()->typeLine()==line_Instru){
+		Node_dfg *node = new Node_dfg(dynamic_cast< Instruction *> (element->get_line()));
+		if(element->get_line()->type_line()==line_Instru){
 			graph.build_dfg(node,true);			
 		}
-		 element= element->getnext();
+		 element= element->get_next();
 		
 	}
 
-	graph.display(NULL, true);
+	//graph.display(NULL, true);
 	graph.restitute(NULL,"./tmp/graph_dfg.dot", true);
-	comput_critical_path(NULL, true);
-	/*element = _head;
-	while(element != _end)
-	{
-		Node_dfg *node = new Node_dfg(dynamic_cast< Instruction *> (element->getLine()));
-		if(element->getLine()->typeLine()==line_Instru){
-			graph.display(node);			
-		}
-		 element= element->getnext();
-		
-	}
-
-	element = _head;
-	while(element != _end)
-	{
-		Node_dfg *node = new Node_dfg(dynamic_cast< Instruction *> (element->getLine()));
-		if(element->getLine()->typeLine()==line_Instru){
-			graph.restitute(node,"./tmp/graph_dfg.dot");		
-		}
-		 element= element->getnext();
-		
-	}*/
-
-			
+	graph.comput_critical_path(NULL, true);
 	
-	/*while(element != _end->getnext())
-	{
-		if(element->getLine()->typeLine() == line_Instru ){
-			cout<<"\nVoici les succ de l'inst :"<<endl;
-			cout<<element->getLine()->getContent()<<endl;
-			for(int i=0;i<dynamic_cast< Instruction *>(element->getLine())->get_nbr_succ();i++){
-			cout<<dynamic_cast< Instruction *>(element->getLine())->get_successor(i)->getContent()<<endl;
-			}
-		}
-		
-		if(element->getnext()==_end->getnext()){
-			break;
-		}
-		else element = element->getnext();
-
-	}
-
-	element = _head;
-	while(element != _end->getnext())
-	{
-		if(element->getLine()->typeLine() == line_Instru ){
-			cout<<"\nVoici les pred de l'inst :"<<endl;
-			cout<<element->getLine()->getContent()<<endl;
-			for(int i=0;i<dynamic_cast< Instruction *>(element->getLine())->get_nbr_pred();i++){
-			cout<<dynamic_cast< Instruction *>(element->getLine())->get_predecessor(i)->getContent()<<endl;
-			}
-		}
-		
-		if(element->getnext()==_end->getnext()){
-			break;
-		}
-		else element = element->getnext();
-
-	}*/
+	graph.scheduling_BB(this);
+	
 	
 }

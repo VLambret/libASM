@@ -17,7 +17,7 @@
 using namespace std;
 
 /**	\class	Cfg
-	\brief	class representing control flot graph
+	\brief	class representing control flow graph
 */
 
 class Cfg{
@@ -36,11 +36,11 @@ public:
 */
 	Basic_block *get_head();
 
-/**	\brief	Display cfg, put NULL as argument of the method
+/**	\brief	Display cfg, when you call this method you have to affect the fisrt parameter to NULL
 */
 	void display(Basic_block *);
 
-/**	\brief	Restitut the cfg in file with DOT
+/**	\brief	Restitut the cfg in file with DOT, when you call this method you have to affect the fisrt parameter to NULL
 */
 	void restitution(Basic_block *, string const );
 

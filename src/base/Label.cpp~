@@ -13,7 +13,7 @@ string Label::toString(){
 }
 
 
-t_Line Label::typeLine(){
+t_Line Label::type_line(){
 	return line_Lab;
 }
 
@@ -27,9 +27,6 @@ void Label::setContent(string line){
 	_line =line;
 }
 
-bool Label::isFunction(){
-	return false;
-}
 
 t_Inst  Label::getType(){
 	return OTHER;

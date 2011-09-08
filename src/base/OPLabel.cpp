@@ -8,21 +8,21 @@ OPLabel::OPLabel(string op){
 
 OPLabel::~OPLabel(){}
 
- string OPLabel::getOp(){
+ string OPLabel::get_op(){
 
     return _oper;
     }
 
-t_OpType OPLabel::getOptype(){
+t_OpType OPLabel::get_op_type(){
    return Lab;
     }
 
 
- string OPLabel::toString(){
+ string OPLabel::to_string(){
    return _oper;
     }
 
- void OPLabel::setOp( string op){
+ void OPLabel::set_op( string op){
     _oper=op;
     }
 

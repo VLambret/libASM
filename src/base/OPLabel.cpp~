@@ -1,4 +1,4 @@
-#include "OPLabel.h"
+#include <OPLabel.h>
 
 OPLabel::OPLabel(string op){
 
@@ -8,12 +8,12 @@ OPLabel::OPLabel(string op){
 
 OPLabel::~OPLabel(){}
 
- string OPLabel::getOp(){
+ string OPLabel::get_op(){
 
     return _oper;
     }
 
-t_OpType OPLabel::getOptype(){
+t_OpType OPLabel::get_optype(){
    return Lab;
     }
 

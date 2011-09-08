@@ -8,20 +8,20 @@ Node::Node(Line * content){
 Node::~Node(){
 }
 
-Node* Node::getnext()
+Node* Node::get_next()
 {
 	return _next;
 }
 
-void Node::setNext(Node * newsuccessor){
+void Node::set_next(Node * newsuccessor){
 	_next=newsuccessor;
 }
 	
 	
-Line * Node::getLine(){
+Line * Node::get_line(){
 	return _content;
 }
 	
-void Node::setLine(Line * newline){
+void Node::set_line(Line * newline){
 	_content=newline;
 }

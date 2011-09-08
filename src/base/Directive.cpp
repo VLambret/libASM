@@ -26,29 +26,29 @@ Directive::Directive(string direct, string value, bool isfunction)
 Directive::~Directive(){}
 
 
-string Directive::toString(){
+string Directive::to_string(){
 	return _line;
 
 }
 
 
-t_Line Directive::typeLine(){
+t_Line Directive::type_line(){
 	return line_Direct;
 }
 
-string Directive::getContent(){
+string Directive::get_content(){
 	return _dir + "	" + _value ;
 }
 
-void Directive::setContent(string line){
+void Directive::set_content(string line){
 	_line =line;
 }
 
 
-bool Directive::isFunction(){
+bool Directive::is_function(){
 	return _isfunction ;
 }
 
-t_Inst  Directive::getType(){
+t_Inst  Directive::get_type(){
 	return OTHER;
 }

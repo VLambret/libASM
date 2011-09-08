@@ -28,36 +28,36 @@ OPRegister::OPRegister(int reg, t_Src_Dst ty){
 OPRegister::~OPRegister(){}
 
 
-int OPRegister::getReg(){
+int OPRegister::get_reg(){
     return _reg;
     }
 
 
-void OPRegister::setReg( int reg){
+void OPRegister::set_reg( int reg){
     _reg= reg;
     }
 
-string OPRegister::getOp(){
+string OPRegister::get_op(){
     return _oper;
 }
 
-t_OpType OPRegister::getOptype(){
+t_OpType OPRegister::get_op_type(){
     return Reg;
 }
 
-string OPRegister::toString(){
+string OPRegister::to_string(){
    return _oper;
 }
 
-void OPRegister::setOp( string op){
+void OPRegister::set_op( string op){
     _oper=op;
 }
 
-t_Src_Dst OPRegister::getType( ){
+t_Src_Dst OPRegister::get_type( ){
 	return _type;
 }
 
-void OPRegister::setType(t_Src_Dst ty){
+void OPRegister::set_type(t_Src_Dst ty){
 	_type=ty;
 }
 

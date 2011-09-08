@@ -34,28 +34,28 @@ int main(){
 	prog.display();
 	
 	
-	prog.delLine(0);
-	ligne = prog.findLine(0);
+	prog.del_line(0);
+	ligne = prog.find_line(0);
 
 	Instruction *inst = dynamic_cast< Instruction * > (ligne);
-	inst->setOPcode(lui);
-	inst->setOp1(Op6);
-	inst->setOp2(&imm);
-	inst->setOp3(NULL);
-	inst->setNumberOper(2);
+	inst->set_opcode(lui);
+	inst->set_op1(Op6);
+	inst->set_op2(&imm);
+	inst->set_op3(NULL);
+	inst->set_number_oper(2);
 	
-	ligne=prog.findLine(1);
+	ligne=prog.find_line(1);
 	
 	Instruction *ins2 = dynamic_cast< Instruction * > (ligne);
-	ins2->setOPcode(and_);
+	ins2->set_opcode(and_);
 
 	Instruction ins3("ori $4,$4,0xFFFF",ori,R, ALU,Op6,&registr5,&imm,3);
 	Instruction ins4("xor $5,$4,$0",xor_,R, ALU,Op1,&registr5,Op4,3);
 	Instruction ins5("xor $4,$5,$6",xor_,R, ALU,Op3,&registr5,Op4,3);
 
-	prog.add_Line_at(&ins3,1);
-	prog.add_Line_at(&ins4,2);
-	prog.add_Line_at(&ins5,3);
+	prog.add_line_at(&ins3,1);
+	prog.add_line_at(&ins4,2);
+	prog.add_line_at(&ins5,3);
 	prog.display();
 
 

@@ -13,22 +13,22 @@ OPImmediate::OPImmediate(int imm){
 
 OPImmediate::~OPImmediate(){}
 
-string OPImmediate::getOp(){
+string OPImmediate::get_op(){
 
     return _oper;
 }
 
 
-t_OpType OPImmediate::getOptype(){
+t_OpType OPImmediate::get_op_type(){
     return Imm;
 }
 
 
-string OPImmediate::toString(){
+string OPImmediate::to_string(){
     return _oper;
 }
 
-void OPImmediate::setOp( string op){
+void OPImmediate::set_op( string op){
     _oper=op;
    }
 

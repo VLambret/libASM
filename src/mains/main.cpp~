@@ -37,34 +37,34 @@ int main(){
 	lg5= &ins5;
 	lg6= &ins1;
 
-	cout<<label.getOp()<<endl;
+	cout<<label.get_op()<<endl;
 	//label.setOp("End");
-	cout<<label.getOp()<<endl;
+	cout<<label.get_op()<<endl;
 	cout<<label.toString()<<endl;
 
-	cout<<expr.getOp()<<endl;
+	cout<<expr.get_op()<<endl;
 	expr.setOp("0($4)");
-	cout<<expr.getOp()<<endl;
+	cout<<expr.get_op()<<endl;
 	cout<<expr.toString()<<endl;
 
 
-	/*cout<<registr.getOp()<<endl;
+	/*cout<<registr.get_op()<<endl;
 	registr.setOp("$4");
-	cout<<registr.getOp()<<endl;
+	cout<<registr.get_op()<<endl;
 	cout<<registr.toString()<<endl;
 	cout<<registr.getReg()<<endl;
 	registr.setReg(4);
 	cout<<registr.getReg()<<endl;*/
 
-	cout<<imm.getOp()<<endl;
+	cout<<imm.get_op()<<endl;
 	imm.setOp("12");
-	cout<<imm.getOp()<<endl;
+	cout<<imm.get_op()<<endl;
 	cout<<imm.toString()<<endl;
 
 	cout<<"TEST INSTRU"<<endl;
-	cout<<ins.getOp1()->getOp()<<endl;
+	cout<<ins.get_op1()->get_op()<<endl;
 	//ins.setOp1(Op2);
-	//cout<<ins.getOp1()->getOp()<<endl;
+	//cout<<ins.get_op1()->get_op()<<endl;
 	cout<<ins.stringOPcode()<<endl;
 	//ins.setOPcode(sub);
 	cout<<ins.stringOPcode()<<endl;
@@ -72,7 +72,7 @@ int main(){
 	cout<<ins.stringType()<<endl;
 	cout<<ins.toString()<<endl;
 	cout<<ins.getContent()<<endl;
-	cout<<tlin[ins.typeLine()]<<endl;
+	cout<<tlin[ins.type_line()]<<endl;
 	//ins.setContent("j loop");
 	cout<<ins.getContent()<<endl;
 
@@ -84,12 +84,12 @@ int main(){
 	prog.add_Line_at(lg1,0);
 	prog.display();
 	prog.add_Line_at(lg2,1);
-	prog.addLine(lg3);
+	prog.add_line(lg3);
 	prog.display();
-	prog.addLine(lg6);
-	prog.addLine(lg5);
-	prog.addLine(lg3);
-	prog.addLine(lg4);	
+	prog.add_line(lg6);
+	prog.add_line(lg5);
+	prog.add_line(lg3);
+	prog.add_line(lg4);	
 	prog.display();
 	cout<<prog.findLine(1)-> getContent()<<"\n"<<endl;
 
@@ -101,7 +101,7 @@ int main(){
 	/*cout<<"\n TEST Copie"<<endl;
 	Program prog1 (prog);
 	prog1.display();
-	prog1.addLine(lg1);
+	prog1.add_line(lg1);
 	prog1.display();
 	cout<<prog.size()<<endl;
 
@@ -111,16 +111,16 @@ int main(){
 	Basic_block bb;
 	cout<<"\n TEST OPTION"<<endl;
 	prog.comput_Function();
-	prog.get_Function(0).display();
+	prog.get_function(0).display();
 	cout<<prog.nbr_Func()<<endl;
 	cout<<"\n";
 	/*cout<<*/
-	unc=prog.get_Function(0);
+	unc=prog.get_function(0);
 	unc.display();
 	cout<<unc.size()<<endl;
 	unc.restitution("./tmp/ex1.txt");
 	unc.comput_basic_block();
-	bb=unc.get_BB(0);
+	bb=*unc.get_BB(0);
 	cout<<endl;
 	bb.get_head();
 	bb.display();

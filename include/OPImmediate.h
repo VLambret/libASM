@@ -33,23 +33,23 @@ public	:
 /**	\brief	Get the string of the operand 
 	\return return the string of the Immediate
 */
-	virtual string getOp();
+	virtual string get_op();
 
 /**	\brief	get the operator type
 	\return	return the Operand type as enum	
 */
-	virtual t_OpType getOptype();
+	virtual t_OpType get_op_type();
 
 
 /**	\brief	tostring
 	\return	return the name of the Object as string
 */
-	virtual string toString();
+	virtual string to_string();
 
 /**	\brief	set the string of the operand 
 	setter of the operand
 */
-	virtual void setOp( string);
+	virtual void set_op( string);
 
 
 

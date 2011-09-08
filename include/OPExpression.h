@@ -30,25 +30,25 @@ public	:
 /**	\brief	Get the operand value
 	\return return the string of the Expression
 */
-	virtual string getOp();
+	virtual string get_op();
 
 /**	\brief	get the operator type
 	\return	return the Operand type as enum	
 */
-	virtual t_OpType getOptype();
+	virtual t_OpType get_op_type();
 
 
 /**	\brief	tostring
 	\return	return the Object as string
 */
-	virtual string toString();
+	virtual string to_string();
 
 
 
 /**	\brief	set the operand value
 	setter of the operand
 */
-	virtual void setOp( string);
+	virtual void set_op( string);
 
 
 

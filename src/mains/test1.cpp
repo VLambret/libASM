@@ -33,38 +33,38 @@ int main(int argc, char * argv[]){
 
 	cout<<"Contenu du programme:"<<endl;
 	//prog.display();
-	prog.inFile("tmp/retit.txt");
+	prog.in_file("tmp/retit.txt");
 
 	cout<<"\n Calcul des fonctions des block de base et restitution\n"<<endl;
 
 
-	prog.comput_Function();
-	cout<<"nombre de fonction: "<<prog.nbr_Func()<<endl;
-	for(int i=0; i<prog.nbr_Func(); i++)
-		myfunc.push_back(prog.get_Function(i));
+	prog.comput_function();
+	cout<<"nombre de fonction: "<<prog.nbr_func()<<endl;
+	for(int i=0; i<prog.nbr_func(); i++)
+		myfunc.push_back(prog.get_function(i));
 
 	list<Function>::iterator it;
 	list<Basic_block>::iterator it1;
 	it=myfunc.begin();
 	OPLabel label("$l4");
 
-	//cout<<"nbrfunc "<<prog.nbr_Func()<<endl;
-   	for (int i=0; i<prog.nbr_Func();i++ ){
+	//cout<<"nbrfunc "<<prog.nbr_func()<<endl;
+   	for (int i=0; i<prog.nbr_func();i++ ){
 		functmp= *it;
 		functmp.restitution("tmp/test1.txt");
 		functmp.comput_basic_block();
 
-		functmp.comput_Label();
+		functmp.comput_label();
 		
 		functmp.comput_succ_pred_BB();
-		if(!i)functmp.test();
+		
 		/*Cfg graph(functmp.get_BB(0),functmp.nbr_BB());
 	
 		graph.display(NULL);
 		graph.restitution(NULL,"./tmp/graph.dot");*/
 			
 
-		//cout<<"le label: "<<functmp.get_Label(3)->getContent()<<" se trouve dans le "<<functmp.find_Label_BB(&label)<<" block de base"<<endl;		
+		//cout<<"le label: "<<functmp.get_Label(3)->get_content()<<" se trouve dans le "<<functmp.find_label_BB(&label)<<" block de base"<<endl;		
 
 		cout<<"nombre block de base:" <<functmp.nbr_BB()<<endl;
 		for(int j=0; j<functmp.nbr_BB(); j++)
@@ -82,5 +82,6 @@ int main(int argc, char * argv[]){
 		}
 		
 		it++;
+		if(!i)functmp.test();
 	}
 }

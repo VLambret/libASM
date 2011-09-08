@@ -58,36 +58,36 @@ Instruction::Instruction(t_Operator oper){
 }
 Instruction::~Instruction(){}
 
-Operand* Instruction::getOp1(){
+Operand* Instruction::get_op1(){
 return _op1;
 }
 
-void Instruction::setOp1(Operand * o){
+void Instruction::set_op1(Operand * o){
 _op1=o;
 }
 
-Operand* Instruction::getOp2(){
+Operand* Instruction::get_op2(){
 return _op2;
 }
 
-void Instruction::setOp2(Operand * o){
+void Instruction::set_op2(Operand * o){
 _op2=o;
 }
 
-Operand* Instruction::getOp3(){
+Operand* Instruction::get_op3(){
 return _op3;
 }
 
-void Instruction::setOp3(Operand * o){
+void Instruction::set_op3(Operand * o){
 _op3 =o;
 }
 
 
-t_Operator Instruction::getOPcode(){
+t_Operator Instruction::get_opcode(){
 return _op;
 }
 
-string Instruction::stringOPcode(){
+string Instruction::string_opcode(){
 string opString[]={"b","beqz","bnez","beq","bgez","bgezal",
 	"bgtz","blez","bltz","bltzal","bne","j",
 	"jal","jalr","jr","la","li","loadi",
@@ -110,73 +110,73 @@ return opString[_op];
 }
 
 
-void Instruction::setOPcode(t_Operator newop)
+void Instruction::set_opcode(t_Operator newop)
 {
 	_op = newop;
 }
 
 
 
-t_Format Instruction::getFormat(){
+t_Format Instruction::get_format(){
 
 _format = op_profile[_op].format;
 return _format;
 }
 
 
-string Instruction::stringForm(){
+string Instruction::string_form(){
 string form[]={"J", "I", "R", "O", "B"};
 
-return form[getFormat()];
+return form[get_format()];
 }
 
-t_Inst  Instruction::getType(){
+t_Inst  Instruction::get_type(){
 	_type=op_profile[_op].type;
 return _type;
 
 }
 
-string Instruction::toString(){
-return getContent();
+string Instruction::to_string(){
+return get_content();
 
 }
 
 
-t_Line Instruction::typeLine(){
+t_Line Instruction::type_line(){
 return line_Instru;
 }
 
-string Instruction::getContent(){
+string Instruction::get_content(){
 
 
 	string rt ;
 
-	rt= stringOPcode()+ " ";
+	rt= string_opcode()+ " ";
 
-	if(getType()==MEM){
+	if(get_type()==MEM){
 		if (_op1!=NULL){
-			rt = rt+ _op1->getOp();
+			rt = rt+ _op1->get_op();
 			if (_op2!=NULL){
-				if(_op2->getOptype()!=Reg)
-					rt = rt+ "," + _op2->getOp();
-				else	rt = rt+ ",(" + _op2->getOp()+")";
+				if(_op2->get_op_type()!=Reg)
+					rt = rt+ "," + _op2->get_op();
+				else	rt = rt+ ",(" + _op2->get_op()+")";
 			}
 			
 			if(_op3!=NULL && _op2==NULL){
-				rt =rt+",("+ _op3->getOp()+")";	
+				rt =rt+",("+ _op3->get_op()+")";	
 			}
 			else if(_op3!=NULL && _op2!=NULL){
-				rt =rt+"("+ _op3->getOp()+")";	
+				rt =rt+"("+ _op3->get_op()+")";	
 			}		
 		}
 	}
 	else{
 		if (_op1!=NULL){
-			rt = rt+ _op1->getOp();
+			rt = rt+ _op1->get_op();
 			if (_op2!=NULL){
-				rt = rt+ "," + _op2->getOp();
+				rt = rt+ "," + _op2->get_op();
 				if(_op3!=NULL){
-					rt =rt+","+ _op3->getOp();
+					rt =rt+","+ _op3->get_op();
 				}
 			}
 		}
@@ -184,25 +184,25 @@ string Instruction::getContent(){
 	return rt;
 }
 
-void Instruction::setContent(string line){
+void Instruction::set_content(string line){
 _line =line;
 
 }
 
-string Instruction::stringType(){
+string Instruction::string_type(){
 	string typ[]={"ALU", "MEM", "BR", "OTHER","BAD"};
-	return typ[getType()];
+	return typ[get_type()];
 }
 
 
 bool Instruction::is_dep_RAW(Instruction i2){
 
-	if(getRegDst()!=NULL){
-		if(i2.getRegSrc2()!=NULL)
-			 if(getRegDst()->getOp().compare(i2.getRegSrc2()->getOp())==0)    return true;		        	
+	if(get_reg_dst()!=NULL){
+		if(i2.get_reg_src2()!=NULL)
+			 if(get_reg_dst()->get_op().compare(i2.get_reg_src2()->get_op())==0)    return true;		        	
 		
-		if(i2.getRegSrc1()!=NULL)
-		 	if(getRegDst()->getOp().compare(i2.getRegSrc1()->getOp())==0)    return true;
+		if(i2.get_reg_src1()!=NULL)
+		 	if(get_reg_dst()->get_op().compare(i2.get_reg_src1()->get_op())==0)    return true;
 		       	
 				
 
@@ -214,13 +214,13 @@ bool Instruction::is_dep_RAW(Instruction i2){
 
 bool Instruction::is_dep_WAR(Instruction i2){
 
-	if(i2.getRegDst()!=NULL ){
+	if(i2.get_reg_dst()!=NULL ){
 
-			if(getRegSrc2()!=NULL){
-			 	if(getRegSrc2()->getOp().compare(i2.getRegDst()->getOp())==0)    return true;		        	
+			if(get_reg_src2()!=NULL){
+			 	if(get_reg_src2()->get_op().compare(i2.get_reg_dst()->get_op())==0)    return true;		        	
 			}
-			if(getRegSrc1()!=NULL){
-			 	if(getRegSrc1()->getOp().compare(i2.getRegDst()->getOp())==0)    return true;
+			if(get_reg_src1()!=NULL){
+			 	if(get_reg_src1()->get_op().compare(i2.get_reg_dst()->get_op())==0)    return true;
 		        	
 			}			
 	}
@@ -231,9 +231,9 @@ bool Instruction::is_dep_WAR(Instruction i2){
 
 bool Instruction::is_dep_WAW(Instruction i2){
 
-        if(getRegDst()!=NULL && i2.getRegDst()!=NULL){	
+        if(get_reg_dst()!=NULL && i2.get_reg_dst()!=NULL){	
 	
-            if(getRegDst()->getOp().compare(i2.getRegDst()->getOp())==0)   return true;
+            if(get_reg_dst()->get_op().compare(i2.get_reg_dst()->get_op())==0)   return true;
 
           }
 
@@ -251,46 +251,46 @@ t_Dep Instruction::is_dependant(Instruction i2){
 
 }
 
-int Instruction::getNumberOper(){
+int Instruction::get_number_oper(){
 	return _nbrOper;
 }
 
-void Instruction::setNumberOper(int nbr){
+void Instruction::set_number_oper(int nbr){
 	_nbrOper=nbr;
 }
 
 
 
-Operand * Instruction::getRegDst(){
+Operand * Instruction::get_reg_dst(){
 	OPRegister *op1 = dynamic_cast< OPRegister * > (_op1);
 	if(_op1!=NULL )
-		if(_op1->getOptype()==Reg && op1->getType() == Dst &&  _op1->getOp().compare("$0"))
+		if(_op1->get_op_type()==Reg && op1->get_type() == Dst &&  _op1->get_op().compare("$0"))
 			return _op1;
 
 	return NULL;
 }
 
-Operand * Instruction::getRegSrc1(){
+Operand * Instruction::get_reg_src1(){
 	OPRegister *op1 = dynamic_cast< OPRegister * > (_op1);
 	OPRegister *op2 = dynamic_cast< OPRegister * > (_op2);
 
 	if(_op1!=NULL) 
-		if(_op1->getOptype()==Reg && op1->getType() == Src && _op1->getOp().compare("$0"))
+		if(_op1->get_op_type()==Reg && op1->get_type() == Src && _op1->get_op().compare("$0"))
 			return _op1;
 	if(_op2!=NULL) 
-		if(_op2->getOptype()==Reg && op2->getType() == Src  && _op2->getOp().compare("$0"))
+		if(_op2->get_op_type()==Reg && op2->get_type() == Src  && _op2->get_op().compare("$0"))
 			return _op2;
 
 	return NULL;
 }
 
-Operand * Instruction::getRegSrc2(){
+Operand * Instruction::get_reg_src2(){
 	OPRegister *op3 = dynamic_cast< OPRegister * > (_op3);
 	OPRegister *op2 = dynamic_cast< OPRegister * > (_op2);
 
-	if(_op2!=NULL) if( _op2->getOptype()==Reg && op2->getType() == Src && _op2->getOp().compare("$0"))
+	if(_op2!=NULL) if( _op2->get_op_type()==Reg && op2->get_type() == Src && _op2->get_op().compare("$0"))
 		return _op2;
-	if(_op3!=NULL) if( _op3->getOptype()==Reg && op3->getType() == Src && _op3->getOp().compare("$0"))
+	if(_op3!=NULL) if( _op3->get_op_type()==Reg && op3->get_type() == Src && _op3->get_op().compare("$0"))
 		return _op3;
 
 	return NULL;

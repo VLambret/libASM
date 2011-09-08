@@ -8,5 +8,5 @@
 
 int main(){
 	Program p2("src/examples/primes.s") ;
-	p2.inFile("tmp/primes.s") ;
+	p2.in_file("tmp/primes.s") ;
 }

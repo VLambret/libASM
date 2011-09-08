@@ -51,11 +51,11 @@ public:
 
 /**	\brief	setter of Node corresponding to the branch
 */
-	void set_Branch(Node *);
+	void set_branch(Node *);
 
 /**	\brief	get the Node corresponding to the branch
 */
-	Node* get_Branch();
+	Node* get_branch();
 
 
 /**	\brief	display the basic block
@@ -72,7 +72,7 @@ public:
 
 /**	\brief	Return true if the first line of the block is a label
 */
-	bool isLabeled();
+	bool is_labeled();
 
 /**	\brief	setter of the successor of the basic block
 */
@@ -123,7 +123,9 @@ public:
 */
 	void set_index_instruction();
 
-void test();
+/**	\brief	method to test other methods
+*/
+	void test();
 
 private:
 
