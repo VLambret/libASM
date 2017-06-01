@@ -6,7 +6,7 @@ clean:
 	rm -rf *.hd.png *.svg
 
 %.hd.png : %.svg
-	convert $< $@ 
+	convert $< -resize 200x200\! $@ 
 
 %.svg : %.png
 	pngtopnm $< | potrace --svg > $@
