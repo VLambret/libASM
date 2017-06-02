@@ -1,16 +1,15 @@
 .PHONY : all clean
 
-all: writing.hd.png dice.png
+REPS = $(wildcard */)
+PREVIEWS = $(REPS:/=.preview.png)
+
+all: writing.hd.png $(PREVIEWS)
+	echo $*
 
 clean:
-	rm -rf *.hd.png *.svg .preview.png
+	rm -rf *.hd.png *.svg *.preview.png */*.hd.png
 
-dice.preview.png : dice/face1.hd.png \
-                   dice/face2.hd.png \
-                   dice/face3.hd.png \
-                   dice/face4.hd.png \
-                   dice/face5.hd.png \
-                   dice/face6.hd.png
+%.preview.png : %/*.hd.png 
 	convert +append $^ $@
 
 
