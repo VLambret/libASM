@@ -1,17 +1,19 @@
-.PHONY : all clean
+.PHONY : all clean deps.mk
 
-REPS = $(wildcard */)
-PREVIEWS = $(REPS:/=.preview.png)
+all : previews
 
-all: writing.hd.png $(PREVIEWS)
-	echo $*
+include deps.mk
 
 clean:
 	rm -rf *.hd.png *.svg *.preview.png */*.hd.png
 
-%.preview.png : %/*.hd.png 
-	convert +append $^ $@
+deps : deps.mk
 
+deps.mk :
+	./make_deps.sh > $@
+
+%.preview.png :
+	convert +append $^ $@
 
 %.hd.png : %.svg
 	convert $< -resize 200x200\! $@ 

@@ -2,3 +2,4 @@
 *.hd.png
 *.preview.png
 *.swp
+deps.mk
