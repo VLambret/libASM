@@ -9,7 +9,7 @@ all : progress.png
 include deps.mk
 
 clean:
-	rm -rf *.hd.png *.svg *.preview.png */*.hd.png */*.title.png */*.sum.png
+	rm -rf *.hd.png *.svg *.preview.png */*.hd.png *.title.png *.sum.png
 
 deps : deps.mk
 
@@ -17,7 +17,7 @@ deps.mk :
 	./make_deps.sh > $@
 
 %.title.png : %
-	convert -background white -fill black -size $$(( $(SIZE) * 6 ))x$(SIZE) -pointsize 28 -gravity center label:"$<" $@
+	convert -background white -fill black -size $$(( $(SIZE) * 6 ))x$(SIZE) -pointsize 28 -gravity center label:"$$(echo $< | sed -e 's/^dice.*_//')" $@
 
 %.preview.png : %.title.png %.sum.png
 	convert -append $^ $@
