@@ -1,6 +1,8 @@
 .PHONY : all clean deps.mk
 
-all : previews
+SIZE=80
+
+all : progress.png
 
 include deps.mk
 
@@ -14,9 +16,10 @@ deps.mk :
 
 %.preview.png :
 	convert +append $^ $@
+	convert $@ -fill white -opaque none $@
 
 %.hd.png : %.svg
-	convert $< -resize 200x200\! $@ 
+	convert -flatten $< -resize $(SIZE)x$(SIZE)\! $@ 
 
 %.svg : %.png
 	pngtopnm $< | potrace --svg > $@

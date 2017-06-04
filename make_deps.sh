@@ -10,7 +10,7 @@ do
 		DICE_TARGET=$DICE.preview.png
 		PREVIEWS+=" $DICE_TARGET"
 		DEPS="$DICE_TARGET :"
-		for IMG in $(ls dice/*.png | grep -Ev '.hd.png$')
+		for IMG in $(ls $DICE/*.png | grep -Ev '.hd.png$')
 		do
 			IMG_DEP="${IMG/%.png/.hd.png}"
 			DEPS+=" $IMG_DEP"	
@@ -20,5 +20,6 @@ do
 	fi
 done
 
-echo previews : $PREVIEWS
+echo progress.png : $PREVIEWS
+echo '	convert -append $^ $@'
 echo
