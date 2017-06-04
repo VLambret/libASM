@@ -1,5 +1,6 @@
 *.svg
 *.hd.png
+*.sum.png
 *.preview.png
 *.swp
 deps.mk

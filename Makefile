@@ -1,3 +1,5 @@
+SHELL=/bin/bash
+
 .PHONY : all clean deps.mk
 
 SIZE=80
@@ -7,14 +9,20 @@ all : progress.png
 include deps.mk
 
 clean:
-	rm -rf *.hd.png *.svg *.preview.png */*.hd.png
+	rm -rf *.hd.png *.svg *.preview.png */*.hd.png */*.title.png */*.sum.png
 
 deps : deps.mk
 
 deps.mk :
 	./make_deps.sh > $@
 
-%.preview.png :
+%.title.png : %
+	convert -background white -fill black -size $$(( $(SIZE) * 6 ))x$(SIZE) -pointsize 28 -gravity center label:"$<" $@
+
+%.preview.png : %.title.png %.sum.png
+	convert -append $^ $@
+
+%.sum.png :
 	convert +append $^ $@
 	convert $@ -fill white -opaque none $@
 
