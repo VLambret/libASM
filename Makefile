@@ -2,7 +2,7 @@ SHELL=/bin/bash
 
 .PHONY : all clean deps.mk
 
-SIZE=80
+SIZE=200
 
 all : progress.png
 
