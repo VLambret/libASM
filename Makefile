@@ -27,7 +27,9 @@ deps.mk :
 	convert $@ -fill white -opaque none $@
 
 %.hd.png : %.svg
-	convert -flatten $< -resize $(SIZE)x$(SIZE)\! $@ 
+	convert $<  -resize $(SIZE)x$(SIZE) $@ 
+	convert $@ -fuzz 50% -trim -resize $(SIZE)x$(SIZE) $@
+	convert $@ -background white -gravity center -extent $(SIZE)x$(SIZE) $@
 
 %.svg : %.png
 	pngtopnm $< | potrace --svg > $@
