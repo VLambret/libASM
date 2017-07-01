@@ -1,5 +1,6 @@
 SHELL=/bin/bash
 
+.SECONDARY :
 .PHONY : all clean deps.mk
 
 SIZE=200
