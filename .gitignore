@@ -3,4 +3,5 @@
 *.sum.png
 *.preview.png
 *.swp
+*.title.png
 deps.mk
