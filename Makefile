@@ -10,7 +10,7 @@ all : progress.png
 include deps.mk
 
 clean:
-	rm -rf *.hd.png *.svg *.preview.png */*.hd.png *.title.png *.sum.png
+	rm -rf *.hd.png *.svg *.preview.png */*.svg */*.hd.png *.title.png *.sum.png
 
 deps : deps.mk
 
