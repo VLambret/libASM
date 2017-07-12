@@ -3,7 +3,7 @@
 PREVIEWS=
 PREV_DEPS=
 
-for DICE in dice*
+for DICE in jour*
 do
 	if [ -d $DICE ]
 	then
